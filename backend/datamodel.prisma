@@ -1,0 +1,7 @@
+type Location {
+  id: ID! @unique
+  country: String!
+  city: String!
+  latitude: Float!
+  longitude: Float!
+}
