@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
-import { Query } from 'react-apollo';
+import React, {Component} from 'react';
+import {Query} from 'react-apollo';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
 import Location from './Location';
+import Map from './MapGL'
 
-const ALL_LOCATIONS_QUERY = gql`
+const ALL_LOCATIONS_QUERY = gql `
   query ALL_LOCATIONS_QUERY {
     locations {
       id
@@ -16,11 +17,11 @@ const ALL_LOCATIONS_QUERY = gql`
   }
 `;
 
-const Center = styled.div`
+const Center = styled.div `
   text-align: center;
 `;
 
-const LocationsList = styled.div`
+const LocationsList = styled.div `
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 60px;
@@ -29,21 +30,29 @@ const LocationsList = styled.div`
 `;
 
 class Locations extends Component {
-  render() {
-    return (
-      <Center>
-        <Query query={ALL_LOCATIONS_QUERY}>
-          {({ data, error, loading }) => {
-            if (loading) return <p>Loading...</p>;
-            if (error) return <p>Error: {error.message}</p>;
-            return (
-              <LocationsList>{data.locations.map(location => <Location location={location} key={location.id} />)}</LocationsList>
-            );
-          }}
-        </Query>
-      </Center>
-    );
-  }
+    render() {
+        return (
+            <div>
+                <Map/>
+                <Center>
+
+                    <Query query={ALL_LOCATIONS_QUERY}>
+                        {({data, error, loading}) => {
+                            if (loading) 
+                                return <p>Loading...</p>;
+                            if (error) 
+                                return <p>Error: {error.message}</p>;
+                            return (
+                                <LocationsList>{data
+                                        .locations
+                                        .map(location => <Location location={location} key={location.id}/>)}</LocationsList>
+                            );
+                        }}
+                    </Query>
+                </Center>
+            </div>
+        );
+    }
 }
 
 export default Locations;

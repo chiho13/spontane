@@ -6,7 +6,7 @@ import ItemStyles from './styles/ItemStyles';
 
 export default class Location extends Component {
   static propTypes = {
-    item: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
   };
 
   render() {
