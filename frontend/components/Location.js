@@ -2,29 +2,25 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 import Title from './styles/Title';
-import ItemStyles from './styles/ItemStyles';
+import LocationItemStyles from './styles/LocationItemStyles';
+import Cross from './Icons/Cross';
 
 export default class Location extends Component {
   static propTypes = {
     location: PropTypes.object.isRequired,
   };
 
-  render() {
-    const { location } = this.props;
-    return (
-      <ItemStyles>
-        <Title>
-          <Link
-            href={{
-              pathname: '/location',
-              query: { id: location.id },
-            }}
-          >
-            <a>{location.country}</a>
-          </Link>
-        </Title>
-        <p>{location.city}</p>
+  closeLocation = () => {
+    this.closeLocationDetail()
+  }
 
+  render() {
+    const { location, closeLocation} = this.props;
+    return (
+      <LocationItemStyles>
+        <a className="closeLocation_icon"onClick={closeLocation}><Cross/></a>
+        <p>{location.city}, {location.country}</p>
+                        
         <div className="buttonList">
                     <Link
                         href={{
@@ -36,7 +32,7 @@ export default class Location extends Component {
                         <a>Edit ✏️</a>
                     </Link>
                 </div>
-      </ItemStyles>
+      </LocationItemStyles>
     );
   }
 }

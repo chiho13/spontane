@@ -17,15 +17,16 @@ const Logo = styled.h1 `
         text-decoration: none;
     }
 
-    @media (max-width: 1300px) {
+    @media (max-width: 1000px) {
         margin: 0;
         text-align: center;
     }
 `;
 
 const StyledHeader = styled.header `
-    position: absolute;
+    position: fixed;
     top: 0;
+    left: 0;
     width: 100%;
     z-index: 1;
 
@@ -35,7 +36,7 @@ const StyledHeader = styled.header `
         grid-template-columns: auto 1fr;
         justify-content: space-between;
         align-items: stretch;
-        @media (max-width: 1300px) {
+        @media (max-width: 1000px) {
             grid-template-columns: 1fr;
             justify-content: center;
         }

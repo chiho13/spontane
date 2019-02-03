@@ -8,7 +8,7 @@ const Meta = () => (
         <script src='/static/nprogress.js'></script>
         <link rel="stylesheet" type="text.css" href="/static/nprogress.css" />
 
-        <title>Sick Fits!</title>
+        <title>Spontane</title>
     </Head>
 );
 

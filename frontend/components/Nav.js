@@ -3,9 +3,6 @@ import NavStyles from './styles/NavStyles';
 
 const Nav = () => (
   <NavStyles>
-    <Link href="/locations">
-      <a>Locations</a>
-    </Link>
     <Link href="/addLocation">
       <a>Add Locations</a>
     </Link>

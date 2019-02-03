@@ -2,10 +2,11 @@ import React, {Component} from 'react';
 import MapGL, {Marker} from 'react-map-gl';
 import {Query} from 'react-apollo';
 import gql from 'graphql-tag';
-import CityPin from './CityMarker';
+import CityPin from './Icons/CityMarker';
 import styled from 'styled-components';
 import {auto} from 'async';
 import Location from './Location';
+import Link from 'next/link';
 
 const TOKEN = 'pk.eyJ1IjoiYW50aG9ueWhvZGVzdSIsImEiOiJjanI2aWdmMmYxNXB2NDN0ZzJnd3FsMHg3In0.SejE2' +
         'ZJApZ0Rg5UTsK7kPw';
@@ -36,6 +37,10 @@ class Mapbox extends Component {
     };
 
 
+    closeLocationDetail = () => {
+        this.setState({locationDetail: null})
+    }
+
     _renderCityMarker = () => {
         return (
             <Query query={ALL_LOCATIONS_QUERY}>
@@ -51,7 +56,14 @@ class Mapbox extends Component {
                         <Marker key={`marker-${location.id}`}
                     longitude={location.longitude}
                     latitude={location.latitude}>
-                    <CityPin size={20} onClick={() => this.setState({locationDetail: location})}/>
+                    <Link href={{
+                        pathname: '/locations',
+                        query: {
+                            id: location.id
+                        }
+                    }}>
+                    <CityPin size={20} onClick={() => this.setState({locationDetail: location})} />
+                    </Link>
                     </Marker>
                     ))
                 )
@@ -64,7 +76,7 @@ class Mapbox extends Component {
         const {locationDetail} = this.state;
 
         return locationDetail && (
-            <Location location={locationDetail} key={locationDetail.id}/>
+            <Location location={locationDetail} key={locationDetail.id} closeLocation={this.closeLocationDetail}/>
         )
     }
 
