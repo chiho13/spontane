@@ -1,22 +1,72 @@
 import React, {Component} from 'react';
-import MapGL, {NavigationControl} from 'react-map-gl';
+import MapGL, {Marker} from 'react-map-gl';
+import {Query} from 'react-apollo';
+import gql from 'graphql-tag';
+import CityPin from './CityMarker';
 import styled from 'styled-components';
 import {auto} from 'async';
+import Location from './Location';
 
 const TOKEN = 'pk.eyJ1IjoiYW50aG9ueWhvZGVzdSIsImEiOiJjanI2aWdmMmYxNXB2NDN0ZzJnd3FsMHg3In0.SejE2' +
         'ZJApZ0Rg5UTsK7kPw';
+
+const ALL_LOCATIONS_QUERY = gql `
+        query ALL_LOCATIONS_QUERY {
+          locations {
+            id
+            country
+            city
+            latitude
+            longitude
+          }
+        }
+`;
 
 class Mapbox extends Component {
 
     state = {
         viewport: {
-            width: window.innerWidth,
-            height: window.innerHeight,
-            latitude: 55.7577,
-            longitude: -1.4376,
+            height: '100vh',
+            width: '100vw',
+            latitude: 54.9777,
+            longitude: -1.6376,
             zoom: 8
-        }
+        },
+        locationDetail: null
     };
+
+
+    _renderCityMarker = () => {
+        return (
+            <Query query={ALL_LOCATIONS_QUERY}>
+                {({data, error, loading}) => {
+                      if (loading) 
+                      return <p>Loading...</p>;
+                  if (error) 
+                      return <p>Error: {error.message}</p>;
+                return (
+                    data
+                    .locations
+                    .map(location => (
+                        <Marker key={`marker-${location.id}`}
+                    longitude={location.longitude}
+                    latitude={location.latitude}>
+                    <CityPin size={20} onClick={() => this.setState({locationDetail: location})}/>
+                    </Marker>
+                    ))
+                )
+              }}
+              </Query>
+          );
+    }
+
+    _renderLocationDetail = () => {
+        const {locationDetail} = this.state;
+
+        return locationDetail && (
+            <Location location={locationDetail} key={locationDetail.id}/>
+        )
+    }
 
     componentDidMount() {
         window.addEventListener("resize", this.updateDimensions);
@@ -27,17 +77,23 @@ class Mapbox extends Component {
             viewport: {
                 ...this.state.viewport,
                 height: window.innerHeight,
-                width: window.innerWidth,
+                width: window.innerWidth
             }
         });
     }
 
     render() {
-        return (<MapGL
-            {...this.state.viewport}
-            mapboxApiAccessToken={TOKEN}
-             onViewportChange={(viewport) => this.setState({viewport})}
-            />);
+        return (
+                <MapGL
+                    {...this.state.viewport}
+                    mapboxApiAccessToken={TOKEN}
+                    onViewportChange={(viewport) => this.setState({viewport})}>
+                    
+                    {this._renderLocationDetail()}
+                    {this._renderCityMarker()}
+                </MapGL>
+                )
+               
     }
 }
 

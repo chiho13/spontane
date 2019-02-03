@@ -9,7 +9,9 @@ export default class MyDocument extends Document {
     return { ...page, styleTags };
   }
 
+  
   render() {
+    
     return (
       <html>
         <Head>{this.props.styleTags}</Head>

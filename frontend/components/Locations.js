@@ -3,7 +3,6 @@ import {Query} from 'react-apollo';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
 import Location from './Location';
-import Map from './MapGL'
 
 const ALL_LOCATIONS_QUERY = gql `
   query ALL_LOCATIONS_QUERY {
@@ -33,9 +32,7 @@ class Locations extends Component {
     render() {
         return (
             <div>
-                <Map/>
                 <Center>
-
                     <Query query={ALL_LOCATIONS_QUERY}>
                         {({data, error, loading}) => {
                             if (loading) 

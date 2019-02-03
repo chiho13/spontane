@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Nav from './Nav';
 
 const Logo = styled.h1 `
-    font-size: 4rem;
+    font-size: 3rem;
     margin-left: 2rem;
     position: relative;
     z-index: 2;
@@ -24,8 +24,13 @@ const Logo = styled.h1 `
 `;
 
 const StyledHeader = styled.header `
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+
     .bar {
-        border-bottom: 10px solid ${props => props.theme.black};
+        background: linear-gradient(to bottom, rgba(12,12,12,0.4) 0%,rgba(255,255,255,0) 100%); 
         display: grid;
         grid-template-columns: auto 1fr;
         justify-content: space-between;
