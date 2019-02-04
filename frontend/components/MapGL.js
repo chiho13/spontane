@@ -2,6 +2,7 @@ import React, {PureComponent} from 'react';
 import MapGL, {Marker} from 'react-map-gl';
 import {Query} from 'react-apollo';
 import gql from 'graphql-tag';
+import Router from 'next/router';
 import CityPin from './Icons/CityMarker';
 import styled from 'styled-components';
 import {auto} from 'async';
@@ -57,17 +58,35 @@ class Mapbox extends PureComponent {
     }
 
     _toggleLocationDetail = (location) => {
-        const {paramProps} = this.state;
-            console.log(location.id, paramProps);
-        if(location.id === paramProps) {
+        let locationDetail = (this.state.locationDetail || this.state.singleLocation) && location.id === this.props.id;
+            console.log(location.id, this.props.id);
+        if(locationDetail) {
             this.closeLocationDetail()
+            
         } else {
             this.setState({locationDetail: location});
-            this.setState({paramProps: location.id});
         }
     }
 
+    _locationPathName(location) {
+        let locationDetail = (this.state.locationDetail || this.state.singleLocation) && location.id === this.props.id;
+        let pathNameLocation  = {
+            pathname: '/locations',
+            query: {
+                id: location.id
+            }
+        };
+
+        let pathNameRoot = {
+            pathname: '/'
+        };
+        let locationPathName = locationDetail ? pathNameRoot : pathNameLocation;
+
+        return locationPathName;
+    }
+
     _renderCityMarker = () => {
+        
         return (
             <Query query={ALL_LOCATIONS_QUERY}>
                 {({data, error, loading}) => {
@@ -82,12 +101,7 @@ class Mapbox extends PureComponent {
                         <Marker key={`marker-${location.id}`}
                     longitude={location.longitude}
                     latitude={location.latitude}>
-                    <Link href={{
-                        pathname: '/locations',
-                        query: {
-                            id: location.id
-                        }
-                    }}>
+                    <Link href={this._locationPathName(location)}>
                     <CityPin size={20} onClick={() => this._toggleLocationDetail(location)} />
                     </Link>
                     </Marker>
