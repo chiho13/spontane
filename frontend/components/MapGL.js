@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import MapGL, {Marker} from 'react-map-gl';
 import {Query} from 'react-apollo';
 import gql from 'graphql-tag';
@@ -23,7 +23,19 @@ const ALL_LOCATIONS_QUERY = gql `
         }
 `;
 
-class Mapbox extends Component {
+const SINGLE_LOCATION_QUERY = gql`
+    query SINGLE_LOCATION_QUERY($id: ID!) {
+        location(where: { id: $id }) {
+            id
+            country
+            city
+            latitude
+            longitude
+        }
+    }
+`;
+
+class Mapbox extends PureComponent {
 
     state = {
         viewport: {
@@ -33,12 +45,15 @@ class Mapbox extends Component {
             longitude: -1.6376,
             zoom: 8
         },
-        locationDetail: null
+        locationDetail: null,
+        singleLocation: null,
+        paramProps: null
     };
 
-
     closeLocationDetail = () => {
-        this.setState({locationDetail: null})
+        this.setState({locationDetail: null});
+        this.setState({singleLocation: null});
+        this.setState({paramProps: null});
     }
 
     _renderCityMarker = () => {
@@ -73,15 +88,33 @@ class Mapbox extends Component {
     }
 
     _renderLocationDetail = () => {
-        const {locationDetail} = this.state;
+        const locationDetail = this.state.locationDetail || this.state.singleLocation;
 
         return locationDetail && (
             <Location location={locationDetail} key={locationDetail.id} closeLocation={this.closeLocationDetail}/>
         )
     }
 
+    singleLocation = () => {
+        const checkForProps = this.state.paramProps;
+        return  checkForProps && <Query query={SINGLE_LOCATION_QUERY} variables={{
+            id: this.props.id
+        }}>
+            {({error, loading, data}) => {
+                if(error) console.log("error")
+                if(loading) console.log("loading")
+                const {location} = data;
+                console.log(location)
+                this.setState({singleLocation: location});
+                return null
+            }}
+        </Query>
+        
+    }
+
     componentDidMount() {
         window.addEventListener("resize", this.updateDimensions);
+        this.setState({paramProps: this.props.id})
     }
 
     updateDimensions = () => {
@@ -100,9 +133,10 @@ class Mapbox extends Component {
                     {...this.state.viewport}
                     mapboxApiAccessToken={TOKEN}
                     onViewportChange={(viewport) => this.setState({viewport})}>
-                    
+                   
                     {this._renderLocationDetail()}
                     {this._renderCityMarker()}
+                    {this.singleLocation()} 
                 </MapGL>
                 )
                

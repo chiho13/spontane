@@ -1,9 +1,8 @@
 import Map from '../components/MapGL'
-import Locations from '../components/Locations';
 
 const Home = props => (
   <div>
-    <Map />
+    <Map id={props.query.id} />
   </div>
 );
 

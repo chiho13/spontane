@@ -18,7 +18,11 @@ export default class Location extends Component {
     const { location, closeLocation} = this.props;
     return (
       <LocationItemStyles>
-        <a className="closeLocation_icon"onClick={closeLocation}><Cross/></a>
+        <Link href={{
+                        pathname: '/'
+                    }}>
+          <a className="closeLocation_icon"onClick={closeLocation}><Cross/></a>
+        </Link>
         <p>{location.city}, {location.country}</p>
                         
         <div className="buttonList">
