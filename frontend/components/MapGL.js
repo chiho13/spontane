@@ -56,6 +56,17 @@ class Mapbox extends PureComponent {
         this.setState({paramProps: null});
     }
 
+    _toggleLocationDetail = (location) => {
+        const {paramProps} = this.state;
+            console.log(location.id, paramProps);
+        if(location.id === paramProps) {
+            this.closeLocationDetail()
+        } else {
+            this.setState({locationDetail: location});
+            this.setState({paramProps: location.id});
+        }
+    }
+
     _renderCityMarker = () => {
         return (
             <Query query={ALL_LOCATIONS_QUERY}>
@@ -77,7 +88,7 @@ class Mapbox extends PureComponent {
                             id: location.id
                         }
                     }}>
-                    <CityPin size={20} onClick={() => this.setState({locationDetail: location})} />
+                    <CityPin size={20} onClick={() => this._toggleLocationDetail(location)} />
                     </Link>
                     </Marker>
                     ))
@@ -88,8 +99,8 @@ class Mapbox extends PureComponent {
     }
 
     _renderLocationDetail = () => {
-        const locationDetail = this.state.locationDetail || this.state.singleLocation;
-
+        let locationDetail = this.state.locationDetail || this.state.singleLocation;
+        
         return locationDetail && (
             <Location location={locationDetail} key={locationDetail.id} closeLocation={this.closeLocationDetail}/>
         )
