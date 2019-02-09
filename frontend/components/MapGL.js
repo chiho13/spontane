@@ -44,11 +44,12 @@ class Mapbox extends PureComponent {
             width: '100vw',
             latitude: 54.9777,
             longitude: -1.6376,
-            zoom: 8
+            zoom: 5
         },
         locationDetail: null,
         singleLocation: null,
-        paramProps: null
+        paramProps: null,
+        loading: false
     };
 
     closeLocationDetail = () => {
@@ -73,7 +74,9 @@ class Mapbox extends PureComponent {
         let pathNameLocation  = {
             pathname: '/locations',
             query: {
-                id: location.id
+                id: location.id,
+                lat: location.latitude,
+                lon: location.longitude
             }
         };
 
@@ -135,12 +138,22 @@ class Mapbox extends PureComponent {
             }}
         </Query>
         
-    }
+    }   
 
     componentDidMount() {
         window.addEventListener("resize", this.updateDimensions);
-        this.setState({paramProps: this.props.id})
+        this.setState({paramProps: this.props.id});
+
+        if(this.props.lat && this.props.lon) {
+
+        this.setState({
+            viewport: {...this.state.viewport, latitude: Number(this.props.lat), longitude: Number(this.props.lon)}
+          });
+          console.log("lat: ", this.props.lat);
+          console.log("lon: ", this.props.lon);
+        }
     }
+
 
     updateDimensions = () => {
         this.setState({
