@@ -1,5 +1,8 @@
-import styled from 'styled-components';
+import styled, {keyframes} from 'styled-components';
+import { fadeInRight, fadeInUp} from 'react-animations';
 
+const fadeInRightAnimation = keyframes`${fadeInRight}`;
+const fadeInUpAnimation = keyframes`${fadeInUp}`;
 const Item = styled.div`
   background: rgba(255, 255, 255, 0.7);
   border: 1px solid ${props => props.theme.lightgrey};
@@ -11,13 +14,15 @@ const Item = styled.div`
   z-index: 2;
   width: 100%;
   flex-direction: column;
+  animation: 0.6s ${fadeInUpAnimation};
 
-  @media (min-width: 600px) {
+  @media (min-width: 700px) {
     width: 50%;
     bottom: initial;
     top: 100px;
     left: initial;
     right: 20px;
+    animation: 0.6s ${fadeInRightAnimation};
   }
   img {
     width: 100%;

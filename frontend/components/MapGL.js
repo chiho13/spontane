@@ -158,24 +158,23 @@ class Mapbox extends PureComponent {
     });
 
     _goToViewport = ({longitude, latitude}) => {
-        
-        const offset = this.getCoordinates(window.innerWidth * 0.625, window.innerHeight * (0.5 - (30 / window.innerHeight)), latitude, 8);
+        const offset = this.getCoordinates(window.innerWidth * 0.625, window.innerHeight * (0.5 - (30 / window.innerHeight)), latitude, 9);
         const offsetLon = window.innerWidth > 1000 ? parseFloat(offset.lon) : 0;
         const offsetLat = window.innerWidth > 1000 ? 0 : parseFloat(offset.lat);
 
         this._onViewportChange({
           longitude: longitude + offsetLon,
           latitude: latitude + offsetLat,
-          zoom: 8,
+          zoom: 9,
           transitionInterpolator: new FlyToInterpolator(),
           transitionDuration: 1000
         });
-      };
+    };
 
     componentDidMount() {
         window.addEventListener("resize", this.updateDimensions);
         this.setState({paramProps: this.props.id});
-       
+
         if(this.props.lat && this.props.lon) {
             const offset = this.getCoordinates(window.innerWidth * 0.625, window.innerHeight * (0.5 - (30 / window.innerHeight)), this.props.lat, this.state.viewport.zoom);
             const offsetLon = window.innerWidth > 1000 ? parseFloat(offset.lon) : 0;
