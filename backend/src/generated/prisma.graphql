@@ -1,5 +1,5 @@
 # source: https://eu1.prisma.sh/anthony-ho-b91ea0/spontane/dev
-# timestamp: Sun Jan 27 2019 02:06:32 GMT+0000 (GMT)
+# timestamp: Sun Feb 10 2019 00:15:00 GMT+0000 (GMT)
 
 type AggregateLocation {
   count: Int!
@@ -16,6 +16,7 @@ type Location implements Node {
   city: String!
   latitude: Float!
   longitude: Float!
+  description: String
 }
 
 """A connection to a list of items."""
@@ -33,6 +34,7 @@ input LocationCreateInput {
   city: String!
   latitude: Float!
   longitude: Float!
+  description: String
 }
 
 """An edge in a connection."""
@@ -55,6 +57,8 @@ enum LocationOrderByInput {
   latitude_DESC
   longitude_ASC
   longitude_DESC
+  description_ASC
+  description_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -67,6 +71,7 @@ type LocationPreviousValues {
   city: String!
   latitude: Float!
   longitude: Float!
+  description: String
 }
 
 type LocationSubscriptionPayload {
@@ -113,6 +118,7 @@ input LocationUpdateInput {
   city: String
   latitude: Float
   longitude: Float
+  description: String
 }
 
 input LocationUpdateManyMutationInput {
@@ -120,6 +126,7 @@ input LocationUpdateManyMutationInput {
   city: String
   latitude: Float
   longitude: Float
+  description: String
 }
 
 input LocationWhereInput {
@@ -295,6 +302,46 @@ input LocationWhereInput {
 
   """All values greater than or equal the given value."""
   longitude_gte: Float
+  description: String
+
+  """All values that are not equal to given value."""
+  description_not: String
+
+  """All values that are contained in given list."""
+  description_in: [String!]
+
+  """All values that are not contained in given list."""
+  description_not_in: [String!]
+
+  """All values less than the given value."""
+  description_lt: String
+
+  """All values less than or equal the given value."""
+  description_lte: String
+
+  """All values greater than the given value."""
+  description_gt: String
+
+  """All values greater than or equal the given value."""
+  description_gte: String
+
+  """All values containing the given string."""
+  description_contains: String
+
+  """All values not containing the given string."""
+  description_not_contains: String
+
+  """All values starting with the given string."""
+  description_starts_with: String
+
+  """All values not starting with the given string."""
+  description_not_starts_with: String
+
+  """All values ending with the given string."""
+  description_ends_with: String
+
+  """All values not ending with the given string."""
+  description_not_ends_with: String
 }
 
 input LocationWhereUniqueInput {

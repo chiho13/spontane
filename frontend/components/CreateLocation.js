@@ -11,12 +11,14 @@ const CREATE_LOCATION_MUTATION = gql `
         $city: String!
         $latitude: Float!
         $longitude: Float!
+        $description: String
     ) {
         createLocation(
             country: $country
             city: $city
             latitude: $latitude
             longitude: $longitude
+            description: $description
         ) {
             id
         }
@@ -28,7 +30,8 @@ class CreateLocation extends Component {
         country: '',
         city: '',
         latitude: 0,
-        longitude: 0
+        longitude: 0,
+        description: ''
     }
 
     handleChange = (e) => {
@@ -51,9 +54,11 @@ class CreateLocation extends Component {
                         const res = await createLocation();
                         console.log(res);
                         Router.push({
-                            pathname: '/location',
+                            pathname: '/locations',
                             query: {
-                                id: res.data.createLocation.id
+                                id: res.data.createLocation.id,
+                                lat: this.state.latitude,
+                                lon: this.state.longitude
                             }
                         })
                     }}>
@@ -79,6 +84,28 @@ class CreateLocation extends Component {
                                     placeholder="City"
                                     required
                                     value={this.state.city}
+                                    onChange={this.handleChange}/>
+                            </label>
+                            <label htmlFor="latitude">
+                                Latitude
+                                <input
+                                    type="number"
+                                    id="latitude"
+                                    name="latitude"
+                                    placeholder="Latitude"
+                                    required
+                                    value={this.state.latitude}
+                                    onChange={this.handleChange}/>
+                            </label>
+                            <label htmlFor="longitude">
+                                Longitude
+                                <input
+                                    type="number"
+                                    id="longitude"
+                                    name="longitude"
+                                    placeholder="Longitude"
+                                    required
+                                    value={this.state.longitude}
                                     onChange={this.handleChange}/>
                             </label>
                             <label htmlFor="description">

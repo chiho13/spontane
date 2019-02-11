@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
 const Item = styled.div`
-  background: white;
-  border: 1px solid ${props => props.theme.offWhite};
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid ${props => props.theme.lightgrey};
   box-shadow: ${props => props.theme.bs};
   position: fixed;
   bottom: 0;
@@ -34,7 +34,8 @@ const Item = styled.div`
     font-weight: 300;
     flex-grow: 1;
     padding: 0 3rem;
-    font-size: 1.5rem;
+    font-size: 16px;
+    font-family: Helvetica
   }
   .buttonList {
     display: grid;

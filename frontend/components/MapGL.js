@@ -8,6 +8,8 @@ import styled from 'styled-components';
 import {auto} from 'async';
 import Location from './Location';
 import Link from 'next/link';
+// A viewport looking at San Francisco city area
+
 
 const TOKEN = 'pk.eyJ1IjoiYW50aG9ueWhvZGVzdSIsImEiOiJjanI2aWdmMmYxNXB2NDN0ZzJnd3FsMHg3In0.SejE2' +
         'ZJApZ0Rg5UTsK7kPw';
@@ -20,6 +22,7 @@ const ALL_LOCATIONS_QUERY = gql `
             city
             latitude
             longitude
+            description
           }
         }
 `;
@@ -32,6 +35,7 @@ const SINGLE_LOCATION_QUERY = gql`
             city
             latitude
             longitude
+            description
         }
     }
 `;
@@ -44,7 +48,7 @@ class Mapbox extends PureComponent {
             width: '100vw',
             latitude: 54.9777,
             longitude: -1.6376,
-            zoom: 5
+            zoom: 6
         },
         locationDetail: null,
         singleLocation: null,
@@ -58,12 +62,21 @@ class Mapbox extends PureComponent {
         this.setState({paramProps: null});
     }
 
+    getCoordinates(x, y) {
+        var degreesPerPixelX = 360 / Math.pow(2, this.state.viewport.zoom + 8);
+        var degreesPerPixelY = 360 / Math.pow(2, this.state.viewport.zoom + 8) * Math.cos(this.props.lat * Math.PI / 180);
+    
+        return {
+            lat: degreesPerPixelY * ( y - window.innerHeight / 2),
+            lon: degreesPerPixelX * ( x  - window.innerWidth / 2),
+        };
+    }
+
     _toggleLocationDetail = (location) => {
         let locationDetail = (this.state.locationDetail || this.state.singleLocation) && location.id === this.props.id;
             console.log(location.id, this.props.id);
         if(locationDetail) {
             this.closeLocationDetail()
-            
         } else {
             this.setState({locationDetail: location});
         }
@@ -145,17 +158,20 @@ class Mapbox extends PureComponent {
         this.setState({paramProps: this.props.id});
 
         if(this.props.lat && this.props.lon) {
+            const offset = this.getCoordinates(window.innerWidth * 0.625, window.innerHeight * (0.5 - (30 / window.innerHeight)));
+            const offsetLon = window.innerWidth > 1000 ? parseFloat(offset.lon) : 0;
+            const offsetLat = window.innerWidth > 1000 ? 0 : parseFloat(offset.lat);
 
-        this.setState({
-            viewport: {...this.state.viewport, latitude: Number(this.props.lat), longitude: Number(this.props.lon)}
-          });
-          console.log("lat: ", this.props.lat);
-          console.log("lon: ", this.props.lon);
+            this.setState({
+                viewport: {...this.state.viewport, latitude: parseFloat(this.props.lat) + offsetLat, longitude: parseFloat(this.props.lon) + offsetLon}
+            });
+            console.log(offsetLon)
         }
+
+
     }
 
-
-    updateDimensions = () => {
+    updateDimensions = (e) => {
         this.setState({
             viewport: {
                 ...this.state.viewport,

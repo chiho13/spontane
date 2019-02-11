@@ -17,14 +17,16 @@ export default class Location extends Component {
   render() {
     const { location, closeLocation} = this.props;
     return (
-      <LocationItemStyles>
+      <LocationItemStyles className="locationItem">
         <Link href={{
                         pathname: '/'
                     }}>
           <a className="closeLocation_icon"onClick={closeLocation}><Cross/></a>
         </Link>
-        <p>{location.city}, {location.country}</p>
-                        
+        <h3>{location.city}, {location.country}</h3>
+        <p>
+          {location.description}
+        </p>  
         <div className="buttonList">
                     <Link
                         href={{

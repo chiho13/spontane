@@ -1,8 +1,8 @@
 # import *  from './generated/prisma.graphql'
 
 type Mutation {
-  createLocation(country: String, city: String, latitude: Float, longitude: Float): Location!
-  updateLocation(id: ID!, country: String, city: String, latitude: Float, longitude: Float): Location!
+  createLocation(country: String, city: String, latitude: Float, longitude: Float, description: String): Location!
+  updateLocation(id: ID!, country: String, city: String, latitude: Float, longitude: Float, description: String): Location!
 }
 
 type Query {
