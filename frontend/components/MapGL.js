@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react';
-import MapGL, {Marker} from 'react-map-gl';
+import MapGL, {Marker, FlyToInterpolator} from 'react-map-gl';
 import {Query} from 'react-apollo';
 import gql from 'graphql-tag';
 import Router from 'next/router';
@@ -48,7 +48,7 @@ class Mapbox extends PureComponent {
             width: '100vw',
             latitude: 54.9777,
             longitude: -1.6376,
-            zoom: 6
+            zoom: this.props.id ? 9 : 6
         },
         locationDetail: null,
         singleLocation: null,
@@ -62,9 +62,9 @@ class Mapbox extends PureComponent {
         this.setState({paramProps: null});
     }
 
-    getCoordinates(x, y) {
-        var degreesPerPixelX = 360 / Math.pow(2, this.state.viewport.zoom + 8);
-        var degreesPerPixelY = 360 / Math.pow(2, this.state.viewport.zoom + 8) * Math.cos(this.props.lat * Math.PI / 180);
+    getCoordinates(x, y, LAT, ZOOM) {
+        var degreesPerPixelX = 360 / Math.pow(2, ZOOM + 8);
+        var degreesPerPixelY = 360 / Math.pow(2, ZOOM + 8) * Math.cos(LAT * Math.PI / 180);
     
         return {
             lat: degreesPerPixelY * ( y - window.innerHeight / 2),
@@ -79,6 +79,7 @@ class Mapbox extends PureComponent {
             this.closeLocationDetail()
         } else {
             this.setState({locationDetail: location});
+            this._goToViewport(location);
         }
     }
 
@@ -150,25 +151,40 @@ class Mapbox extends PureComponent {
                 return null
             }}
         </Query>
-        
     }   
+
+    _onViewportChange = viewport => this.setState({
+        viewport: {...this.state.viewport, ...viewport}
+    });
+
+    _goToViewport = ({longitude, latitude}) => {
+        
+        const offset = this.getCoordinates(window.innerWidth * 0.625, window.innerHeight * (0.5 - (30 / window.innerHeight)), latitude, 8);
+        const offsetLon = window.innerWidth > 1000 ? parseFloat(offset.lon) : 0;
+        const offsetLat = window.innerWidth > 1000 ? 0 : parseFloat(offset.lat);
+
+        this._onViewportChange({
+          longitude: longitude + offsetLon,
+          latitude: latitude + offsetLat,
+          zoom: 8,
+          transitionInterpolator: new FlyToInterpolator(),
+          transitionDuration: 1000
+        });
+      };
 
     componentDidMount() {
         window.addEventListener("resize", this.updateDimensions);
         this.setState({paramProps: this.props.id});
-
+       
         if(this.props.lat && this.props.lon) {
-            const offset = this.getCoordinates(window.innerWidth * 0.625, window.innerHeight * (0.5 - (30 / window.innerHeight)));
+            const offset = this.getCoordinates(window.innerWidth * 0.625, window.innerHeight * (0.5 - (30 / window.innerHeight)), this.props.lat, this.state.viewport.zoom);
             const offsetLon = window.innerWidth > 1000 ? parseFloat(offset.lon) : 0;
             const offsetLat = window.innerWidth > 1000 ? 0 : parseFloat(offset.lat);
 
             this.setState({
                 viewport: {...this.state.viewport, latitude: parseFloat(this.props.lat) + offsetLat, longitude: parseFloat(this.props.lon) + offsetLon}
             });
-            console.log(offsetLon)
         }
-
-
     }
 
     updateDimensions = (e) => {
@@ -186,7 +202,7 @@ class Mapbox extends PureComponent {
                 <MapGL
                     {...this.state.viewport}
                     mapboxApiAccessToken={TOKEN}
-                    onViewportChange={(viewport) => this.setState({viewport})}>
+                    onViewportChange={this._onViewportChange}>
                    
                     {this._renderLocationDetail()}
                     {this._renderCityMarker()}
