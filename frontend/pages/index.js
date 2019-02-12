@@ -1,4 +1,4 @@
-import Map from '../components/MapGL'
+import Map from '../components/AllLocations'
 
 const Home = props => (
   <div>
