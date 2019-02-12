@@ -15,9 +15,9 @@ export default class Location extends Component {
   }
 
   render() {
-    const { location, closeLocation} = this.props;
+    const { location, closeLocation, isOpened} = this.props;
     return (
-      <LocationItemStyles className="locationItem">
+      <LocationItemStyles isOpened={isOpened} className="locationItem">
         <Link href={{
                         pathname: '/'
                     }}>

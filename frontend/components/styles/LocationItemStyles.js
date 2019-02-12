@@ -1,8 +1,10 @@
 import styled, {keyframes} from 'styled-components';
-import { fadeInRight, fadeInUp} from 'react-animations';
+import { fadeInRight, fadeOutRight, fadeInUp, fadeOutDown} from 'react-animations';
 
 const fadeInRightAnimation = keyframes`${fadeInRight}`;
+const fadeOutRightAnimation = keyframes`${fadeOutRight}`;
 const fadeInUpAnimation = keyframes`${fadeInUp}`;
+const fadeInDownAnimation = keyframes`${fadeOutDown}`;
 const Item = styled.div`
   background: rgba(255, 255, 255, 0.7);
   border: 1px solid ${props => props.theme.lightgrey};
@@ -14,7 +16,7 @@ const Item = styled.div`
   z-index: 2;
   width: 100%;
   flex-direction: column;
-  animation: 0.6s ${fadeInUpAnimation};
+  animation: 0.6s ${props => props.isOpened ? fadeInUpAnimation : fadeInDownAnimation};
 
   @media (min-width: 700px) {
     width: 50%;
@@ -22,7 +24,7 @@ const Item = styled.div`
     top: 100px;
     left: initial;
     right: 20px;
-    animation: 0.6s ${fadeInRightAnimation};
+    animation: 0.6s ${props => props.isOpened ? fadeInRightAnimation : fadeOutRightAnimation};
   }
   img {
     width: 100%;

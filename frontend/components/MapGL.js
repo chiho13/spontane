@@ -53,13 +53,16 @@ class Mapbox extends PureComponent {
         locationDetail: null,
         singleLocation: null,
         paramProps: null,
-        loading: false
+        isOpened: false
     };
 
     closeLocationDetail = () => {
-        this.setState({locationDetail: null});
-        this.setState({singleLocation: null});
+        this.setState({isOpened: false});
         this.setState({paramProps: null});
+        setTimeout(() => {
+            this.setState({locationDetail: null});
+            this.setState({singleLocation: null});
+        }, 500);
     }
 
     getCoordinates(x, y, LAT, ZOOM) {
@@ -77,8 +80,9 @@ class Mapbox extends PureComponent {
             console.log(location.id, this.props.id);
         if(locationDetail) {
             this.closeLocationDetail()
+            
         } else {
-            this.setState({locationDetail: location});
+            this.setState({locationDetail: location, isOpened: true});
             this._goToViewport(location);
         }
     }
@@ -133,7 +137,7 @@ class Mapbox extends PureComponent {
         let locationDetail = this.state.locationDetail || this.state.singleLocation;
         
         return locationDetail && (
-            <Location location={locationDetail} key={locationDetail.id} closeLocation={this.closeLocationDetail}/>
+            <Location location={locationDetail} key={locationDetail.id} closeLocation={this.closeLocationDetail} isOpened={this.state.isOpened}/>
         )
     }
 
@@ -147,7 +151,7 @@ class Mapbox extends PureComponent {
                 if(loading) console.log("loading")
                 const {location} = data;
                 console.log(location)
-                this.setState({singleLocation: location});
+                this.setState({singleLocation: location, isOpened: true});
                 return null
             }}
         </Query>
@@ -185,6 +189,7 @@ class Mapbox extends PureComponent {
             });
         }
     }
+
 
     updateDimensions = (e) => {
         this.setState({
