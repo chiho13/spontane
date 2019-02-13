@@ -14,6 +14,7 @@ const SINGLE_LOCATION_QUERY = gql `
             city
             latitude
             longitude
+            description
         }
     }
 `;
@@ -25,6 +26,7 @@ const UPDATE_LOCATION_MUTATION = gql `
         $city: String
         $latitude: Float
         $longitude: Float
+        $description: String
     ) {
         updateLocation(
             id: $id
@@ -32,6 +34,7 @@ const UPDATE_LOCATION_MUTATION = gql `
             city: $city
             latitude: $latitude
             longitude: $longitude
+            description: $description
         ) {
             id
             country
@@ -53,7 +56,7 @@ class UpdateLocation extends Component {
         console.log(e.target.value)
     }
 
-    updateItem = async (e, updateLocationMutation) => {
+    updateLocation = async(e, updateLocationMutation) => {
         e.preventDefault();
         console.log('Updating item');
         console.log(this.state);
@@ -76,34 +79,60 @@ class UpdateLocation extends Component {
                 id: this.props.id
             }}>
                 {({data, loading}) => {
-                    if (loading) return <p>Loading...</p>;
-                    if (!data.item) return <p>No Item Found</p>
+                    if (loading) 
+                        return <p>Loading...</p>;
+                    if (!data.location) 
+                        return <p>No Item Found</p>
                     return (
                         <Mutation mutation={UPDATE_LOCATION_MUTATION} variables={this.state}>
-                            {(updateItem, {loading, error}) => (
+                            {(updateLocation, {loading, error}) => (
                                 <Form onSubmit={e => this.updateLocation(e, updateLocation)}>
                                     <Error error={error}/>
                                     <fieldset disabled={loading} aria-busy={loading}>
-                                        <label htmlFor="title">
-                                            Title
+                                        <label htmlFor="country">
+                                            Country
                                             <input
                                                 type="text"
-                                                id="title"
-                                                name="title"
-                                                placeholder="Title"
+                                                id="country"
+                                                name="country"
+                                                placeholder="Country"
                                                 required
-                                                defaultValue={data.location.title}
+                                                defaultValue={data.location.country}
                                                 onChange={this.handleChange}/>
                                         </label>
-                                        <label htmlFor="price">
-                                            Price
+                                        <label htmlFor="city">
+                                            City
+                                            <input
+                                                type="text"
+                                                id="city"
+                                                name="city"
+                                                placeholder="City"
+                                                required
+                                                defaultValue={data.location.city}
+                                                onChange={this.handleChange}/>
+                                        </label>
+                                        <label htmlFor="latitude">
+                                            Latitude
                                             <input
                                                 type="number"
-                                                id="price"
-                                                name="price"
-                                                placeholder="Price"
+                                                id="latitude"
+                                                name="latitude"
+                                                placeholder="Latitude"
                                                 required
-                                                defaultValue={data.location.price}
+                                                step="any"
+                                                defaultValue={data.location.latitude}
+                                                onChange={this.handleChange}/>
+                                        </label>
+                                        <label htmlFor="longitude">
+                                            Longitude
+                                            <input
+                                                type="number"
+                                                id="longitude"
+                                                name="longitude"
+                                                placeholder="Longitude"
+                                                required
+                                                step="any"
+                                                defaultValue={data.location.longitude}
                                                 onChange={this.handleChange}/>
                                         </label>
                                         <label htmlFor="description">
@@ -113,11 +142,13 @@ class UpdateLocation extends Component {
                                                 id="description"
                                                 name="description"
                                                 placeholder="Enter a description"
-                                                required
                                                 defaultValue={data.location.description}
                                                 onChange={this.handleChange}/>
                                         </label>
-                                        <button type="submit">Sav{loading ? 'ing' : 'e'} Changes</button>
+                                        <button type="submit">Sav{loading
+                                                ? 'ing '
+                                                : 'e '}
+                                            Changes</button>
                                     </fieldset>
                                 </Form>
                             )}
