@@ -4,6 +4,8 @@ import gql from 'graphql-tag';
 import Router from 'next/router';
 import Form from './styles/Form';
 import Error from './ErrorMessage';
+import CityPin from './Icons/CityMarker';
+import MapGL from './MapGL';
 
 const CREATE_LOCATION_MUTATION = gql `
     mutation CREATE_LOCATION_MUTATION(
@@ -27,12 +29,23 @@ const CREATE_LOCATION_MUTATION = gql `
 
 class CreateLocation extends Component {
     state = {
+        viewport: {
+            height: '100vh',
+            width: '100vw',
+            latitude: 54.9777,
+            longitude: -1.6376,
+            zoom: 5
+        },
         country: '',
         city: '',
         latitude: 0,
         longitude: 0,
         description: ''
     }
+
+    _onViewportChange = viewport => this.setState({
+        viewport: {...this.state.viewport, ...viewport}
+    });
 
     handleChange = (e) => {
         const {name, type, value} = e.target;
@@ -44,9 +57,8 @@ class CreateLocation extends Component {
         console.log(e.target.value)
     }
 
-    render() {
-        return (
-            <Mutation mutation={CREATE_LOCATION_MUTATION} variables={this.state}>
+    mutateForm = () => (
+        <Mutation mutation={CREATE_LOCATION_MUTATION} variables={this.state}>
                 {(createLocation, {loading, error}) => (
                     <Form
                         onSubmit={async e => {
@@ -124,7 +136,15 @@ class CreateLocation extends Component {
                     </Form>
                 )}
             </Mutation>
+    )
 
+    render() {
+        return (
+            <MapGL
+            {...this.state.viewport}
+            onViewportChange={this._onViewportChange}>
+            {this.mutateForm()}
+        </MapGL>
         );
     }
 }

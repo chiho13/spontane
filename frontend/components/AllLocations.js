@@ -34,7 +34,7 @@ const SINGLE_LOCATION_QUERY = gql`
     }
 `;
 
-class Mapbox extends PureComponent {
+class AllLocations extends PureComponent {
 
     state = {
         viewport: {
@@ -198,4 +198,4 @@ class Mapbox extends PureComponent {
     }
 }
 
-export default Mapbox;
+export default AllLocations;

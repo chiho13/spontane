@@ -14,14 +14,26 @@ const loading = keyframes`
 
 const Form = styled.form`
   box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.05);
-  background: rgba(0, 0, 0, 0.02);
+  background: rgba(255, 255, 255, 0.5);
   border: 5px solid white;
   padding: 20px;
   font-size: 1.5rem;
   line-height: 1.5;
   font-weight: 600;
-  margin: 200px auto;
+  margin: 0 auto;
   max-width: 1000px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+
+  @media (min-width: 700px) {
+    width: 50%;
+    bottom: initial;
+    top: 150px;
+    left: initial;
+    right: 20px;
+  }
 
   label {
     display: block;
