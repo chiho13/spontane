@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Mutation} from 'react-apollo';
+import {Marker} from 'react-map-gl';
 import gql from 'graphql-tag';
 import Router from 'next/router';
 import Form from './styles/Form';
@@ -34,18 +35,50 @@ class CreateLocation extends Component {
             width: '100vw',
             latitude: 54.9777,
             longitude: -1.6376,
-            zoom: 5
+            zoom: 2
         },
         country: '',
         city: '',
         latitude: 0,
         longitude: 0,
-        description: ''
+        description: '',
+        marker: {
+            latitude: 54.9777,
+            longitude: -1.6376,
+          },
+          events: {}
     }
 
     _onViewportChange = viewport => this.setState({
         viewport: {...this.state.viewport, ...viewport}
     });
+
+    _logDragEvent(name, event) {
+        this.setState({
+          events: {
+            ...this.state.events,
+            [name]: event.lngLat,
+          }
+        })
+      }
+    
+      _onMarkerDragStart = (event) => {
+        this._logDragEvent('onDragStart', event);
+      };
+    
+      _onMarkerDrag = (event) => {
+        this._logDragEvent('onDrag', event);
+        this.setState({
+            marker: {
+              longitude: event.lngLat[0],
+              latitude: event.lngLat[1],
+            }
+          });
+      };
+    
+      _onMarkerDragEnd = (event) => {
+        this._logDragEvent('onDragEnd', event);
+      };
 
     handleChange = (e) => {
         const {name, type, value} = e.target;
@@ -106,7 +139,7 @@ class CreateLocation extends Component {
                                     name="latitude"
                                     placeholder="Latitude"
                                     required
-                                    value={this.state.latitude}
+                                    value={this.state.marker.latitude}
                                     onChange={this.handleChange}/>
                             </label>
                             <label htmlFor="longitude">
@@ -117,7 +150,7 @@ class CreateLocation extends Component {
                                     name="longitude"
                                     placeholder="Longitude"
                                     required
-                                    value={this.state.longitude}
+                                    value={this.state.marker.longitude}
                                     onChange={this.handleChange}/>
                             </label>
                             <label htmlFor="description">
@@ -138,12 +171,23 @@ class CreateLocation extends Component {
             </Mutation>
     )
 
+
     render() {
+        const {viewport, marker} = this.state;
+        console.log(marker.latitude, marker.longitude);
         return (
             <MapGL
-            {...this.state.viewport}
-            onViewportChange={this._onViewportChange}>
+            viewport={{...viewport}} ref="changeViewport">
             {this.mutateForm()}
+            <Marker 
+                longitude={marker.longitude}
+                latitude={marker.latitude}
+                draggable
+                onDragStart={this._onMarkerDragStart}
+                onDrag={this._onMarkerDrag}
+                onDragEnd={this._onMarkerDragEnd} >
+          <CityPin size={20} />
+        </Marker>
         </MapGL>
         );
     }

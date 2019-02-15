@@ -34,13 +34,13 @@ const SINGLE_LOCATION_QUERY = gql`
     }
 `;
 
+
+
 class AllLocations extends PureComponent {
 
     state = {
         viewport: {
-            height: '100vh',
-            width: '100vw',
-            latitude: 54.9777,
+            latitude: 53.9777,
             longitude: -1.6376,
             zoom: this.props.id ? 9 : 6
         },
@@ -49,6 +49,14 @@ class AllLocations extends PureComponent {
         paramProps: null,
         isOpened: false
     };
+
+    offsetMarker = () => {
+        const offset = getCoordinates(window.innerWidth * 0.625, window.innerHeight * (0.5 - (30 / window.innerHeight)), this.props.lat, this.state.viewport.zoom);
+        const offsetLon = window.innerWidth > 1000 ? parseFloat(offset.lon) : 0;
+        const offsetLat = window.innerWidth > 1000 ? 0 : parseFloat(offset.lat);
+    
+        this.refs.changeViewport.onViewportChange({ latitude: parseFloat(this.props.lat) + offsetLat, longitude: parseFloat(this.props.lon) + offsetLon})
+    }
 
     closeLocationDetail = () => {
         this.setState({isOpened: false});
@@ -134,7 +142,6 @@ class AllLocations extends PureComponent {
                 if(error) console.log("error")
                 if(loading) console.log("loading")
                 const {location} = data;
-                console.log(location)
                 this.setState({singleLocation: location, isOpened: true});
                 return null
             }}
@@ -150,7 +157,7 @@ class AllLocations extends PureComponent {
         const offsetLon = window.innerWidth > 1000 ? parseFloat(offset.lon) : 0;
         const offsetLat = window.innerWidth > 1000 ? 0 : parseFloat(offset.lat);
 
-        this._onViewportChange({
+        this.refs.changeViewport.onViewportChange({
           longitude: longitude + offsetLon,
           latitude: latitude + offsetLat,
           zoom: 9,
@@ -160,35 +167,14 @@ class AllLocations extends PureComponent {
     };
 
     componentDidMount() {
-        window.addEventListener("resize", this.updateDimensions);
         this.setState({paramProps: this.props.id});
-
-        if(this.props.lat && this.props.lon) {
-            const offset = getCoordinates(window.innerWidth * 0.625, window.innerHeight * (0.5 - (30 / window.innerHeight)), this.props.lat, this.state.viewport.zoom);
-            const offsetLon = window.innerWidth > 1000 ? parseFloat(offset.lon) : 0;
-            const offsetLat = window.innerWidth > 1000 ? 0 : parseFloat(offset.lat);
-
-            this.setState({
-                viewport: {...this.state.viewport, latitude: parseFloat(this.props.lat) + offsetLat, longitude: parseFloat(this.props.lon) + offsetLon}
-            });
-        }
-    }
-
-    updateDimensions = (e) => {
-        this.setState({
-            viewport: {
-                ...this.state.viewport,
-                height: window.innerHeight,
-                width: window.innerWidth
-            }
-        });
+        this.props.id && this.offsetMarker()
     }
 
     render() {
         return (
                 <MapGL
-                    {...this.state.viewport}
-                    onViewportChange={this._onViewportChange}>
+                    viewport={{...this.state.viewport}} ref="changeViewport">
                    
                     {this._renderLocationDetail()}
                     {this._renderCityMarker()}
