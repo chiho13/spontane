@@ -36,7 +36,7 @@ class Maps extends PureComponent {
 
     render() {
         return (
-            <MapGL {...this.state.viewport} mapboxApiAccessToken={TOKEN} onViewportChange={this.onViewportChange}>
+            <MapGL {...this.props} {...this.state.viewport} mapboxApiAccessToken={TOKEN} onViewportChange={this.onViewportChange}>
             {this.props.children}
         </MapGL>
         );

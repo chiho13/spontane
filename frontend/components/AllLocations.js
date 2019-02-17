@@ -175,7 +175,6 @@ class AllLocations extends PureComponent {
         return (
                 <MapGL
                     viewport={{...this.state.viewport}} ref="changeViewport">
-                   
                     {this._renderLocationDetail()}
                     {this._renderCityMarker()}
                     {this.singleLocation()} 

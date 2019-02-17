@@ -26,9 +26,10 @@ const Form = styled.form`
   bottom: 0;
   left: 0;
   width: 100%;
+  z-index: 20;
 
   @media (min-width: 700px) {
-    width: 50%;
+    width: 40%;
     bottom: initial;
     top: 150px;
     left: initial;
@@ -38,6 +39,10 @@ const Form = styled.form`
   label {
     display: block;
     margin-bottom: 1rem;
+  }
+
+  input {
+    -webkit-appearance: none;
   }
   input,
   textarea,
