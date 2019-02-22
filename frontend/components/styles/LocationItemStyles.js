@@ -16,6 +16,8 @@ const Item = styled.div`
   z-index: 2;
   width: 100%;
   flex-direction: column;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
   animation: 0.6s ${props => props.isOpened ? fadeInUpAnimation : fadeInDownAnimation};
 
   @media (min-width: 700px) {
@@ -24,6 +26,8 @@ const Item = styled.div`
     top: 100px;
     left: initial;
     right: 20px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
     animation: 0.6s ${props => props.isOpened ? fadeInRightAnimation : fadeOutRightAnimation};
   }
   img {

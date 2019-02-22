@@ -128,7 +128,7 @@ class CreateLocation extends Component {
                     <Error error={error}/>
                     <fieldset disabled={loading} aria-busy={loading}>
                         <label htmlFor="country">
-                            Country
+                            Country</label>
                             <input
                                 type="text"
                                 id="country"
@@ -137,9 +137,9 @@ class CreateLocation extends Component {
                                 required
                                 value={this.state.country}
                                 onChange={this.handleChange}/>
-                        </label>
+                        
                         <label htmlFor="city">
-                            City
+                            City </label>
                             <input
                                 type="text"
                                 id="city"
@@ -148,9 +148,9 @@ class CreateLocation extends Component {
                                 required
                                 value={this.state.city}
                                 onChange={this.handleChange}/>
-                        </label>
+                       
                         <label htmlFor="latitude">
-                            Latitude
+                            Latitude </label>
                             <input
                                 type="number"
                                 id="latitude"
@@ -159,9 +159,8 @@ class CreateLocation extends Component {
                                 required
                                 value={this.state.marker.latitude}
                                 onChange={this.handleChange}/>
-                        </label>
                         <label htmlFor="longitude">
-                            Longitude
+                            Longitude </label>
                             <input
                                 type="number"
                                 id="longitude"
@@ -170,9 +169,9 @@ class CreateLocation extends Component {
                                 required
                                 value={this.state.marker.longitude}
                                 onChange={this.handleChange}/>
-                        </label>
+
                         <label htmlFor="description">
-                            Description
+                            Description </label>
                             <textarea
                                 type="number"
                                 id="description"
@@ -181,7 +180,6 @@ class CreateLocation extends Component {
                                 required
                                 value={this.state.description}
                                 onChange={this.handleChange}/>
-                        </label>
                         <button type="submit">Submit</button>
                     </fieldset>
                 </Form>
