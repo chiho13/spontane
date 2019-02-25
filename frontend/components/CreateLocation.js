@@ -72,13 +72,9 @@ class CreateLocation extends Component {
     };
 
     _onMarkerDrag = (event) => {
+        const {lngLat} = event;
         this._logDragEvent('onDrag', event);
-        this.setState({
-            marker: {
-                longitude: event.lngLat[0],
-                latitude: event.lngLat[1]
-            }
-        });
+        this.updateLocation(lngLat);
     };
 
     _onMarkerDragEnd = (event) => {
@@ -128,8 +124,8 @@ class CreateLocation extends Component {
                     })
                 }}>
                     <Error error={error}/>
-                    <fieldset disabled={loading} hasGrid={true} aria-busy={loading}>
-                        <div class="fieldset_wrapper">
+                    <fieldset disabled={loading} hasgrid={true} aria-busy={loading}>
+                        <div className="fieldset_wrapper">
                             <div className="wrapper">
                                 <label htmlFor="country">
                                     Country</label>
@@ -157,13 +153,15 @@ class CreateLocation extends Component {
                             </div>
                             <div className="wrapper">
                                 <label htmlFor="latitude">
-                                    Latitude: <span>{this.state.marker.latitude} </span>
+                                    Latitude: <span>{this.state.marker.latitude && parseFloat(this.state.marker.latitude).toFixed(4)} </span>
                                 </label>
+                                <input type="hidden" id="latitude" name="latitude" value={this.state.marker.latitude}/>
                             </div>
                             <div className="wrapper">
                                 <label htmlFor="longitude">
-                                    Longitude: <span>{this.state.marker.longitude} </span>
+                                    Longitude: <span>{this.state.marker.longitude && parseFloat(this.state.marker.longitude).toFixed(4)} </span>
                                 </label>
+                                <input type="hidden" id="longitude" name="longitude" value={this.state.marker.longitude}/>
                             </div>
                             <div className="wrapper">
                                 <label htmlFor="description">
@@ -186,6 +184,17 @@ class CreateLocation extends Component {
         </Mutation>
     )
 
+    updateLocation = (lngLat) => {
+        this.setState({
+            marker: {
+                latitude: lngLat[1],
+                longitude: lngLat[0]
+            },
+            latitude: lngLat[1],
+            longitude: lngLat[0]
+        });
+    }
+
     addMarker = (event) => {
         const {lngLat} = event;
         this.setState({
@@ -194,17 +203,12 @@ class CreateLocation extends Component {
                 longitude: ''
             }
         });
-        this.setState({
-            marker: {
-                latitude: lngLat[1],
-                longitude: lngLat[0]
-            }
-        });
+        this.updateLocation(lngLat);
     }
 
     render() {
         const {viewport, marker} = this.state;
-        console.log(marker.latitude, marker.longitude);
+        console.log(this.state.latitude, this.state.longitude);
         return (
             <div>
                 <MapGL

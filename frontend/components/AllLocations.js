@@ -38,6 +38,8 @@ const SINGLE_LOCATION_QUERY = gql`
 
 class AllLocations extends PureComponent {
 
+    _isMounted = false;
+
     state = {
         viewport: {
             latitude: 53.9777,
@@ -134,16 +136,17 @@ class AllLocations extends PureComponent {
     }
 
     singleLocation = () => {
-        const checkForProps = this.state.paramProps;
+        const checkForProps = this.state.paramProps && this._isMounted;
         return  checkForProps && <Query query={SINGLE_LOCATION_QUERY} variables={{
             id: this.props.id
+        }} onCompleted={data => {
+            const {location} = data;
+            this.setState({singleLocation: location, isOpened: true});
         }}>
             {({error, loading, data}) => {
                 if(error) console.log("error")
                 if(loading) console.log("loading")
-                const {location} = data;
-                this.setState({singleLocation: location, isOpened: true});
-                return null
+                return null;
             }}
         </Query>
     }   
@@ -168,7 +171,12 @@ class AllLocations extends PureComponent {
 
     componentDidMount() {
         this.setState({paramProps: this.props.id});
-        this.props.id && this.offsetMarker()
+        this.props.id && this.offsetMarker();
+        this._isMounted = true;
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
     render() {
