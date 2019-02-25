@@ -35,6 +35,18 @@ const Form = styled.form`
     right: 20px;
   }
 
+  .fieldset_wrapper {
+    @media (min-width: 700px) {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 10px;
+
+      .wrapper:last-child {
+        grid-column: span 2;
+      }
+    }
+  }
+
   label {
     display: block;
     margin-top: 2rem;
@@ -60,6 +72,10 @@ const Form = styled.form`
     @media (min-width: 700px) {
       font-size: 14px;
     }
+  }
+
+  textarea {
+    resize: none;
   }
   button,
   input[type='submit'] {

@@ -38,6 +38,7 @@ class CreateLocation extends Component {
             longitude: 34.9,
             zoom: 3
         },
+        markerToolTip: false,
         country: '',
         city: '',
         latitude: 0,
@@ -96,7 +97,8 @@ class CreateLocation extends Component {
 
     showMarker = (marker) => {
         const markerHasLocation = this.state.marker.latitude && this.state.marker.longitude;
-        return markerHasLocation && <ShowMarker><Marker
+        return markerHasLocation && <ShowMarker>
+            <Marker
                 longitude={marker.longitude}
                 latitude={marker.latitude}
                 draggable
@@ -104,7 +106,7 @@ class CreateLocation extends Component {
                 onDrag={this._onMarkerDrag}
                 onDragEnd={this._onMarkerDragEnd}>
                 <CityPin size={20}/>
-             </Marker>
+            </Marker>
         </ShowMarker>
     }
 
@@ -126,74 +128,77 @@ class CreateLocation extends Component {
                     })
                 }}>
                     <Error error={error}/>
-                    <fieldset disabled={loading} aria-busy={loading}>
-                        <label htmlFor="country">
-                            Country</label>
-                            <input
-                                type="text"
-                                id="country"
-                                name="country"
-                                placeholder="Country"
-                                required
-                                value={this.state.country}
-                                onChange={this.handleChange}/>
-                        
-                        <label htmlFor="city">
-                            City </label>
-                            <input
-                                type="text"
-                                id="city"
-                                name="city"
-                                placeholder="City"
-                                required
-                                value={this.state.city}
-                                onChange={this.handleChange}/>
-                       
-                        <label htmlFor="latitude">
-                            Latitude </label>
-                            <input
-                                type="number"
-                                id="latitude"
-                                name="latitude"
-                                placeholder="Latitude"
-                                required
-                                value={this.state.marker.latitude}
-                                onChange={this.handleChange}/>
-                        <label htmlFor="longitude">
-                            Longitude </label>
-                            <input
-                                type="number"
-                                id="longitude"
-                                name="longitude"
-                                placeholder="Longitude"
-                                required
-                                value={this.state.marker.longitude}
-                                onChange={this.handleChange}/>
-
-                        <label htmlFor="description">
-                            Description </label>
-                            <textarea
-                                type="number"
-                                id="description"
-                                name="description"
-                                placeholder="Enter a description"
-                                required
-                                value={this.state.description}
-                                onChange={this.handleChange}/>
+                    <fieldset disabled={loading} hasGrid={true} aria-busy={loading}>
+                        <div class="fieldset_wrapper">
+                            <div className="wrapper">
+                                <label htmlFor="country">
+                                    Country</label>
+                                <input
+                                    type="text"
+                                    id="country"
+                                    name="country"
+                                    placeholder="Country"
+                                    required
+                                    value={this.state.country}
+                                    onChange={this.handleChange}/>
+                            </div>
+                            <div className="wrapper">
+                                <label htmlFor="city">
+                                    City
+                                </label>
+                                <input
+                                    type="text"
+                                    id="city"
+                                    name="city"
+                                    placeholder="City"
+                                    required
+                                    value={this.state.city}
+                                    onChange={this.handleChange}/>
+                            </div>
+                            <div className="wrapper">
+                                <label htmlFor="latitude">
+                                    Latitude: <span>{this.state.marker.latitude} </span>
+                                </label>
+                            </div>
+                            <div className="wrapper">
+                                <label htmlFor="longitude">
+                                    Longitude: <span>{this.state.marker.longitude} </span>
+                                </label>
+                            </div>
+                            <div className="wrapper">
+                                <label htmlFor="description">
+                                    Description
+                                </label>
+                                <textarea
+                                    type="number"
+                                    id="description"
+                                    name="description"
+                                    placeholder="Enter a description"
+                                    required
+                                    value={this.state.description}
+                                    onChange={this.handleChange}/>
+                            </div>
+                        </div>
                         <button type="submit">Submit</button>
                     </fieldset>
                 </Form>
             )}
         </Mutation>
     )
-    
+
     addMarker = (event) => {
-        const { lngLat } = event;
+        const {lngLat} = event;
         this.setState({
-            marker: {latitude: '', longitude: ''}
+            marker: {
+                latitude: '',
+                longitude: ''
+            }
         });
         this.setState({
-            marker: {latitude: lngLat[1], longitude: lngLat[0]}
+            marker: {
+                latitude: lngLat[1],
+                longitude: lngLat[0]
+            }
         });
     }
 
@@ -202,14 +207,15 @@ class CreateLocation extends Component {
         console.log(marker.latitude, marker.longitude);
         return (
             <div>
-            <MapGL
-                viewport={{
-                ...viewport
-            }}
-                ref="changeViewport" onClick={this.addMarker}>
-                {this.showMarker(marker)}
-            </MapGL>
-            {this.mutateForm()}
+                <MapGL
+                    viewport={{
+                    ...viewport
+                }}
+                    ref="changeViewport"
+                    onClick={this.addMarker}>
+                    {this.showMarker(marker)}
+                </MapGL>
+                {this.mutateForm()}
             </div>
         );
     }
