@@ -155,13 +155,13 @@ class CreateLocation extends Component {
                                 <label htmlFor="latitude">
                                     Latitude: <span>{this.state.marker.latitude && parseFloat(this.state.marker.latitude).toFixed(4)} </span>
                                 </label>
-                                <input type="hidden" id="latitude" name="latitude" value={this.state.marker.latitude}/>
+
                             </div>
                             <div className="wrapper">
                                 <label htmlFor="longitude">
                                     Longitude: <span>{this.state.marker.longitude && parseFloat(this.state.marker.longitude).toFixed(4)} </span>
                                 </label>
-                                <input type="hidden" id="longitude" name="longitude" value={this.state.marker.longitude}/>
+
                             </div>
                             <div className="wrapper">
                                 <label htmlFor="description">
