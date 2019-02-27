@@ -12,15 +12,18 @@ const Item = styled.div`
   position: fixed;
   bottom: 0;
   left: 0;
-  display: flex;
+  display: block;
   z-index: 2;
   width: 100%;
+  height: 'auto'
   flex-direction: column;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+  box-sizing: border-box;
   animation: 0.6s ${props => props.isOpened ? fadeInUpAnimation : fadeInDownAnimation};
 
   @media (min-width: 700px) {
+    display: flex;
     width: 50%;
     bottom: initial;
     top: 100px;

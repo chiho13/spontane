@@ -49,7 +49,8 @@ class AllLocations extends PureComponent {
         locationDetail: null,
         singleLocation: null,
         paramProps: null,
-        isOpened: false
+        isOpened: false,
+        events: {}
     };
 
     offsetMarker = () => {
@@ -181,12 +182,15 @@ class AllLocations extends PureComponent {
 
     render() {
         return (
+            <div>
                 <MapGL
                     viewport={{...this.state.viewport}} ref="changeViewport">
-                    {this._renderLocationDetail()}
+                   
                     {this._renderCityMarker()}
                     {this.singleLocation()} 
                 </MapGL>
+                {this._renderLocationDetail()}
+                </div>
                 )
     }
 }
