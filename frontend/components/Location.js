@@ -5,10 +5,11 @@ import Title from './styles/Title';
 import LocationItemStyles from './styles/LocationItemStyles';
 import Cross from './Icons/Cross';
 import Draggable, {DraggableCore} from 'react-draggable';
+import Router from 'next/router';
 
 const snappedPositions = {
   opened: 'calc(100vh - 100px)',
-  halfway: '160px'
+  closed: 0
 }
 
 export default class Location extends Component {
@@ -36,13 +37,20 @@ export default class Location extends Component {
 
     dragEnd = () => {
       const dragLength = this.state.height - this.state.touchStartPos;
+      const {closeLocation} = this.props;
 
       if(dragLength > 20) {
-        this.setState({height: 'calc(100vh - 100px)'});
-        
+        this.setState({height: snappedPositions.opened});
+
         setTimeout(() => {
-          this.setHeight()
+          this.setHeight();
         }, 200)
+      }
+
+      if(dragLength < -20) {
+        closeLocation();
+        this.setState({height: snappedPositions.closed});
+        Router.push('/');
       }
     }
 

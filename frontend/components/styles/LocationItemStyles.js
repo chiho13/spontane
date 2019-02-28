@@ -20,7 +20,7 @@ const Item = styled.div`
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   box-sizing: border-box;
-  transition: height 0.1s;
+  transition: height ${props => props.isOpened ? '0.15s' : '0.5s'};
   animation: 0.6s ${props => props.isOpened ? fadeInUpAnimation : fadeInDownAnimation};
 
   @media (min-width: 700px) {
