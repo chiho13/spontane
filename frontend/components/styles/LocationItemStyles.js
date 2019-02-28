@@ -15,11 +15,12 @@ const Item = styled.div`
   display: block;
   z-index: 2;
   width: 100%;
-  height: 'auto'
+  height: auto;
   flex-direction: column;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   box-sizing: border-box;
+  transition: height 0.1s;
   animation: 0.6s ${props => props.isOpened ? fadeInUpAnimation : fadeInDownAnimation};
 
   @media (min-width: 700px) {

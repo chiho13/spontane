@@ -4,15 +4,11 @@ import Link from 'next/link';
 import Title from './styles/Title';
 import LocationItemStyles from './styles/LocationItemStyles';
 import Cross from './Icons/Cross';
-import ReactDOM from "react-dom";
 import Draggable, {DraggableCore} from 'react-draggable';
 
-const measureElement = element => {
-  const DOMNode = ReactDOM.findDOMNode(element);
-  return {
-    width: DOMNode.offsetWidth,
-    height: DOMNode.offsetHeight,
-  };
+const snappedPositions = {
+  opened: 'calc(100vh - 100px)',
+  halfway: '160px'
 }
 
 export default class Location extends Component {
@@ -21,27 +17,49 @@ export default class Location extends Component {
     };
 
     state = {
-        height:  'auto'
+        height:  'auto',
+        touchStartPos: 0,
     }
 
     closeLocation = () => {
         this.closeLocationDetail()
     }
     expandLocation = (e, {deltaY}) => {
-        console.log("deltaY", deltaY, this.state.height);
-        this.setState({height: this.state.height - deltaY});
+      // console.log("deltaY", deltaY, this.state.height);
+      const clientY = window.innerHeight - e.touches[0].clientY;
+      this.setState({height: this.state.height - deltaY});
+    }
+
+    dragStart = () => {
+      this.setState({touchStartPos: this.state.height});
+    }
+
+    dragEnd = () => {
+      const dragLength = this.state.height - this.state.touchStartPos;
+
+      if(dragLength > 20) {
+        this.setState({height: 'calc(100vh - 100px)'});
+        
+        setTimeout(() => {
+          this.setHeight()
+        }, 200)
+      }
+    }
+
+    setHeight = () => {
+      const locationHeight = document.querySelector('.locationItem').clientHeight
+      this.setState({height: locationHeight});
     }
 
     componentDidMount() {
-      const locationHeight = document.querySelector('.locationItem').clientHeight
-      this.setState({height: locationHeight});
+      this.setHeight()
     }
 
     render() {
         const {location, closeLocation, isOpened} = this.props;
 
         return (
-            <DraggableCore axis="y" onDrag={this.expandLocation}>
+            <DraggableCore axis="y" onStart={this.dragStart} onStop={this.dragEnd} onDrag={window.innerWidth < 1000 && this.expandLocation}>
                 <LocationItemStyles
                     isOpened={isOpened}
                     className="locationItem" style={{height: this.state.height}}>
