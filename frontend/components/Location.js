@@ -12,6 +12,10 @@ const snappedPositions = {
   closed: 0
 }
 
+const componentHeight = {
+  height: '160'
+}
+
 export default class Location extends Component {
     static propTypes = {
         location: PropTypes.object.isRequired
@@ -25,33 +29,43 @@ export default class Location extends Component {
     closeLocation = () => {
         this.closeLocationDetail()
     }
-    expandLocation = (e, {deltaY}) => {
-      // console.log("deltaY", deltaY, this.state.height);
-      const clientY = window.innerHeight - e.touches[0].clientY;
-      this.setState({height: this.state.height - deltaY});
+ 
+    dragStart = (e) => {
+      // console.log(e.currentTarget.clientHeight);
+      this.setState({touchStartPos: e.currentTarget.clientHeight})
     }
 
-    dragStart = () => {
-      this.setState({touchStartPos: this.state.height});
+    calcHeight = (height) => {
+      this.setState({
+        height
+      })
+    }
+
+    expandLocation = (e, {deltaY}) => {
+      const height = this.state.height - deltaY
+      console.log(componentHeight.height);
+      this.calcHeight(height)
     }
 
     dragEnd = () => {
-      const dragLength = this.state.height - this.state.touchStartPos;
+      const dragLength = this.state.height - this.state.touchStartPos
       const {closeLocation} = this.props;
-
-      if(dragLength > 20) {
+      
+      if(dragLength > 40) {
         this.setState({height: snappedPositions.opened});
 
         setTimeout(() => {
           this.setHeight();
         }, 200)
-      }
-
-      if(dragLength < -20) {
+      }  else if (dragLength < -40) {
         closeLocation();
         this.setState({height: snappedPositions.closed});
         Router.push('/');
+      } else {
+        this.calcHeight(this.state.touchStartPos)
       }
+
+      // this.setHeight({height: this.state.touchStartPos})
     }
 
     setHeight = () => {

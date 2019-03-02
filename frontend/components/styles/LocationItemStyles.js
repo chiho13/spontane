@@ -15,7 +15,7 @@ const Item = styled.div`
   display: block;
   z-index: 2;
   width: 100%;
-  height: auto;
+  height: 160px;
   flex-direction: column;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
