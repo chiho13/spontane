@@ -24,6 +24,7 @@ export default class Location extends Component {
     state = {
         height:  'auto',
         touchStartPos: 0,
+        draggable: false
     }
 
     closeLocation = () => {
@@ -31,7 +32,7 @@ export default class Location extends Component {
     }
  
     dragStart = (e) => {
-      // console.log(e.currentTarget.clientHeight);
+      if(!this.state.draggable) return;
       this.setState({touchStartPos: e.currentTarget.clientHeight})
     }
 
@@ -42,12 +43,14 @@ export default class Location extends Component {
     }
 
     expandLocation = (e, {deltaY}) => {
-      const height = this.state.height - deltaY
+      if(!this.state.draggable) return;
+      const height = this.state.height - deltaY;
       console.log(componentHeight.height);
       this.calcHeight(height)
     }
 
     dragEnd = () => {
+      if(!this.state.draggable) return;
       const dragLength = this.state.height - this.state.touchStartPos
       const {closeLocation} = this.props;
       
@@ -63,7 +66,6 @@ export default class Location extends Component {
       } else {
         this.calcHeight(this.state.touchStartPos)
       }
-
     }
 
     setHeight = () => {
@@ -73,13 +75,14 @@ export default class Location extends Component {
 
     componentDidMount() {
       this.setHeight()
+      window.innerWidth < 1000 && this.setState({draggable: true});
     }
 
     render() {
         const {location, closeLocation, isOpened} = this.props;
 
         return (
-            <DraggableCore axis="y" onStart={this.dragStart} onStop={this.dragEnd} onDrag={window.innerWidth < 1000 && this.expandLocation}>
+            <DraggableCore axis="y" onStart={this.dragStart} onStop={this.dragEnd} onDrag={this.expandLocation}>
                 <LocationItemStyles
                     isOpened={isOpened}
                     className="locationItem" style={{height: this.state.height}}>
