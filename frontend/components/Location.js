@@ -53,7 +53,6 @@ export default class Location extends Component {
       
       if(dragLength > 40) {
         this.setState({height: snappedPositions.opened});
-
         setTimeout(() => {
           this.setHeight();
         }, 200)
@@ -65,7 +64,6 @@ export default class Location extends Component {
         this.calcHeight(this.state.touchStartPos)
       }
 
-      // this.setHeight({height: this.state.touchStartPos})
     }
 
     setHeight = () => {
