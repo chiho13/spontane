@@ -20,6 +20,8 @@ const Item = styled.div`
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   box-sizing: border-box;
+  border: 1px solid #ddd;
+  border-bottom: none;
   transition: height ${props => props.isOpened ? '0.15s' : '0.5s'};
   animation: 0.6s ${props => props.isOpened ? fadeInUpAnimation : fadeInDownAnimation};
 
@@ -32,6 +34,7 @@ const Item = styled.div`
     right: 20px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
+    border: none;
     animation: 0.6s ${props => props.isOpened ? fadeInRightAnimation : fadeOutRightAnimation};
   }
   img {
@@ -42,6 +45,8 @@ const Item = styled.div`
 
   h3 {
     padding: 0 3rem;
+    margin-top: 3rem;
+    margin-bottom: 2rem;
   }
   p {
     font-size: 12px;
@@ -67,14 +72,30 @@ const Item = styled.div`
     }
   }
 
+  .dragNib {
+    position: absolute;
+    top: 8px;
+    width: 24px;
+    height: 4px;
+    border-radius: 2px;
+    background-color: #cfcfcf;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+
+    @media (min-width: 700px) {
+      display: none
+    }
+  }
+
   .closeLocation_icon {
     cursor: pointer;
-
+    position: absolute;
+    top 8px;
+    right: 8px;
     .cross_icon {
-      position: absolute;
-      top 5px;
-      right: 5px;
-      fill: #555;
+     
+      fill: #888;
       transition: fill 0.3s eases;
     }
 
@@ -82,8 +103,6 @@ const Item = styled.div`
       fill: #777;
     }
   }
-
- 
 `;
 
 export default Item;

@@ -86,6 +86,7 @@ export default class Location extends Component {
                 <LocationItemStyles
                     isOpened={isOpened}
                     className="locationItem" style={{height: this.state.height}}>
+                    <div className="dragNib"></div>
                     <Link href={{
                         pathname: '/'
                     }}>
