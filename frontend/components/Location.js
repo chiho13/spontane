@@ -9,12 +9,10 @@ import Router from 'next/router';
 
 const snappedPositions = {
   opened: 'calc(100vh - 100px)',
-  closed: 0
-}
+  closed: 0,
+  orignalHeight: 180
+};
 
-const componentHeight = {
-  height: '160'
-}
 
 export default class Location extends Component {
     static propTypes = {
@@ -22,9 +20,10 @@ export default class Location extends Component {
     };
 
     state = {
-        height:  'auto',
+        height:  snappedPositions.orignalHeight,
         touchStartPos: 0,
-        draggable: false
+        draggable: false,
+        expanded: false
     }
 
     closeLocation = () => {
@@ -45,7 +44,6 @@ export default class Location extends Component {
     expandLocation = (e, {deltaY}) => {
       if(!this.state.draggable) return;
       const height = this.state.height - deltaY;
-      console.log(componentHeight.height);
       this.calcHeight(height)
     }
 
@@ -55,14 +53,18 @@ export default class Location extends Component {
       const {closeLocation} = this.props;
       
       if(dragLength > 40) {
-        this.setState({height: snappedPositions.opened});
+        this.setState({height: snappedPositions.opened, expanded: true});
         setTimeout(() => {
           this.setHeight();
-        }, 200)
+        }, 100);
       }  else if (dragLength < -40) {
-        closeLocation();
-        this.setState({height: snappedPositions.closed});
-        Router.push('/');
+        if(this.state.height > snappedPositions.orignalHeight) {
+          this.setState({height: snappedPositions.orignalHeight, expanded: false});
+        } else {
+          closeLocation();
+          this.setState({height: snappedPositions.closed});
+          Router.push('/');
+        }
       } else {
         this.calcHeight(this.state.touchStartPos)
       }
@@ -96,7 +98,7 @@ export default class Location extends Component {
                     <p>
                         {location.description}
                     </p>
-                    <div className="buttonList">
+                    {/* <div className="buttonList">
                         <Link
                             href={{
                             pathname: 'update',
@@ -106,7 +108,7 @@ export default class Location extends Component {
                         }}>
                             <a>Edit ✏️</a>
                         </Link>
-                    </div>
+                    </div> */}
                 </LocationItemStyles>
             </DraggableCore>
         );
