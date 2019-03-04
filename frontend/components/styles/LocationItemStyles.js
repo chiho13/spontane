@@ -6,7 +6,7 @@ const fadeOutRightAnimation = keyframes`${fadeOutRight}`;
 const fadeInUpAnimation = keyframes`${fadeInUp}`;
 const fadeInDownAnimation = keyframes`${fadeOutDown}`;
 const Item = styled.div`
-  background: rgba(255, 255, 255, 0.7);
+  background: ${props => props.isExpanded ? 'rgba(255, 255, 255, 0.9)' : 'rgba(255, 255, 255, 0.7)'};
   border: 1px solid ${props => props.theme.lightgrey};
   box-shadow: ${props => props.theme.bs};
   position: fixed;
@@ -17,8 +17,8 @@ const Item = styled.div`
   width: 100%;
   height: 160px;
   flex-direction: column;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  border-top-left-radius: ${props => props.isExpanded ? '0' : '10px'};
+  border-top-right-radius: ${props => props.isExpanded ? '0' : '10px'};
   box-sizing: border-box;
   border: 1px solid #ddd;
   border-bottom: none;
@@ -90,11 +90,10 @@ const Item = styled.div`
 
   .closeLocation_icon {
     cursor: pointer;
-    position: absolute;
-    top 8px;
-    right: 8px;
     .cross_icon {
-     
+      position: absolute;
+      top 8px;
+      right: 8px;
       fill: #888;
       transition: fill 0.3s eases;
     }

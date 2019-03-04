@@ -47,7 +47,7 @@ const NavStyles = styled.ul`
     }
   }
   justify-content: flex-end;
-  @media (max-width: 1000px) {
+  @media (max-width: 700px) {
     border-top: 1px solid ${props => props.theme.lightgrey};
     width: 100%;
     justify-content: center;

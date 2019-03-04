@@ -8,11 +8,9 @@ import Draggable, {DraggableCore} from 'react-draggable';
 import Router from 'next/router';
 
 const snappedPositions = {
-  opened: 'calc(100vh - 100px)',
   closed: 0,
   orignalHeight: 180
 };
-
 
 export default class Location extends Component {
     static propTypes = {
@@ -23,7 +21,8 @@ export default class Location extends Component {
         height:  snappedPositions.orignalHeight,
         touchStartPos: 0,
         draggable: false,
-        expanded: false
+        expanded: false,
+        openedHeight: window.innerHeight
     }
 
     closeLocation = () => {
@@ -53,10 +52,7 @@ export default class Location extends Component {
       const {closeLocation} = this.props;
       
       if(dragLength > 40) {
-        this.setState({height: snappedPositions.opened, expanded: true});
-        setTimeout(() => {
-          this.setHeight();
-        }, 100);
+        this.setState({height: this.state.openedHeight, expanded: true}); 
       }  else if (dragLength < -40) {
         if(this.state.height > snappedPositions.orignalHeight) {
           this.setState({height: snappedPositions.orignalHeight, expanded: false});
@@ -86,6 +82,7 @@ export default class Location extends Component {
         return (
             <DraggableCore axis="y" onStart={this.dragStart} onStop={this.dragEnd} onDrag={this.expandLocation}>
                 <LocationItemStyles
+                    isExpanded={this.state.expanded}
                     isOpened={isOpened}
                     className="locationItem" style={{height: this.state.height}}>
                     <div className="dragNib"></div>
