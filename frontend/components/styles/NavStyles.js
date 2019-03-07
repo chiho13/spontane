@@ -6,6 +6,7 @@ const NavStyles = styled.ul`
   display: flex;
   justify-self: end;
   font-size: 2rem;
+
   a,
   button {
     padding: 1rem 3rem;
@@ -52,6 +53,12 @@ const NavStyles = styled.ul`
     width: 100%;
     justify-content: center;
     font-size: 1.5rem;
+  }
+
+  a:first-child {
+    @media (max-width: 700px) {
+      display: none
+    }
   }
 `;
 

@@ -6,7 +6,6 @@ const Nav = () => (
     <Link href="/addLocation">
       <a>Add Locations</a>
     </Link>
-  
     <Link href="/me">
       <a>About</a>
     </Link>
