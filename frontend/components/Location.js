@@ -77,9 +77,9 @@ export default class Location extends Component {
 
     onOrientationChange() {
       const SELF = this;
-      window.onorientationchange =  this.state.expanded && function () {
+      window.onorientationchange =  function () {
         setTimeout(function () {
-            SELF.calcHeight(window.innerHeight);
+          SELF.state.expanded && SELF.calcHeight(window.innerHeight);
             SELF.setState({openedHeight: window.innerHeight});
         }, 200)
     }
