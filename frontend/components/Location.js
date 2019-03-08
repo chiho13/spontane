@@ -19,7 +19,9 @@ export default class Location extends Component {
     };
 
     state = {
-        height: snappedPositions.orignalHeight,
+        height: window.innerWidth < 1000
+            ? snappedPositions.orignalHeight
+            : 'auto',
         touchStartPos: 0,
         draggable: false,
         expanded: false,
@@ -77,24 +79,24 @@ export default class Location extends Component {
     }
 
     onOrientationChange() {
-      const SELF = this;
-      window.onorientationchange =  function () {
-        setTimeout(function () {
-          SELF.state.expanded && SELF.calcHeight(window.innerHeight);
-            SELF.setState({openedHeight: window.innerHeight});
-        }, 200)
-    }
+        const SELF = this;
+        window.onorientationchange = function () {
+            setTimeout(function () {
+                SELF.state.expanded && SELF.calcHeight(window.innerHeight);
+                SELF.setState({openedHeight: window.innerHeight});
+            }, 200)
+        }
     }
 
     componentDidMount() {
-        this.setHeight()
+        window.innerWidth < 1000 && this.setHeight()
         window.innerWidth < 1000 && this.setState({draggable: true});
         console.log(window.innerWidth);
     }
 
     render() {
         const {location, closeLocation, isOpened} = this.props;
-         this.onOrientationChange();
+        this.onOrientationChange();
         return (
             <DraggableCore
                 axis="y"
@@ -114,22 +116,25 @@ export default class Location extends Component {
                     }}>
                         <a className="closeLocation_icon" onClick={closeLocation}><Cross/></a>
                     </Link>
-                    <h3>{location.city}, {location.country}</h3>
-                    <p>
-                        {location.description}
-                    </p>
+                    <div className="location_content">
+                        <h3>{location.city}, {location.country}</h3>
+                        <p>
+                            {location.description}
+                        </p>
+                    </div>
                     <div className="buttonList">
-                        <Link
-                            href={{
-                            pathname: 'update',
-                            query: {
-                                id: location.id
-                            }
-                        }}>
-                            <a><span>Edit </span>{<EditIcon/>}</a>
-                        </Link>
+                            <Link
+                                href={{
+                                pathname: 'update',
+                                query: {
+                                    id: location.id
+                                }
+                            }}>
+                                <a>
+                                    <span>Edit
+                                    </span>{< EditIcon />}</a>
+                            </Link>
                         </div>
-
                 </LocationItemStyles>
             </DraggableCore>
         );

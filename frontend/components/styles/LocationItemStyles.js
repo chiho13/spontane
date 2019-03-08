@@ -22,10 +22,16 @@ const Item = styled.div`
   box-sizing: border-box;
   border: 1px solid #ddd;
   border-bottom: none;
-  padding: 0 3rem;
+
+  max-height: 350px;
+  overflow: hidden;
   transition: height ${props => props.isOpened ? '0.15s' : '0.5s'};
   animation: 0.6s ${props => props.isOpened ? fadeInUpAnimation : fadeInDownAnimation};
 
+  .location_content {
+    padding: 0 3rem;
+    overflow-y: scroll;
+  }
   @media (min-width: 700px) {
     display: flex;
     width: 50%;
@@ -121,6 +127,9 @@ const Item = styled.div`
 
   .closeLocation_icon {
     cursor: pointer;
+    position: sticky;
+    top: 0;
+
     .cross_icon {
       position: absolute;
       top 8px;
