@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Title from './styles/Title';
 import LocationItemStyles from './styles/LocationItemStyles';
 import Cross from './Icons/Cross';
+import EditIcon from './Icons/Edit';
 import Draggable, {DraggableCore} from 'react-draggable';
 import Router from 'next/router';
 
@@ -117,7 +118,7 @@ export default class Location extends Component {
                     <p>
                         {location.description}
                     </p>
-                    {/* <div className="buttonList">
+                    <div className="buttonList">
                         <Link
                             href={{
                             pathname: 'update',
@@ -125,9 +126,10 @@ export default class Location extends Component {
                                 id: location.id
                             }
                         }}>
-                            <a>Edit ✏️</a>
+                            <a><span>Edit </span>{<EditIcon/>}</a>
                         </Link>
-                    </div> */}
+                        </div>
+
                 </LocationItemStyles>
             </DraggableCore>
         );

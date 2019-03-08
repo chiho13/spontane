@@ -22,6 +22,7 @@ const Item = styled.div`
   box-sizing: border-box;
   border: 1px solid #ddd;
   border-bottom: none;
+  padding: 0 3rem;
   transition: height ${props => props.isOpened ? '0.15s' : '0.5s'};
   animation: 0.6s ${props => props.isOpened ? fadeInUpAnimation : fadeInDownAnimation};
 
@@ -44,7 +45,6 @@ const Item = styled.div`
   }
 
   h3 {
-    padding: 0 3rem;
     margin-top: 3rem;
     margin-bottom: 2rem;
   }
@@ -53,22 +53,53 @@ const Item = styled.div`
     line-height: 2;
     font-weight: 300;
     flex-grow: 1;
-    padding: 0 3rem;
     font-size: 16px;
     font-family: Helvetica
   }
   .buttonList {
-    display: grid;
-    width: 100%;
-    border-top: 1px solid ${props => props.theme.lightgrey};
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    grid-gap: 1px;
-    background: ${props => props.theme.lightgrey};
-    & > * {
-      background: white;
-      border: 0;
-      font-size: 1rem;
-      padding: 1rem;
+    display: none;
+    width: auto;
+    span {
+      margin-right: 8px;
+    }
+
+    svg {
+        fill: #777;
+        transition: all 0.3s ease;
+    }
+    a {
+      font-size: 14px;
+      font-family: Helvetica;
+      margin: 8px;
+      padding: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: auto;
+      height: 30px;
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      color: #777;
+      transition: all 0.3s ease;
+
+      &:hover {
+        border-color: #1790FF;
+        color: #1790FF;
+      }
+
+      &:hover svg {
+        fill: #1790FF;
+      }
+    }
+
+    @media (min-width: 700px) {
+      display: flex;
+      justify-content: flex-end;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+
     }
   }
 
@@ -99,7 +130,7 @@ const Item = styled.div`
     }
 
     &:hover .cross_icon {
-      fill: #777;
+      fill: #444;
     }
   }
 `;
