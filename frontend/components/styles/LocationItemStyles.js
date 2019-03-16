@@ -22,8 +22,6 @@ const Item = styled.div`
   box-sizing: border-box;
   border: 1px solid #ddd;
   border-bottom: none;
-
-  max-height: 350px;
   overflow: hidden;
   transition: height ${props => props.isOpened ? '0.15s' : '0.5s'};
   animation: 0.6s ${props => props.isOpened ? fadeInUpAnimation : fadeInDownAnimation};
@@ -39,6 +37,7 @@ const Item = styled.div`
     top: 100px;
     left: initial;
     right: 20px;
+    max-height: 350px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
     border: none;
