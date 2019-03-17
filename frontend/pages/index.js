@@ -1,8 +1,8 @@
-import Map from '../components/AllLocations'
+import LandingPage from '../components/LandingPage'
 
-const Home = props => (
+const Home = () => (
   <div>
-    <Map id={props.query.id} lat={props.query.lat} lon={props.query.lon}/>
+    <LandingPage />
   </div>
 );
 

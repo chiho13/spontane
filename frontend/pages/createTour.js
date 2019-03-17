@@ -1,7 +1,7 @@
-import CreateLocation from '../components/CreateLocation';
+import CreateTour from '../components/CreateTour';
 const createTour = props => (
     <div>
-        <CreateLocation/>
+        <CreateTour/>
     </div>
 )
 
