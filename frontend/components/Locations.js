@@ -10,8 +10,10 @@ const ALL_LOCATIONS_QUERY = gql `
       id
       country
       city
-      latitude
-      longitude
+      geoLocation {
+        latitude
+        longitude
+      }
     }
   }
 `;

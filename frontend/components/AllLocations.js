@@ -14,8 +14,10 @@ const ALL_LOCATIONS_QUERY = gql `
             id
             country
             city
-            latitude
-            longitude
+            geoLocation {
+                latitude
+                longitude
+            }
             description
           }
         }
@@ -27,8 +29,10 @@ const SINGLE_LOCATION_QUERY = gql`
             id
             country
             city
-            latitude
-            longitude
+            geoLocation {
+                latitude
+                longitude
+            }
             description
         }
     }
@@ -88,8 +92,8 @@ class AllLocations extends PureComponent {
             pathname: '/locations',
             query: {
                 id: location.id,
-                lat: location.latitude,
-                lon: location.longitude
+                lat: location.geoLocation.latitude,
+                lon: location.geoLocation.longitude
             }
         };
 
@@ -115,8 +119,8 @@ class AllLocations extends PureComponent {
                     .locations
                     .map(location => (
                         <Marker key={`marker-${location.id}`}
-                    longitude={location.longitude}
-                    latitude={location.latitude}>
+                    longitude={location.geoLocation.longitude}
+                    latitude={location.geoLocation.latitude}>
                     <Link href={this._locationPathName(location)}>
                     <CityPin size={20} onClick={() => this._toggleLocationDetail(location)} />
                     </Link>
@@ -156,7 +160,7 @@ class AllLocations extends PureComponent {
         viewport: {...this.state.viewport, ...viewport}
     });
 
-    _goToViewport = ({longitude, latitude}) => {
+    _goToViewport = ({geoLocation: {longitude, latitude}}) => {
         const offset = getCoordinates(window.innerWidth * 0.625, window.innerHeight * (0.5 - (30 / window.innerHeight)), latitude, 9);
         const offsetLon = window.innerWidth > 1000 ? parseFloat(offset.lon) : 0;
         const offsetLat = window.innerWidth > 1000 ? 0 : parseFloat(offset.lat);

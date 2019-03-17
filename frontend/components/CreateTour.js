@@ -20,12 +20,8 @@ const CREATE_LOCATION_MUTATION = gql `
         createLocation(
             country: $country
             city: $city
-            geoLocation: {
-                create: {
-                    latitude: $latitude
-                    longitude: $longitude
-                }
-            }
+            latitude: $latitude
+            longitude: $longitude
             description: $description
         ) {
             id

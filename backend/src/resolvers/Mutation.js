@@ -1,7 +1,20 @@
 const Mutations = {
-    createLocation(parent, args, ctx, info) {
+ 
+    async createGeoLocation(parent, args, ctx, info) {
 
-        const location = ctx.db.mutation.createLocation({
+        const geolocation = await ctx.db.mutation.createGeoLocation({
+            data: {
+                ...args
+            }
+                
+        }, info);
+
+        return geolocation;
+    },
+
+    async createLocation(parent, args, ctx, info) {
+
+        const location = await ctx.db.mutation.createLocation({
             data: {
                 ...args
             }
@@ -11,7 +24,7 @@ const Mutations = {
         return location;
     },
 
-    updateLocation(parent, args, ctx, info) {
+    async updateLocation(parent, args, ctx, info) {
         // first take a copy of the updates
         const updates = { ...args };
         // remove the ID from the updates
@@ -26,6 +39,14 @@ const Mutations = {
           },
           info
         );
+      },
+
+      async deleteLocation(parent, args, ctx, info) {
+          const where = {id: args.id}
+
+        //   const location = await ctx.db.query.location({where}, `id title`);
+
+          return ctx.db.mutation.deleteLocation({ where }, info);
       }
 };
 

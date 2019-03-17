@@ -1,5 +1,9 @@
 # source: https://eu1.prisma.sh/anthony-ho-b91ea0/spontane/dev
-# timestamp: Sat Mar 16 2019 23:51:43 GMT+0000 (GMT)
+# timestamp: Sun Mar 17 2019 04:17:33 GMT+0000 (GMT)
+
+type AggregateGeoLocation {
+  count: Int!
+}
 
 type AggregateLocation {
   count: Int!
@@ -10,12 +14,230 @@ type BatchPayload {
   count: Long!
 }
 
+type GeoLocation implements Node {
+  id: ID!
+  latitude: Float!
+  longitude: Float!
+}
+
+"""A connection to a list of items."""
+type GeoLocationConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [GeoLocationEdge]!
+  aggregate: AggregateGeoLocation!
+}
+
+input GeoLocationCreateInput {
+  latitude: Float!
+  longitude: Float!
+}
+
+input GeoLocationCreateOneInput {
+  create: GeoLocationCreateInput
+  connect: GeoLocationWhereUniqueInput
+}
+
+"""An edge in a connection."""
+type GeoLocationEdge {
+  """The item at the end of the edge."""
+  node: GeoLocation!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum GeoLocationOrderByInput {
+  id_ASC
+  id_DESC
+  latitude_ASC
+  latitude_DESC
+  longitude_ASC
+  longitude_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type GeoLocationPreviousValues {
+  id: ID!
+  latitude: Float!
+  longitude: Float!
+}
+
+type GeoLocationSubscriptionPayload {
+  mutation: MutationType!
+  node: GeoLocation
+  updatedFields: [String!]
+  previousValues: GeoLocationPreviousValues
+}
+
+input GeoLocationSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [GeoLocationSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [GeoLocationSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [GeoLocationSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: GeoLocationWhereInput
+}
+
+input GeoLocationUpdateDataInput {
+  latitude: Float
+  longitude: Float
+}
+
+input GeoLocationUpdateInput {
+  latitude: Float
+  longitude: Float
+}
+
+input GeoLocationUpdateManyMutationInput {
+  latitude: Float
+  longitude: Float
+}
+
+input GeoLocationUpdateOneRequiredInput {
+  create: GeoLocationCreateInput
+  connect: GeoLocationWhereUniqueInput
+  update: GeoLocationUpdateDataInput
+  upsert: GeoLocationUpsertNestedInput
+}
+
+input GeoLocationUpsertNestedInput {
+  update: GeoLocationUpdateDataInput!
+  create: GeoLocationCreateInput!
+}
+
+input GeoLocationWhereInput {
+  """Logical AND on all given filters."""
+  AND: [GeoLocationWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [GeoLocationWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [GeoLocationWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  latitude: Float
+
+  """All values that are not equal to given value."""
+  latitude_not: Float
+
+  """All values that are contained in given list."""
+  latitude_in: [Float!]
+
+  """All values that are not contained in given list."""
+  latitude_not_in: [Float!]
+
+  """All values less than the given value."""
+  latitude_lt: Float
+
+  """All values less than or equal the given value."""
+  latitude_lte: Float
+
+  """All values greater than the given value."""
+  latitude_gt: Float
+
+  """All values greater than or equal the given value."""
+  latitude_gte: Float
+  longitude: Float
+
+  """All values that are not equal to given value."""
+  longitude_not: Float
+
+  """All values that are contained in given list."""
+  longitude_in: [Float!]
+
+  """All values that are not contained in given list."""
+  longitude_not_in: [Float!]
+
+  """All values less than the given value."""
+  longitude_lt: Float
+
+  """All values less than or equal the given value."""
+  longitude_lte: Float
+
+  """All values greater than the given value."""
+  longitude_gt: Float
+
+  """All values greater than or equal the given value."""
+  longitude_gte: Float
+}
+
+input GeoLocationWhereUniqueInput {
+  id: ID
+}
+
 type Location implements Node {
   id: ID!
   country: String!
   city: String!
-  latitude: Float!
-  longitude: Float!
+  geoLocation: GeoLocation!
   description: String
 }
 
@@ -32,9 +254,8 @@ type LocationConnection {
 input LocationCreateInput {
   country: String!
   city: String!
-  latitude: Float!
-  longitude: Float!
   description: String
+  geoLocation: GeoLocationCreateOneInput!
 }
 
 """An edge in a connection."""
@@ -53,10 +274,6 @@ enum LocationOrderByInput {
   country_DESC
   city_ASC
   city_DESC
-  latitude_ASC
-  latitude_DESC
-  longitude_ASC
-  longitude_DESC
   description_ASC
   description_DESC
   updatedAt_ASC
@@ -69,8 +286,6 @@ type LocationPreviousValues {
   id: ID!
   country: String!
   city: String!
-  latitude: Float!
-  longitude: Float!
   description: String
 }
 
@@ -116,16 +331,13 @@ input LocationSubscriptionWhereInput {
 input LocationUpdateInput {
   country: String
   city: String
-  latitude: Float
-  longitude: Float
   description: String
+  geoLocation: GeoLocationUpdateOneRequiredInput
 }
 
 input LocationUpdateManyMutationInput {
   country: String
   city: String
-  latitude: Float
-  longitude: Float
   description: String
 }
 
@@ -258,50 +470,6 @@ input LocationWhereInput {
 
   """All values not ending with the given string."""
   city_not_ends_with: String
-  latitude: Float
-
-  """All values that are not equal to given value."""
-  latitude_not: Float
-
-  """All values that are contained in given list."""
-  latitude_in: [Float!]
-
-  """All values that are not contained in given list."""
-  latitude_not_in: [Float!]
-
-  """All values less than the given value."""
-  latitude_lt: Float
-
-  """All values less than or equal the given value."""
-  latitude_lte: Float
-
-  """All values greater than the given value."""
-  latitude_gt: Float
-
-  """All values greater than or equal the given value."""
-  latitude_gte: Float
-  longitude: Float
-
-  """All values that are not equal to given value."""
-  longitude_not: Float
-
-  """All values that are contained in given list."""
-  longitude_in: [Float!]
-
-  """All values that are not contained in given list."""
-  longitude_not_in: [Float!]
-
-  """All values less than the given value."""
-  longitude_lt: Float
-
-  """All values less than or equal the given value."""
-  longitude_lte: Float
-
-  """All values greater than the given value."""
-  longitude_gt: Float
-
-  """All values greater than or equal the given value."""
-  longitude_gte: Float
   description: String
 
   """All values that are not equal to given value."""
@@ -342,6 +510,7 @@ input LocationWhereInput {
 
   """All values not ending with the given string."""
   description_not_ends_with: String
+  geoLocation: GeoLocationWhereInput
 }
 
 input LocationWhereUniqueInput {
@@ -356,11 +525,17 @@ scalar Long
 
 type Mutation {
   createLocation(data: LocationCreateInput!): Location!
+  createGeoLocation(data: GeoLocationCreateInput!): GeoLocation!
   updateLocation(data: LocationUpdateInput!, where: LocationWhereUniqueInput!): Location
+  updateGeoLocation(data: GeoLocationUpdateInput!, where: GeoLocationWhereUniqueInput!): GeoLocation
   deleteLocation(where: LocationWhereUniqueInput!): Location
+  deleteGeoLocation(where: GeoLocationWhereUniqueInput!): GeoLocation
   upsertLocation(where: LocationWhereUniqueInput!, create: LocationCreateInput!, update: LocationUpdateInput!): Location!
+  upsertGeoLocation(where: GeoLocationWhereUniqueInput!, create: GeoLocationCreateInput!, update: GeoLocationUpdateInput!): GeoLocation!
   updateManyLocations(data: LocationUpdateManyMutationInput!, where: LocationWhereInput): BatchPayload!
+  updateManyGeoLocations(data: GeoLocationUpdateManyMutationInput!, where: GeoLocationWhereInput): BatchPayload!
   deleteManyLocations(where: LocationWhereInput): BatchPayload!
+  deleteManyGeoLocations(where: GeoLocationWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -392,8 +567,11 @@ type PageInfo {
 
 type Query {
   locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location]!
+  geoLocations(where: GeoLocationWhereInput, orderBy: GeoLocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [GeoLocation]!
   location(where: LocationWhereUniqueInput!): Location
+  geoLocation(where: GeoLocationWhereUniqueInput!): GeoLocation
   locationsConnection(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LocationConnection!
+  geoLocationsConnection(where: GeoLocationWhereInput, orderBy: GeoLocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): GeoLocationConnection!
 
   """Fetches an object given its ID"""
   node(
@@ -404,4 +582,5 @@ type Query {
 
 type Subscription {
   location(where: LocationSubscriptionWhereInput): LocationSubscriptionPayload
+  geoLocation(where: GeoLocationSubscriptionWhereInput): GeoLocationSubscriptionPayload
 }
