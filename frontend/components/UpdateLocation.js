@@ -12,8 +12,10 @@ const SINGLE_LOCATION_QUERY = gql `
             id
             country
             city
-            latitude
-            longitude
+            geoLocation {
+                latitude
+                longitude
+            }
             description
         }
     }
@@ -32,8 +34,12 @@ const UPDATE_LOCATION_MUTATION = gql `
             id: $id
             country: $country
             city: $city
-            latitude: $latitude
-            longitude: $longitude
+            geoLocation: {
+                update: {
+                    latitude: $latitude
+                    longitude: $longitude
+                }
+            }
             description: $description
         ) {
             id
@@ -120,7 +126,7 @@ class UpdateLocation extends Component {
                                                 placeholder="Latitude"
                                                 required
                                                 step="any"
-                                                defaultValue={data.location.latitude}
+                                                defaultValue={data.location.geoLocation.latitude}
                                                 onChange={this.handleChange}/>
                                         </label>
                                         <label htmlFor="longitude">
@@ -132,7 +138,7 @@ class UpdateLocation extends Component {
                                                 placeholder="Longitude"
                                                 required
                                                 step="any"
-                                                defaultValue={data.location.longitude}
+                                                defaultValue={data.location.geoLocation.longitude}
                                                 onChange={this.handleChange}/>
                                         </label>
                                         <label htmlFor="description">

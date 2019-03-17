@@ -4,7 +4,7 @@
 
   type Mutation {
     createLocation(country: String, city: String, geoLocation: GeoLocationCreateOneInput, description: String): Location!
-    updateLocation(id: ID!, country: String, city: String, latitude: Float, longitude: Float, description: String): Location!
+    updateLocation(id: ID!, country: String, city: String, geoLocation: GeoLocationUpdateOneRequiredInput, description: String): Location!
     createGeoLocation(latitude: Float, longitude: Float): GeoLocation!
     deleteLocation(id: ID!): Location
   }
