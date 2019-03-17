@@ -1,5 +1,5 @@
 # source: https://eu1.prisma.sh/anthony-ho-b91ea0/spontane/dev
-# timestamp: Sun Feb 10 2019 00:15:00 GMT+0000 (GMT)
+# timestamp: Sat Mar 16 2019 23:51:43 GMT+0000 (GMT)
 
 type AggregateLocation {
   count: Int!

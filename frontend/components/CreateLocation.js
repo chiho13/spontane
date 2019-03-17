@@ -124,7 +124,7 @@ class CreateLocation extends Component {
                     })
                 }}>
                     <Error error={error}/>
-                    <fieldset disabled={loading} hasgrid={true} aria-busy={loading}>
+                    <fieldset disabled={loading} hasgrid={"true"} aria-busy={loading}>
                         <div className="fieldset_wrapper">
                             <div className="wrapper">
                                 <label htmlFor="country">
