@@ -1,11 +1,15 @@
 # source: https://eu1.prisma.sh/anthony-ho-b91ea0/spontane/dev
-# timestamp: Sun Mar 17 2019 04:17:33 GMT+0000 (GMT)
+# timestamp: Tue Mar 19 2019 23:21:50 GMT+0000 (GMT)
 
 type AggregateGeoLocation {
   count: Int!
 }
 
 type AggregateLocation {
+  count: Int!
+}
+
+type AggregateTour {
   count: Int!
 }
 
@@ -31,6 +35,7 @@ type GeoLocationConnection {
 }
 
 input GeoLocationCreateInput {
+  id: ID
   latitude: Float!
   longitude: Float!
 }
@@ -252,10 +257,16 @@ type LocationConnection {
 }
 
 input LocationCreateInput {
+  id: ID
   country: String!
   city: String!
   description: String
   geoLocation: GeoLocationCreateOneInput!
+}
+
+input LocationCreateManyInput {
+  create: [LocationCreateInput!]
+  connect: [LocationWhereUniqueInput!]
 }
 
 """An edge in a connection."""
@@ -287,6 +298,177 @@ type LocationPreviousValues {
   country: String!
   city: String!
   description: String
+}
+
+input LocationScalarWhereInput {
+  """Logical AND on all given filters."""
+  AND: [LocationScalarWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [LocationScalarWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [LocationScalarWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  country: String
+
+  """All values that are not equal to given value."""
+  country_not: String
+
+  """All values that are contained in given list."""
+  country_in: [String!]
+
+  """All values that are not contained in given list."""
+  country_not_in: [String!]
+
+  """All values less than the given value."""
+  country_lt: String
+
+  """All values less than or equal the given value."""
+  country_lte: String
+
+  """All values greater than the given value."""
+  country_gt: String
+
+  """All values greater than or equal the given value."""
+  country_gte: String
+
+  """All values containing the given string."""
+  country_contains: String
+
+  """All values not containing the given string."""
+  country_not_contains: String
+
+  """All values starting with the given string."""
+  country_starts_with: String
+
+  """All values not starting with the given string."""
+  country_not_starts_with: String
+
+  """All values ending with the given string."""
+  country_ends_with: String
+
+  """All values not ending with the given string."""
+  country_not_ends_with: String
+  city: String
+
+  """All values that are not equal to given value."""
+  city_not: String
+
+  """All values that are contained in given list."""
+  city_in: [String!]
+
+  """All values that are not contained in given list."""
+  city_not_in: [String!]
+
+  """All values less than the given value."""
+  city_lt: String
+
+  """All values less than or equal the given value."""
+  city_lte: String
+
+  """All values greater than the given value."""
+  city_gt: String
+
+  """All values greater than or equal the given value."""
+  city_gte: String
+
+  """All values containing the given string."""
+  city_contains: String
+
+  """All values not containing the given string."""
+  city_not_contains: String
+
+  """All values starting with the given string."""
+  city_starts_with: String
+
+  """All values not starting with the given string."""
+  city_not_starts_with: String
+
+  """All values ending with the given string."""
+  city_ends_with: String
+
+  """All values not ending with the given string."""
+  city_not_ends_with: String
+  description: String
+
+  """All values that are not equal to given value."""
+  description_not: String
+
+  """All values that are contained in given list."""
+  description_in: [String!]
+
+  """All values that are not contained in given list."""
+  description_not_in: [String!]
+
+  """All values less than the given value."""
+  description_lt: String
+
+  """All values less than or equal the given value."""
+  description_lte: String
+
+  """All values greater than the given value."""
+  description_gt: String
+
+  """All values greater than or equal the given value."""
+  description_gte: String
+
+  """All values containing the given string."""
+  description_contains: String
+
+  """All values not containing the given string."""
+  description_not_contains: String
+
+  """All values starting with the given string."""
+  description_starts_with: String
+
+  """All values not starting with the given string."""
+  description_not_starts_with: String
+
+  """All values ending with the given string."""
+  description_ends_with: String
+
+  """All values not ending with the given string."""
+  description_not_ends_with: String
 }
 
 type LocationSubscriptionPayload {
@@ -328,6 +510,13 @@ input LocationSubscriptionWhereInput {
   node: LocationWhereInput
 }
 
+input LocationUpdateDataInput {
+  country: String
+  city: String
+  description: String
+  geoLocation: GeoLocationUpdateOneRequiredInput
+}
+
 input LocationUpdateInput {
   country: String
   city: String
@@ -335,10 +524,44 @@ input LocationUpdateInput {
   geoLocation: GeoLocationUpdateOneRequiredInput
 }
 
+input LocationUpdateManyDataInput {
+  country: String
+  city: String
+  description: String
+}
+
+input LocationUpdateManyInput {
+  create: [LocationCreateInput!]
+  connect: [LocationWhereUniqueInput!]
+  set: [LocationWhereUniqueInput!]
+  disconnect: [LocationWhereUniqueInput!]
+  delete: [LocationWhereUniqueInput!]
+  update: [LocationUpdateWithWhereUniqueNestedInput!]
+  updateMany: [LocationUpdateManyWithWhereNestedInput!]
+  deleteMany: [LocationScalarWhereInput!]
+  upsert: [LocationUpsertWithWhereUniqueNestedInput!]
+}
+
 input LocationUpdateManyMutationInput {
   country: String
   city: String
   description: String
+}
+
+input LocationUpdateManyWithWhereNestedInput {
+  where: LocationScalarWhereInput!
+  data: LocationUpdateManyDataInput!
+}
+
+input LocationUpdateWithWhereUniqueNestedInput {
+  where: LocationWhereUniqueInput!
+  data: LocationUpdateDataInput!
+}
+
+input LocationUpsertWithWhereUniqueNestedInput {
+  where: LocationWhereUniqueInput!
+  update: LocationUpdateDataInput!
+  create: LocationCreateInput!
 }
 
 input LocationWhereInput {
@@ -524,18 +747,24 @@ Long can represent values between -(2^63) and 2^63 - 1.
 scalar Long
 
 type Mutation {
-  createLocation(data: LocationCreateInput!): Location!
+  createTour(data: TourCreateInput!): Tour!
   createGeoLocation(data: GeoLocationCreateInput!): GeoLocation!
-  updateLocation(data: LocationUpdateInput!, where: LocationWhereUniqueInput!): Location
+  createLocation(data: LocationCreateInput!): Location!
+  updateTour(data: TourUpdateInput!, where: TourWhereUniqueInput!): Tour
   updateGeoLocation(data: GeoLocationUpdateInput!, where: GeoLocationWhereUniqueInput!): GeoLocation
-  deleteLocation(where: LocationWhereUniqueInput!): Location
+  updateLocation(data: LocationUpdateInput!, where: LocationWhereUniqueInput!): Location
+  deleteTour(where: TourWhereUniqueInput!): Tour
   deleteGeoLocation(where: GeoLocationWhereUniqueInput!): GeoLocation
-  upsertLocation(where: LocationWhereUniqueInput!, create: LocationCreateInput!, update: LocationUpdateInput!): Location!
+  deleteLocation(where: LocationWhereUniqueInput!): Location
+  upsertTour(where: TourWhereUniqueInput!, create: TourCreateInput!, update: TourUpdateInput!): Tour!
   upsertGeoLocation(where: GeoLocationWhereUniqueInput!, create: GeoLocationCreateInput!, update: GeoLocationUpdateInput!): GeoLocation!
-  updateManyLocations(data: LocationUpdateManyMutationInput!, where: LocationWhereInput): BatchPayload!
+  upsertLocation(where: LocationWhereUniqueInput!, create: LocationCreateInput!, update: LocationUpdateInput!): Location!
+  updateManyTours(data: TourUpdateManyMutationInput!, where: TourWhereInput): BatchPayload!
   updateManyGeoLocations(data: GeoLocationUpdateManyMutationInput!, where: GeoLocationWhereInput): BatchPayload!
-  deleteManyLocations(where: LocationWhereInput): BatchPayload!
+  updateManyLocations(data: LocationUpdateManyMutationInput!, where: LocationWhereInput): BatchPayload!
+  deleteManyTours(where: TourWhereInput): BatchPayload!
   deleteManyGeoLocations(where: GeoLocationWhereInput): BatchPayload!
+  deleteManyLocations(where: LocationWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -566,12 +795,15 @@ type PageInfo {
 }
 
 type Query {
-  locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location]!
+  tours(where: TourWhereInput, orderBy: TourOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Tour]!
   geoLocations(where: GeoLocationWhereInput, orderBy: GeoLocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [GeoLocation]!
-  location(where: LocationWhereUniqueInput!): Location
+  locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location]!
+  tour(where: TourWhereUniqueInput!): Tour
   geoLocation(where: GeoLocationWhereUniqueInput!): GeoLocation
-  locationsConnection(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LocationConnection!
+  location(where: LocationWhereUniqueInput!): Location
+  toursConnection(where: TourWhereInput, orderBy: TourOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TourConnection!
   geoLocationsConnection(where: GeoLocationWhereInput, orderBy: GeoLocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): GeoLocationConnection!
+  locationsConnection(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LocationConnection!
 
   """Fetches an object given its ID"""
   node(
@@ -581,6 +813,200 @@ type Query {
 }
 
 type Subscription {
-  location(where: LocationSubscriptionWhereInput): LocationSubscriptionPayload
+  tour(where: TourSubscriptionWhereInput): TourSubscriptionPayload
   geoLocation(where: GeoLocationSubscriptionWhereInput): GeoLocationSubscriptionPayload
+  location(where: LocationSubscriptionWhereInput): LocationSubscriptionPayload
+}
+
+type Tour implements Node {
+  id: ID!
+  title: String!
+  locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location!]
+}
+
+"""A connection to a list of items."""
+type TourConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [TourEdge]!
+  aggregate: AggregateTour!
+}
+
+input TourCreateInput {
+  id: ID
+  title: String!
+  locations: LocationCreateManyInput
+}
+
+"""An edge in a connection."""
+type TourEdge {
+  """The item at the end of the edge."""
+  node: Tour!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum TourOrderByInput {
+  id_ASC
+  id_DESC
+  title_ASC
+  title_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type TourPreviousValues {
+  id: ID!
+  title: String!
+}
+
+type TourSubscriptionPayload {
+  mutation: MutationType!
+  node: Tour
+  updatedFields: [String!]
+  previousValues: TourPreviousValues
+}
+
+input TourSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [TourSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [TourSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [TourSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: TourWhereInput
+}
+
+input TourUpdateInput {
+  title: String
+  locations: LocationUpdateManyInput
+}
+
+input TourUpdateManyMutationInput {
+  title: String
+}
+
+input TourWhereInput {
+  """Logical AND on all given filters."""
+  AND: [TourWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [TourWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [TourWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  title: String
+
+  """All values that are not equal to given value."""
+  title_not: String
+
+  """All values that are contained in given list."""
+  title_in: [String!]
+
+  """All values that are not contained in given list."""
+  title_not_in: [String!]
+
+  """All values less than the given value."""
+  title_lt: String
+
+  """All values less than or equal the given value."""
+  title_lte: String
+
+  """All values greater than the given value."""
+  title_gt: String
+
+  """All values greater than or equal the given value."""
+  title_gte: String
+
+  """All values containing the given string."""
+  title_contains: String
+
+  """All values not containing the given string."""
+  title_not_contains: String
+
+  """All values starting with the given string."""
+  title_starts_with: String
+
+  """All values not starting with the given string."""
+  title_not_starts_with: String
+
+  """All values ending with the given string."""
+  title_ends_with: String
+
+  """All values not ending with the given string."""
+  title_not_ends_with: String
+  locations_every: LocationWhereInput
+  locations_some: LocationWhereInput
+  locations_none: LocationWhereInput
+}
+
+input TourWhereUniqueInput {
+  id: ID
 }

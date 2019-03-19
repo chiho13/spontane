@@ -6,8 +6,11 @@ const Nav = () => (
     <Link href="/addLocation">
       <a>Create Tour</a>
     </Link>
-    <Link href="/me">
-      <a>About</a>
+    <Link href="/">
+      <a>Pricing</a>
+    </Link>
+    <Link href="/">
+      <a>Login</a>
     </Link>
   </NavStyles>
 );

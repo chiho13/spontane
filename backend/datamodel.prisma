@@ -11,3 +11,9 @@ type Location {
   geoLocation: GeoLocation!
   description: String
 }
+
+type Tour {
+  id: ID! @unique
+  title: String!
+  locations: [Location!]!
+}

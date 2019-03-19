@@ -10,6 +10,8 @@
   }
 
   type Query {
+    tours: [Tour]!
+    tour(where: TourWhereUniqueInput!): Tour
     locations: [Location]!
     location(where: LocationWhereUniqueInput!): Location
   }
