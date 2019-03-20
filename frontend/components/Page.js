@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import Header from '../components/Header';
 import Meta from '../components/Meta';
 import styled, {ThemeProvider, injectGlobal} from 'styled-components';
 
@@ -58,7 +57,6 @@ export default class Page extends Component {
             <ThemeProvider theme={theme}>
                 <StyledPage>
                     <Meta/>
-                    <Header/>
                     <Inner>
                         {this.props.children}
                     </Inner>

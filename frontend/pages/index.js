@@ -1,9 +1,10 @@
 import LandingPage from '../components/LandingPage'
+import HomeLayout from '../components/Layout/HomeLayout';
 
 const Home = () => (
-  <div>
+  <HomeLayout>
     <LandingPage />
-  </div>
+  </HomeLayout>
 );
 
 export default Home;
