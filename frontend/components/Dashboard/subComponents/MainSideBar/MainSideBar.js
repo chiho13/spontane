@@ -1,14 +1,17 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import MainSideBarStyle from '../../styles/MainSideBarStyle';
-import Link from 'next/link';
+import Row from '../../../UIKIT/Row';
+import MainSideBarItems from './SideBarItems';
 
 class MainSideBar extends Component {
+
     render() {
         return (
-            <MainSideBarStyle>
-                this is the main side bar
-                <Link href="/admin/createTour"><a>Create Tour</a></Link>
-            </MainSideBarStyle>
+            <Row>
+                <MainSideBarStyle>
+                    <MainSideBarItems />
+                </MainSideBarStyle>
+            </Row>
         );
     }
 }
