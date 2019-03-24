@@ -2,10 +2,11 @@ import MainSideBar from '../Dashboard/subComponents/MainSideBar/MainSideBar';
 import styled from 'styled-components';
 
 const MainContent = styled.div`
-  height: 100vh;
-
+  display: flex;
 @media (min-width: 700px) {
   margin-left: 180px;
+  height: 100vh;
+  
 }
 
 @media (min-width: 900px) {

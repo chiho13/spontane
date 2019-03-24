@@ -46,15 +46,17 @@ body {
     font-family: 'radnika_next';
 }
 
+ul, li, h1, h2, h3, p, a {
+    padding: 0;
+    margin: 0;
+}
+
+
 h1, h2 {
     font-family: 'Roboto';
     font-weight: bold;
     padding-left: 24px;
-}
-
-ul, li {
-    padding: 0;
-    margin: 0;
+    margin-top: 16px;
 }
 
 a {
