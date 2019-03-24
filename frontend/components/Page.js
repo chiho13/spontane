@@ -6,6 +6,7 @@ const theme = {
     red: '#FF0000',
     black: '#393939',
     grey: '#3A3A3A',
+    brandColor: '#007bff',
     lightgrey: '#E1E1E1',
     maxWidth: '100%',
     bs: '0 12px 24px 0 rgba(0, 0, 0, 0.09)'
@@ -13,11 +14,11 @@ const theme = {
 
 const StyledPage = styled.div `
     background: white;
-    color: ${props => props.theme.black};;
+    color: ${props => props.theme.black};
 `;
 
 const Inner = styled.div `
-max-width: ${props => props.theme.maxWidth};
+    max-width: ${props => props.theme.maxWidth};
 `;
 
 injectGlobal `

@@ -1,23 +1,23 @@
 import React, { Component } from 'react';
 import SideBarItemsStyle from '../../styles/SideBarItemsStyle';
 import SideBarItem from './SideBarItem';
-import {TableChart, BarChart, AccountCircle, AddCircleOutline} from  '@material-ui/icons';
+// import {TableChart, BarChart, AccountCircle, AddCircleOutline} from  '@material-ui/icons';
 
 const sideBarItems = [ {
     title: "Dashboard",
-    icon: BarChart,
+    icon: "bar_chart",
     link: "/admin"
 }, {
     title: "My Tours",
-    icon: TableChart,
+    icon: "table_chart",
     link: "/admin/myTours"
 }, {
     title: "Add New Tour",
-    icon: AddCircleOutline,
+    icon: "add_circle_outline",
     link: "/admin/createTours"
 }, {
     title: "User Profile",
-    icon: AccountCircle,
+    icon: "account_circle",
     link: "/admin/profile"
 }];
 

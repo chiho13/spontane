@@ -8,6 +8,8 @@ const Meta = () => (
         <script src='/static/nprogress.js'></script>
         <link rel="stylesheet" type="text.css" href="/static/nprogress.css" />
         <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"></link>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"></link>
         <title>Spontane</title>
     </Head>
 );

@@ -1,17 +1,378 @@
-  # source: http://localhost:4444
-  # timestamp: Sun Mar 17 2019 00:48:39 GMT+0000 (GMT)
-  # import * from './generated/prisma.graphql'
+# source: http://localhost:4444
+# timestamp: Sun Mar 24 2019 19:03:27 GMT+0000 (GMT)
 
-  type Mutation {
-    createLocation(country: String, city: String, geoLocation: GeoLocationCreateOneInput, description: String): Location!
-    updateLocation(id: ID!, country: String, city: String, geoLocation: GeoLocationUpdateOneRequiredInput, description: String): Location!
-    createGeoLocation(latitude: Float, longitude: Float): GeoLocation!
-    deleteLocation(id: ID!): Location
-  }
+type GeoLocation implements Node {
+  id: ID!
+  latitude: Float!
+  longitude: Float!
+}
 
-  type Query {
-    tours: [Tour]!
-    tour(where: TourWhereUniqueInput!): Tour
-    locations: [Location]!
-    location(where: LocationWhereUniqueInput!): Location
-  }
+input GeoLocationCreateInput {
+  id: ID
+  latitude: Float!
+  longitude: Float!
+}
+
+input GeoLocationCreateOneInput {
+  create: GeoLocationCreateInput
+  connect: GeoLocationWhereUniqueInput
+}
+
+input GeoLocationUpdateDataInput {
+  latitude: Float
+  longitude: Float
+}
+
+input GeoLocationUpdateOneRequiredInput {
+  create: GeoLocationCreateInput
+  connect: GeoLocationWhereUniqueInput
+  update: GeoLocationUpdateDataInput
+  upsert: GeoLocationUpsertNestedInput
+}
+
+input GeoLocationUpsertNestedInput {
+  update: GeoLocationUpdateDataInput!
+  create: GeoLocationCreateInput!
+}
+
+input GeoLocationWhereInput {
+  """Logical AND on all given filters."""
+  AND: [GeoLocationWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [GeoLocationWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [GeoLocationWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  latitude: Float
+
+  """All values that are not equal to given value."""
+  latitude_not: Float
+
+  """All values that are contained in given list."""
+  latitude_in: [Float!]
+
+  """All values that are not contained in given list."""
+  latitude_not_in: [Float!]
+
+  """All values less than the given value."""
+  latitude_lt: Float
+
+  """All values less than or equal the given value."""
+  latitude_lte: Float
+
+  """All values greater than the given value."""
+  latitude_gt: Float
+
+  """All values greater than or equal the given value."""
+  latitude_gte: Float
+  longitude: Float
+
+  """All values that are not equal to given value."""
+  longitude_not: Float
+
+  """All values that are contained in given list."""
+  longitude_in: [Float!]
+
+  """All values that are not contained in given list."""
+  longitude_not_in: [Float!]
+
+  """All values less than the given value."""
+  longitude_lt: Float
+
+  """All values less than or equal the given value."""
+  longitude_lte: Float
+
+  """All values greater than the given value."""
+  longitude_gt: Float
+
+  """All values greater than or equal the given value."""
+  longitude_gte: Float
+}
+
+input GeoLocationWhereUniqueInput {
+  id: ID
+}
+
+type Location implements Node {
+  id: ID!
+  country: String!
+  city: String!
+  geoLocation: GeoLocation!
+  description: String
+}
+
+input LocationCreateInput {
+  id: ID
+  country: String!
+  city: String!
+  description: String
+  geoLocation: GeoLocationCreateOneInput!
+}
+
+input LocationCreateManyInput {
+  create: [LocationCreateInput!]
+  connect: [LocationWhereUniqueInput!]
+}
+
+enum LocationOrderByInput {
+  id_ASC
+  id_DESC
+  country_ASC
+  country_DESC
+  city_ASC
+  city_DESC
+  description_ASC
+  description_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+input LocationWhereInput {
+  """Logical AND on all given filters."""
+  AND: [LocationWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [LocationWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [LocationWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  country: String
+
+  """All values that are not equal to given value."""
+  country_not: String
+
+  """All values that are contained in given list."""
+  country_in: [String!]
+
+  """All values that are not contained in given list."""
+  country_not_in: [String!]
+
+  """All values less than the given value."""
+  country_lt: String
+
+  """All values less than or equal the given value."""
+  country_lte: String
+
+  """All values greater than the given value."""
+  country_gt: String
+
+  """All values greater than or equal the given value."""
+  country_gte: String
+
+  """All values containing the given string."""
+  country_contains: String
+
+  """All values not containing the given string."""
+  country_not_contains: String
+
+  """All values starting with the given string."""
+  country_starts_with: String
+
+  """All values not starting with the given string."""
+  country_not_starts_with: String
+
+  """All values ending with the given string."""
+  country_ends_with: String
+
+  """All values not ending with the given string."""
+  country_not_ends_with: String
+  city: String
+
+  """All values that are not equal to given value."""
+  city_not: String
+
+  """All values that are contained in given list."""
+  city_in: [String!]
+
+  """All values that are not contained in given list."""
+  city_not_in: [String!]
+
+  """All values less than the given value."""
+  city_lt: String
+
+  """All values less than or equal the given value."""
+  city_lte: String
+
+  """All values greater than the given value."""
+  city_gt: String
+
+  """All values greater than or equal the given value."""
+  city_gte: String
+
+  """All values containing the given string."""
+  city_contains: String
+
+  """All values not containing the given string."""
+  city_not_contains: String
+
+  """All values starting with the given string."""
+  city_starts_with: String
+
+  """All values not starting with the given string."""
+  city_not_starts_with: String
+
+  """All values ending with the given string."""
+  city_ends_with: String
+
+  """All values not ending with the given string."""
+  city_not_ends_with: String
+  description: String
+
+  """All values that are not equal to given value."""
+  description_not: String
+
+  """All values that are contained in given list."""
+  description_in: [String!]
+
+  """All values that are not contained in given list."""
+  description_not_in: [String!]
+
+  """All values less than the given value."""
+  description_lt: String
+
+  """All values less than or equal the given value."""
+  description_lte: String
+
+  """All values greater than the given value."""
+  description_gt: String
+
+  """All values greater than or equal the given value."""
+  description_gte: String
+
+  """All values containing the given string."""
+  description_contains: String
+
+  """All values not containing the given string."""
+  description_not_contains: String
+
+  """All values starting with the given string."""
+  description_starts_with: String
+
+  """All values not starting with the given string."""
+  description_not_starts_with: String
+
+  """All values ending with the given string."""
+  description_ends_with: String
+
+  """All values not ending with the given string."""
+  description_not_ends_with: String
+  geoLocation: GeoLocationWhereInput
+}
+
+input LocationWhereUniqueInput {
+  id: ID
+}
+
+type Mutation {
+  createTour(title: String, locations: LocationCreateManyInput): Tour!
+  createLocation(country: String, city: String, geoLocation: GeoLocationCreateOneInput, description: String): Location!
+  updateLocation(id: ID!, country: String, city: String, geoLocation: GeoLocationUpdateOneRequiredInput, description: String): Location!
+  createGeoLocation(latitude: Float, longitude: Float): GeoLocation!
+  deleteLocation(id: ID!): Location
+}
+
+"""An object with an ID"""
+interface Node {
+  """The id of the object."""
+  id: ID!
+}
+
+type Query {
+  tours: [Tour]!
+  tour(where: TourWhereUniqueInput!): Tour
+  locations: [Location]!
+  location(where: LocationWhereUniqueInput!): Location
+}
+
+type Tour implements Node {
+  id: ID!
+  title: String!
+  locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location!]
+}
+
+input TourWhereUniqueInput {
+  id: ID
+}
