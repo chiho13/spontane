@@ -8,7 +8,7 @@ const SideBarItemStyle = styled.li`
 
     a {
         display: flex;
-        padding: 16px 24px;
+        padding: 12px 24px;
         will-change: background-color,box-shadow,color;
         transition: box-shadow .2s ease,color .2s ease,background-color .2s ease;
 

@@ -46,6 +46,12 @@ body {
     font-family: 'radnika_next';
 }
 
+h1, h2 {
+    font-family: 'Roboto';
+    font-weight: bold;
+    padding-left: 24px;
+}
+
 ul, li {
     padding: 0;
     margin: 0;

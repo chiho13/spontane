@@ -15,5 +15,5 @@ type Location {
 type Tour {
   id: ID! @unique
   title: String!
-  locations: [Location!]!
+  locations: [Location]
 }
