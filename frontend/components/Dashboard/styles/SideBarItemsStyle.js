@@ -6,7 +6,7 @@ const SideBarItemsStyle = styled.ul`
     overflow-x: hidden;
     font-family: Roboto;
     list-style: none;
-    padding: 0;
+    
 `;
 
 export default SideBarItemsStyle;

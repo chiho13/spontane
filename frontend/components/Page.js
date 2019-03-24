@@ -46,6 +46,11 @@ body {
     font-family: 'radnika_next';
 }
 
+ul, li {
+    padding: 0;
+    margin: 0;
+}
+
 a {
     text-decoration: none;
     color: ${theme.black}

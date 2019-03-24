@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
 const SideBarLogoStyle = styled.nav`
+    border-bottom: 1px solid #e1e5eb;
+
     .navbar-brand {
         display: block;
         padding-top: 16px;
