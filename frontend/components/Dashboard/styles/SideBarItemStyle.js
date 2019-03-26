@@ -24,13 +24,12 @@ const SideBarItemStyle = styled.li`
         }
 
         &:hover {
-            box-shadow: inset 3px 0 0 ${props => props.theme.brandColor};
             background-color: #f5f5f5;
-            color: ${props => props.theme.brandColor};
+            color: ${props => props.theme.black};
         }
 
         &:hover i {
-            color: ${props => props.theme.brandColor};
+            color: ${props => props.theme.black};
         }
     }
 

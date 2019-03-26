@@ -1,4 +1,5 @@
 import MainSideBar from '../Dashboard/subComponents/MainSideBar/MainSideBar';
+import ProfileNav from '../Dashboard/subComponents/NavProfilePill';
 import styled from 'styled-components';
 
 const MainContent = styled.div`
@@ -18,6 +19,7 @@ const DashboardLayout = props => (
   <div>
     <MainSideBar />
     <MainContent>
+        <ProfileNav />
         {props.children}
     </MainContent>
   </div>

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import SideBarItemsStyle from '../../styles/SideBarItemsStyle';
 import SideBarItem from './SideBarItem';
-// import {TableChart, BarChart, AccountCircle, AddCircleOutline} from  '@material-ui/icons';
 
 const sideBarItems = [ {
     title: "Dashboard",
