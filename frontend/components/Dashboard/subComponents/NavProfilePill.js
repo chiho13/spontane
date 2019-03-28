@@ -42,10 +42,9 @@ class NavProfilePill extends Component {
                     ? 'menu-list-grow'
                     : undefined}
                     aria-haspopup="true"
-                    onClick={this.handleToggle}>
-                    <div className="innerButton">
-                    Anthony Ho
-                    </div>
+                    onClick={this.handleToggle}
+                    disableRipple>
+                     Anthony <MaterialIcon icon="arrow_drop_down" />
                     
                 </NavButton>
                 <Popper open={open} anchorEl={this.anchorEl} transition disablePortal>
@@ -61,10 +60,10 @@ class NavProfilePill extends Component {
                             <Paper>
                                 <ClickAwayListener onClickAway={this.handleClose}>
                                     <MenuList>
-                                        <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-                                        <MenuItem onClick={this.handleClose}>My account</MenuItem>
+                                        <MenuItem disableRipple onClick={this.handleClose}>Profile</MenuItem>
+                                        <MenuItem disableRipple onClick={this.handleClose}>My account</MenuItem>
                                         <Divider />
-                                        <MenuItem onClick={this.handleClose}><MaterialIcon icon="exit_to_app" />Logout</MenuItem>
+                                        <MenuItem disableRipple onClick={this.handleClose}><MaterialIcon icon="exit_to_app" />Logout</MenuItem>
                                     </MenuList>
                                 </ClickAwayListener>
                             </Paper>

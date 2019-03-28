@@ -5,6 +5,7 @@ const NavProfilePillStyle = styled.div`
     top: 16px;
     right: 16px;
     z-index: 1000;
+    display: block;
 `;
 
 export default NavProfilePillStyle;

@@ -58,7 +58,7 @@ class AllLocations extends PureComponent {
     };
 
     offsetMarker = () => {
-        const offset = getCoordinates(window.innerWidth * 0.625, window.innerHeight * (0.5 - (30 / window.innerHeight)), this.props.lat, this.state.viewport.zoom);
+        const offset = getCoordinates().getCoords(window.innerWidth * 0.625, window.innerHeight * (0.5 - (30 / window.innerHeight)), this.props.lat, this.state.viewport.zoom);
         const offsetLon = window.innerWidth > 1000 ? parseFloat(offset.lon) : 0;
         const offsetLat = window.innerWidth > 1000 ? 0 : parseFloat(offset.lat);
     
@@ -98,7 +98,7 @@ class AllLocations extends PureComponent {
         };
 
         let pathNameRoot = {
-            pathname: '/'
+            pathname: '/locations'
         };
         let locationPathName = locationDetail ? pathNameRoot : pathNameLocation;
 
@@ -161,7 +161,7 @@ class AllLocations extends PureComponent {
     });
 
     _goToViewport = ({geoLocation: {longitude, latitude}}) => {
-        const offset = getCoordinates(window.innerWidth * 0.625, window.innerHeight * (0.5 - (30 / window.innerHeight)), latitude, 9);
+        const offset = getCoordinates().getCoords(window.innerWidth * 0.625, window.innerHeight * (0.5 - (30 / window.innerHeight)), latitude, 9);
         const offsetLon = window.innerWidth > 1000 ? parseFloat(offset.lon) : 0;
         const offsetLat = window.innerWidth > 1000 ? 0 : parseFloat(offset.lat);
 

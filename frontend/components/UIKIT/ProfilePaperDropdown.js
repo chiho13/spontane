@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const iPaper = styled(Paper)`
   && {
-        min-width: 140px;
+        width: 150px;
         border-radius: 8px;
   }
 `;

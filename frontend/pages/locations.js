@@ -1,9 +1,10 @@
 import Map from '../components/AllLocations'
+import HomeLayout from '../components/Layout/HomeLayout';
 
 const Locations = props => (
-  <div>
+  <HomeLayout>
     <Map id={props.query.id} lat={props.query.lat} lon={props.query.lon}/>
-  </div>
+  </HomeLayout>
 );
 
 export default Locations;

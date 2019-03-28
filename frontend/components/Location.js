@@ -64,7 +64,7 @@ export default class Location extends Component {
             } else {
                 closeLocation();
                 this.setState({height: snappedPositions.closed});
-                Router.push('/');
+                Router.push('/locations');
             }
         } else {
             this.calcHeight(this.state.touchStartPos)
@@ -112,7 +112,7 @@ export default class Location extends Component {
                 }}>
                     <div className="dragNib"></div>
                     <Link href={{
-                        pathname: '/'
+                        pathname: '/locations'
                     }}>
                         <a className="closeLocation_icon" onClick={closeLocation}><Cross/></a>
                     </Link>
