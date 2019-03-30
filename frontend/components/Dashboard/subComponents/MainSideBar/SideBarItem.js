@@ -9,7 +9,7 @@ class SideBarItem extends Component {
         const {item} = this.props;
         return (
             <SideBarItemStyle>
-                <Link activeClassName="active" href={item.link}>
+                <Link href={item.link}>
                     <a >
                        <MaterialIcon icon={item.icon} className="materialIcons"/>
                         <span>{item.title}</span>

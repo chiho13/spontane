@@ -1,5 +1,6 @@
 # source: http://localhost:4444
 # timestamp: Sun Mar 24 2019 19:03:27 GMT+0000 (GMT)
+# import * from './generated/prisma.graphql'
 
 type GeoLocation implements Node {
   id: ID!
@@ -347,7 +348,8 @@ input LocationWhereUniqueInput {
 }
 
 type Mutation {
-  createTour(title: String, locations: LocationCreateManyInput): Tour!
+  createTour(title: String): Tour!
+  updateTour(id: ID!, title: String, locations: LocationUpdateManyInput): Tour!
   createLocation(country: String, city: String, geoLocation: GeoLocationCreateOneInput, description: String): Location!
   updateLocation(id: ID!, country: String, city: String, geoLocation: GeoLocationUpdateOneRequiredInput, description: String): Location!
   createGeoLocation(latitude: Float, longitude: Float): GeoLocation!

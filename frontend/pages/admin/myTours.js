@@ -1,9 +1,11 @@
 import DashboardLayout from '../../components/Layout/DashboardLayout';
-import CreateTour from '../../components/CreateTour';
+import MyTourTable from '../../components/MyTourTable';
+
+
 const myTours = props => (
     <DashboardLayout>
-        <CreateTour/>
+        <MyTourTable/>
     </DashboardLayout>
-)
+);
 
 export default myTours;

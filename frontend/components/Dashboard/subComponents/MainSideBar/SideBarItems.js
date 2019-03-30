@@ -13,18 +13,15 @@ const sideBarItems = [ {
 }, {
     title: "Add New Tour",
     icon: "add_circle_outline",
-    link: "/admin/createTours"
+    link: "/admin/createTour"
+},{
+    title: "My Locations",
+    icon: "list",
+    link: "/admin/locations"
 }];
-
-// , {
-//     title: "User Profile",
-//     icon: "account_circle",
-//     link: "/admin/profile"
-// }
 
 class SideBarItems extends Component {
     render() {
-        
         return (
             <SideBarItemsStyle>
                     { sideBarItems.map((item, i) => (
