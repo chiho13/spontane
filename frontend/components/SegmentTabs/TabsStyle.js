@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 
 const TabsStyle = styled.div`
-border-bottom: 1px solid #ccc;
 .tab-list {
-    display: flex;
+    display: grid;
+    grid-template-columns: 100px 100px;
+    grid-gap: 8px;
+    margin: 16px 0;
 }
 .tab-list-item {
     display: flex;
@@ -12,6 +14,8 @@ border-bottom: 1px solid #ccc;
     margin-bottom: -1px;
     padding: 8px 12px;
     cursor: pointer;
+    border-radius: 8px;
+    box-shadow: 0 3px 5px 2px rgba(100, 105, 135, .3);
 
     i {
         margin-right: 8px;
@@ -20,8 +24,7 @@ border-bottom: 1px solid #ccc;
   
   .tab-list-active {
     background-color: white;
-    border: solid #ccc;
-    border-width: 1px 1px 0 1px;
+    color: ${props => props.theme.brandColor};
   }
 `;
 
