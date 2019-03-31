@@ -3,7 +3,7 @@ import {Marker, FlyToInterpolator} from 'react-map-gl';
 import {Query} from 'react-apollo';
 import gql from 'graphql-tag';
 import CityPin from './Icons/CityMarker';
-import Location from './Location';
+import Location from './LocationMapViewItem';
 import Link from 'next/link';
 import getCoordinates from './helpers/offsetLocation';
 import MapGL from './MapGL';
@@ -89,7 +89,7 @@ class AllLocations extends PureComponent {
     _locationPathName(location) {
         let locationDetail = (this.state.locationDetail || this.state.singleLocation) && location.id === this.props.id;
         let pathNameLocation  = {
-            pathname: '/locations',
+            pathname: '/tour/location',
             query: {
                 id: location.id,
                 lat: location.geoLocation.latitude,
@@ -98,7 +98,7 @@ class AllLocations extends PureComponent {
         };
 
         let pathNameRoot = {
-            pathname: '/locations'
+            pathname: '/tour/location'
         };
         let locationPathName = locationDetail ? pathNameRoot : pathNameLocation;
 
@@ -200,3 +200,4 @@ class AllLocations extends PureComponent {
 }
 
 export default AllLocations;
+export {ALL_LOCATIONS_QUERY};

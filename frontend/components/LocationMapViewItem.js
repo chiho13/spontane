@@ -5,7 +5,7 @@ import Title from './styles/Title';
 import LocationItemStyles from './styles/LocationItemStyles';
 import Cross from './Icons/Cross';
 import EditIcon from './Icons/Edit';
-import Draggable, {DraggableCore} from 'react-draggable';
+import {DraggableCore} from 'react-draggable';
 import Router from 'next/router';
 
 const snappedPositions = {
@@ -64,7 +64,7 @@ export default class Location extends Component {
             } else {
                 closeLocation();
                 this.setState({height: snappedPositions.closed});
-                Router.push('/locations');
+                Router.push('/tour/location');
             }
         } else {
             this.calcHeight(this.state.touchStartPos)
@@ -112,7 +112,7 @@ export default class Location extends Component {
                 }}>
                     <div className="dragNib"></div>
                     <Link href={{
-                        pathname: '/locations'
+                        pathname: '/tour/location'
                     }}>
                         <a className="closeLocation_icon" onClick={closeLocation}><Cross/></a>
                     </Link>

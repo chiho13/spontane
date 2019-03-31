@@ -2,27 +2,14 @@ import React, {Component} from 'react';
 import {Query} from 'react-apollo';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
-import Location from './Location';
-
-const ALL_LOCATIONS_QUERY = gql `
-  query ALL_LOCATIONS_QUERY {
-    locations {
-      id
-      country
-      city
-      geoLocation {
-        latitude
-        longitude
-      }
-    }
-  }
-`;
+import Location from './LocationMapViewItem';
+import {ALL_LOCATIONS_QUERY} from './LocationsMapView';
 
 const Center = styled.div `
   text-align: center;
 `;
 
-const LocationsList = styled.div `
+const LocationsListViewStyle = styled.div `
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 60px;
@@ -30,7 +17,7 @@ const LocationsList = styled.div `
   margin: 0 auto;
 `;
 
-class Locations extends Component {
+class LocationListView extends Component {
     render() {
         return (
             <div>
@@ -42,9 +29,9 @@ class Locations extends Component {
                             if (error) 
                                 return <p>Error: {error.message}</p>;
                             return (
-                                <LocationsList>{data
+                                <LocationsListViewStyle>{data
                                         .locations
-                                        .map(location => <Location location={location} key={location.id}/>)}</LocationsList>
+                                        .map(location => <Location location={location} key={location.id}/>)}</LocationsListViewStyle>
                             );
                         }}
                     </Query>
@@ -54,4 +41,4 @@ class Locations extends Component {
     }
 }
 
-export default Locations;
+export default LocationListView;
