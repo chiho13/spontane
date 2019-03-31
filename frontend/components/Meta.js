@@ -7,9 +7,9 @@ const Meta = () => (
         <link rel="shortcut icon" href="/static/favicon.png" />
         <script src='/static/nprogress.js'></script>
         <link rel="stylesheet" type="text.css" href="/static/nprogress.css" />
-        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"></link>
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"></link>
+      rel="stylesheet" />
         <title>Spontane</title>
     </Head>
 );

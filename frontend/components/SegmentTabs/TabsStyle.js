@@ -15,6 +15,9 @@ const TabsStyle = styled.div`
     padding: 8px 12px;
     cursor: pointer;
     border-radius: 8px;
+    font-size: 14px;
+    font-family: 'Roboto';
+    font-weight: bold;
     box-shadow: 0 3px 5px 2px rgba(100, 105, 135, .3);
 
     i {

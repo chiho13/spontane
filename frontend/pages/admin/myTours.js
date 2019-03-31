@@ -4,7 +4,7 @@ import MyTourTable from '../../components/MyTourTable';
 
 const myTours = props => (
     <DashboardLayout>
-        <MyTourTable/>
+        <h2>My Tours</h2>
     </DashboardLayout>
 );
 
