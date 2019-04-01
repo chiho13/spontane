@@ -1,13 +1,19 @@
 import React, {Component} from 'react';
 import MapView from './LocationsMapView';
 import ListView from './LocationsListView'
-
+import styled from 'styled-components';
 import Tabs from '../../SegmentTabs/Tabs';
+
+
+const SwitcherStyle = styled.div`
+    margin-top: 32px;
+`;
+
 
 class LocationViewSwitcher extends Component {
     render() {
         return (
-            <div>
+            <SwitcherStyle>
                 <Tabs>
                     <div label="List" icon="view_list">
                         <ListView />
@@ -17,7 +23,7 @@ class LocationViewSwitcher extends Component {
                     </div>
                     
                 </Tabs>
-            </div>
+            </SwitcherStyle>
         );
     }
 }
