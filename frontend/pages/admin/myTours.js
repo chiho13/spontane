@@ -1,10 +1,10 @@
 import DashboardLayout from '../../components/Layout/DashboardLayout';
 import MyTourTable from '../../components/MyTourTable';
-
+import Title from '../../components/Dashboard/subComponents/MainContentTitle';
 
 const myTours = props => (
     <DashboardLayout>
-        <h2>My Tours</h2>
+        <Title title="My Tours" />
     </DashboardLayout>
 );
 

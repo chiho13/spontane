@@ -7,7 +7,7 @@ const Locations = props => (
   <DashboardLayout>
     <div>
     <Title title="Locations" />
-    <LocationViewSwitcher />
+    <LocationViewSwitcher id={props.query.id} lat={props.query.lat} lon={props.query.lon} />
     </div>
    
   </DashboardLayout>

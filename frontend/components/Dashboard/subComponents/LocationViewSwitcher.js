@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import MapView from './LocationsMapView';
+import MapView from '../../LocationsMapView';
 import ListView from './LocationsListView'
 import styled from 'styled-components';
 import Tabs from '../../SegmentTabs/Tabs';
@@ -9,9 +9,7 @@ const SwitcherStyle = styled.div`
     margin-top: 32px;
 `;
 
-
-class LocationViewSwitcher extends Component {
-    render() {
+const LocationViewSwitcher = (props) => {
         return (
             <SwitcherStyle>
                 <Tabs>
@@ -19,13 +17,11 @@ class LocationViewSwitcher extends Component {
                         <ListView />
                     </div>
                     <div label="Map" icon="map">
-                       <MapView />
+                       <MapView id={props.id} lat={props.lat} lon={props.lon} pathname="/admin/locations"/>
                     </div>
-                    
                 </Tabs>
             </SwitcherStyle>
         );
-    }
-}
+};
 
 export default LocationViewSwitcher;

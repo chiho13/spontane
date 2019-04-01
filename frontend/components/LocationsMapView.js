@@ -86,10 +86,10 @@ class AllLocations extends PureComponent {
         }
     }
 
-    _locationPathName(location) {
+    _locationPathName = (location) => {
         let locationDetail = (this.state.locationDetail || this.state.singleLocation) && location.id === this.props.id;
         let pathNameLocation  = {
-            pathname: '/tour/location',
+            pathname: this.props.pathname,
             query: {
                 id: location.id,
                 lat: location.geoLocation.latitude,
@@ -98,7 +98,7 @@ class AllLocations extends PureComponent {
         };
 
         let pathNameRoot = {
-            pathname: '/tour/location'
+            pathname: this.props.pathname
         };
         let locationPathName = locationDetail ? pathNameRoot : pathNameLocation;
 

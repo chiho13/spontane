@@ -9,8 +9,7 @@ const BackgroundColor = styled.div`
     background-color: #f1f1f1;
 `;
 
-class LocationViewSwitcher extends Component {
-    render() {
+const LocationViewSwitcher = (props) => {
         return (
             <BackgroundColor>
                 <Tabs>
@@ -18,12 +17,11 @@ class LocationViewSwitcher extends Component {
                         <ListView />
                     </div>
                     <div label="Map" icon="map">
-                       <MapView />
+                       <MapView id={props.query.id} lat={props.query.lat} lon={props.query.lon} />
                     </div>
                 </Tabs>
             </BackgroundColor>
         );
-    }
-}
+};
 
 export default LocationViewSwitcher;
