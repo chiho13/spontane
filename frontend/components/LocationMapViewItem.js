@@ -1,10 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
-import Title from './styles/Title';
 import LocationItemStyles from './styles/LocationItemStyles';
 import Cross from './Icons/Cross';
-import EditIcon from './Icons/Edit';
 import {DraggableCore} from 'react-draggable';
 import Router from 'next/router';
 
@@ -122,19 +120,6 @@ export default class Location extends Component {
                             {location.description}
                         </p>
                     </div>
-                    <div className="buttonList">
-                            <Link
-                                href={{
-                                pathname: 'update',
-                                query: {
-                                    id: location.id
-                                }
-                            }}>
-                                <a>
-                                    <span>Edit
-                                    </span>{< EditIcon />}</a>
-                            </Link>
-                        </div>
                 </LocationItemStyles>
             </DraggableCore>
         );

@@ -4,7 +4,8 @@ const TabsStyle = styled.div`
 .tab-list {
     display: grid;
     grid-template-columns: 100px 100px;
-    grid-gap: 8px;
+    grid-gap: 16px;
+    padding-left: 32px;
     margin: 16px 0;
 }
 .tab-list-item {

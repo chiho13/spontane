@@ -1,27 +1,20 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {Query} from 'react-apollo';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
-import Location from './LocationMapViewItem';
+import Location from './LocationListViewItem';
 import {ALL_LOCATIONS_QUERY} from './LocationsMapView';
 
-const Center = styled.div `
-  text-align: center;
-`;
-
 const LocationsListViewStyle = styled.div `
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 60px;
+  display: block;
   max-width: ${props => props.theme.maxWidth};
-  margin: 0 auto;
+    padding-left: 32px;
+    padding-right: 16px;
 `;
 
-class LocationListView extends Component {
-    render() {
+const LocationListView = () => {
         return (
             <div>
-                <Center>
                     <Query query={ALL_LOCATIONS_QUERY}>
                         {({data, error, loading}) => {
                             if (loading) 
@@ -35,10 +28,8 @@ class LocationListView extends Component {
                             );
                         }}
                     </Query>
-                </Center>
             </div>
         );
-    }
 }
 
 export default LocationListView;

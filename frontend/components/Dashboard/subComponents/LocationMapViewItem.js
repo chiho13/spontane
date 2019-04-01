@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Link from 'next/link';
 import LocationItemStyles from '../../styles/LocationItemStyles';
 import Cross from '../../Icons/Cross';
-import EditIcon from '../../Icons/Edit';
+import EditButton from '../../UIKIT/EditButton';
 
 export default class Location extends Component {
     static propTypes = {
@@ -27,17 +27,7 @@ export default class Location extends Component {
                     </p>
                 </div>
                 <div className="buttonList">
-                    <Link
-                        href={{
-                        pathname: 'update',
-                        query: {
-                            id: location.id
-                        }
-                    }}>
-                        <a>
-                            <span>Edit
-                            </span>{< EditIcon />}</a>
-                    </Link>
+                    <EditButton pathname="admin/update" id={location.id} />
                 </div>
             </LocationItemStyles>
         );
