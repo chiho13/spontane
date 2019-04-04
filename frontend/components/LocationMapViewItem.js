@@ -62,7 +62,7 @@ export default class Location extends Component {
             } else {
                 closeLocation();
                 this.setState({height: snappedPositions.closed});
-                Router.push('/tour/location');
+                Router.push(this.props.pathname);
             }
         } else {
             this.calcHeight(this.state.touchStartPos)
@@ -93,7 +93,7 @@ export default class Location extends Component {
     }
 
     render() {
-        const {location, closeLocation, isOpened} = this.props;
+        const {location, closeLocation, isOpened, pathname} = this.props;
         this.onOrientationChange();
         return (
             <DraggableCore
@@ -110,7 +110,7 @@ export default class Location extends Component {
                 }}>
                     <div className="dragNib"></div>
                     <Link href={{
-                        pathname: '/tour/location'
+                        pathname
                     }}>
                         <a className="closeLocation_icon" onClick={closeLocation}><Cross/></a>
                     </Link>

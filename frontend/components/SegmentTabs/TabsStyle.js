@@ -31,7 +31,8 @@ const TabsStyle = styled.div`
     color: ${props => props.theme.brandColor};
   }
 
-  .tab-content > div {
+  .tab-content .map-container {
+      position: relative;
       width: 100%;
       height: calc(100vh - 150px)
   }

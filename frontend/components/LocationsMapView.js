@@ -23,7 +23,7 @@ const ALL_LOCATIONS_QUERY = gql `
         }
 `;
 
-const SINGLE_LOCATION_QUERY = gql`
+const SINGLE_LOCATION_QUERY = gql `
     query SINGLE_LOCATION_QUERY($id: ID!) {
         location(where: { id: $id }) {
             id
@@ -38,8 +38,6 @@ const SINGLE_LOCATION_QUERY = gql`
     }
 `;
 
-
-
 class AllLocations extends PureComponent {
 
     _isMounted = false;
@@ -48,7 +46,9 @@ class AllLocations extends PureComponent {
         viewport: {
             latitude: 53.9777,
             longitude: -1.6376,
-            zoom: this.props.id ? 9 : 6
+            zoom: this.props.id
+                ? 9
+                : 6
         },
         locationDetail: null,
         singleLocation: null,
@@ -59,10 +59,20 @@ class AllLocations extends PureComponent {
 
     offsetMarker = () => {
         const offset = getCoordinates().getCoords(window.innerWidth * 0.625, window.innerHeight * (0.5 - (30 / window.innerHeight)), this.props.lat, this.state.viewport.zoom);
-        const offsetLon = window.innerWidth > 1000 ? parseFloat(offset.lon) : 0;
-        const offsetLat = window.innerWidth > 1000 ? 0 : parseFloat(offset.lat);
-    
-        this.refs.changeViewport.onViewportChange({ latitude: parseFloat(this.props.lat) + offsetLat, longitude: parseFloat(this.props.lon) + offsetLon})
+        const offsetLon = window.innerWidth > 1000
+            ? parseFloat(offset.lon)
+            : 0;
+        const offsetLat = window.innerWidth > 1000
+            ? 0
+            : parseFloat(offset.lat);
+
+        this
+            .refs
+            .changeViewport
+            .onViewportChange({
+                latitude: parseFloat(this.props.lat) + offsetLat,
+                longitude: parseFloat(this.props.lon) + offsetLon
+            })
     }
 
     closeLocationDetail = () => {
@@ -76,10 +86,10 @@ class AllLocations extends PureComponent {
 
     _toggleLocationDetail = (location) => {
         let locationDetail = (this.state.locationDetail || this.state.singleLocation) && location.id === this.props.id;
-            console.log(location.id, this.props.id);
-        if(locationDetail) {
+        console.log(location.id, this.props.id);
+        if (locationDetail) {
             this.closeLocationDetail()
-            
+
         } else {
             this.setState({locationDetail: location, isOpened: true});
             this._goToViewport(location);
@@ -88,7 +98,7 @@ class AllLocations extends PureComponent {
 
     _locationPathName = (location) => {
         let locationDetail = (this.state.locationDetail || this.state.singleLocation) && location.id === this.props.id;
-        let pathNameLocation  = {
+        let pathNameLocation = {
             pathname: this.props.pathname,
             query: {
                 id: location.id,
@@ -100,78 +110,100 @@ class AllLocations extends PureComponent {
         let pathNameRoot = {
             pathname: this.props.pathname
         };
-        let locationPathName = locationDetail ? pathNameRoot : pathNameLocation;
+        let locationPathName = locationDetail
+            ? pathNameRoot
+            : pathNameLocation;
 
         return locationPathName;
     }
 
     _renderCityMarker = () => {
-        
+
         return (
             <Query query={ALL_LOCATIONS_QUERY}>
                 {({data, error, loading}) => {
-                      if (loading) 
-                      return <p>Loading...</p>;
-                  if (error) 
-                      return <p>Error: {error.message}</p>;
-                return (
-                    data
-                    .locations
-                    .map(location => (
-                        <Marker key={`marker-${location.id}`}
-                    longitude={location.geoLocation.longitude}
-                    latitude={location.geoLocation.latitude}>
-                    <Link href={this._locationPathName(location)}>
-                    <CityPin size={20} onClick={() => this._toggleLocationDetail(location)} />
-                    </Link>
-                    </Marker>
-                    ))
-                )
-              }}
-              </Query>
-          );
+                    if (loading) 
+                        return <p>Loading...</p>;
+                    if (error) 
+                        return <p>Error: {error.message}</p>;
+                    return (data.locations.map(location => (
+                        <Marker
+                            key={`marker-${location.id}`}
+                            longitude={location.geoLocation.longitude}
+                            latitude={location.geoLocation.latitude}>
+                            <Link href={this._locationPathName(location)}>
+                                <CityPin size={20} onClick={() => this._toggleLocationDetail(location)}/>
+                            </Link>
+                        </Marker>
+                    )))
+                }}
+            </Query>
+        );
     }
 
     _renderLocationDetail = () => {
         let locationDetail = this.state.locationDetail || this.state.singleLocation;
-        
-        return locationDetail && (
-            <Location location={locationDetail} key={locationDetail.id} closeLocation={this.closeLocationDetail} isOpened={this.state.isOpened}/>
-        )
+
+        return locationDetail && (<Location
+            location={locationDetail}
+            key={locationDetail.id}
+            closeLocation={this.closeLocationDetail}
+            isOpened={this.state.isOpened}
+            pathname={this.props.pathname}/>)
     }
 
     singleLocation = () => {
         const checkForProps = this.state.paramProps && this._isMounted;
-        return  checkForProps && <Query query={SINGLE_LOCATION_QUERY} variables={{
+        return checkForProps && <Query
+            query={SINGLE_LOCATION_QUERY}
+            variables={{
             id: this.props.id
-        }} onCompleted={data => {
+        }}
+            onCompleted={data => {
             const {location} = data;
             this.setState({singleLocation: location, isOpened: true});
         }}>
             {({error, loading, data}) => {
-                if(error) console.log("error")
-                if(loading) console.log("loading")
+                if (error) 
+                    console.log("error")
+                if (loading) 
+                    console.log("loading")
                 return null;
             }}
         </Query>
-    }   
+    }
 
     _onViewportChange = viewport => this.setState({
-        viewport: {...this.state.viewport, ...viewport}
+        viewport: {
+            ...this.state.viewport,
+            ...viewport
+        }
     });
 
-    _goToViewport = ({geoLocation: {longitude, latitude}}) => {
+    _goToViewport = ({
+        geoLocation: {
+            longitude,
+            latitude
+        }
+    }) => {
         const offset = getCoordinates().getCoords(window.innerWidth * 0.625, window.innerHeight * (0.5 - (30 / window.innerHeight)), latitude, 9);
-        const offsetLon = window.innerWidth > 1000 ? parseFloat(offset.lon) : 0;
-        const offsetLat = window.innerWidth > 1000 ? 0 : parseFloat(offset.lat);
+        const offsetLon = window.innerWidth > 1000
+            ? parseFloat(offset.lon)
+            : 0;
+        const offsetLat = window.innerWidth > 1000
+            ? 0
+            : parseFloat(offset.lat);
 
-        this.refs.changeViewport.onViewportChange({
-          longitude: longitude + offsetLon,
-          latitude: latitude + offsetLat,
-          zoom: 9,
-          transitionInterpolator: new FlyToInterpolator(),
-          transitionDuration: 1000
-        });
+        this
+            .refs
+            .changeViewport
+            .onViewportChange({
+                longitude: longitude + offsetLon,
+                latitude: latitude + offsetLat,
+                zoom: 9,
+                transitionInterpolator: new FlyToInterpolator(),
+                transitionDuration: 1000
+            });
     };
 
     componentDidMount() {
@@ -186,16 +218,19 @@ class AllLocations extends PureComponent {
 
     render() {
         return (
-            <div>
+            <div className="map-container">
                 <MapGL
-                    viewport={{...this.state.viewport}} ref="changeViewport">
-                   
+                    viewport={{
+                    ...this.state.viewport
+                }}
+                    ref="changeViewport">
+
                     {this._renderCityMarker()}
-                    {this.singleLocation()} 
+                    {this.singleLocation()}
                 </MapGL>
                 {this._renderLocationDetail()}
-                </div>
-                )
+            </div>
+        )
     }
 }
 

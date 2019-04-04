@@ -1,10 +1,18 @@
 import Header from '../Header'
+import styled from 'styled-components';
+
+const HomeStyle = styled.div`
+  .map-container {
+    width: 100vw;
+    height: 100vh;
+  }
+`;
 
 const Layout = props => (
-  <div>
+  <HomeStyle>
     <Header />
     {props.children}
-  </div>
+  </HomeStyle>
 );
 
 export default Layout;
