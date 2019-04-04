@@ -9,37 +9,35 @@ class Maps extends PureComponent {
 
     state = {
         viewport: {
-            ...this.props.viewport,
-            height: '100vh',
-            width: '100vw'
+            ...this.props.viewport
         }
     };
 
-    componentDidMount() {
-        window.addEventListener("resize", this.updateDimensions);
-    }
+    // componentDidMount() {
+    //     window.addEventListener("resize", this.updateDimensions);
+    // }
 
-    componentWillUnmount() {
-        window.removeEventListener("resize", this.updateDimensions);
-    }
+    // componentWillUnmount() {
+    //     window.removeEventListener("resize", this.updateDimensions);
+    // }
 
     onViewportChange = viewport => this.setState({
         viewport: {...this.state.viewport, ...viewport}
     });
 
-    updateDimensions = () => {
-        this.setState({
-            viewport: {
-                ...this.state.viewport,
-                height: window.innerHeight,
-                width: window.innerWidth
-            }
-        });
-    }
+    // updateDimensions = () => {
+    //     this.setState({
+    //         viewport: {
+    //             ...this.state.viewport,
+    //             height: window.innerHeight,
+    //             width: window.innerWidth
+    //         }
+    //     });
+    // }
 
     render() {
         return (
-            <MapGL {...this.props} {...this.state.viewport} mapboxApiAccessToken={TOKEN} onViewportChange={this.onViewportChange}>
+            <MapGL {...this.props} {...this.state.viewport} width="100%" height="100%" mapboxApiAccessToken={TOKEN} onViewportChange={this.onViewportChange}>
             {this.props.children}
         </MapGL>
         );

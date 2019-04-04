@@ -30,6 +30,11 @@ const TabsStyle = styled.div`
     background-color: white;
     color: ${props => props.theme.brandColor};
   }
+
+  .tab-content > div {
+      width: 100%;
+      height: calc(100vh - 150px)
+  }
 `;
 
 export default TabsStyle;
