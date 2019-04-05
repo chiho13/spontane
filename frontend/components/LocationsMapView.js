@@ -149,7 +149,8 @@ class AllLocations extends PureComponent {
             key={locationDetail.id}
             closeLocation={this.closeLocationDetail}
             isOpened={this.state.isOpened}
-            pathname={this.props.pathname}/>)
+            pathname={this.props.pathname}
+            editButton={this.props.editButton}/>)
     }
 
     singleLocation = () => {

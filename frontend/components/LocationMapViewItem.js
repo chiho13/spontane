@@ -5,6 +5,7 @@ import LocationItemStyles from './styles/LocationItemStyles';
 import Cross from './Icons/Cross';
 import {DraggableCore} from 'react-draggable';
 import Router from 'next/router';
+import EditButton from '../components/UIKIT/EditButton';
 
 const snappedPositions = {
     closed: 0,
@@ -93,7 +94,7 @@ export default class Location extends Component {
     }
 
     render() {
-        const {location, closeLocation, isOpened, pathname} = this.props;
+        const {location, closeLocation, isOpened, pathname, editButton} = this.props;
         this.onOrientationChange();
         return (
             <DraggableCore
@@ -120,6 +121,11 @@ export default class Location extends Component {
                             {location.description}
                         </p>
                     </div>
+
+                    { editButton && <div className="buttonList">
+                        <EditButton  id={location.id} pathname={`${this.props.pathname}/update`} showButton={this.props.editButton}/>
+                    </div>}
+
                 </LocationItemStyles>
             </DraggableCore>
         );

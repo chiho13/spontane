@@ -13,7 +13,7 @@ const LocationListViewItem = (props) => {
                 </p>
             </div>
             <div className="buttonList">
-                <EditButton pathname="admin/update" id={location.id} />
+                <EditButton pathname="/admin/locations/update" id={location.id} showButton={true}/>
             </div>
         </LocationItemStyles>
     )
