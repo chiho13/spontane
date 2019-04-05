@@ -8,6 +8,14 @@ import Error from './ErrorMessage';
 import CityPin from './Icons/CityMarker';
 import MapGL from './MapGL';
 import ShowMarker from './styles/ShowMarker';
+import styled from 'styled-components';
+
+
+const CreateLocationMapStyle = styled.div`
+    position: relative;
+      width: 100%;
+      height: 100vh
+`;
 
 const CREATE_LOCATION_MUTATION = gql `
     mutation CREATE_LOCATION_MUTATION(
@@ -214,7 +222,7 @@ class CreateLocation extends Component {
         const {viewport, marker} = this.state;
         console.log(this.state.latitude, this.state.longitude);
         return (
-            <div>
+            <CreateLocationMapStyle>
                 <MapGL
                     viewport={{
                     ...viewport
@@ -224,7 +232,7 @@ class CreateLocation extends Component {
                     {this.showMarker(marker)}
                 </MapGL>
                 {this.mutateForm()}
-            </div>
+            </CreateLocationMapStyle>
         );
     }
 }
