@@ -4,17 +4,26 @@ import LocationItem from '../../UIKIT/ListItemPaper';
 const LocationListViewItemStyle = styled(LocationItem)`
     && {
         display: flex;
+        position: relative;
         
         h3 {
             font-family: Helvetica;
         }
-        
+
         .location_content {
-            flex-grow: 1;
+            width: 80%;
+
+            p {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
         }
 
         .buttonList {
             width: auto;
+            position: absolute;
+            right: 0;
         }
     }
 `;

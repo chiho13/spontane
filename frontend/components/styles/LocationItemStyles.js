@@ -54,7 +54,6 @@ const Item = styled.div`
     margin-bottom: 2rem;
   }
   p {
-    font-size: 12px;
     line-height: 2;
     font-weight: 300;
     flex-grow: 1;
