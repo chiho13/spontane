@@ -3,7 +3,7 @@ import AllLocations from '../../components/LocationsMapView';
 
 const HomeTour = (props) => (
   <HomeLayout>
-      <AllLocations id={props.query.id} lat={props.query.lat} lon={props.query.lon} pathname="tour" editButton={false}/>
+      <AllLocations id={props.query.id} lat={props.query.lat} lon={props.query.lon} pathname="/tour" editButton={false}/>
   </HomeLayout>
 );
 

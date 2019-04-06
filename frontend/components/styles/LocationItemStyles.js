@@ -27,7 +27,10 @@ const Item = styled.div`
   animation: 0.6s ${props => props.isOpened ? fadeInUpAnimation : fadeInDownAnimation};
 
   .location_content {
-    padding: 0 3rem;
+    padding-top: 0;
+    padding-left: 16px;
+    padding-right: 64px;
+    padding-bottom: 16px;
     overflow-y: scroll;
   }
   @media (min-width: 700px) {
@@ -100,10 +103,6 @@ const Item = styled.div`
     @media (min-width: 700px) {
       display: flex;
       justify-content: flex-end;
-      position: absolute;
-      right: 0;
-      bottom: 0;
-
     }
   }
 

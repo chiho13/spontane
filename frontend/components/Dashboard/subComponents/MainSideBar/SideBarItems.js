@@ -18,6 +18,10 @@ const sideBarItems = [ {
     title: "My Locations",
     icon: "list",
     link: "/admin/locations"
+},{
+    title: "Add Location",
+    icon: "add_location",
+    link: "/admin/add-location"
 }];
 
 class SideBarItems extends Component {
