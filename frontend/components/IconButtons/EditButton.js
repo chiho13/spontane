@@ -11,18 +11,22 @@ const theme = {
 const EditButton = (props) => {
     const {pathname, id} = props;
     return (
-        <Link
-            href={{
-            pathname: pathname,
-            query: {
-                id
-            }
-        }}>
-            <ThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}>
+            <Link
+                href={{
+                pathname: pathname,
+                query: {
+                    id
+                }
+            }}>
+
                 <IconButtonStyle>
-                    <MaterialIcon icon="edit" className="materialIcon"/></IconButtonStyle>
-            </ThemeProvider>
-        </Link>
+                    <a>
+                        <MaterialIcon icon="edit" className="materialIcon"/>
+                    </a>
+                </IconButtonStyle>
+            </Link>
+        </ThemeProvider>
     )
 };
 

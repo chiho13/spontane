@@ -51,7 +51,7 @@ const TabsStyle = styled.div`
   .tab-content .map-container {
       position: relative;
       width: 100%;
-      height: calc(100vh - 150px)
+      height: calc(100vh - 140px)
   }
 `;
 

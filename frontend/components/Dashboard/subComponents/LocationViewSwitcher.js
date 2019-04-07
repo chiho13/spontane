@@ -6,7 +6,6 @@ import Tabs from '../../SegmentTabs/Tabs';
 
 
 const SwitcherStyle = styled.div`
-    margin-top: 32px;
     width: 100%;
 
     .locationItem {

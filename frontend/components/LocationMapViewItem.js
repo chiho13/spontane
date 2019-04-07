@@ -5,8 +5,7 @@ import LocationItemStyles from './styles/LocationItemStyles';
 import Cross from './Icons/Cross';
 import {DraggableCore} from 'react-draggable';
 import Router from 'next/router';
-import EditButton from './IconButtons/EditButton';
-import DeleteButton from './IconButtons/DeleteButton';
+import EditMore from './EditMore';
 
 const snappedPositions = {
     closed: 0,
@@ -111,22 +110,21 @@ export default class Location extends Component {
                     height: this.state.height
                 }}>
                     <div className="dragNib"></div>
-                    <Link href={{
-                        pathname
-                    }}>
-                        <a className="closeLocation_icon" onClick={closeLocation}><Cross/></a>
-                    </Link>
+                    <div className="topCorner_container">
+                        {editButton && <EditMore location={location} pathname={pathname}/>}
+                        <Link href={{
+                            pathname
+                        }}>
+                            <a className="closeLocation_icon" onClick={closeLocation}><Cross/></a>
+                        </Link>
+                    </div>
+
                     <div className="location_content">
                         <h3>{location.city}, {location.country}</h3>
                         <p>
                             {location.description}
                         </p>
                     </div>
-
-                    { editButton && <div className="buttonList">
-                        <EditButton id={location.id} pathname={`${this.props.pathname}/update`} showButton={this.props.editButton}/>
-                        <DeleteButton id={location.id} pathname={`${this.props.pathname}/update`} showButton={this.props.editButton}/>
-                    </div>}
 
                 </LocationItemStyles>
             </DraggableCore>

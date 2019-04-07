@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const IconButtonStyle = styled.a`
+const IconButtonStyle = styled.div`
 font-size: 14px;
 font-family: 'Roboto';
 margin: 8px;
@@ -24,6 +24,16 @@ cursor: pointer;
 
 .materialIcon {
     font-size: 18px;
+    color: #777777;
+}
+
+&:hover .materialIcon {
+  color: ${props => props.theme.iconColorHover};
+}
+
+a {
+  display flex;
+  align-items: center;
 }
 `;
 

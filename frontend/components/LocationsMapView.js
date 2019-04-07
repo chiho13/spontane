@@ -54,7 +54,8 @@ class AllLocations extends PureComponent {
         singleLocation: null,
         paramProps: null,
         isOpened: false,
-        events: {}
+        events: {},
+        editButton: this.props.editButton
     };
 
     offsetMarker = () => {
@@ -150,7 +151,7 @@ class AllLocations extends PureComponent {
             closeLocation={this.closeLocationDetail}
             isOpened={this.state.isOpened}
             pathname={this.props.pathname}
-            editButton={this.props.editButton}/>)
+            editButton={this.state.editButton}/>)
     }
 
     singleLocation = () => {

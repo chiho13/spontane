@@ -127,12 +127,7 @@ class CreateLocation extends Component {
                     const res = await createLocation();
                     console.log(res);
                     Router.push({
-                        pathname: '/locations',
-                        query: {
-                            id: res.data.createLocation.id,
-                            lat: this.state.latitude,
-                            lon: this.state.longitude
-                        }
+                        pathname: '/admin/locations'
                     })
                 }}>
                     <Error error={error}/>

@@ -4,6 +4,7 @@ import IconButtonStyle from './IconButtonStyle';
 import {Mutation} from 'react-apollo';
 import gql from 'graphql-tag';
 import {ALL_LOCATIONS_QUERY} from '../LocationsMapView';
+import Router from 'next/router';
 
 const DELETE_LOCATION_MUTATION = gql`
     mutation DELETE_LOCATION_MUTATION($id: ID!) {
@@ -27,6 +28,9 @@ const DeleteButton = (props) => {
         //2. Filter the deletedItem out of the page
         data.locations = data.locations.filter(location => location.id !== payload.data.deleteLocation.id)
         cache.writeQuery({ query: ALL_LOCATIONS_QUERY, data});
+        Router.push({
+            pathname: '/admin/locations'
+        });
     };
     
     const {id} = props;
@@ -44,7 +48,7 @@ const DeleteButton = (props) => {
                         deleteLocation();
                     }
                 }}>
-                    <MaterialIcon icon="delete" className="materialIcon"/></IconButtonStyle>
+                    <MaterialIcon icon="delete" className="materialIcon" /></IconButtonStyle>
             </ThemeProvider>
             )}
         </Mutation>

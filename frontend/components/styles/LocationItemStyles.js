@@ -63,18 +63,6 @@ const Item = styled.div`
     font-size: 16px;
     font-family: Helvetica
   }
-  .buttonList {
-    display: none;
-    width: auto;
-    span {
-      margin-right: 8px;
-    }
-
-    @media (min-width: 700px) {
-      display: flex;
-      justify-content: flex-end;
-    }
-  }
 
   .dragNib {
     position: absolute;
@@ -92,21 +80,36 @@ const Item = styled.div`
     }
   }
 
-  .closeLocation_icon {
-    cursor: pointer;
+  .topCorner_container {
     position: sticky;
-    top: 0;
+    top: 8px;
+    display: flex;
+    justify-content: space-between;
+    padding-right: 8px;
+    padding-left: 8px;
+  }
+
+  .closeLocation_icon {
+    display: flex;
+    height: 32px;
+    width: 32px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
 
     .cross_icon {
-      position: absolute;
-      top 8px;
-      right: 8px;
       fill: #888;
       transition: fill 0.3s eases;
     }
 
     &:hover .cross_icon {
       fill: #444;
+    }
+
+    &:hover {
+      background-color: #e6e6e6;
     }
   }
 `;
