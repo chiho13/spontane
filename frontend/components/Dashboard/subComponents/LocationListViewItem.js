@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import LocationItemStyles from '../styles/LocationListViewItemStyle';
-import EditButton from '../../UIKIT/IconButtons/EditButton';
-import DeleteButton from '../../UIKIT/IconButtons/DeleteButton';
+import EditButton from '../../IconButtons/EditButton';
+import DeleteButton from '../../IconButtons/DeleteButton';
 
 const LocationListViewItem = (props) => {
     const {location} = props;

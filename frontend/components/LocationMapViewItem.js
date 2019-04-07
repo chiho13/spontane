@@ -5,8 +5,8 @@ import LocationItemStyles from './styles/LocationItemStyles';
 import Cross from './Icons/Cross';
 import {DraggableCore} from 'react-draggable';
 import Router from 'next/router';
-import EditButton from './UIKIT/IconButtons/EditButton';
-import DeleteButton from './UIKIT/IconButtons/DeleteButton';
+import EditButton from './IconButtons/EditButton';
+import DeleteButton from './IconButtons/DeleteButton';
 
 const snappedPositions = {
     closed: 0,
