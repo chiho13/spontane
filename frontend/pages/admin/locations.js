@@ -6,7 +6,7 @@ import Title from '../../components/Dashboard/subComponents/MainContentTitle';
 const Locations = props => (
   <DashboardLayout>
     <div>
-    <Title title="Locations" />
+    <Title title="My Locations" />
     <LocationViewSwitcher id={props.query.id} lat={props.query.lat} lon={props.query.lon} />
     </div>
    

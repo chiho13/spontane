@@ -70,36 +70,6 @@ const Item = styled.div`
       margin-right: 8px;
     }
 
-    svg {
-        fill: #777;
-        transition: all 0.3s ease;
-    }
-    a {
-      font-size: 14px;
-      font-family: Helvetica;
-      margin: 8px;
-      padding: 8px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: auto;
-      height: 30px;
-      background: #fff;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      color: #777;
-      transition: all 0.3s ease;
-
-      &:hover {
-        border-color: #1790FF;
-        color: #1790FF;
-      }
-
-      &:hover svg {
-        fill: #1790FF;
-      }
-    }
-
     @media (min-width: 700px) {
       display: flex;
       justify-content: flex-end;

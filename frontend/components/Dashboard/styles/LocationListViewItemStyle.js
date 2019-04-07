@@ -5,7 +5,7 @@ const LocationListViewItemStyle = styled(LocationItem)`
     && {
         display: flex;
         position: relative;
-        
+        justify-content: space-between;
         h3 {
             font-family: Helvetica;
         }
@@ -21,9 +21,8 @@ const LocationListViewItemStyle = styled(LocationItem)`
         }
 
         .buttonList {
+            display: flex;
             width: auto;
-            position: absolute;
-            right: 0;
         }
     }
 `;

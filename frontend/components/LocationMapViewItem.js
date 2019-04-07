@@ -5,7 +5,8 @@ import LocationItemStyles from './styles/LocationItemStyles';
 import Cross from './Icons/Cross';
 import {DraggableCore} from 'react-draggable';
 import Router from 'next/router';
-import EditButton from '../components/UIKIT/EditButton';
+import EditButton from './UIKIT/IconButtons/EditButton';
+import DeleteButton from './UIKIT/IconButtons/DeleteButton';
 
 const snappedPositions = {
     closed: 0,
@@ -123,7 +124,8 @@ export default class Location extends Component {
                     </div>
 
                     { editButton && <div className="buttonList">
-                        <EditButton  id={location.id} pathname={`${this.props.pathname}/update`} showButton={this.props.editButton}/>
+                        <EditButton id={location.id} pathname={`${this.props.pathname}/update`} showButton={this.props.editButton}/>
+                        <DeleteButton id={location.id} pathname={`${this.props.pathname}/update`} showButton={this.props.editButton}/>
                     </div>}
 
                 </LocationItemStyles>
