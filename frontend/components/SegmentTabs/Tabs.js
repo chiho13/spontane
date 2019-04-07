@@ -21,6 +21,10 @@ class Tabs extends Component {
     this.setState({ activeTab: tab });
   }
 
+  componentWillMount() {
+      this.props.id && this.setState({ activeTab: 'Map' });
+  }
+
   render() {
     const {
       onClickTabItem,
@@ -28,7 +32,7 @@ class Tabs extends Component {
         children,
       },
       state: {
-        activeTab,
+        activeTab
       }
     } = this;
 

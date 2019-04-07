@@ -16,7 +16,7 @@ const SwitcherStyle = styled.div`
 const LocationViewSwitcher = (props) => {
         return (
             <SwitcherStyle>
-                <Tabs>
+                <Tabs id={props.id}>
                     <div label="List" icon="view_list">
                         <ListView />
                     </div>

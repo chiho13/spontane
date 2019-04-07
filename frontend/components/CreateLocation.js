@@ -9,9 +9,9 @@ import CityPin from './Icons/CityMarker';
 import MapGL from './MapGL';
 import ShowMarker from './styles/ShowMarker';
 import styled from 'styled-components';
+import {ALL_LOCATIONS_QUERY} from './LocationsMapView';
 
-
-const CreateLocationMapStyle = styled.div`
+const CreateLocationMapStyle = styled.div `
     position: relative;
       width: 100%;
       height: 100vh
@@ -118,8 +118,22 @@ class CreateLocation extends Component {
         </ShowMarker>
     }
 
+    update = (cache, { data: { createLocation } }) => {
+        try {
+            const data = cache.readQuery({query: ALL_LOCATIONS_QUERY});
+            console.log(data);
+            data.locations.push(createLocation);
+            cache.writeQuery({query: ALL_LOCATIONS_QUERY, data});
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     mutateForm = () => (
-        <Mutation mutation={CREATE_LOCATION_MUTATION} variables={this.state}>
+        <Mutation
+            mutation={CREATE_LOCATION_MUTATION}
+            variables={this.state}
+            update={this.update}>
             {(createLocation, {loading, error}) => (
                 <Form
                     onSubmit={async e => {
@@ -127,7 +141,12 @@ class CreateLocation extends Component {
                     const res = await createLocation();
                     console.log(res);
                     Router.push({
-                        pathname: '/admin/locations'
+                        pathname: '/admin/locations',
+                        query: {
+                            id: res.data.createLocation.id,
+                            lat: this.state.latitude,
+                            lon: this.state.longitude
+                        }
                     })
                 }}>
                     <Error error={error}/>
@@ -160,13 +179,17 @@ class CreateLocation extends Component {
                             </div>
                             <div className="wrapper">
                                 <label htmlFor="latitude">
-                                    Latitude: <span>{this.state.marker.latitude && parseFloat(this.state.marker.latitude).toFixed(4)} </span>
+                                    Latitude:
+                                    <span>{this.state.marker.latitude && parseFloat(this.state.marker.latitude).toFixed(4)}
+                                    </span>
                                 </label>
 
                             </div>
                             <div className="wrapper">
                                 <label htmlFor="longitude">
-                                    Longitude: <span>{this.state.marker.longitude && parseFloat(this.state.marker.longitude).toFixed(4)} </span>
+                                    Longitude:
+                                    <span>{this.state.marker.longitude && parseFloat(this.state.marker.longitude).toFixed(4)}
+                                    </span>
                                 </label>
 
                             </div>
