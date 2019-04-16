@@ -13,27 +13,9 @@ class Maps extends PureComponent {
         }
     };
 
-    // componentDidMount() {
-    //     window.addEventListener("resize", this.updateDimensions);
-    // }
-
-    // componentWillUnmount() {
-    //     window.removeEventListener("resize", this.updateDimensions);
-    // }
-
     onViewportChange = viewport => this.setState({
         viewport: {...this.state.viewport, ...viewport}
     });
-
-    // updateDimensions = () => {
-    //     this.setState({
-    //         viewport: {
-    //             ...this.state.viewport,
-    //             height: window.innerHeight,
-    //             width: window.innerWidth
-    //         }
-    //     });
-    // }
 
     render() {
         return (

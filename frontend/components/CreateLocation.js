@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 import {Mutation} from 'react-apollo';
 import {Marker} from 'react-map-gl';
 import gql from 'graphql-tag';
@@ -35,84 +35,77 @@ const CREATE_LOCATION_MUTATION = gql `
     }
 `;
 
-class CreateLocation extends Component {
-    state = {
-        viewport: {
-            height: '100vh',
-            width: '100vw',
-            latitude: 52.85,
-            longitude: 34.9,
-            zoom: 3
-        },
-        markerToolTip: false,
-        country: '',
-        city: '',
-        latitude: 0,
-        longitude: 0,
-        description: '',
-        marker: {
-            latitude: '',
-            longitude: ''
-        },
-        events: {}
-    }
-
-    _onViewportChange = viewport => this.setState({
-        viewport: {
-            ...this.state.viewport,
-            ...viewport
-        }
+function CreateLocation() {
+    const [viewport, setViewport] = useState({
+        height: '100vh',
+        width: '100vw',
+        latitude: 52.85,
+        longitude: 34.9,
+        zoom: 3
     });
 
-    _logDragEvent(name, event) {
-        this.setState({
-            events: {
-                ...this.state.events,
+    const [form, setForm] = useState({
+        country: '',
+        city: '',
+        description:'',
+        latitude: 0,
+        longitude: 0
+    });
+   
+    const [marker, setMarker] = useState({
+        latitude: '',
+        longitude: ''
+    });
+    const [events, setEvents] = useState({});
+
+    function logDragEvent(name, event) {
+        setEvents({
+                ...events,
                 [name]: event.lngLat
-            }
-        })
+        });
     }
 
-    _onMarkerDragStart = (event) => {
-        this._logDragEvent('onDragStart', event);
-    };
+    function onMarkerDragStart(event) {
+        logDragEvent('onDragStart', event);
+    }
 
-    _onMarkerDrag = (event) => {
+    function onMarkerDrag(event) {
         const {lngLat} = event;
-        this._logDragEvent('onDrag', event);
-        this.updateLocation(lngLat);
-    };
+        logDragEvent('onDrag', event);
+        updateLocation(lngLat);
+    }
 
-    _onMarkerDragEnd = (event) => {
-        this._logDragEvent('onDragEnd', event);
-    };
+    function onMarkerDragEnd(event) {
+        logDragEvent('onDragEnd', event);
+    }
 
-    handleChange = (e) => {
+     function handleChange(e) {
         const {name, type, value} = e.target;
         const val = type === 'number'
             ? parseFloat(value)
             : value;
         console.log({name, type, value})
-        this.setState({[name]: val})
+        setForm({...form, [name]: val});
         console.log(e.target.value)
+        console.log(form);
     }
 
-    showMarker = (marker) => {
-        const markerHasLocation = this.state.marker.latitude && this.state.marker.longitude;
+    function showMarker(_marker) {
+        const markerHasLocation = marker.latitude && marker.longitude;
         return markerHasLocation && <ShowMarker>
             <Marker
-                longitude={marker.longitude}
-                latitude={marker.latitude}
+                longitude={_marker.longitude}
+                latitude={_marker.latitude}
                 draggable
-                onDragStart={this._onMarkerDragStart}
-                onDrag={this._onMarkerDrag}
-                onDragEnd={this._onMarkerDragEnd}>
+                onDragStart={onMarkerDragStart}
+                onDrag={onMarkerDrag}
+                onDragEnd={onMarkerDragEnd}>
                 <CityPin size={20}/>
             </Marker>
         </ShowMarker>
     }
 
-    update = (cache, { data: { createLocation } }) => {
+    function update(cache, { data: { createLocation } }) {
         try {
             const data = cache.readQuery({query: ALL_LOCATIONS_QUERY});
             console.log(data);
@@ -123,11 +116,11 @@ class CreateLocation extends Component {
         }
     }
 
-    mutateForm = () => (
-        <Mutation
+    function mutateForm() {
+        return <Mutation
             mutation={CREATE_LOCATION_MUTATION}
-            variables={this.state}
-            update={this.update}>
+            variables={form}
+            update={update}>
             {(createLocation, {loading, error}) => (
                 <Form
                     onSubmit={async e => {
@@ -139,8 +132,8 @@ class CreateLocation extends Component {
                         query: {
                             view: 'Map',
                             id: res.data.createLocation.id,
-                            lat: this.state.latitude,
-                            lon: this.state.longitude
+                            lat: form.latitude,
+                            lon: form.longitude
                         }
                     })
                 }}>
@@ -157,8 +150,8 @@ class CreateLocation extends Component {
                                     name="city"
                                     placeholder="City"
                                     required
-                                    value={this.state.city}
-                                    onChange={this.handleChange}/>
+                                    value={form.city}
+                                    onChange={handleChange}/>
                             </div>
                             <div className="wrapper">
                                 <label htmlFor="country">
@@ -169,25 +162,37 @@ class CreateLocation extends Component {
                                     name="country"
                                     placeholder="Country"
                                     required
-                                    value={this.state.country}
-                                    onChange={this.handleChange}/>
+                                    value={form.country}
+                                    onChange={handleChange}/>
                             </div>
                            
                             <div className="wrapper">
                                 <label htmlFor="latitude">
                                     Latitude:
-                                    <span>{this.state.marker.latitude && parseFloat(this.state.marker.latitude).toFixed(4)}
-                                    </span>
                                 </label>
+                                <input
+                                    type="text"
+                                    id="latitude"
+                                    name="latitude"
+                                    placeholder="0"
+                                    disabled
+                                    value={marker.latitude && parseFloat(marker.latitude).toFixed(4)}
+                                    />
 
                             </div>
                             <div className="wrapper">
                                 <label htmlFor="longitude">
                                     Longitude:
-                                    <span>{this.state.marker.longitude && parseFloat(this.state.marker.longitude).toFixed(4)}
-                                    </span>
                                 </label>
 
+                                <input
+                                    type="text"
+                                    id="longitude"
+                                    name="longitude"
+                                    placeholder="0"
+                                    disabled
+                                    value={marker.longitude && parseFloat(marker.longitude).toFixed(4)}
+                                    />
                             </div>
                             <div className="wrapper">
                                 <label htmlFor="description">
@@ -199,56 +204,50 @@ class CreateLocation extends Component {
                                     name="description"
                                     placeholder="Enter a description"
                                     required
-                                    value={this.state.description}
-                                    onChange={this.handleChange}/>
+                                    value={form.description}
+                                    onChange={handleChange}/>
                             </div>
                         </div>
                         <button type="submit">Submit</button>
                     </fieldset>
                 </Form>
             )}
-        </Mutation>
-    )
+        </Mutation>;
+    }
 
-    updateLocation = (lngLat) => {
-        this.setState({
-            marker: {
+    function updateLocation(lngLat) {
+        setMarker({
                 latitude: lngLat[1],
                 longitude: lngLat[0]
-            },
+        });
+        setForm({
             latitude: lngLat[1],
             longitude: lngLat[0]
-        });
+        })
     }
 
-    addMarker = (event) => {
-        const {lngLat} = event;
-        this.setState({
-            marker: {
+    function addMarker(e) {
+        const {lngLat} = e;
+        setMarker({
                 latitude: '',
                 longitude: ''
-            }
-        });
-        this.updateLocation(lngLat);
+        }
+        );
+        updateLocation(lngLat);
     }
-
-    render() {
-        const {viewport, marker} = this.state;
-        console.log(this.state.latitude, this.state.longitude);
-        return (
-            <CreateLocationMapStyle>
+    
+    return (
+    
+    <CreateLocationMapStyle>
                 <MapGL
                     viewport={{
                     ...viewport
                 }}
-                    ref="changeViewport"
-                    onClick={this.addMarker}>
-                    {this.showMarker(marker)}
+                    onClick={addMarker}>
+                    {showMarker(marker)}
                 </MapGL>
-                {this.mutateForm()}
-            </CreateLocationMapStyle>
-        );
-    }
+                {mutateForm()}
+    </CreateLocationMapStyle>);
 }
 
 export default CreateLocation;
