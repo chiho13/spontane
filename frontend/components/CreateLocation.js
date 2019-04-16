@@ -143,6 +143,7 @@ class CreateLocation extends Component {
                     Router.push({
                         pathname: '/admin/locations',
                         query: {
+                            view: 'Map',
                             id: res.data.createLocation.id,
                             lat: this.state.latitude,
                             lon: this.state.longitude
@@ -152,18 +153,6 @@ class CreateLocation extends Component {
                     <Error error={error}/>
                     <fieldset disabled={loading} hasgrid={"true"} aria-busy={loading}>
                         <div className="fieldset_wrapper">
-                            <div className="wrapper">
-                                <label htmlFor="country">
-                                    Country</label>
-                                <input
-                                    type="text"
-                                    id="country"
-                                    name="country"
-                                    placeholder="Country"
-                                    required
-                                    value={this.state.country}
-                                    onChange={this.handleChange}/>
-                            </div>
                             <div className="wrapper">
                                 <label htmlFor="city">
                                     City
@@ -177,6 +166,19 @@ class CreateLocation extends Component {
                                     value={this.state.city}
                                     onChange={this.handleChange}/>
                             </div>
+                            <div className="wrapper">
+                                <label htmlFor="country">
+                                    Country</label>
+                                <input
+                                    type="text"
+                                    id="country"
+                                    name="country"
+                                    placeholder="Country"
+                                    required
+                                    value={this.state.country}
+                                    onChange={this.handleChange}/>
+                            </div>
+                           
                             <div className="wrapper">
                                 <label htmlFor="latitude">
                                     Latitude:

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import TabsStyle from './TabsStyle';
 import Tab from './Tab';
+import Router from 'next/router';
 
 class Tabs extends Component {
   static propTypes = {
@@ -20,7 +21,30 @@ class Tabs extends Component {
   onClickTabItem = (tab) => {
     this.setState({ activeTab: tab });
   }
+  
+  getParam = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const myParam = urlParams.get('view');
+    return myParam
+  }
 
+  componentDidUpdate() {
+    Router.onRouteChangeComplete = () => {
+      const myParam = this.getParam();
+      
+      myParam === 'List' && this.setState({ activeTab: 'List' });
+    };    
+  }
+
+  componentDidMount() {
+    const myParam = this.getParam();
+
+      if(myParam === 'Map') {
+        this.setState({ activeTab: 'Map' });
+      } else if(myParam === 'List') {
+        this.setState({ activeTab: 'List' });
+      }
+  }
   componentWillMount() {
       this.props.id && this.setState({ activeTab: 'Map' });
   }

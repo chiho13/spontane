@@ -102,6 +102,7 @@ class AllLocations extends PureComponent {
         let pathNameLocation = {
             pathname: this.props.pathname,
             query: {
+                view: 'Map',
                 id: location.id,
                 lat: location.geoLocation.latitude,
                 lon: location.geoLocation.longitude

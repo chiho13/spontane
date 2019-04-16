@@ -29,7 +29,10 @@ const DeleteButton = (props) => {
         data.locations = data.locations.filter(location => location.id !== payload.data.deleteLocation.id)
         cache.writeQuery({ query: ALL_LOCATIONS_QUERY, data});
         Router.push({
-            pathname: '/admin/locations'
+            pathname: '/admin/locations',
+            query: {
+                view: 'List'
+            }
         });
     };
     

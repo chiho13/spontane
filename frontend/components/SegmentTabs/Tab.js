@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import MaterialIcon from '@material/react-material-icon';
+import Router from 'next/router';
 
 class Tab extends Component {
   static propTypes = {
@@ -13,6 +14,12 @@ class Tab extends Component {
   onClick = () => {
     const { label, onClick } = this.props;
     onClick(label);
+    Router.push({
+      pathname: '/admin/locations',
+      query: {
+          view: label
+      }
+  });
   }
 
   render() {
