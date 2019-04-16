@@ -8,14 +8,8 @@ import Error from './ErrorMessage';
 import CityPin from './Icons/CityMarker';
 import MapGL from './MapGL';
 import ShowMarker from './styles/ShowMarker';
-import styled from 'styled-components';
+import CreateLocationMapStyle from './styles/MapContainerStyle';
 import {ALL_LOCATIONS_QUERY} from './LocationsMapView';
-
-const CreateLocationMapStyle = styled.div `
-    position: relative;
-      width: 100%;
-      height: 100vh
-`;
 
 const CREATE_LOCATION_MUTATION = gql `
     mutation CREATE_LOCATION_MUTATION(

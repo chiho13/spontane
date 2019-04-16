@@ -3,8 +3,12 @@ import {Mutation, Query} from 'react-apollo';
 import gql from 'graphql-tag';
 import Router from 'next/router';
 import Form from './styles/Form';
-import formatMoney from '../lib/formatMoney';
 import Error from './ErrorMessage';
+import {Marker} from 'react-map-gl';
+import CityPin from './Icons/CityMarker';
+import MapGL from './MapGL';
+import ShowMarker from './styles/ShowMarker';
+import CreateLocationMapStyle from './styles/MapContainerStyle';
 
 const SINGLE_LOCATION_QUERY = gql `
     query SINGLE_LOCATION_QUERY($id: ID!) {
