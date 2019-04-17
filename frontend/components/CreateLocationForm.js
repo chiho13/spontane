@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Mutation} from 'react-apollo';
 import {Marker} from 'react-map-gl';
 import gql from 'graphql-tag';
@@ -57,6 +57,14 @@ function CreateLocation() {
         longitude: ''
     });
     const [events, setEvents] = useState({});
+
+    useEffect(() => {
+        setForm({
+            ...form,
+            latitude: marker.latitude,
+            longitude: marker.longitude
+        });
+    });
 
     function logDragEvent(name, event) {
         setEvents({
@@ -220,10 +228,6 @@ function CreateLocation() {
                 latitude: lngLat[1],
                 longitude: lngLat[0]
         });
-        setForm({
-            latitude: lngLat[1],
-            longitude: lngLat[0]
-        })
     }
 
     function addMarker(e) {
@@ -231,13 +235,11 @@ function CreateLocation() {
         setMarker({
                 latitude: '',
                 longitude: ''
-        }
-        );
+        });
         updateLocation(lngLat);
     }
     
     return (
-    
     <CreateLocationMapStyle>
                 <MapGL
                     viewport={{

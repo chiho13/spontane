@@ -10,7 +10,6 @@ const Meta = () => (
         <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet" />
-        <title>Spontane</title>
     </Head>
 );
 

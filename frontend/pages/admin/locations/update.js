@@ -1,8 +1,14 @@
 import UpdateLocation from '../../../components/UpdateLocation';
 import DashboardLayout from '../../../components/Layout/DashboardLayout';
+import Head from 'next/head';
 
 const Update = props => (
-    <DashboardLayout><UpdateLocation id={props.query.id}/></DashboardLayout>
+    <DashboardLayout>
+        <Head>
+            <title>Update Location</title>
+        </Head>
+        <UpdateLocation id={props.query.id}/>
+    </DashboardLayout>
 )
 
 export default Update;

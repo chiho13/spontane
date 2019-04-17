@@ -1,5 +1,6 @@
 import Header from '../Header'
 import styled from 'styled-components';
+import Head from 'next/head';
 
 const HomeStyle = styled.div`
   .map-container {
@@ -10,6 +11,9 @@ const HomeStyle = styled.div`
 
 const Layout = props => (
   <HomeStyle>
+    <Head>
+      <title>Spontane</title>
+    </Head>
     <Header />
     {props.children}
   </HomeStyle>

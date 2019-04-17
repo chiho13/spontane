@@ -1,9 +1,9 @@
-import CreateLocation from '../../components/CreateLocation';
+import CreateLocation from '../../components/CreateLocationForm';
 import DashboardLayout from '../../components/Layout/DashboardLayout';
-const addLocation = props => (
+const addLocation = () => (
     <DashboardLayout>
         <CreateLocation/>
     </DashboardLayout>
-)
+);
 
 export default addLocation;
