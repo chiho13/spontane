@@ -10,6 +10,7 @@ import MapGL from './MapGL';
 import ShowMarker from './styles/ShowMarker';
 import CreateLocationMapStyle from './styles/MapContainerStyle';
 import {ALL_LOCATIONS_QUERY} from './LocationsMapView';
+import useLocation from './hooks/useLocationForm';
 
 const CREATE_LOCATION_MUTATION = gql `
     mutation CREATE_LOCATION_MUTATION(
@@ -44,13 +45,7 @@ function CreateLocation() {
         zoom: 3
     });
 
-    const [form, setForm] = useState({
-        country: '',
-        city: '',
-        description:'',
-        latitude: 0,
-        longitude: 0
-    });
+    const [form, setForm, handleChange] = useLocation();
    
     const [marker, setMarker] = useState({
         latitude: '',
@@ -87,17 +82,6 @@ function CreateLocation() {
         logDragEvent('onDragEnd', event);
     }
 
-     function handleChange(e) {
-        const {name, type, value} = e.target;
-        const val = type === 'number'
-            ? parseFloat(value)
-            : value;
-        console.log({name, type, value})
-        setForm({...form, [name]: val});
-        console.log(e.target.value)
-        console.log(form);
-    }
-
     function showMarker(_marker) {
         const markerHasLocation = marker.latitude && marker.longitude;
         return markerHasLocation && <ShowMarker>
@@ -114,11 +98,14 @@ function CreateLocation() {
     }
 
     function update(cache, { data: { createLocation } }) {
+        
         try {
+            if(cache.data.data.ROOT_QUERY){
             const data = cache.readQuery({query: ALL_LOCATIONS_QUERY});
             console.log(data);
             data.locations.push(createLocation);
             cache.writeQuery({query: ALL_LOCATIONS_QUERY, data});
+            }
         } catch (error) {
             console.error(error);
         }

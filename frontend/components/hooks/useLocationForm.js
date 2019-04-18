@@ -9,8 +9,17 @@ function useLocationForm() {
         longitude: 0
     });
 
+    function handleChange(e) {
+        const {name, type, value} = e.target;
+        const val = type === 'number'
+            ? parseFloat(value)
+            : value;
+        setForm({...form, [name]: val});
+        console.log(form);
+    }
 
-    return [form, setForm];
+
+    return [form, setForm, handleChange];
 }
 
 export default useLocationForm;

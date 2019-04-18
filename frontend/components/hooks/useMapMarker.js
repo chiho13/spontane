@@ -1,22 +1,14 @@
 import React, {useState} from 'react';
-import useLocationForm from './useLocationForm';
+import useMarker from './userMarker';
 
 function useDropMarker() {
-    const [marker, setMarker] = useState({
-        latitude: '',
-        longitude: ''
-    });
+    const [marker, setMarker] = useMarker();
     const [events, setEvents] = useState({});
-    const [form, setForm] = useLocationForm();
 
     function updateLocation(lngLat) {
         setMarker({
                 latitude: lngLat[1],
                 longitude: lngLat[0]
-        });
-        setForm({
-            latitude: lngLat[1],
-            longitude: lngLat[0]
         });
     }
 
@@ -51,7 +43,7 @@ function useDropMarker() {
         updateLocation(lngLat);
     }
 
-    return [marker, addMarker, onMarkerDragStart, onMarkerDrag, onMarkerDragEnd,form]
+    return [marker, addMarker, onMarkerDragStart, onMarkerDrag, onMarkerDragEnd]
 
 }
 
