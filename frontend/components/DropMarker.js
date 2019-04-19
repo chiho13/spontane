@@ -1,14 +1,13 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import ShowMarker from './styles/ShowMarker';
 import CityPin from './Icons/CityMarker';
-import useMapMarker from './hooks/useMapMarker';
+import {Marker} from 'react-map-gl';
 
 function DropMarker(props) {
     const {marker: {
         latitude, longitude
-    }} = props;
-    const markerHasLocation = latitude && longitude;
-    return markerHasLocation && <ShowMarker>
+    }, onMarkerDragStart, onMarkerDrag, onMarkerDragEnd} = props;
+    return <ShowMarker>
         <Marker
             longitude={longitude}
             latitude={latitude}

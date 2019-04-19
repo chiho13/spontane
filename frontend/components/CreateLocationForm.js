@@ -1,126 +1,11 @@
-import React, {useState, useEffect} from 'react';
-import {Mutation} from 'react-apollo';
-import {Marker} from 'react-map-gl';
-import gql from 'graphql-tag';
+import React from 'react';
 import Router from 'next/router';
 import Form from './styles/Form';
 import Error from './ErrorMessage';
-import CityPin from './Icons/CityMarker';
-import MapGL from './MapGL';
-import ShowMarker from './styles/ShowMarker';
-import CreateLocationMapStyle from './styles/MapContainerStyle';
-import {ALL_LOCATIONS_QUERY} from './LocationsMapView';
-import useLocation from './hooks/useLocationForm';
-import useMapMarker from './hooks/useMapMarker';
 
-const CREATE_LOCATION_MUTATION = gql `
-    mutation CREATE_LOCATION_MUTATION(
-        $country: String!
-        $city: String!
-        $latitude: Float!
-        $longitude: Float!
-        $description: String
-    ) {
-        createLocation(
-            country: $country
-            city: $city
-            geoLocation: {
-                create: {
-                    latitude: $latitude
-                    longitude: $longitude
-                }
-            }
-            description: $description
-        ) {
-            id
-        }
-    }
-`;
-
-function CreateLocation() {
-    const [viewport, setViewport] = useState({
-        height: '100vh',
-        width: '100vw',
-        latitude: 52.85,
-        longitude: 34.9,
-        zoom: 3
-    });
-
-    const [form, setForm, handleChange] = useLocation();
-   
-    // const [marker, setMarker] = useState({
-    //     latitude: '',
-    //     longitude: ''
-    // });
-    // const [events, setEvents] = useState({});
-
-    const [marker, addMarker, showMarker] = useMapMarker();
-
-    useEffect(() => {
-        setForm({
-            ...form,
-            latitude: marker.latitude,
-            longitude: marker.longitude
-        });
-    });
-
-    // function logDragEvent(name, event) {
-    //     setEvents({
-    //             ...events,
-    //             [name]: event.lngLat
-    //     });
-    // }
-
-    // function onMarkerDragStart(event) {
-    //     logDragEvent('onDragStart', event);
-    // }
-
-    // function onMarkerDrag(event) {
-    //     const {lngLat} = event;
-    //     logDragEvent('onDrag', event);
-    //     updateLocation(lngLat);
-    // }
-
-    // function onMarkerDragEnd(event) {
-    //     logDragEvent('onDragEnd', event);
-    // }
-
-    // function showMarker(_marker) {
-    //     const markerHasLocation = marker.latitude && marker.longitude;
-    //     return markerHasLocation && <ShowMarker>
-    //         <Marker
-    //             longitude={_marker.longitude}
-    //             latitude={_marker.latitude}
-    //             draggable
-    //             onDragStart={onMarkerDragStart}
-    //             onDrag={onMarkerDrag}
-    //             onDragEnd={onMarkerDragEnd}>
-    //             <CityPin size={20}/>
-    //         </Marker>
-    //     </ShowMarker>
-    // }
-
-    function update(cache, { data: { createLocation } }) {
-        
-        try {
-            if(cache.data.data.ROOT_QUERY){
-            const data = cache.readQuery({query: ALL_LOCATIONS_QUERY});
-            console.log(data);
-            data.locations.push(createLocation);
-            cache.writeQuery({query: ALL_LOCATIONS_QUERY, data});
-            }
-        } catch (error) {
-            console.error(error);
-        }
-    }
-
-    function MutateForm() {
-        return <Mutation
-            mutation={CREATE_LOCATION_MUTATION}
-            variables={form}
-            update={update}>
-            {(createLocation, {loading, error}) => (
-                <Form
+function CreateLocationForm(props) {
+    const {form, marker, handleChange, createLocation, loading, error} = props;
+        return <Form
                     onSubmit={async e => {
                     e.preventDefault();
                     const res = await createLocation();
@@ -209,38 +94,6 @@ function CreateLocation() {
                         <button type="submit">Submit</button>
                     </fieldset>
                 </Form>
-            )}
-        </Mutation>;
-    }
-
-    // function updateLocation(lngLat) {
-    //     setMarker({
-    //             latitude: lngLat[1],
-    //             longitude: lngLat[0]
-    //     });
-    // }
-
-    // function addMarker(e) {
-    //     const {lngLat} = e;
-    //     setMarker({
-    //             latitude: '',
-    //             longitude: ''
-    //     });
-    //     updateLocation(lngLat);
-    // }
-    
-    return (
-    <CreateLocationMapStyle>
-                <MapGL
-                    viewport={{
-                    ...viewport
-                }}
-                    onClick={addMarker}>
-                    {showMarker(marker)}
-                </MapGL>
-                <MutateForm />
-    </CreateLocationMapStyle>);
 }
 
-export default CreateLocation;
-export {CREATE_LOCATION_MUTATION};
+export default CreateLocationForm;

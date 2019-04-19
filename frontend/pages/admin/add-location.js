@@ -1,4 +1,4 @@
-import CreateLocation from '../../components/CreateLocationForm';
+import CreateLocation from '../../components/CreateLocation';
 import DashboardLayout from '../../components/Layout/DashboardLayout';
 import Head from 'next/head';
 
