@@ -34,7 +34,7 @@ function CreateLocationForm(props) {
                                     placeholder="Country"
                                     required
                                     defaultValue={defaultValue.country}
-                                    onChange={handleChange}/>
+                                    />
                             </div>
                            
                             <div className="wrapper">
@@ -42,11 +42,11 @@ function CreateLocationForm(props) {
                                     Latitude:
                                 </label>
                                 <input
-                                    type="text"
+                                    type="number"
                                     id="latitude"
                                     name="latitude"
                                     placeholder="0"
-                                    disabled
+                                    readOnly
                                     value={marker.latitude && parseFloat(marker.latitude).toFixed(4)}
                                     />
 
@@ -57,11 +57,11 @@ function CreateLocationForm(props) {
                                 </label>
 
                                 <input
-                                    type="text"
+                                    type="number"
                                     id="longitude"
                                     name="longitude"
                                     placeholder="0"
-                                    disabled
+                                    readOnly
                                     value={marker.longitude && parseFloat(marker.longitude).toFixed(4)}
                                     />
                             </div>

@@ -74,6 +74,14 @@ const Form = styled.form`
     }
   }
 
+  input:read-only {
+    border: 0;
+    background: none;
+    font-weight: bold;
+    color: #555555;
+    padding: 0;
+  }
+
   textarea {
     resize: none;
   }
