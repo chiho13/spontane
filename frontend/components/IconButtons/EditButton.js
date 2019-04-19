@@ -9,14 +9,16 @@ const theme = {
 }
 
 const EditButton = (props) => {
-    const {pathname, id} = props;
+    const {pathname, id, latitude, longitude} = props;
     return (
         <ThemeProvider theme={theme}>
             <Link
                 href={{
                 pathname: pathname,
                 query: {
-                    id
+                    id,
+                    latitude,
+                    longitude
                 }
             }}>
 

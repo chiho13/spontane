@@ -44,11 +44,12 @@ function CreateLocation() {
         setForm,
         handleChange] = useLocation();
 
-    const [marker,
+    const {marker,
         addMarker,
+        showMarker,
         onMarkerDragStart,
         onMarkerDrag,
-        onMarkerDragEnd] = useMapMarker();
+        onMarkerDragEnd} = useMapMarker();
     const markerHasLocation = marker.latitude && marker.longitude;
 
     useEffect(() => {
@@ -57,7 +58,7 @@ function CreateLocation() {
             latitude: marker.latitude,
             longitude: marker.longitude
         });
-    });
+    }, []);
 
     function update(cache, {data: {
             createLocation
@@ -98,7 +99,7 @@ function CreateLocation() {
                 ...viewport
             }}
                 onClick={addMarker}>
-                {markerHasLocation && <DropMarker
+                {showMarker && <DropMarker
                     marker={marker}
                     onMarkerDragStart={onMarkerDragStart}
                     onMarkerDrag={onMarkerDrag}
@@ -114,7 +115,7 @@ function CreateLocation() {
                     loading={loading}
                     onSubmit={e => onSubmit(e, createLocation)}
                     error={error}/>)}
-            </Mutation>;
+            </Mutation>
         </CreateLocationMapStyle>
     );
 }

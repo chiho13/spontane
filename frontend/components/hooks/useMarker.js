@@ -2,15 +2,19 @@ import React, {useState} from 'react';
 
 function useMarker() {
     const [marker, setMarker] = useState({
-        latitude: '',
-        longitude: ''
+        latitude: 0,
+        longitude: 0
     });
+
+    const [showMarker, setShowMarker] = useState(false);
 
     function updateLocation(lngLat) {
         setMarker({
                 latitude: lngLat[1],
                 longitude: lngLat[0]
         });
+
+        setShowMarker(true);
     }
 
     function addMarker(e) {
@@ -19,11 +23,13 @@ function useMarker() {
                 latitude: '',
                 longitude: ''
         });
+
+        setShowMarker(false);
         
         updateLocation(lngLat);
     }
 
-    return [marker, setMarker, updateLocation, addMarker];
+    return [marker, setMarker, updateLocation, addMarker, showMarker];
 }
 
 export default useMarker;

@@ -42,7 +42,6 @@ class EditMore extends React.Component {
   render() {
     const { anchorEl } = this.state;
     const {location, pathname } = this.props;
-    console.log(pathname)
 
     return (
       <EditMoreStyle>
@@ -60,7 +59,9 @@ class EditMore extends React.Component {
           onClose={this.handleClose}
         >
                         <EditButton
-                            id={location.id}
+                            id={location.id} 
+                            latitude={location.geoLocation.latitude}
+                            longitude={location.geoLocation.longitude}
                             pathname={`${pathname}/update`}
                           />
                         <DeleteButton

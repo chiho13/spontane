@@ -1,14 +1,17 @@
-import React, {Component} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Mutation, Query} from 'react-apollo';
+import CreateLocationForm from './LocationForm';
 import gql from 'graphql-tag';
 import Router from 'next/router';
-import Form from './styles/Form';
-import Error from './ErrorMessage';
-import {Marker} from 'react-map-gl';
-import CityPin from './Icons/CityMarker';
+
+import UpdateLocationForm from './LocationForm';
 import MapGL from './MapGL';
-import ShowMarker from './styles/ShowMarker';
 import CreateLocationMapStyle from './styles/MapContainerStyle';
+import {ALL_LOCATIONS_QUERY} from './LocationsMapView';
+import DropMarker from './DropMarker';
+
+import useLocation from './hooks/useLocationForm';
+import useMapMarker from './hooks/useMapMarker';
 
 const SINGLE_LOCATION_QUERY = gql `
     query SINGLE_LOCATION_QUERY($id: ID!) {
@@ -53,121 +56,94 @@ const UPDATE_LOCATION_MUTATION = gql `
     }
 `;
 
-class UpdateLocation extends Component {
-    state = {}
+function UpdateLocation(props) {
+    const [viewport,
+        setViewport] = useState({height: '100vh', width: '100vw', latitude: 52.85, longitude: 34.9, zoom: 3});
 
-    handleChange = (e) => {
-        const {name, type, value} = e.target;
-        const val = type === 'number'
-            ? parseFloat(value)
-            : value;
-        console.log({name, type, value})
-        this.setState({[name]: val})
-        console.log(e.target.value)
-    }
+    const [form,
+        setForm,
+        handleChange] = useLocation();
 
-    updateLocation = async(e, updateLocationMutation) => {
+    const {
+        marker,
+        setMarker,
+        addMarker,
+        onMarkerDragStart,
+        onMarkerDrag,
+        onMarkerDragEnd
+    } = useMapMarker();
+
+    useEffect(() => {
+        setMarker({
+            latitude: props.latitude,
+            longitude: props.longitude,
+        })
+        
+        setForm({
+            ...form,
+            latitude: marker.latitude,
+            longitude: marker.longitude
+        });
+    }, []);
+
+    async function updateForm(e, updateLocationMutation) {
         e.preventDefault();
-        console.log('Updating item');
-        console.log(this.state);
 
         const res = await updateLocationMutation({
             variables: {
-                id: this.props.id,
-                ...this.state
+                id: props.id,
+                ...form
             }
         });
-
-        console.log('Updated')
     }
 
-    render() {
-        return (
+    return (
+        <CreateLocationMapStyle>
             <Query
                 query={SINGLE_LOCATION_QUERY}
                 variables={{
-                id: this.props.id
+                id: props.id
             }}>
+
                 {({data, loading}) => {
                     if (loading) 
+
                         return <p>Loading...</p>;
                     if (!data.location) 
                         return <p>No Item Found</p>
                     return (
-                        <Mutation mutation={UPDATE_LOCATION_MUTATION} variables={this.state}>
-                            {(updateLocation, {loading, error}) => (
-                                <Form onSubmit={e => this.updateLocation(e, updateLocation)}>
-                                    <Error error={error}/>
-                                    <fieldset disabled={loading} aria-busy={loading}>
-                                        <label htmlFor="country">
-                                            Country
-                                            <input
-                                                type="text"
-                                                id="country"
-                                                name="country"
-                                                placeholder="Country"
-                                                required
-                                                defaultValue={data.location.country}
-                                                onChange={this.handleChange}/>
-                                        </label>
-                                        <label htmlFor="city">
-                                            City
-                                            <input
-                                                type="text"
-                                                id="city"
-                                                name="city"
-                                                placeholder="City"
-                                                required
-                                                defaultValue={data.location.city}
-                                                onChange={this.handleChange}/>
-                                        </label>
-                                        <label htmlFor="latitude">
-                                            Latitude
-                                            <input
-                                                type="number"
-                                                id="latitude"
-                                                name="latitude"
-                                                placeholder="Latitude"
-                                                required
-                                                step="any"
-                                                defaultValue={data.location.geoLocation.latitude}
-                                                onChange={this.handleChange}/>
-                                        </label>
-                                        <label htmlFor="longitude">
-                                            Longitude
-                                            <input
-                                                type="number"
-                                                id="longitude"
-                                                name="longitude"
-                                                placeholder="Longitude"
-                                                required
-                                                step="any"
-                                                defaultValue={data.location.geoLocation.longitude}
-                                                onChange={this.handleChange}/>
-                                        </label>
-                                        <label htmlFor="description">
-                                            Description
-                                            <textarea
-                                                type="number"
-                                                id="description"
-                                                name="description"
-                                                placeholder="Enter a description"
-                                                defaultValue={data.location.description}
-                                                onChange={this.handleChange}/>
-                                        </label>
-                                        <button type="submit">Sav{loading
-                                                ? 'ing '
-                                                : 'e '}
-                                            Changes</button>
-                                    </fieldset>
-                                </Form>
-                            )}
-                        </Mutation>
+                        <>
+                            <MapGL
+                                viewport={{
+                                ...viewport
+                            }}
+                                onClick={addMarker}>
+                                {data.location && <DropMarker
+                                    marker={marker}
+                                    defaultMarker={data.location}
+                                    onMarkerDragStart={onMarkerDragStart}
+                                    onMarkerDrag={onMarkerDrag}
+                                    onMarkerDragEnd={onMarkerDragEnd}/>}
+                            </MapGL>
+
+                            <div>hello</div>
+                            <Mutation mutation={UPDATE_LOCATION_MUTATION} variables={form}>
+                                {(updateLocation, {loading, error}) => (<UpdateLocationForm
+                                    form={form}
+                                    defaultValue={data.location}
+                                    mode="EDIT"
+                                    marker={data.location.geoLocation}
+                                    handleChange={handleChange}
+                                    loading={loading}
+                                    onSubmit={e => updateForm(e, updateLocation)}
+                                    error={error}/>)}
+                            </Mutation>
+                        </>
                     )
                 }}
             </Query>
-        );
-    }
+        </CreateLocationMapStyle>
+    );
 }
 
 export default UpdateLocation;

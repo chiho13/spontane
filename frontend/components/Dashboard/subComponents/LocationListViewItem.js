@@ -14,7 +14,7 @@ const LocationListViewItem = (props) => {
                 </p>
             </div>
             <div className="buttonList">
-                <EditButton pathname="/admin/locations/update" id={location.id} showButton={true}/>
+                <EditButton pathname="/admin/locations/update" id={location.id} latitude={location.geoLocation.latitude} longitude={location.geoLocation.longitude} showButton={true}/>
                 <DeleteButton pathname="/admin/locations/update" id={location.id} showButton={true}/>
             </div>
         </LocationItemStyles>

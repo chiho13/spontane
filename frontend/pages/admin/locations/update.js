@@ -7,7 +7,7 @@ const Update = props => (
         <Head>
             <title>Update Location</title>
         </Head>
-        <UpdateLocation id={props.query.id}/>
+        <UpdateLocation id={props.query.id} latitude={props.query.latitude} longitude={props.query.longitude}/>
     </DashboardLayout>
 )
 
