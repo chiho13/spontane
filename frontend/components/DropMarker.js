@@ -7,6 +7,7 @@ function DropMarker(props) {
     const {marker: {
         latitude, longitude
     }} = props;
+    const markerHasLocation = latitude && longitude;
     return markerHasLocation && <ShowMarker>
         <Marker
             longitude={longitude}

@@ -1,5 +1,8 @@
 import React, {useState} from 'react';
-import useMarker from './userMarker';
+import useMarker from './useMarker';
+import ShowMarker from '../styles/ShowMarker';
+import CityPin from '../Icons/CityMarker';
+import {Marker} from 'react-map-gl';
 
 function useDropMarker() {
     const [marker, setMarker] = useMarker();
@@ -43,7 +46,22 @@ function useDropMarker() {
         updateLocation(lngLat);
     }
 
-    return [marker, addMarker, onMarkerDragStart, onMarkerDrag, onMarkerDragEnd]
+    function showMarker(_marker) {
+        const markerHasLocation = marker.latitude && marker.longitude;
+        return markerHasLocation && <ShowMarker>
+            <Marker
+                longitude={_marker.longitude}
+                latitude={_marker.latitude}
+                draggable
+                onDragStart={onMarkerDragStart}
+                onDrag={onMarkerDrag}
+                onDragEnd={onMarkerDragEnd}>
+                <CityPin size={20}/>
+            </Marker>
+        </ShowMarker>
+    }
+
+    return [marker, addMarker, showMarker]
 
 }
 

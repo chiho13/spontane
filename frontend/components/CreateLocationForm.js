@@ -11,6 +11,7 @@ import ShowMarker from './styles/ShowMarker';
 import CreateLocationMapStyle from './styles/MapContainerStyle';
 import {ALL_LOCATIONS_QUERY} from './LocationsMapView';
 import useLocation from './hooks/useLocationForm';
+import useMapMarker from './hooks/useMapMarker';
 
 const CREATE_LOCATION_MUTATION = gql `
     mutation CREATE_LOCATION_MUTATION(
@@ -47,11 +48,13 @@ function CreateLocation() {
 
     const [form, setForm, handleChange] = useLocation();
    
-    const [marker, setMarker] = useState({
-        latitude: '',
-        longitude: ''
-    });
-    const [events, setEvents] = useState({});
+    // const [marker, setMarker] = useState({
+    //     latitude: '',
+    //     longitude: ''
+    // });
+    // const [events, setEvents] = useState({});
+
+    const [marker, addMarker, showMarker] = useMapMarker();
 
     useEffect(() => {
         setForm({
@@ -61,41 +64,41 @@ function CreateLocation() {
         });
     });
 
-    function logDragEvent(name, event) {
-        setEvents({
-                ...events,
-                [name]: event.lngLat
-        });
-    }
+    // function logDragEvent(name, event) {
+    //     setEvents({
+    //             ...events,
+    //             [name]: event.lngLat
+    //     });
+    // }
 
-    function onMarkerDragStart(event) {
-        logDragEvent('onDragStart', event);
-    }
+    // function onMarkerDragStart(event) {
+    //     logDragEvent('onDragStart', event);
+    // }
 
-    function onMarkerDrag(event) {
-        const {lngLat} = event;
-        logDragEvent('onDrag', event);
-        updateLocation(lngLat);
-    }
+    // function onMarkerDrag(event) {
+    //     const {lngLat} = event;
+    //     logDragEvent('onDrag', event);
+    //     updateLocation(lngLat);
+    // }
 
-    function onMarkerDragEnd(event) {
-        logDragEvent('onDragEnd', event);
-    }
+    // function onMarkerDragEnd(event) {
+    //     logDragEvent('onDragEnd', event);
+    // }
 
-    function showMarker(_marker) {
-        const markerHasLocation = marker.latitude && marker.longitude;
-        return markerHasLocation && <ShowMarker>
-            <Marker
-                longitude={_marker.longitude}
-                latitude={_marker.latitude}
-                draggable
-                onDragStart={onMarkerDragStart}
-                onDrag={onMarkerDrag}
-                onDragEnd={onMarkerDragEnd}>
-                <CityPin size={20}/>
-            </Marker>
-        </ShowMarker>
-    }
+    // function showMarker(_marker) {
+    //     const markerHasLocation = marker.latitude && marker.longitude;
+    //     return markerHasLocation && <ShowMarker>
+    //         <Marker
+    //             longitude={_marker.longitude}
+    //             latitude={_marker.latitude}
+    //             draggable
+    //             onDragStart={onMarkerDragStart}
+    //             onDrag={onMarkerDrag}
+    //             onDragEnd={onMarkerDragEnd}>
+    //             <CityPin size={20}/>
+    //         </Marker>
+    //     </ShowMarker>
+    // }
 
     function update(cache, { data: { createLocation } }) {
         
@@ -111,7 +114,7 @@ function CreateLocation() {
         }
     }
 
-    function mutateForm() {
+    function MutateForm() {
         return <Mutation
             mutation={CREATE_LOCATION_MUTATION}
             variables={form}
@@ -210,21 +213,21 @@ function CreateLocation() {
         </Mutation>;
     }
 
-    function updateLocation(lngLat) {
-        setMarker({
-                latitude: lngLat[1],
-                longitude: lngLat[0]
-        });
-    }
+    // function updateLocation(lngLat) {
+    //     setMarker({
+    //             latitude: lngLat[1],
+    //             longitude: lngLat[0]
+    //     });
+    // }
 
-    function addMarker(e) {
-        const {lngLat} = e;
-        setMarker({
-                latitude: '',
-                longitude: ''
-        });
-        updateLocation(lngLat);
-    }
+    // function addMarker(e) {
+    //     const {lngLat} = e;
+    //     setMarker({
+    //             latitude: '',
+    //             longitude: ''
+    //     });
+    //     updateLocation(lngLat);
+    // }
     
     return (
     <CreateLocationMapStyle>
@@ -235,7 +238,7 @@ function CreateLocation() {
                     onClick={addMarker}>
                     {showMarker(marker)}
                 </MapGL>
-                {mutateForm()}
+                <MutateForm />
     </CreateLocationMapStyle>);
 }
 
