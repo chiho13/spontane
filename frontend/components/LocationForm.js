@@ -4,22 +4,10 @@ import Form from './styles/Form';
 import Error from './ErrorMessage';
 
 function CreateLocationForm(props) {
-    const {form, marker, handleChange, createLocation, loading, error} = props;
+    const {form, mode, defaultValue, marker, handleChange, loading, error, onSubmit} = props;
+    const EditMode = mode === 'EDIT';
         return <Form
-                    onSubmit={async e => {
-                    e.preventDefault();
-                    const res = await createLocation();
-                    console.log(res);
-                    Router.push({
-                        pathname: '/admin/locations',
-                        query: {
-                            view: 'Map',
-                            id: res.data.createLocation.id,
-                            lat: form.latitude,
-                            lon: form.longitude
-                        }
-                    })
-                }}>
+                    onSubmit={onSubmit}>
                     <Error error={error}/>
                     <fieldset disabled={loading} hasgrid={"true"} aria-busy={loading}>
                         <div className="fieldset_wrapper">
@@ -33,7 +21,7 @@ function CreateLocationForm(props) {
                                     name="city"
                                     placeholder="City"
                                     required
-                                    value={form.city}
+                                    defaultValue={defaultValue.city}
                                     onChange={handleChange}/>
                             </div>
                             <div className="wrapper">
@@ -45,7 +33,7 @@ function CreateLocationForm(props) {
                                     name="country"
                                     placeholder="Country"
                                     required
-                                    value={form.country}
+                                    defaultValue={defaultValue.country}
                                     onChange={handleChange}/>
                             </div>
                            
@@ -87,11 +75,14 @@ function CreateLocationForm(props) {
                                     name="description"
                                     placeholder="Enter a description"
                                     required
-                                    value={form.description}
+                                    defaultValue={defaultValue.description}
                                     onChange={handleChange}/>
                             </div>
                         </div>
-                        <button type="submit">Submit</button>
+                        {EditMode ?  <button type="submit">Sav{loading
+                                                ? 'ing '
+                                                : 'e '}
+                                            Changes</button> : <button type="submit">Submit</button>}
                     </fieldset>
                 </Form>
 }

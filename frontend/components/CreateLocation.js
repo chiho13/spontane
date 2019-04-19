@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import {Mutation} from 'react-apollo';
 import gql from 'graphql-tag';
-
-import CreateLocationForm from './CreateLocationForm';
+import Router from 'next/router';
+import CreateLocationForm from './LocationForm';
 
 import MapGL from './MapGL';
 import CreateLocationMapStyle from './styles/MapContainerStyle';
@@ -76,8 +76,19 @@ function CreateLocation() {
         }
     }
 
-    function MutateForm() {
-        return
+    async function  onSubmit(e, createLocation) {
+        e.preventDefault();
+                    const res = await createLocation();
+                    console.log(res);
+                    Router.push({
+                        pathname: '/admin/locations',
+                        query: {
+                            view: 'Map',
+                            id: res.data.createLocation.id,
+                            lat: form.latitude,
+                            lon: form.longitude
+                        }
+                    })
     }
 
     return (
@@ -96,10 +107,12 @@ function CreateLocation() {
             <Mutation mutation={CREATE_LOCATION_MUTATION} variables={form} update={update}>
                 {(createLocation, {loading, error}) => (<CreateLocationForm
                     form={form}
+                    defaultValue={form}
+                    mode="CREATE"
                     marker={marker}
                     handleChange={handleChange}
-                    createLocation={createLocation}
                     loading={loading}
+                    onSubmit={e => onSubmit(e, createLocation)}
                     error={error}/>)}
             </Mutation>;
         </CreateLocationMapStyle>
