@@ -14,7 +14,7 @@ import useLocation from './hooks/useLocationForm';
 import useMapMarker from './hooks/useMapMarker';
 import useViewport from './hooks/useViewPort';
 
-import getCoordinates from './helpers/offsetLocation';
+import {useQuery} from 'react-apollo-hooks';
 
 const SINGLE_LOCATION_QUERY = gql `
     query SINGLE_LOCATION_QUERY($id: ID!) {
@@ -61,20 +61,30 @@ const UPDATE_LOCATION_MUTATION = gql `
 
 function UpdateLocation(props) {
     const {longitude, latitude } = props;
- 
+    
+    const {data, loading} = useQuery(SINGLE_LOCATION_QUERY, {variables: {
+        id: props.id
+    }})
+
+    if(loading) {
+        console.log(loading)
+    }
+
+
+    const initialData = data.location ? {
+        country: data.location.country,
+        city: data.location.city,
+        description: data.location.description,
+        latitude: data.location.geoLocation.latitude,
+        longitude: data.location.geoLocation.longitude
+    } : null;
 
     const {viewport,
         setViewport} = useViewport({height: '100vh', width: '100vw', latitude: parseFloat(latitude), longitude: parseFloat(longitude) + 24, zoom: 3});
 
     const [form,
         setForm,
-        handleChange] = useLocation({
-            country: '',
-            city: '',
-            description:'',
-            latitude: 0,
-            longitude: 0
-        });
+        handleChange] = useLocation(initialData);
 
     const {
         marker,
@@ -108,6 +118,7 @@ function UpdateLocation(props) {
             }
         });
 
+        console.log(res);
     }
 
     return (
@@ -116,8 +127,7 @@ function UpdateLocation(props) {
                 query={SINGLE_LOCATION_QUERY}
                 variables={{
                 id: props.id
-            }}
-            onCompleted={data => console.log(data)}>
+            }}>
 
                 {({data, loading}) => {
                     if (loading) 
@@ -145,7 +155,7 @@ function UpdateLocation(props) {
                                     form={form}
                                     defaultValue={data.location}
                                     mode="EDIT"
-                                    marker={marker}
+                                    marker={marker} 
                                     handleChange={handleChange}
                                     loading={loading}
                                     onSubmit={e => updateForm(e, updateLocation)}
