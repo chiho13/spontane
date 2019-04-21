@@ -34,6 +34,7 @@ function CreateLocationForm(props) {
                                     placeholder="Country"
                                     required
                                     defaultValue={defaultValue.country}
+                                    onChange={handleChange}
                                     />
                             </div>
                            

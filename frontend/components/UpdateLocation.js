@@ -67,24 +67,32 @@ function UpdateLocation(props) {
     const {
         marker,
         setMarker,
+        showMarker,
+        setShowMarker,
         addMarker,
         onMarkerDragStart,
         onMarkerDrag,
         onMarkerDragEnd
-    } = useMapMarker();
+    } = useMapMarker({
+        latitude: props.latitude,
+        longitude: props.longitude
+    });
 
     useEffect(() => {
-        setMarker({
-            latitude: props.latitude,
-            longitude: props.longitude,
-        })
-        
         setForm({
             ...form,
             latitude: marker.latitude,
             longitude: marker.longitude
         });
-    }, []);
+
+        setViewport({
+            ...viewport,
+            latitude: props.latitude,
+            longitude: props.longitude,
+            zoom: 6
+        })
+
+    });
 
     async function updateForm(e, updateLocationMutation) {
         e.preventDefault();
@@ -118,12 +126,12 @@ function UpdateLocation(props) {
                                 ...viewport
                             }}
                                 onClick={addMarker}>
-                                {data.location && <DropMarker
+                                <DropMarker
                                     marker={marker}
                                     defaultMarker={data.location}
                                     onMarkerDragStart={onMarkerDragStart}
                                     onMarkerDrag={onMarkerDrag}
-                                    onMarkerDragEnd={onMarkerDragEnd}/>}
+                                    onMarkerDragEnd={onMarkerDragEnd}/>
                             </MapGL>
 
                             <div>hello</div>

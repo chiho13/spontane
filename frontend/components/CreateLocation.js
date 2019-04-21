@@ -44,13 +44,14 @@ function CreateLocation() {
         setForm,
         handleChange] = useLocation();
 
-    const {marker,
+    const {
+        marker,
         addMarker,
         showMarker,
         onMarkerDragStart,
         onMarkerDrag,
-        onMarkerDragEnd} = useMapMarker();
-    const markerHasLocation = marker.latitude && marker.longitude;
+        onMarkerDragEnd
+    } = useMapMarker({latitude: 0, longitude: 0});
 
     useEffect(() => {
         setForm({
@@ -58,18 +59,19 @@ function CreateLocation() {
             latitude: marker.latitude,
             longitude: marker.longitude
         });
-    }, []);
+    });
 
     function update(cache, {data: {
             createLocation
         }}) {
         try {
+
+            const data = cache.readQuery({query: ALL_LOCATIONS_QUERY});
+            console.log(data);
+            data
+                .locations
+                .push(createLocation);
             if (cache.data.data.ROOT_QUERY) {
-                const data = cache.readQuery({query: ALL_LOCATIONS_QUERY});
-                console.log(data);
-                data
-                    .locations
-                    .push(createLocation);
                 cache.writeQuery({query: ALL_LOCATIONS_QUERY, data});
             }
         } catch (error) {
@@ -77,19 +79,19 @@ function CreateLocation() {
         }
     }
 
-    async function  onSubmit(e, createLocation) {
+    async function onSubmit(e, createLocation) {
         e.preventDefault();
-                    const res = await createLocation();
-                    console.log(res);
-                    Router.push({
-                        pathname: '/admin/locations',
-                        query: {
-                            view: 'Map',
-                            id: res.data.createLocation.id,
-                            lat: form.latitude,
-                            lon: form.longitude
-                        }
-                    })
+        const res = await createLocation();
+        console.log(res);
+        Router.push({
+            pathname: '/admin/locations',
+            query: {
+                view: 'Map',
+                id: res.data.createLocation.id,
+                lat: form.latitude,
+                lon: form.longitude
+            }
+        })
     }
 
     return (

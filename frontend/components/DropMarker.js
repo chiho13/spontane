@@ -9,8 +9,8 @@ function DropMarker(props) {
     }, onMarkerDragStart, onMarkerDrag, onMarkerDragEnd} = props;
     return <ShowMarker>
         <Marker
-            longitude={longitude}
-            latitude={latitude}
+            longitude={parseFloat(longitude)}
+            latitude={parseFloat(latitude)}
             draggable
             onDragStart={onMarkerDragStart}
             onDrag={onMarkerDrag}

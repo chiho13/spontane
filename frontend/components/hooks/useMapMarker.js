@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import useMarker from './useMarker';
 
-function useDropMarker() {
-    const [marker, setMarker, updateLocation, addMarker, showMarker] = useMarker();
+function useDropMarker(initialMarkerState) {
+    const [marker, setMarker, updateLocation, addMarker, showMarker, setShowMarker] = useMarker(initialMarkerState);
     const [events, setEvents] = useState({});
 
     function logDragEvent(name, event) {
@@ -26,7 +26,7 @@ function useDropMarker() {
         logDragEvent('onDragEnd', event);
     }
 
-    return {marker, setMarker, showMarker, addMarker, onMarkerDragStart, onMarkerDrag, onMarkerDragEnd};
+    return {marker, setMarker, showMarker, setShowMarker, addMarker, onMarkerDragStart, onMarkerDrag, onMarkerDragEnd};
 
 }
 
