@@ -1,9 +1,17 @@
 import React, {useState} from 'react';
 
 function useViewPort(initialViewPortState) {
-    const [viewport, setViewPort] = useState(initialViewPortState);
+    const [viewport, setViewport] = useState(initialViewPortState);
 
-    return [viewport, setMarker]
+
+    function onViewportChange(_viewport) {
+        setViewport({
+            ...viewport, ..._viewport
+        })
+    }
+
+
+    return {viewport, setViewport, onViewportChange};
 }
 
 export default useViewPort;
