@@ -1,13 +1,7 @@
 import React, {useState} from 'react';
 
-function useLocationForm() {
-    const [form, setForm] = useState({
-        country: '',
-        city: '',
-        description:'',
-        latitude: 0,
-        longitude: 0
-    });
+function useLocationForm(initialFormState) {
+    const [form, setForm] = useState(initialFormState);
 
     function handleChange(e) {
         const {name, type, value} = e.target;

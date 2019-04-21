@@ -42,7 +42,13 @@ function CreateLocation() {
 
     const [form,
         setForm,
-        handleChange] = useLocation();
+        handleChange] = useLocation({
+            country: '',
+            city: '',
+            description:'',
+            latitude: 0,
+            longitude: 0
+        });
 
     const {
         marker,

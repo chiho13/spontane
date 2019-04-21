@@ -1,11 +1,12 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Router from 'next/router';
 import Form from './styles/Form';
 import Error from './ErrorMessage';
 
-function CreateLocationForm(props) {
+function LocationForm(props) {
     const {form, mode, defaultValue, marker, handleChange, loading, error, onSubmit} = props;
     const EditMode = mode === 'EDIT';
+
         return <Form
                     onSubmit={onSubmit}>
                     <Error error={error}/>
@@ -88,4 +89,4 @@ function CreateLocationForm(props) {
                 </Form>
 }
 
-export default CreateLocationForm;
+export default LocationForm;

@@ -68,7 +68,13 @@ function UpdateLocation(props) {
 
     const [form,
         setForm,
-        handleChange] = useLocation();
+        handleChange] = useLocation({
+            country: '',
+            city: '',
+            description:'',
+            latitude: 0,
+            longitude: 0
+        });
 
     const {
         marker,
@@ -110,7 +116,8 @@ function UpdateLocation(props) {
                 query={SINGLE_LOCATION_QUERY}
                 variables={{
                 id: props.id
-            }}>
+            }}
+            onCompleted={data => console.log(data)}>
 
                 {({data, loading}) => {
                     if (loading) 
