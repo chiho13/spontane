@@ -12,6 +12,9 @@ import DropMarker from './DropMarker';
 
 import useLocation from './hooks/useLocationForm';
 import useMapMarker from './hooks/useMapMarker';
+import useViewport from './hooks/useViewPort';
+
+import getCoordinates from './helpers/offsetLocation';
 
 const SINGLE_LOCATION_QUERY = gql `
     query SINGLE_LOCATION_QUERY($id: ID!) {
@@ -57,8 +60,11 @@ const UPDATE_LOCATION_MUTATION = gql `
 `;
 
 function UpdateLocation(props) {
-    const [viewport,
-        setViewport] = useState({height: '100vh', width: '100vw', latitude: 52.85, longitude: 34.9, zoom: 3});
+    const {longitude, latitude } = props;
+ 
+
+    const {viewport,
+        setViewport} = useViewport({height: '100vh', width: '100vw', latitude: parseFloat(latitude), longitude: parseFloat(longitude) + 24, zoom: 3});
 
     const [form,
         setForm,
@@ -84,14 +90,6 @@ function UpdateLocation(props) {
             latitude: marker.latitude,
             longitude: marker.longitude
         });
-
-        setViewport({
-            ...viewport,
-            latitude: props.latitude,
-            longitude: props.longitude,
-            zoom: 6
-        })
-
     });
 
     async function updateForm(e, updateLocationMutation) {
@@ -103,6 +101,7 @@ function UpdateLocation(props) {
                 ...form
             }
         });
+
     }
 
     return (
@@ -134,13 +133,12 @@ function UpdateLocation(props) {
                                     onMarkerDragEnd={onMarkerDragEnd}/>
                             </MapGL>
 
-                            <div>hello</div>
                             <Mutation mutation={UPDATE_LOCATION_MUTATION} variables={form}>
                                 {(updateLocation, {loading, error}) => (<UpdateLocationForm
                                     form={form}
                                     defaultValue={data.location}
                                     mode="EDIT"
-                                    marker={data.location.geoLocation}
+                                    marker={marker}
                                     handleChange={handleChange}
                                     loading={loading}
                                     onSubmit={e => updateForm(e, updateLocation)}
