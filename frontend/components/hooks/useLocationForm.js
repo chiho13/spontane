@@ -1,7 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
 function useLocationForm(initialFormState) {
     const [form, setForm] = useState(initialFormState);
+
+    useEffect(() => {
+        setForm({...form});
+    });
 
     function handleChange(e) {
         const {name, type, value} = e.target;
@@ -9,9 +13,7 @@ function useLocationForm(initialFormState) {
             ? parseFloat(value)
             : value;
         setForm({...form, [name]: val});
-        console.log(form);
     }
-
 
     return [form, setForm, handleChange];
 }

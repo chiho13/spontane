@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import SideBarLogoSyle from '../../styles/SideBarLogoStyle';
-import Logo from '../../../../components/Logo';
+import SideBarLogoSyle from './SideBarLogoStyle';
+import Logo from '../../Logo';
 class SideBarLogo extends Component {
     render() {
         return (

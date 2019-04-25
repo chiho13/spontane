@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import SideBarItemsStyle from '../../styles/SideBarItemsStyle';
-import SideBarItem from './SideBarItem';
+import SideBarItemsStyle from './SideBarItemsStyle';
+import SideBarItem from '../SideBarItem/SideBarItem';
 
 const sideBarItems = [ {
     title: "Dashboard",

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import SideBarItemStyle from '../../styles/SideBarItemStyle';
+import SideBarItemStyle from './SideBarItemStyle';
 // import Link from 'next/link';
-import Link from '../../../helpers/link';
+import Link from '../../helpers/link';
 import MaterialIcon from '@material/react-material-icon';
 
 class SideBarItem extends Component {

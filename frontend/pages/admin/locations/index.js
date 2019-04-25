@@ -1,6 +1,6 @@
 import DashboardLayout from '../../../components/Layout/DashboardLayout';
-import LocationViewSwitcher from  '../../../components/Dashboard/subComponents/LocationViewSwitcher';
-import Title from '../../../components/Dashboard/subComponents/MainContentTitle';
+import LocationViewSwitcher from  '../../../components/Dashboard/LocationViewSwitcher';
+import Title from '../../../components/Dashboard/MainContentTitle';
 import Head from 'next/head';
 
 const Locations = props => (

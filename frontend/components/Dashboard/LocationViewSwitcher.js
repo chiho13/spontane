@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import MapView from '../../LocationsMapView';
+import MapView from '../LocationsMapView';
 import ListView from './LocationsListView'
 import styled from 'styled-components';
-import Tabs from '../../SegmentTabs/Tabs';
+import Tabs from '../SegmentTabs/Tabs';
 
 
 const SwitcherStyle = styled.div`

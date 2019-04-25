@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import LocationItemStyles from '../styles/LocationListViewItemStyle';
+import LocationItemStyles from './LocationListViewItemStyle';
 import EditButton from '../../IconButtons/EditButton';
 import DeleteButton from '../../IconButtons/DeleteButton';
 

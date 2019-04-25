@@ -1,5 +1,5 @@
-import MainSideBar from '../Dashboard/subComponents/MainSideBar/MainSideBar';
-import ProfileNav from '../Dashboard/subComponents/NavProfilePill';
+import MainSideBar from '../Dashboard/MainSideBar/MainSideBar';
+import ProfileNav from '../Dashboard/NavProfilePill/NavProfilePill';
 import styled from 'styled-components';
 
 const MainContent = styled.div`

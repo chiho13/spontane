@@ -1,9 +1,8 @@
 import React from 'react';
 import {Query} from 'react-apollo';
-import gql from 'graphql-tag';
 import styled from 'styled-components';
-import Location from './LocationListViewItem';
-import {ALL_LOCATIONS_QUERY} from '../../LocationsMapView';
+import Location from './LocationListViewItem/LocationListViewItem';
+import {ALL_LOCATIONS_QUERY} from '../LocationsMapView';
 
 const LocationsListViewStyle = styled.div `
   display: block;
