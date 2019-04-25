@@ -367,6 +367,7 @@ type Query {
   tour(where: TourWhereUniqueInput!): Tour
   locations: [Location]!
   location(where: LocationWhereUniqueInput!): Location
+  locationsConnection(where: LocationWhereInput): LocationConnection!
 }
 
 type Tour implements Node {
