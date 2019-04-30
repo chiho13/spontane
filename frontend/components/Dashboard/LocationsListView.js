@@ -12,10 +12,10 @@ const LocationsListViewStyle = styled.div `
     padding-right: 16px;
 `;
 
-const LocationListView = () => {
+const LocationListView = (props) => {
     return (
         <LocationsListViewStyle>
-            <Pagination/>
+            <Pagination page={props.page}/>
             <Query query={ALL_LOCATIONS_QUERY}>
                 {({data, error, loading}) => {
                     if (loading) 
@@ -30,7 +30,7 @@ const LocationListView = () => {
                         );w
                 }}
             </Query>
-            <Pagination/>
+            <Pagination page={props.page} />
         </LocationsListViewStyle>
     );
 }
