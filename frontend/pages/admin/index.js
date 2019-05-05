@@ -1,5 +1,5 @@
 import DashboardLayout from '../../components/Layout/DashboardLayout';
-import Title from '../../components/Dashboard/subComponents/MainContentTitle';
+import Title from '../../components/Dashboard/MainContentTitle';
 
 const Admin = () => (
   <DashboardLayout>

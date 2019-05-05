@@ -365,7 +365,7 @@ interface Node {
 type Query {
   tours: [Tour]!
   tour(where: TourWhereUniqueInput!): Tour
-  locations: [Location]!
+  locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, first: Int): [Location]!
   location(where: LocationWhereUniqueInput!): Location
   locationsConnection(where: LocationWhereInput): LocationConnection!
 }
