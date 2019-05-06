@@ -6,7 +6,8 @@ import CityPin from './Icons/CityMarker';
 import Location from './LocationMapViewItem';
 import Link from 'next/link';
 import getCoordinates from './helpers/offsetLocation';
-import MapGL from './MapGL';
+import MapGL from 'react-map-gl';
+import {TOKEN} from './MapGL';
 
 const ALL_LOCATIONS_QUERY = gql `
         query ALL_LOCATIONS_QUERY {
@@ -68,9 +69,7 @@ class AllLocations extends PureComponent {
             : parseFloat(offset.lat);
 
         this
-            .refs
-            .changeViewport
-            .onViewportChange({
+            ._onViewportChange({
                 latitude: parseFloat(this.props.lat) + offsetLat,
                 longitude: parseFloat(this.props.lon) + offsetLon
             })
@@ -110,7 +109,10 @@ class AllLocations extends PureComponent {
         };
 
         let pathNameRoot = {
-            pathname: this.props.pathname
+            pathname: this.props.pathname,
+            query: {
+                view: 'Map'
+            }
         };
         let locationPathName = locationDetail
             ? pathNameRoot
@@ -196,11 +198,9 @@ class AllLocations extends PureComponent {
         const offsetLat = window.innerWidth > 1000
             ? 0
             : parseFloat(offset.lat);
-
+        
         this
-            .refs
-            .changeViewport
-            .onViewportChange({
+            ._onViewportChange({
                 longitude: longitude + offsetLon,
                 latitude: latitude + offsetLat,
                 zoom: 9,
@@ -223,10 +223,10 @@ class AllLocations extends PureComponent {
         return (
             <div className="map-container">
                 <MapGL
-                    viewport={{
+                    {
                     ...this.state.viewport
-                }}
-                    ref="changeViewport">
+                }
+                width="100%" height="100%" mapboxApiAccessToken={TOKEN} onViewportChange={this._onViewportChange}>
 
                     {this._renderCityMarker()}
                     {this.singleLocation()}

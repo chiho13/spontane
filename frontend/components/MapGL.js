@@ -1,8 +1,8 @@
 import MapGL from 'react-map-gl';
-import React, {PureComponent} from 'react';
+import React, {useEffect} from 'react';
 import useViewPort from './hooks/useViewPort';
 
-const TOKEN = 'pk.eyJ1IjoiYW50aG9ueWhvZGVzdSIsImEiOiJjanI2aWdmMmYxNXB2NDN0ZzJnd3FsMHg3In0.SejE2' +
+export const TOKEN = 'pk.eyJ1IjoiYW50aG9ueWhvZGVzdSIsImEiOiJjanI2aWdmMmYxNXB2NDN0ZzJnd3FsMHg3In0.SejE2' +
         'ZJApZ0Rg5UTsK7kPw';
 
 function Maps(props) {
