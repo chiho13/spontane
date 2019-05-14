@@ -6,7 +6,7 @@ import { perPage } from '../../../config';
 import Head from 'next/head';
 import Link from 'next/link';
 
-const PAGINATION_QUERY = gql`
+export const PAGINATION_QUERY = gql`
     query PAGINATION_QUERY {
         locationsConnection {
             aggregate {

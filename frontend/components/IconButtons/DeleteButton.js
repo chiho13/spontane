@@ -3,7 +3,7 @@ import MaterialIcon from '@material/react-material-icon';
 import IconButtonStyle from './IconButtonStyle';
 import {Mutation} from 'react-apollo';
 import gql from 'graphql-tag';
-import {ALL_LOCATIONS_QUERY} from '../LocationsMapView';
+import {ALL_LOCATIONS_QUERY} from '../Dashboard/LocationsListView';
 import Router from 'next/router';
 
 const DELETE_LOCATION_MUTATION = gql`

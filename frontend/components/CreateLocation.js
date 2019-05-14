@@ -6,7 +6,8 @@ import CreateLocationForm from './LocationForm';
 
 import MapGL from './MapGL';
 import CreateLocationMapStyle from './styles/MapContainerStyle';
-import {ALL_LOCATIONS_QUERY} from './LocationsMapView';
+import {ALL_LOCATIONS_QUERY} from './Dashboard/LocationsListView';
+import {perPage} from '../config';
 import DropMarker from './DropMarker';
 
 import useLocation from './hooks/useLocationForm';
@@ -77,9 +78,7 @@ function CreateLocation() {
             data
                 .locations
                 .push(createLocation);
-            if (cache.data.data.ROOT_QUERY) {
                 cache.writeQuery({query: ALL_LOCATIONS_QUERY, data});
-            }
         } catch (error) {
             console.error(error);
         }

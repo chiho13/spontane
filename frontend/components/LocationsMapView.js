@@ -8,21 +8,7 @@ import Link from 'next/link';
 import getCoordinates from './helpers/offsetLocation';
 import MapGL from 'react-map-gl';
 import {TOKEN} from './MapGL';
-
-const ALL_LOCATIONS_QUERY = gql `
-        query ALL_LOCATIONS_QUERY {
-          locations {
-            id
-            country
-            city
-            geoLocation {
-                latitude
-                longitude
-            }
-            description
-          }
-        }
-`;
+import {ALL_LOCATIONS_QUERY} from './Dashboard/LocationsListView';
 
 const SINGLE_LOCATION_QUERY = gql `
     query SINGLE_LOCATION_QUERY($id: ID!) {
