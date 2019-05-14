@@ -1,6 +1,5 @@
 import DashboardLayout from '../../components/Layout/DashboardLayout';
-import MyTourTable from '../../components/MyTourTable';
-import Title from '../../components/Dashboard/subComponents/MainContentTitle';
+import Title from '../../components/Dashboard/MainContentTitle';
 
 const myTours = props => (
     <DashboardLayout>
