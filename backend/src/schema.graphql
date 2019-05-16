@@ -354,6 +354,8 @@ type Mutation {
   updateLocation(id: ID!, country: String, city: String, geoLocation: GeoLocationUpdateOneRequiredInput, description: String): Location!
   createGeoLocation(latitude: Float, longitude: Float): GeoLocation!
   deleteLocation(id: ID!): Location
+  signup(email: String!, password: String!, name: String!): User!
+  createUser(data: UserCreateInput!): User!
 }
 
 """An object with an ID"""

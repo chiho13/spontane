@@ -8,32 +8,38 @@ enum Permission {
 }
 
 type User {
-  id: ID! @unique
+  id: ID! @id
   name: String!
   email: String! @unique
   password: String!
   resetToken: String
   resetTokenExpiry: String
-  permissions: [Permission]
+  permissions: [Permission] @scalarList(strategy: RELATION)
 }
 
 
 type GeoLocation {
-  id: ID! @unique
+  id: ID! @id
   latitude: Float!
   longitude: Float!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
 }
 
 type Location {
-  id: ID! @unique
+  id: ID! @id
   country: String!
   city: String!
   geoLocation: GeoLocation!
   description: String
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
 }
 
 type Tour {
-  id: ID! @unique
+  id: ID! @id
   title: String!
   locations: [Location]
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
 }
