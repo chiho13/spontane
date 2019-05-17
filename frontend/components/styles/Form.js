@@ -53,6 +53,13 @@ const Form = styled.form`
     margin-top: 2rem;
     margin-bottom: 1rem;
     font-family: 'Roboto';
+    font-size: 14px;
+
+    .required {
+      position: relative;
+      left: 2px;
+      color: ${props => props.theme.red}
+    }
   }
 
   input {

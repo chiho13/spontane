@@ -3,7 +3,7 @@ import Meta from '../components/Meta';
 import styled, {ThemeProvider, injectGlobal} from 'styled-components';
 
 const theme = {
-    red: '#FF0000',
+    red: '#D64242',
     black: '#393939',
     white: '#FFFFFF',
     grey: '#3A3A3A',

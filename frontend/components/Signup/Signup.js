@@ -43,7 +43,7 @@ function Signup() {
                 <h2>Sign Up for an account</h2>
                 <div></div>
                 <label htmlFor="email">
-                    Email
+                    Email<sup className="required" title="required">*</sup>
                 </label>
                 <input
                     id="email"
@@ -54,7 +54,7 @@ function Signup() {
                     onChange={handleChange} required/>
 
                 <label htmlFor="name">
-                    Name</label>
+                    Name<sup className="required" title="required">*</sup></label>
                 <input
                     id="name"
                     type="text"
@@ -64,7 +64,7 @@ function Signup() {
                     onChange={handleChange} required/>
 
                 <label htmlFor="password">
-                    Password
+                    Password<sup className="required" title="required">*</sup>
                 </label>
                 <input
                     id="password"
