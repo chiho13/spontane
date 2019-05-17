@@ -40,7 +40,7 @@ function Signup() {
         </div>
         <Form width="360px" top="0" right="0">
             <fieldset>
-                <h2>Sign Up for an account</h2>
+                <h2>Sign up for an account</h2>
                 <div></div>
                 <label htmlFor="email">
                     Email<sup className="required" title="required">*</sup>

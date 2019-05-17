@@ -48,6 +48,11 @@ const Form = styled.form`
     }
   }
 
+  h2 {
+    padding: 0;
+    text-align: center;
+  }
+
   label {
     display: block;
     margin-top: 2rem;
