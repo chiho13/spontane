@@ -21,9 +21,13 @@ const SignupStyles = styled.div`
 
         a {
             color: ${props => props.theme.brandColor};
-
+            padding: 8px;
+            margin-left: 5px;
+            background-color: rgba(255, 255, 255, 0.6);
+            transition: background 0.2s ease;
+            border-radius: 8px;
             &:hover {
-                text-decoration: underline;
+                background-color: rgba(255, 255, 255, 0.4);
             }
         }
     }

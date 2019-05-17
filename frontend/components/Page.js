@@ -16,7 +16,6 @@ const theme = {
 
 
 const StyledPage = styled.div `
-    background: white;
     color: ${props => props.theme.black};
 `;
 
@@ -47,6 +46,8 @@ body {
     font-size: 1.5rem;
     line-height: 2;
     font-family: 'radnika_next';
+    background: rgb(156,186,218);
+    background: linear-gradient(90deg, rgba(156,186,218,0.9192051820728291) 0%, rgba(194,217,242,1) 31%, rgba(220,225,231,1) 100%);
 }
 
 ul, li, h1, h2, h3, p, a {
