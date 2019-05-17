@@ -6,7 +6,7 @@ import Popper from '@material-ui/core/Popper';
 import MenuItem from '../../UIKIT/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import ProfilePillStyle from './NavProfilePillStyle';
-import NavButton from '../../UIKIT/ProfileButton';
+import NavButton from '../../UIKIT/iButton';
 import MaterialIcon from '@material/react-material-icon';
 import Divider from '@material-ui/core/Divider';
 

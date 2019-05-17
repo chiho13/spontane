@@ -7,7 +7,7 @@ function LocationForm(props) {
     const {form, mode, defaultValue, marker, handleChange, loading, error, onSubmit} = props;
     const EditMode = mode === 'EDIT';
 
-        return <Form
+        return <Form fixed={true}
                     onSubmit={onSubmit}>
                     <Error error={error}/>
                     <fieldset disabled={loading} hasgrid={"true"} aria-busy={loading}>
@@ -87,6 +87,10 @@ function LocationForm(props) {
                                             Changes</button> : <button type="submit">Submit</button>}
                     </fieldset>
                 </Form>
+}
+
+LocationForm.defaultProps = {
+    mode: "EDIT"
 }
 
 export default LocationForm;

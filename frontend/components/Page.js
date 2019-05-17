@@ -5,10 +5,12 @@ import styled, {ThemeProvider, injectGlobal} from 'styled-components';
 const theme = {
     red: '#FF0000',
     black: '#393939',
+    white: '#FFFFFF',
     grey: '#3A3A3A',
     brandColor: '#007bff',
     lightgrey: '#E1E1E1',
     maxWidth: '100%',
+    hoverColor: '#f1f1f1',
     bs: '0 12px 24px 0 rgba(0, 0, 0, 0.09)'
 };
 

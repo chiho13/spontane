@@ -3,6 +3,7 @@ import styled from 'styled-components';
 const LandingPage = styled.div `
 text-align: left;
 color: #f8f8f8;
+margin-top: -76px;
 
 .introHero {
     padding-top: 50px;

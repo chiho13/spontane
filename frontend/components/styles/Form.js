@@ -21,18 +21,19 @@ const Form = styled.form`
   font-weight: 600;
   margin: 0 auto;
   max-width: 1000px;
-  position: fixed;
+  border-radius: 16px;
+  position: ${props => props.fixed ? 'fixed' : 'relative'};
   bottom: 0;
   left: 0;
   width: 100%;
   z-index: 20;
 
   @media (min-width: 700px) {
-    width: 40%;
+    width: ${props => props.width || '40%'};
     bottom: initial;
-    top: 150px;
+    top: ${props => props.top || '150px'};
     left: initial;
-    right: 20px;
+    right: ${props => props.top || '20px'};;
   }
 
   .fieldset_wrapper {
@@ -51,6 +52,7 @@ const Form = styled.form`
     display: block;
     margin-top: 2rem;
     margin-bottom: 1rem;
+    font-family: 'Roboto';
   }
 
   input {
@@ -60,10 +62,12 @@ const Form = styled.form`
   input,
   textarea,
   select {
+    font-family: 'Roboto';
     width: 100%;
     padding: 10px;
     font-size: 16px;
-    border: 1px solid #aaa;
+    border: 1px solid #999;
+    border-radius: 8px;
     &:focus {
       outline: 0;
       border-color: black;

@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 
-function useLocationForm(initialFormState) {
+function useForm(initialFormState) {
     const [form, setForm] = useState(initialFormState);
 
     useEffect(() => {
@@ -18,4 +18,4 @@ function useLocationForm(initialFormState) {
     return [form, setForm, handleChange];
 }
 
-export default useLocationForm;
+export default useForm;

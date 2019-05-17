@@ -10,7 +10,7 @@ import CreateLocationMapStyle from './styles/MapContainerStyle';
 import {ALL_LOCATIONS_QUERY} from './LocationsMapView';
 import DropMarker from './DropMarker';
 
-import useLocation from './hooks/useLocationForm';
+import useForm from './hooks/useForm';
 import useMapMarker from './hooks/useMapMarker';
 import useViewport from './hooks/useViewPort';
 
@@ -84,7 +84,7 @@ function UpdateLocation(props) {
 
     const [form,
         setForm,
-        handleChange] = useLocation(initialData);
+        handleChange] = useForm(initialData);
 
     const {
         marker,
@@ -154,7 +154,6 @@ function UpdateLocation(props) {
                                 {(updateLocation, {loading, error}) => (<UpdateLocationForm
                                     form={form}
                                     defaultValue={data.location}
-                                    mode="EDIT"
                                     marker={marker} 
                                     handleChange={handleChange}
                                     loading={loading}

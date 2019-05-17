@@ -10,7 +10,7 @@ import {ALL_LOCATIONS_QUERY} from './Dashboard/LocationsListView';
 import {perPage} from '../config';
 import DropMarker from './DropMarker';
 
-import useLocation from './hooks/useLocationForm';
+import useForm from './hooks/useForm';
 import useMapMarker from './hooks/useMapMarker';
 
 const CREATE_LOCATION_MUTATION = gql `
@@ -43,7 +43,7 @@ function CreateLocation() {
 
     const [form,
         setForm,
-        handleChange] = useLocation({
+        handleChange] = useForm({
             country: '',
             city: '',
             description:'',
