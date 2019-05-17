@@ -46,6 +46,7 @@ function Signup() {
                     Email
                 </label>
                 <input
+                    id="email"
                     type="text"
                     name="email"
                     placeholder="email"
@@ -55,6 +56,7 @@ function Signup() {
                 <label htmlFor="name">
                     Name</label>
                 <input
+                    id="name"
                     type="text"
                     name="name"
                     placeholder="name"
@@ -65,13 +67,14 @@ function Signup() {
                     Password
                 </label>
                 <input
+                    id="password"
                     type="text"
                     name="password"
                     placeholder="password"
                     value={form.password}
                     onChange={handleChange} required/>
                 <ThemeProvider theme={invertTheme}>
-                    <Button type="submit">Sign Up</Button>
+                    <Button type="submit" disableRipple>Sign Up</Button>
                 </ThemeProvider>
             </fieldset>
         </Form>

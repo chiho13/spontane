@@ -13,7 +13,7 @@ const iButton = styled(Button)`
   padding: 12px 24px;
   font-size: 16px;
   text-transform: none;
-  width: 150px;
+  width: ${props => props.width || '100%'};
   justify-content: center;
   font-family: 'Roboto';
   line-height: 1.5;

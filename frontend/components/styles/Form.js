@@ -70,7 +70,7 @@ const Form = styled.form`
     border-radius: 8px;
     &:focus {
       outline: 0;
-      border-color: black;
+      border-color: ${props => props.theme.brandColor};
     }
 
     @media (min-width: 700px) {

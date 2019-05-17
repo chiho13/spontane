@@ -43,7 +43,8 @@ class NavProfilePill extends Component {
                     : undefined}
                     aria-haspopup="true"
                     onClick={this.handleToggle}
-                    disableRipple>
+                    disableRipple
+                    width="150px">
                      Anthony <MaterialIcon icon="arrow_drop_down" />
                     
                 </NavButton>
