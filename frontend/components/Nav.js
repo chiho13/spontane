@@ -1,15 +1,13 @@
 import Link from 'next/link';
 import NavStyles from './styles/NavStyles';
-import User from './User';
+import useUser from './hooks/useUser';
 
-const Nav = () => (
-  <NavStyles>
-    <User>
-       {(data) => {
-         console.log(data);
-         return <p>User</p>
-       }}
-    </User>
+const Nav = () => {
+  const {data: {me}} = useUser();
+  const username = me ? <div>{me.name}</div> : null;
+
+  return <NavStyles>
+    {username}
     <Link href="/addLocation">
       <a>Create Tour</a>
     </Link>
@@ -20,6 +18,6 @@ const Nav = () => (
       <a>Login</a>
     </Link>
   </NavStyles>
-);
+};
 
 export default Nav;
