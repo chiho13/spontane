@@ -1,12 +1,13 @@
 import React, {useState} from 'react';
 import {Mutation} from 'react-apollo';
 import gql from 'graphql-tag';
-import Error from '../ErrorMessage';
-import Form from '../styles/Form';
-import useForm from '../hooks/useForm';
-import Button from '../UIKIT/iButton';
+import Error from './ErrorMessage';
+import Form from './styles/Form';
+import useForm from './hooks/useForm';
+import Button from './UIKIT/iButton';
 import styled, {ThemeProvider} from 'styled-components';
 import Link from 'next/link';
+import { CURRENT_USER_QUERY } from './hooks/useUser';
 
 const invertTheme = ({white, brandColor}) => ({black: white, white: brandColor, hoverColor: '#006fe6'});
 
@@ -60,7 +61,13 @@ function Signup() {
                 </Link>
             </div>
 
-            <Mutation mutation={SIGNUP_MUTATION} variables={form}>
+            <Mutation 
+            mutation={SIGNUP_MUTATION} 
+            variables={form}
+            refetchQueries={[
+                {query: CURRENT_USER_QUERY}
+            ]}
+            >
                 {(signup, {error, loading}) => {
                     return <Form width="360px" top="0" right="0" method="post" onSubmit={e => {
                         e.preventDefault();

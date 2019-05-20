@@ -53,6 +53,11 @@ const Mutations = {
     signup(parent, args, ctx, info) {
         const user = Auth.signup(parent, args, ctx, info);
         return user
+    },
+
+    login(parent, args, ctx, info) {
+        const user = Auth.login(parent, args, ctx, info);
+        return user
     }
 };
 
