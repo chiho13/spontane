@@ -50,7 +50,6 @@ function Login() {
 
   const {data: {me}, loading} = useUser();
 
-    
     useEffect(() => {
         if(loading) {
             return;
@@ -72,12 +71,6 @@ function Login() {
     }
     return (
     !me && <LoginStyles>
-            <div className="loginLink">
-                Already have an account?
-                <Link href="/login">
-                    <a>Log in</a>
-                </Link>
-            </div>
 
             <Mutation 
             mutation={LOGIN_MUTATION} 

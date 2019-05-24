@@ -29,7 +29,7 @@ const DashboardLayout = props => {
   useEffect(() => {
       const user = me;
         if(loading) {
-          return;
+          return
         }
         if(!user) {
           Router.push({
