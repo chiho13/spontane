@@ -87,7 +87,6 @@ function CreateLocation() {
     async function onSubmit(e, createLocation) {
         e.preventDefault();
         const res = await createLocation();
-        console.log(res);
         Router.push({
             pathname: '/admin/locations',
             query: {
@@ -96,7 +95,7 @@ function CreateLocation() {
                 lat: form.latitude,
                 lon: form.longitude
             }
-        })
+        });
     }
 
     return (

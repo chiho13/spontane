@@ -2,7 +2,10 @@ import React, {useEffect} from 'react';
 import Router from 'next/router';
 import Form from './styles/Form';
 import Error from './ErrorMessage';
-
+import {ThemeProvider} from 'styled-components';
+import Button from './UIKIT/iButton';
+import {invertTheme} from './Login';
+  
 function LocationForm(props) {
     const {form, mode, defaultValue, marker, handleChange, loading, error, onSubmit} = props;
     const EditMode = mode === 'EDIT';
@@ -81,10 +84,13 @@ function LocationForm(props) {
                                     onChange={handleChange}/>
                             </div>
                         </div>
-                        {EditMode ?  <button type="submit">Sav{loading
+                        <ThemeProvider theme={invertTheme}>
+                            {EditMode ?  <Button width="auto" disableRipple type="submit">Sav{loading
                                                 ? 'ing '
                                                 : 'e '}
-                                            Changes</button> : <button type="submit">Submit</button>}
+                                            Changes</Button> : <Button width="auto" disableRipple type="submit">Submit</Button>}
+                        </ThemeProvider>
+                       
                     </fieldset>
                 </Form>
 }

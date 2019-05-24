@@ -44,8 +44,6 @@ const PaginationStyles = styled.div`
     margin-left: 20px;  
   }
 
-
-
   a {
     display: flex;
     align-items: center;

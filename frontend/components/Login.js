@@ -10,7 +10,7 @@ import Router from 'next/router';
 import {CURRENT_USER_QUERY} from './hooks/useUser';
 import useUser from './hooks/useUser';
 
-const invertTheme = ({white, black}) => ({black: white, white: black, hoverColor: '#111'});
+export const invertTheme = ({white, black}) => ({black: white, white: black, hoverColor: '#111'});
 
 const LOGIN_MUTATION = gql `
     mutation LOGIN_MUTATION($email: String!, $password: String!) {
