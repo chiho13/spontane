@@ -58,6 +58,11 @@ const Mutations = {
     login(parent, args, ctx, info) {
         const user = Auth.login(parent, args, ctx, info);
         return user
+    },
+
+    logout(parent, args, ctx, info) {
+        ctx.response.clearCookie('token');
+        return {message: 'Goodbye'}
     }
 };
 

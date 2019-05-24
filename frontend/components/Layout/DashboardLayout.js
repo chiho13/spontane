@@ -1,6 +1,9 @@
 import MainSideBar from '../Dashboard/MainSideBar/MainSideBar';
 import ProfileNav from '../Dashboard/NavProfilePill/NavProfilePill';
 import styled from 'styled-components';
+import React, {useEffect, useState} from 'react';
+import useUser from '../hooks/useUser';
+import Router from 'next/router';
 
 const MainContent = styled.div`
   display: flex;
@@ -20,8 +23,26 @@ const MainContent = styled.div`
 }
 `;
 
-const DashboardLayout = props => (
-  <div>
+const DashboardLayout = props => {
+  const {data: {me}, loading} = useUser();
+    
+  useEffect(() => {
+      const user = me;
+        if(loading) {
+          return;
+        }
+        if(!user) {
+          Router.push({
+            pathname: '/login'
+          });
+      } 
+  });
+
+  if(loading) {
+    return <div>Loading...</div>
+  }
+  
+  return  <div>
     <MainSideBar />
     <MainContent>
         <ProfileNav />
@@ -30,6 +51,6 @@ const DashboardLayout = props => (
         </div>
     </MainContent>
   </div>
-);
+};
 
 export default DashboardLayout;

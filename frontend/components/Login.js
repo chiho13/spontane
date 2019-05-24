@@ -48,9 +48,13 @@ function Login() {
     const [form,
         setForm] = useState({email: '', password: ''});
 
-  const {data: {me}} = useUser();
+  const {data: {me}, loading} = useUser();
+
     
     useEffect(() => {
+        if(loading) {
+            return;
+        }
         if(me) {
             Router.push({
                 pathname: '/admin/locations'
@@ -62,8 +66,12 @@ function Login() {
         const {name, value} = e.target;
         setForm({...form, [name]: value});
     }
+
+    if(loading) {
+        return <div> Loading...</div>
+    }
     return (
-        <LoginStyles>
+    !me && <LoginStyles>
             <div className="loginLink">
                 Already have an account?
                 <Link href="/login">

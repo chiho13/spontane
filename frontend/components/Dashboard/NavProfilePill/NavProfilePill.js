@@ -9,6 +9,7 @@ import ProfilePillStyle from './NavProfilePillStyle';
 import NavButton from '../../UIKIT/iButton';
 import MaterialIcon from '@material/react-material-icon';
 import Divider from '@material-ui/core/Divider';
+import Logout from './Logout';
 
 class NavProfilePill extends Component {
     state = {
@@ -64,7 +65,7 @@ class NavProfilePill extends Component {
                                         <MenuItem disableRipple onClick={this.handleClose}>Profile</MenuItem>
                                         <MenuItem disableRipple onClick={this.handleClose}>My account</MenuItem>
                                         <Divider />
-                                        <MenuItem disableRipple onClick={this.handleClose}><MaterialIcon icon="exit_to_app" />Logout</MenuItem>
+                                        <Logout handleClose={this.handleClose}/>
                                     </MenuList>
                                 </ClickAwayListener>
                             </Paper>

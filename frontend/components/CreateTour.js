@@ -15,7 +15,6 @@ const CreateTourForm = styled(Form)`
 `;
 
 const CreateTourStyle = styled.div `
-    background-color: #b3d0ef;
     width: 100%;
 `;
 

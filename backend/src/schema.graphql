@@ -347,6 +347,10 @@ input LocationWhereUniqueInput {
   id: ID
 }
 
+type SuccessMessage {
+  message: String
+}
+
 type Mutation {
   createTour(title: String): Tour!
   updateTour(id: ID!, title: String, locations: LocationUpdateManyInput): Tour!
@@ -357,6 +361,7 @@ type Mutation {
   signup(email: String!, password: String!, name: String!): User!
   login(email: String!, password: String!): User!
   createUser(data: UserCreateInput!): User!
+  logout: SuccessMessage
 }
 
 """An object with an ID"""

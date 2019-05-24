@@ -1,10 +1,11 @@
 import HomeLayout from '../components/Layout/HomeLayout';
 import Login from '../components/Login';
 
-const LoginPage = () => (
-  <HomeLayout>
+const LoginPage = () => {
+  
+  return <div>
     <Login/>
-  </HomeLayout>
-);
+  </div>
+};
 
 export default LoginPage;

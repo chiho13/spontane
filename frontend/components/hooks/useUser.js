@@ -16,7 +16,6 @@ const CURRENT_USER_QUERY = gql `
 
 function useUser() {
     const payload = useQuery(CURRENT_USER_QUERY);
-
     return payload
 }
 
