@@ -2,16 +2,15 @@ import React, {useState, useEffect, useRef} from 'react';
 import {Mutation} from 'react-apollo';
 import gql from 'graphql-tag';
 import Router from 'next/router';
-import CreateLocationForm from './LocationForm';
+import CreateLocationForm from '../LocationForm';
 
-import MapGL from './MapGL';
-import CreateLocationMapStyle from './styles/MapContainerStyle';
-import {ALL_LOCATIONS_QUERY} from './Dashboard/LocationsListView';
-import {perPage} from '../config';
-import DropMarker from './DropMarker';
+import MapGL from '../MapGL';
+import CreateLocationMapStyle from '../styles/MapContainerStyle';
+import {ALL_LOCATIONS_QUERY} from './LocationsListView';
+import DropMarker from './DropMarker/DropMarker';
 
-import useForm from './hooks/useForm';
-import useMapMarker from './hooks/useMapMarker';
+import useForm from '../hooks/useForm';
+import useMapMarker from '../hooks/useMapMarker';
 
 const CREATE_LOCATION_MUTATION = gql `
     mutation CREATE_LOCATION_MUTATION(
