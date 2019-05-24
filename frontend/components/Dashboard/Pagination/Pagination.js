@@ -30,6 +30,7 @@ function Pagination(props) {
                             Spontane | Page {page} of {pages}
                         </title>
                     </Head>
+                    <p className="totalLocations">{count} Locations</p>
                     <Link prefetch href={{
                         pathname: 'locations',
                         query: {page: page - 1}
@@ -39,7 +40,7 @@ function Pagination(props) {
                         pathname: 'locations',
                         query: {page: page + 1}
                     }}><a className="next" aria-disabled={page >= pages }><MaterialIcon icon="chevron_right" /></a></Link>
-                     <p className="totalLocations">{count} Locations Total</p>
+                    
                     </PaginationStyle>;
             } }
             </Query>

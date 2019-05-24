@@ -2,10 +2,9 @@ import styled from 'styled-components';
 
 const PaginationStyles = styled.div`
   text-align: center;
-  display: inline-grid;
-  grid-template-columns: repeat(4, auto);
+  display: flex;
   align-items: stretch;
-  justify-content: center;
+  justify-content: flex-end;
   align-content: center;
   margin: 30px 0;
   margin-left: -10px;
@@ -41,7 +40,7 @@ const PaginationStyles = styled.div`
   }
 
   .totalLocations {
-    margin-left: 20px;  
+    margin-right: 10px;  
   }
 
   a {
