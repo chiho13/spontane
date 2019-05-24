@@ -6,7 +6,7 @@ const theme = {
     red: '#D64242',
     black: '#393939',
     white: '#FFFFFF',
-    grey: '#3A3A3A',
+    grey: '#777',
     brandColor: '#007bff',
     lightgrey: '#E1E1E1',
     maxWidth: '100%',

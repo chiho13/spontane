@@ -5,6 +5,7 @@ import { Query } from 'react-apollo';
 import { perPage } from '../../../config';
 import Head from 'next/head';
 import Link from 'next/link';
+import MaterialIcon from '@material/react-material-icon';
 
 export const PAGINATION_QUERY = gql`
     query PAGINATION_QUERY {
@@ -32,13 +33,13 @@ function Pagination(props) {
                     <Link prefetch href={{
                         pathname: 'locations',
                         query: {page: page - 1}
-                    }}><a className="prev" aria-disabled={page <= 1 }>Prev</a></Link>
+                    }}><a className="prev" aria-disabled={page <= 1 }><MaterialIcon icon="chevron_left" /></a></Link>
                     <p>  Page {page} of {pages}</p>
-                    <p>{count} Locations Total</p>
                     <Link prefetch href={{
                         pathname: 'locations',
                         query: {page: page + 1}
-                    }}><a className="prev" aria-disabled={page >= pages }>Next</a></Link>
+                    }}><a className="next" aria-disabled={page >= pages }><MaterialIcon icon="chevron_right" /></a></Link>
+                     <p className="totalLocations">{count} Locations Total</p>
                     </PaginationStyle>;
             } }
             </Query>
