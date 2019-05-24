@@ -19,6 +19,7 @@ const TabsStyle = styled.div`
     font-size: 14px;
     font-family: 'Roboto';
     font-weight: bold;
+    background-color: white;
     border: 2px solid rgba(100, 105, 135, .3);
     transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
     i {
@@ -34,7 +35,6 @@ const TabsStyle = styled.div`
   }
   
   .tab-list-active {
-    background-color: white;
     color: ${props => props.theme.brandColor};
     border-color: ${props => props.theme.brandColor};
 

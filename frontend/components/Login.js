@@ -7,7 +7,7 @@ import Button from './UIKIT/iButton';
 import styled, {ThemeProvider} from 'styled-components';
 import Link from 'next/link';
 import Router from 'next/router';
-import { CURRENT_USER_QUERY } from './hooks/useUser';
+import {CURRENT_USER_QUERY} from './hooks/useUser';
 import useUser from './hooks/useUser';
 
 const invertTheme = ({white, black}) => ({black: white, white: black, hoverColor: '#111'});
@@ -24,72 +24,98 @@ const LOGIN_MUTATION = gql `
 const LoginStyles = styled.div `
     position: relative;
     top: 100px;
+    max-width: 430px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 10px;
 
-    .loginLink {
-        font-family: 'Roboto';
-        text-align:center;
-        margin-bottom: 20px;
+    h2 { 
+        padding-top: 40px;
+        padding-left: 0;
+        text-align: center;
+    }
 
-        a {
-            color: ${props => props.theme.brandColor};
-            padding: 8px;
-            margin-left: 5px;
-            background-color: rgba(255, 255, 255, 0.6);
-            transition: background 0.2s ease;
-            border-radius: 8px;
-            &:hover {
-                background-color: rgba(255, 255, 255, 0.4);
-            }
+    form {
+        background: none;
+        box-shadow: none;
+        padding-top: 40px;
+        padding-bottom: 40px;
+        width: 90%;
+
+        .form-group {
+            margin-bottom: 20px;
         }
     }
-`;  
+
+    .panel_footer {
+        display: block;
+        font-size: 17px;
+        color: #878797;
+        padding: 20px;
+        text-align: center;
+        font-family: 'Roboto';
+        background-color: #fff;
+        border-top: 1px solid #ddd;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+
+        span {
+            text-decoration: underline;
+            color: ${props => props.theme.brandColor}
+        }
+    }
+`;
 
 function Login() {
     const [form,
         setForm] = useState({email: '', password: ''});
 
-  const {data: {me}, loading} = useUser();
+    const {data: {
+            me
+        }, loading} = useUser();
 
     useEffect(() => {
-        if(loading) {
+        if (loading) {
             return;
         }
-        if(me) {
-            Router.push({
-                pathname: '/admin/locations'
-            })
+        if (me) {
+            Router.push({pathname: '/admin/locations'})
         }
     });
 
     function handleChange(e) {
         const {name, value} = e.target;
-        setForm({...form, [name]: value});
+        setForm({
+            ...form,
+            [name]: value
+        });
     }
 
-    if(loading) {
-        return <div> Loading...</div>
+    if (loading) {
+        return <div>
+            Loading...</div>
     }
-    return (
-    !me && <LoginStyles>
-
-            <Mutation 
-            mutation={LOGIN_MUTATION} 
+    return (!me && <LoginStyles>
+        <h2>Log in to your account</h2>
+        <Mutation
+            mutation={LOGIN_MUTATION}
             variables={form}
-            refetchQueries={[
-                {query: CURRENT_USER_QUERY}
-            ]}
-            >
-                {(login, {error, loading}) => {
-                    return <Form width="360px" top="0" right="0" method="post" onSubmit={e => {
-                        e.preventDefault();
-                        login();
-                    }}>
-                        <fieldset disabled={loading}>
-                            <h2>Log in to your account</h2>
-                            <Error error={error}/>
-                            <label htmlFor="email">
-                                Email<sup className="required" title="required">*</sup>
-                            </label>
+            refetchQueries={[{
+                query: CURRENT_USER_QUERY
+            }
+        ]}>
+            {(login, {error, loading}) => {
+                return <Form
+                    top="0"
+                    right="0"
+                    method="post"
+                    onSubmit={e => {
+                    e.preventDefault();
+                    login();
+                }}>
+                    <fieldset disabled={loading}>
+                        <Error error={error}/>
+                        <div className="form-group">
                             <input
                                 id="email"
                                 type="text"
@@ -98,10 +124,8 @@ function Login() {
                                 value={form.email}
                                 onChange={handleChange}
                                 required/>
-
-                            <label htmlFor="password">
-                                Password<sup className="required" title="required">*</sup>
-                            </label>
+                        </div>
+                        <div className="form-group">
                             <input
                                 id="password"
                                 type="password"
@@ -110,15 +134,21 @@ function Login() {
                                 value={form.password}
                                 onChange={handleChange}
                                 required/>
-                            <ThemeProvider theme={invertTheme}>
-                                <Button type="submit" disableRipple>Log in</Button>
-                            </ThemeProvider>
-                        </fieldset>
-                    </Form>
-                }}
-            </Mutation>
-        </LoginStyles>
-    )
+                        </div>
+                        <ThemeProvider theme={invertTheme}>
+                            <Button type="submit" disableRipple>Log in</Button>
+                        </ThemeProvider>
+                    </fieldset>
+                </Form>
+            }}
+        </Mutation>
+
+        <Link href="/signup">
+            <a className="panel_footer">Don't have an account? &nbsp;
+                <span>Sign Up</span>
+            </a>
+        </Link>
+    </LoginStyles>)
 }
 
 export default Login;
