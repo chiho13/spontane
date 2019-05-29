@@ -42,21 +42,17 @@ const DashboardLayout = props => {
 
   useEffect(() => {
     setPageLoad(true)
-  }, [pageLoad]);
-
-  // if(loading) {
-  //   return <Loading />
-  // }
+  }, []);
   
-  return  pageLoad ? <div>
+  return <div>
     <MainSideBar />
     <MainContent>
         <ProfileNav />
-        <div className="dashboard_content">
+        {pageLoad ? <div className="dashboard_content">
           {props.children}
-        </div>
+        </div> : <Loading />}
     </MainContent>
-  </div> : <Loading />
+  </div> 
 };
 
 export default DashboardLayout;
