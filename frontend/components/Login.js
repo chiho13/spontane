@@ -9,6 +9,7 @@ import Link from 'next/link';
 import Router from 'next/router';
 import {CURRENT_USER_QUERY} from './hooks/useUser';
 import useUser from './hooks/useUser';
+import Loading from './LoadingSpinner';
 
 export const invertTheme = ({white, black}) => ({black: white, white: black, hoverColor: '#111'});
 
@@ -90,11 +91,7 @@ function Login() {
             [name]: value
         });
     }
-
-    if (loading) {
-        return <div>
-            Loading...</div>
-    }
+    
     return (!me && <LoginStyles>
         <h2>Log in to your account</h2>
         <Mutation

@@ -21,7 +21,7 @@ function Pagination(props) {
     return (
             <Query query={PAGINATION_QUERY}>
             {({data, loading, error}) =>{
-                if(loading) return <p>Loading...</p>
+                if(loading) return <div></div>
                 const count = data.locationsConnection.aggregate.count;
                 const pages = Math.ceil(count / perPage);
                 const page = props.page;

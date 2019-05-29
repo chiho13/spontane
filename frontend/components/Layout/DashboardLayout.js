@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import React, {useEffect, useState} from 'react';
 import useUser from '../hooks/useUser';
 import Router from 'next/router';
+import Loading from '../LoadingSpinner';
 
 const MainContent = styled.div`
   display: flex;
@@ -25,6 +26,7 @@ const MainContent = styled.div`
 
 const DashboardLayout = props => {
   const {data: {me}, loading} = useUser();
+  const [pageLoad, setPageLoad] = useState(false);
     
   useEffect(() => {
       const user = me;
@@ -35,14 +37,18 @@ const DashboardLayout = props => {
           Router.push({
             pathname: '/login'
           });
-      } 
+      }
   });
 
-  if(loading) {
-    return <div>Loading...</div>
-  }
+  useEffect(() => {
+    setPageLoad(true)
+  }, [pageLoad]);
+
+  // if(loading) {
+  //   return <Loading />
+  // }
   
-  return  <div>
+  return  pageLoad ? <div>
     <MainSideBar />
     <MainContent>
         <ProfileNav />
@@ -50,7 +56,7 @@ const DashboardLayout = props => {
           {props.children}
         </div>
     </MainContent>
-  </div>
+  </div> : <Loading />
 };
 
 export default DashboardLayout;
