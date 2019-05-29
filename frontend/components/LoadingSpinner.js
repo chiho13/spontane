@@ -37,11 +37,11 @@ const LoadingSpinnerSVG = styled.div`
 svg {
     width: 100px;
     height: 100px;
-    animation: 1.5s linear infinite ${svgAnimation};
+    animation: 1s linear infinite ${svgAnimation};
     max-width: 100px;
 }
 circle {
-    animation: 1.2s ease-in-out infinite both ${circleAnimation};
+    animation: 0.6s ease-in-out infinite both ${circleAnimation};
     display: block;
     fill: transparent;
     stroke: ${props => props.theme.brandColor};
