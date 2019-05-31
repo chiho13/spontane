@@ -66,11 +66,6 @@ function UpdateLocation(props) {
         id: props.id
     }})
 
-    if(loading) {
-        console.log(loading)
-    }
-
-
     const initialData = data.location ? {
         country: data.location.country,
         city: data.location.city,
@@ -84,7 +79,7 @@ function UpdateLocation(props) {
 
     const [form,
         setForm,
-        handleChange] = useForm(initialData);
+        handleChange] = useForm({});
 
     const {
         marker,
@@ -117,26 +112,18 @@ function UpdateLocation(props) {
                 ...form
             }
         });
-        
 
-        console.log(res);
+        if(res) {
+            console.log(res);
+        }
+    }
+
+    if(loading) {
+        return <div></div>
     }
 
     return (
         <CreateLocationMapStyle>
-            <Query
-                query={SINGLE_LOCATION_QUERY}
-                variables={{
-                id: props.id
-            }}>
-
-                {({data, loading}) => {
-                    if (loading) 
-
-                        return <p>Loading...</p>;
-                    if (!data.location) 
-                        return <p>No Item Found</p>
-                    return (
                         <>
                             <MapGL
                                 viewport={{
@@ -151,9 +138,12 @@ function UpdateLocation(props) {
                                     onMarkerDragEnd={onMarkerDragEnd}/>
                             </MapGL>
 
-                            <Mutation mutation={UPDATE_LOCATION_MUTATION} variables={form} >
+                            <Mutation mutation={UPDATE_LOCATION_MUTATION} variables={form} 
+                              refetchQueries={[
+                                {query: ALL_LOCATIONS_QUERY}
+                            ]}
+                            >
                                 {(updateLocation, {loading, error}) => (<UpdateLocationForm
-                                    form={form}
                                     defaultValue={data.location}
                                     marker={marker} 
                                     handleChange={handleChange}
@@ -162,9 +152,6 @@ function UpdateLocation(props) {
                                     error={error}/>)}
                             </Mutation>
                         </>
-                    )
-                }}
-            </Query>
         </CreateLocationMapStyle>
     );
 }
