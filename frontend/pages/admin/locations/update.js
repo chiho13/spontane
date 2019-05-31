@@ -1,4 +1,4 @@
-import UpdateLocation from '../../../components/UpdateLocation';
+import UpdateLocation from '../../../components/Dashboard/UpdateLocation';
 import DashboardLayout from '../../../components/Layout/DashboardLayout';
 import Head from 'next/head';
 

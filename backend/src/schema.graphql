@@ -362,6 +362,8 @@ type Mutation {
   login(email: String!, password: String!): User!
   createUser(data: UserCreateInput!): User!
   logout: SuccessMessage
+  requestReset(email: String!): SuccessMessage
+  resetPassword(resetToken: String!, password: String!, confirmPassword: String!): User!
 }
 
 """An object with an ID"""
@@ -387,4 +389,11 @@ type Tour implements Node {
 
 input TourWhereUniqueInput {
   id: ID
+}
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  permissions: [Permission!]!
 }

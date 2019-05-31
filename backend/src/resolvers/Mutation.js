@@ -1,4 +1,6 @@
 const Auth = require('./Auth');
+const { randomBytes } = require('crypto');
+const { promisify } = require('util');
 
 const Mutations = {
     async createGeoLocation(parent, args, ctx, info) {
@@ -63,6 +65,32 @@ const Mutations = {
     logout(parent, args, ctx, info) {
         ctx.response.clearCookie('token');
         return {message: 'Goodbye'}
+    },
+    async requestReset(parent, args, ctx, info) {
+        // 1. check if this is a real user
+        const user = await ctx.db.query.user({ where: {email: args.email}});
+
+        if(!user) {
+            throw new Error(`No such user found for email ${args.email}`);
+        }
+        // 2. set a reset token and expiry on that user
+        const randomBytesPromiseified = promisify(randomBytes);
+        const resetToken = (await randomBytesPromiseified(20)).toString('hex');
+        const resetTokenExpiry = Date.now() + 3600000; //1 hour from now
+
+        const res = await ctx.db.mutation.updateUser({
+            where: { email: args.email},
+            data: { resetToken, resetTokenExpiry}
+        });
+
+        console.log(res);
+        // 3. Email them a reset token
+        return {message: 'Cheers'};
+    },
+
+    resetPassword(parent, args, ctx, info) {
+       const updatedUser = Auth.resetPassword(parent, args, ctx, info);
+       return updatedUser;
     }
 };
 

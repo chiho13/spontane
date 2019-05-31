@@ -1,18 +1,18 @@
 import React, {useState, useEffect} from 'react';
 import {Mutation, Query} from 'react-apollo';
-import CreateLocationForm from './LocationForm';
+import CreateLocationForm from '../LocationForm';
 import gql from 'graphql-tag';
 import Router from 'next/router';
 
-import UpdateLocationForm from './LocationForm';
-import MapGL from './MapGL';
-import CreateLocationMapStyle from './styles/MapContainerStyle';
-import {ALL_LOCATIONS_QUERY} from './LocationsMapView';
-import DropMarker from './DropMarker';
+import UpdateLocationForm from '../LocationForm';
+import MapGL from '../MapGL';
+import CreateLocationMapStyle from '../styles/MapContainerStyle';
+import {ALL_LOCATIONS_QUERY} from '../LocationsMapView';
+import DropMarker from './DropMarker/DropMarker';
 
-import useForm from './hooks/useForm';
-import useMapMarker from './hooks/useMapMarker';
-import useViewport from './hooks/useViewPort';
+import useForm from '../hooks/useForm';
+import useMapMarker from '../hooks/useMapMarker';
+import useViewport from '../hooks/useViewPort';
 
 import {useQuery} from 'react-apollo-hooks';
 
@@ -117,6 +117,7 @@ function UpdateLocation(props) {
                 ...form
             }
         });
+        
 
         console.log(res);
     }
@@ -150,7 +151,7 @@ function UpdateLocation(props) {
                                     onMarkerDragEnd={onMarkerDragEnd}/>
                             </MapGL>
 
-                            <Mutation mutation={UPDATE_LOCATION_MUTATION} variables={form}>
+                            <Mutation mutation={UPDATE_LOCATION_MUTATION} variables={form} >
                                 {(updateLocation, {loading, error}) => (<UpdateLocationForm
                                     form={form}
                                     defaultValue={data.location}
