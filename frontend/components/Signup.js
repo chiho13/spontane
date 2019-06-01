@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Mutation} from 'react-apollo';
 import gql from 'graphql-tag';
 import Error from './ErrorMessage';
@@ -10,7 +10,7 @@ import Link from 'next/link';
 import {CURRENT_USER_QUERY} from './hooks/useUser';
 import validate from './helpers/AuthFormValidationsRules';
 import useFormValidation from './hooks/useFormValidation';
-import {useMutation} from 'react-apollo-hooks';
+import {useMutation} from './hooks/useMutation';
 
 const invertTheme = ({white, brandColor}) => ({black: white, white: brandColor, hoverColor: '#006fe6'});
 
@@ -52,14 +52,10 @@ function Signup() {
         setForm,
         handleChange] = useForm({email: '', name: '', password: '', confirmPassword: ''});
 
-    const {signup, loading, error} = useMutation(SIGNUP_MUTATION, {variables: {
-            form
+    const [signup, {loading, error}] = useMutation(SIGNUP_MUTATION, {variables: {
+            ...form
         }});
-    const {handleSubmit, errors} = useFormValidation(submitSignUp, validate, form);
-
-    function submitSignUp() {
-        signup();
-    }
+    const {handleSubmit, errors} = useFormValidation(signup, validate, form);
 
     return (
         <SignupStyles>
