@@ -3,14 +3,14 @@ import styled from 'styled-components';
 import Nav from './Nav';
 
 const Logo = styled.h1 `
-    font-size: 3rem;
-    margin-left: 2rem;
+    font-size: 2rem;
+    margin-left: 1.5rem;
     position: relative;
     z-index: 2;
     transform: skew(-7deg);
 
     a {
-        padding: 0.5rem 1rem;
+        padding: 0.25rem 0.75rem;
         background: ${props => props.theme.black};
         color: white;
         text-transform: uppercase;

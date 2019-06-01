@@ -16,7 +16,7 @@ const Form = styled.form`
   box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.05);
   background: rgba(255, 255, 255, 0.8);
   padding: 20px;
-  font-size: 1.5rem;
+  font-size: 1rem;
   line-height: 1.5;
   font-weight: 600;
   margin: 0 auto;
@@ -33,7 +33,7 @@ const Form = styled.form`
     bottom: initial;
     top: ${props => props.top || '150px'};
     left: initial;
-    right: ${props => props.top || '20px'};;
+    right: ${props => props.top || '20px'};
   }
 
   .fieldset_wrapper {
@@ -51,20 +51,32 @@ const Form = styled.form`
   h2 {
     padding: 0;
     text-align: center;
+    font-size: 1.3rem;
   }
 
   label {
     display: block;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
     font-family: 'Roboto';
-    font-size: 14px;
+    font-size: 0.9rem;
 
     .required {
       position: relative;
       left: 2px;
       color: ${props => props.theme.red}
     }
+  }
+
+  .help {
+    display: block;
+    font-size: 0.75rem;
+    font-family: 'Roboto';
+    margin-top: 0.4rem;
+  }
+
+  .help.is-danger {
+    color: #ff3860;
   }
 
   input {
@@ -80,14 +92,21 @@ const Form = styled.form`
     font-size: 16px;
     border: 1px solid #999;
     border-radius: 8px;
+    transition: all 0.3s ease;
     &:focus {
       outline: 0;
+      border-width: 2px;
       border-color: ${props => props.theme.brandColor};
     }
 
     @media (min-width: 700px) {
       font-size: 14px;
     }
+  }
+
+  input.is-danger {
+    border-width: 2px;
+    border-color: #ff3860;
   }
 
   input:read-only {

@@ -1,5 +1,4 @@
 import React from 'react';
-import {Query} from 'react-apollo';
 import styled from 'styled-components';
 import Location from './LocationListViewItem/LocationListViewItem';
 import Pagination from './Pagination/Pagination';

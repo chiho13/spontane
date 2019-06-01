@@ -4,14 +4,22 @@ const jwt = require('jsonwebtoken');
 const Auth = {
       async signup(parent, args, ctx, info) {
         // lowercase their email
+            //check if password match
+
+            if(args.password !== args.confirmPassword) {
+                throw new Error('passwords don\'t match');
+            }
         args.email = args.email.toLowerCase();
+
+    
         // hash their password
         const password = await bcrypt.hash(args.password, 10);
         // create the user in the database
         const user = await ctx.db.mutation.createUser(
           {
             data: {
-              ...args,
+              email: args.email,
+              name: args.name,
               password,
               permissions: { set: ['USER'] },
             },

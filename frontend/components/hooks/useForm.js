@@ -8,11 +8,12 @@ function useForm(initialFormState) {
     });
 
     function handleChange(e) {
+        e.persist();
         const {name, type, value} = e.target;
         const val = type === 'number'
             ? parseFloat(value)
             : value;
-        setForm({...form, [name]: val});
+        setForm(form => ({...form, [name]: val}));
     }
 
     return [form, setForm, handleChange];

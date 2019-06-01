@@ -7,13 +7,16 @@ import useForm from './hooks/useForm';
 import Button from './UIKIT/iButton';
 import styled, {ThemeProvider} from 'styled-components';
 import Link from 'next/link';
-import { CURRENT_USER_QUERY } from './hooks/useUser';
+import {CURRENT_USER_QUERY} from './hooks/useUser';
+import validate from './helpers/AuthFormValidationsRules';
+import useFormValidation from './hooks/useFormValidation';
+import {useMutation} from 'react-apollo-hooks';
 
 const invertTheme = ({white, brandColor}) => ({black: white, white: brandColor, hoverColor: '#006fe6'});
 
 const SIGNUP_MUTATION = gql `
-    mutation SIGNUP_MUTATION($email: String!, $name: String!, $password: String!) {
-        signup(email: $email, name: $name, password: $password) {
+    mutation SIGNUP_MUTATION($email: String!, $name: String!, $password: String!, $confirmPassword: String!) {
+        signup(email: $email, name: $name, password: $password, confirmPassword: $confirmPassword) {
             id
             email
             name
@@ -23,7 +26,7 @@ const SIGNUP_MUTATION = gql `
 
 const SignupStyles = styled.div `
     position: relative;
-    top: 100px;
+    margin-top: 40px;
 
     .loginLink {
         font-family: 'Roboto';
@@ -46,12 +49,18 @@ const SignupStyles = styled.div `
 
 function Signup() {
     const [form,
-        setForm] = useState({email: '', name: '', password: ''});
+        setForm,
+        handleChange] = useForm({email: '', name: '', password: '', confirmPassword: ''});
 
-    function handleChange(e) {
-        const {name, value} = e.target;
-        setForm({...form, [name]: value});
+    const {signup, loading, error} = useMutation(SIGNUP_MUTATION, {variables: {
+            form
+        }});
+    const {handleSubmit, errors} = useFormValidation(submitSignUp, validate, form);
+
+    function submitSignUp() {
+        signup();
     }
+
     return (
         <SignupStyles>
             <div className="loginLink">
@@ -61,64 +70,76 @@ function Signup() {
                 </Link>
             </div>
 
-            <Mutation 
-            mutation={SIGNUP_MUTATION} 
-            variables={form}
-            refetchQueries={[
-                {query: CURRENT_USER_QUERY}
-            ]}
-            >
-                {(signup, {error, loading}) => {
-                    return <Form width="360px" top="0" right="0" method="post" onSubmit={e => {
-                        e.preventDefault();
-                        signup();
-                    }}>
-                        <fieldset disabled={loading}>
-                            <h2>Sign up for an account</h2>
-                            <Error error={error}/>
-                            <label htmlFor="email">
-                                Email<sup className="required" title="required">*</sup>
-                            </label>
-                            <input
-                                id="email"
-                                type="text"
-                                name="email"
-                                placeholder="email"
-                                value={form.email}
-                                onChange={handleChange}
-                                required/>
-
-                            <label htmlFor="name">
-                                Name<sup className="required" title="required">*</sup>
-                            </label>
-                            <input
-                                id="name"
-                                type="text"
-                                name="name"
-                                placeholder="name"
-                                value={form.name}
-                                onChange={handleChange}
-                                required/>
-
-                            <label htmlFor="password">
-                                Password<sup className="required" title="required">*</sup>
-                            </label>
-                            <input
-                                id="password"
-                                type="password"
-                                name="password"
-                                placeholder="password"
-                                value={form.password}
-                                onChange={handleChange}
-                                required/>
-                            <ThemeProvider theme={invertTheme}>
-                                <Button type="submit" disableRipple>Sign Up</Button>
-                            </ThemeProvider>
-                        </fieldset>
-                    </Form>
-                }}
-            </Mutation>
-
+            <Form
+                width="360px"
+                top="0"
+                right="0"
+                method="post"
+                onSubmit={handleSubmit}
+                noValidate>
+                <fieldset disabled={loading}>
+                    <h2>Sign up for an account</h2>
+                    <Error error={error}/>
+                    <label htmlFor="email">
+                        Email address
+                    </label>
+                    <input
+                        id="email"
+                        type="text"
+                        name="email"
+                        placeholder="email"
+                        value={form.email}
+                        onChange={handleChange}
+                        className={errors.email && 'is-danger'}
+                        required/> {errors.email && (
+                        <p className="help is-danger">{errors.email}</p>
+                    )}
+                    <label htmlFor="name">
+                        Name
+                    </label>
+                    <input
+                        id="name"
+                        type="text"
+                        name="name"
+                        placeholder="name"
+                        value={form.name}
+                        onChange={handleChange}
+                        className={errors.name && 'is-danger'}
+                        required/> {errors.name && (
+                        <p className="help is-danger">{errors.name}</p>
+                    )}
+                    <label htmlFor="password">
+                        Password
+                    </label>
+                    <input
+                        id="password"
+                        type="password"
+                        name="password"
+                        placeholder="password"
+                        value={form.password}
+                        onChange={handleChange}
+                        minLength="8"
+                        className={errors.password && 'is-danger'}
+                        required/> {errors.password && (
+                        <p className="help is-danger">{errors.password}</p>
+                    )}
+                    <label htmlFor="confirmPassword">
+                        Confirm Password
+                    </label>
+                    <input
+                        id="confirmPassword"
+                        type="password"
+                        name="confirmPassword"
+                        placeholder="confirm password"
+                        value={form.confirmPassword}
+                        onChange={handleChange}
+                        minLength="8"
+                        required/>
+                    <ThemeProvider theme={invertTheme}>
+                        <Button type="submit" disableRipple>Sign Up</Button>
+                    </ThemeProvider>
+                </fieldset>
+            </Form>
         </SignupStyles>
     )
 }

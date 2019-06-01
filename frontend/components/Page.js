@@ -33,7 +33,7 @@ injectGlobal `
 
 html {
     box-sizing: border-box;
-    font-size: 10px;
+    font-size: 16px;
 }
 
 *, *:before, *:after {
@@ -43,7 +43,7 @@ html {
 body {
     padding: 0;
     margin: 0;
-    font-size: 1.5rem;
+    font-size: 1rem;
     line-height: 2;
     font-family: 'radnika_next';
     background: #f7f7f7;
@@ -57,6 +57,7 @@ ul, li, h1, h2, h3, p, a {
 
 h1, h2 {
     font-family: 'Roboto';
+    font-size: 1.5rem;
     font-weight: bold;
     padding-left: 24px;
     margin-top: 16px;
