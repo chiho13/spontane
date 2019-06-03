@@ -9,7 +9,10 @@ import Link from 'next/link';
 import Router from 'next/router';
 import {CURRENT_USER_QUERY} from './hooks/useUser';
 import useUser from './hooks/useUser';
-import Loading from './LoadingSpinner';
+import validate from './helpers/AuthFormValidationsRules';
+import useFormValidation from './hooks/useFormValidation';
+import {useMutation} from './hooks/useMutation';
+import useForm from './hooks/useForm';
 
 export const invertTheme = ({white, black}) => ({black: white, white: black, hoverColor: '#111'});
 
@@ -69,7 +72,13 @@ const LoginStyles = styled.div `
 
 function Login() {
     const [form,
-        setForm] = useState({email: '', password: ''});
+        setForm,
+        handleChange] = useForm({email: '', password: ''});
+
+    const [login, {error}] = useMutation(LOGIN_MUTATION, {variables: {
+            ...form
+        }, refetchQueries: [{ query: CURRENT_USER_QUERY}]});
+    const {handleSubmit, errors} = useFormValidation(login, validate, form);
 
     const {data: {
             me
@@ -82,6 +91,7 @@ function Login() {
         if (me) {
             Router.push({pathname: '/admin/locations'})
         }
+        console.log(errors)
     });
 
     function handleChange(e) {
@@ -94,23 +104,12 @@ function Login() {
     
     return (!me && <LoginStyles>
         <h2>Log in to your account</h2>
-        <Mutation
-            mutation={LOGIN_MUTATION}
-            variables={form}
-            refetchQueries={[{
-                query: CURRENT_USER_QUERY
-            }
-        ]}>
-            {(login, {error, loading}) => {
-                return <Form
+        <Form
                     top="0"
                     right="0"
                     method="post"
-                    onSubmit={e => {
-                    e.preventDefault();
-                    login();
-                }}>
-                    <fieldset disabled={loading}>
+                    onSubmit={handleSubmit} noValidate>
+                    <fieldset>
                         <Error error={error}/>
                         <div className="form-group">
                             <input
@@ -119,8 +118,11 @@ function Login() {
                                 name="email"
                                 placeholder="email"
                                 value={form.email}
+                                className={errors.email && 'is-danger'}
                                 onChange={handleChange}
-                                required/>
+                                required/> {errors.email && (
+                                    <p className="help is-danger">{errors.email}</p>
+                                )}
                         </div>
                         <div className="form-group">
                             <input
@@ -137,8 +139,6 @@ function Login() {
                         </ThemeProvider>
                     </fieldset>
                 </Form>
-            }}
-        </Mutation>
 
         <Link href="/signup">
             <a className="panel_footer">Don't have an account? &nbsp;

@@ -52,7 +52,7 @@ function Signup() {
         setForm,
         handleChange] = useForm({email: '', name: '', password: '', confirmPassword: ''});
 
-    const [signup, {loading, error}] = useMutation(SIGNUP_MUTATION, {variables: {
+    const [signup, {error}] = useMutation(SIGNUP_MUTATION, {variables: {
             ...form
         }});
     const {handleSubmit, errors} = useFormValidation(signup, validate, form);
@@ -73,7 +73,7 @@ function Signup() {
                 method="post"
                 onSubmit={handleSubmit}
                 noValidate>
-                <fieldset disabled={loading}>
+                <fieldset>
                     <h2>Sign up for an account</h2>
                     <Error error={error}/>
                     <label htmlFor="email">
