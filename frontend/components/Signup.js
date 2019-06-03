@@ -56,7 +56,7 @@ function Signup() {
             ...form
         }});
     const {handleSubmit, errors} = useFormValidation(signup, validate, form);
-
+    
     return (
         <SignupStyles>
             <div className="loginLink">
@@ -129,8 +129,11 @@ function Signup() {
                         placeholder="confirm password"
                         value={form.confirmPassword}
                         onChange={handleChange}
+                        className={errors.confirmPassword && 'is-danger'}
                         minLength="8"
-                        required/>
+                        required/> {errors.confirmPassword && (
+                            <p className="help is-danger">{errors.confirmPassword}</p>
+                        )}
                     <ThemeProvider theme={invertTheme}>
                         <Button type="submit" disableRipple>Sign Up</Button>
                     </ThemeProvider>

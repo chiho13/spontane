@@ -11,6 +11,12 @@ export default function validate(values) {
         errors.password = 'Password must be 8 or more characters';
     }
 
+    if(!values.confirmPassword) {
+      errors.confirmPassword = 'Please confirm your password'
+    } else if(values.password !== values.confirmPassword) {
+      errors.confirmPassword = 'Passwords do not match'
+    }
+
     if(!values.name) {
         errors.name = 'Name is required';
     }
