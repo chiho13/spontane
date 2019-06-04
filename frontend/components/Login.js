@@ -85,9 +85,6 @@ function Login() {
         }, loading} = useUser();
 
     useEffect(() => {
-        if (loading) {
-            return;
-        }
         if (me) {
             Router.push({pathname: '/admin/locations'})
         }
