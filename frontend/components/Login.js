@@ -30,8 +30,11 @@ const LoginStyles = styled.div `
     top: 100px;
     max-width: 430px;
     margin: 0 auto;
-    background-color: #fff;
-    border-radius: 10px;
+
+    .container {
+        background-color: #fff;
+        border-radius: 10px;
+    }
 
     h2 { 
         padding-top: 40px;
@@ -49,6 +52,15 @@ const LoginStyles = styled.div `
         .form-group {
             margin-bottom: 20px;
         }
+    }
+
+    .resetpassword {
+        display: block;
+        text-align: center;
+        font-family: 'Roboto';
+        font-size: 0.9rem;
+        margin-top: 0.5rem;
+        text-decoration: underline;
     }
 
     .panel_footer {
@@ -75,9 +87,19 @@ function Login() {
         setForm,
         handleChange] = useForm({email: '', password: ''});
 
-    const [login, {error}] = useMutation(LOGIN_MUTATION, {variables: {
+    const [login, {
+            error
+        }
+    ] = useMutation(LOGIN_MUTATION, {
+        variables: {
             ...form
-        }, refetchQueries: [{ query: CURRENT_USER_QUERY}]});
+        },
+        refetchQueries: [
+            {
+                query: CURRENT_USER_QUERY
+            }
+        ]
+    });
     const {handleSubmit, errors} = useFormValidation(login, validate, form);
 
     const {data: {
@@ -97,50 +119,52 @@ function Login() {
             [name]: value
         });
     }
-    
-    return (!me && <LoginStyles>
-        <h2>Log in to your account</h2>
-        <Form
-                    top="0"
-                    right="0"
-                    method="post"
-                    onSubmit={handleSubmit} noValidate>
-                    <fieldset>
-                        <Error error={error}/>
-                        <div className="form-group">
-                            <input
-                                id="email"
-                                type="text"
-                                name="email"
-                                placeholder="email"
-                                value={form.email}
-                                className={errors.email && 'is-danger'}
-                                onChange={handleChange}
-                                required/> {errors.email && (
-                                    <p className="help is-danger">{errors.email}</p>
-                                )}
-                        </div>
-                        <div className="form-group">
-                            <input
-                                id="password"
-                                type="password"
-                                name="password"
-                                placeholder="password"
-                                value={form.password}
-                                onChange={handleChange}
-                                required/>
-                        </div>
-                        <ThemeProvider theme={invertTheme}>
-                            <Button type="submit" disableRipple>Log in</Button>
-                        </ThemeProvider>
-                    </fieldset>
-                </Form>
 
-        <Link href="/signup">
-            <a className="panel_footer">Don't have an account? &nbsp;
-                <span>Sign Up</span>
-            </a>
-        </Link>
+    return (!me && <LoginStyles>
+        <div className="container">
+            <h2>Log in to your account</h2>
+            <Form top="0" right="0" method="post" onSubmit={handleSubmit} noValidate>
+                <fieldset>
+                    <Error error={error}/>
+                    <div className="form-group">
+                        <input
+                            id="email"
+                            type="text"
+                            name="email"
+                            placeholder="email"
+                            value={form.email}
+                            className={errors.email && 'is-danger'}
+                            onChange={handleChange}
+                            required/> {errors.email && (
+                            <p className="help is-danger">{errors.email}</p>
+                        )}
+                    </div>
+                    <div className="form-group">
+                        <input
+                            id="password"
+                            type="password"
+                            name="password"
+                            placeholder="password"
+                            value={form.password}
+                            onChange={handleChange}
+                            required/>
+                    </div>
+                    <ThemeProvider theme={invertTheme}>
+                        <Button type="submit" disableRipple>Log in</Button>
+                    </ThemeProvider>
+                </fieldset>
+            </Form>
+
+            <Link href="/signup">
+                <a className="panel_footer">Don't have an account? &nbsp;
+                    <span>Sign Up</span>
+                </a>
+            </Link>
+        </div>
+        <Link href="/resetpassword">
+                <a className="resetpassword">Forgot your password?
+                </a>
+            </Link>
     </LoginStyles>)
 }
 
