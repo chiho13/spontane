@@ -1,5 +1,5 @@
-import React from 'react';
-import {Mutation} from 'react-apollo';
+import React, {useEffect, useState} from 'react';
+
 import gql from 'graphql-tag';
 import Error from './ErrorMessage';
 import Form from './styles/Form';
@@ -9,10 +9,19 @@ import styled, {ThemeProvider} from 'styled-components';
 import Link from 'next/link';
 import {CURRENT_USER_QUERY} from './hooks/useUser';
 import validate from './helpers/AuthFormValidationsRules';
-import useFormValidation from './hooks/useFormValidation';
-import {useMutation} from './hooks/useMutation';
+
 import {invertTheme} from './Login';
 import Head from 'next/head';
+
+import Router from 'next/router';
+import Loading from './LoadingSpinner';
+import {loadingBrandTheme} from './Login';
+
+//custom hooks
+import useUser from './hooks/useUser';
+import useFormValidation from './hooks/useFormValidation';
+import {useMutation} from './hooks/useMutation';
+import useLoading from './hooks/useLoading';
 
 const SIGNUP_MUTATION = gql `
     mutation SIGNUP_MUTATION($email: String!, $name: String!, $password: String!, $confirmPassword: String!) {
@@ -57,15 +66,49 @@ function Signup() {
         setForm,
         handleChange] = useForm({email: '', name: '', password: '', confirmPassword: ''});
 
-    const [signup, {error}] = useMutation(SIGNUP_MUTATION, {variables: {
+    const [enableButton,
+        setEnableButton] = useState(true);
+
+    const [signup, {
+            loading, error
+        }
+    ] = useMutation(SIGNUP_MUTATION, {
+        variables: {
             ...form
-        }});
+        },
+        refetchQueries: [
+            {
+                query: CURRENT_USER_QUERY
+            }
+        ]
+    });
+
+    const [showLoading, setShowLoading] = useLoading(loading, error, false);
+
     const {handleSubmit, errors} = useFormValidation(signup, validate, form);
-    
+    const {data: {
+            me
+        }} = useUser();
+
+    useEffect(() => {
+        if (!error && me) {
+            setShowLoading(true)
+            Router.push({pathname: '/admin/locations'});
+        }
+    });
+
+    useEffect(() => {
+        if (form.email.length && form.name.length && form.password.length && form.confirmPassword.length) {
+            setEnableButton(false);
+        } else {
+            setEnableButton(true);
+        }
+    });
+
     return (
-        <SignupStyles>
-               <Head>
-             <title>Sign Up | Spontane</title>
+        showLoading ? <Loading theme={loadingBrandTheme}/> : <SignupStyles>
+            <Head>
+                <title>Sign Up | Spontane</title>
             </Head>
             <div className="loginLink">
                 Already have an account?
@@ -122,7 +165,7 @@ function Signup() {
                         placeholder="password"
                         value={form.password}
                         onChange={handleChange}
-                        minLength="8"
+                        minLength="6"
                         className={errors.password && 'is-danger'}
                         required/> {errors.password && (
                         <p className="help is-danger">{errors.password}</p>
@@ -138,12 +181,12 @@ function Signup() {
                         value={form.confirmPassword}
                         onChange={handleChange}
                         className={errors.confirmPassword && 'is-danger'}
-                        minLength="8"
+                        minLength="6"
                         required/> {errors.confirmPassword && (
-                            <p className="help is-danger">{errors.confirmPassword}</p>
-                        )}
+                        <p className="help is-danger">{errors.confirmPassword}</p>
+                    )}
                     <ThemeProvider theme={invertTheme}>
-                        <Button type="submit" disableRipple>Sign Up</Button>
+                        <Button type="submit" disableRipple disabled={enableButton}>Sign Up</Button>
                     </ThemeProvider>
                 </fieldset>
             </Form>

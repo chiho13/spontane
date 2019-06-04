@@ -18,10 +18,16 @@ const iButton = styled(Button)`
   font-family: 'Roboto';
   line-height: 1.5;
   box-shadow: 0 1px 5px 1px rgba(100, 105, 135, .3);
+  transition: all 0.4s ease;
 
   &:hover {
-    background-color: ${props => props.theme.hoverColor};
+    background: ${props => props.theme.hoverColor};
     color: ${props => props.theme.black};
+  }
+
+  &[disabled] {
+    opacity: 0.6;
+    color: #eee;
   }
   
   span {

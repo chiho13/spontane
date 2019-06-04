@@ -1,6 +1,8 @@
-import styled, {keyframes} from 'styled-components';
+import styled, {keyframes, ThemeProvider} from 'styled-components';
+import PropTypes from 'prop-types';
+import {theme} from './Page'
 
-const svgAnimation = keyframes`
+const svgAnimation = keyframes `
     0% {
     transform: rotateZ(0deg);
   }
@@ -9,7 +11,7 @@ const svgAnimation = keyframes`
   }
 `;
 
-const circleAnimation = keyframes`
+const circleAnimation = keyframes `
 0%,
 25% {
   stroke-dashoffset: 280;
@@ -28,7 +30,7 @@ const circleAnimation = keyframes`
 }
 `;
 
-const LoadingSpinnerSVG = styled.div`
+const LoadingSpinnerSVG = styled.div `
     display: flex;
     justify-content: center;
     align-items: center;
@@ -53,13 +55,23 @@ circle {
 }
 `;
 
-
-const LoadingSpinner = () => (
-    <LoadingSpinnerSVG>
-        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="50" cy="50" r="45"/>
-        </svg>
-    </LoadingSpinnerSVG>
+const LoadingSpinner = (props) => (
+    <ThemeProvider theme={props.theme}>
+        <LoadingSpinnerSVG>
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="45"/>
+            </svg>
+        </LoadingSpinnerSVG>
+    </ThemeProvider>
 );
 
 export default LoadingSpinner
+
+
+LoadingSpinner.defaultProps = {
+  theme
+};
+
+LoadingSpinner.propTypes = {
+  theme: PropTypes.object,
+};

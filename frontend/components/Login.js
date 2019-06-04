@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import {Mutation} from 'react-apollo';
 import gql from 'graphql-tag';
 import Error from './ErrorMessage';
 import Form from './styles/Form';
@@ -10,12 +9,19 @@ import Router from 'next/router';
 import {CURRENT_USER_QUERY} from './hooks/useUser';
 import useUser from './hooks/useUser';
 import validate from './helpers/AuthFormValidationsRules';
+import Head from 'next/head';
+import Loading from './LoadingSpinner';
+
+//custom hooks
+import useForm from './hooks/useForm';
 import useFormValidation from './hooks/useFormValidation';
 import {useMutation} from './hooks/useMutation';
-import useForm from './hooks/useForm';
-import Head from 'next/head';
+import useLoading from './hooks/useLoading';
 
 export const invertTheme = ({white, black}) => ({black: white, white: black, hoverColor: '#111'});
+
+const brandTheme = ({white, black}) => ({black: white, white: 'linear-gradient(45deg,rgba(0,123,255,1) 0%,rgba(66,151,255,1) 100%)',
+ hoverColor: 'linear-gradient(45deg, rgba(66,151,255,1) 0%, rgba(0,123,255,1) 100%)'});
 
 const LOGIN_MUTATION = gql `
     mutation LOGIN_MUTATION($email: String!, $password: String!) {
@@ -25,6 +31,8 @@ const LOGIN_MUTATION = gql `
         }
     }
 `;
+
+export const loadingBrandTheme = ({white}) => ({brandColor: white});
 
 const LoginStyles = styled.div `
     position: relative;
@@ -89,8 +97,10 @@ function Login() {
         setForm,
         handleChange] = useForm({email: '', password: ''});
 
+    const [enableButton, setEnableButton] = useState(true);
+
     const [login, {
-            error
+            loading, error
         }
     ] = useMutation(LOGIN_MUTATION, {
         variables: {
@@ -102,15 +112,26 @@ function Login() {
             }
         ]
     });
-    const {handleSubmit, errors} = useFormValidation(login, validate, form);
 
+    const {handleSubmit, errors} = useFormValidation(login, validate, form);
     const {data: {
             me
-        }, loading} = useUser();
+        }} = useUser();
+
+    const [showLoading, setShowLoading] = useLoading(loading, error, false);
 
     useEffect(() => {
-        if (me) {
+        if (!error && me) {
+            setShowLoading(true);
             Router.push({pathname: '/admin/locations'})
+        }
+    });
+
+    useEffect(() => {
+        if(form.email.length && form.password.length) {
+            setEnableButton(false)
+        }   else {
+            setEnableButton(true)
         }
     });
 
@@ -122,7 +143,7 @@ function Login() {
         });
     }
 
-    return (!me && <LoginStyles>
+    return (showLoading ? <Loading theme={loadingBrandTheme} /> : <LoginStyles>
           <Head>
              <title>Login | Spontane</title>
             </Head>
@@ -157,8 +178,8 @@ function Login() {
                                 <p className="help is-danger">{errors.password}</p>
                             )}
                     </div>
-                    <ThemeProvider theme={invertTheme}>
-                        <Button type="submit" disableRipple>Log in</Button>
+                    <ThemeProvider theme={brandTheme}>
+                        <Button type="submit" disableRipple disabled={enableButton}>Log in</Button>
                     </ThemeProvider>
                 </fieldset>
             </Form>
@@ -172,7 +193,7 @@ function Login() {
         <Link href="/resetpassword">
                 <a className="resetpassword">Forgot your password?
                 </a>
-            </Link>
+        </Link>
     </LoginStyles>)
 }
 

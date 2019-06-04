@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import Meta from '../components/Meta';
 import styled, {ThemeProvider, injectGlobal} from 'styled-components';
 
-const theme = {
+export const theme = {
     red: '#D64242',
     black: '#393939',
     white: '#FFFFFF',

@@ -7,8 +7,8 @@ export default function validate(values) {
     }
     if (values.password !== undefined && !values.password) {
         errors.password = 'Password is required';
-    } else if (values.password !== undefined && values.password.length < 3) {
-        errors.password = 'Password must be 3 or more characters';
+    } else if (values.password !== undefined && values.password.length < 6) {
+        errors.password = 'Password must be 6 or more characters';
     }
 
     if(values.confirmPassword !== undefined && !values.confirmPassword) {

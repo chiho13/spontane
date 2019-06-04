@@ -6,12 +6,22 @@ const Auth = {
         // lowercase their email
             //check if password match
 
-            if(args.password !== args.confirmPassword) {
-                throw new Error('passwords don\'t match');
-            }
+        if(args.password !== args.confirmPassword) {
+            throw new Error('Passwords don\'t match');
+        }
+
+        if(!args.password || !args.confirmPassword) {
+          throw new Error('Password fields are required');
+        }
+
+        if(args.password.length < 6) {
+            throw new Error('Password must be 6 or more characters')
+        }
+
+       
+
         args.email = args.email.toLowerCase();
 
-    
         // hash their password
         const password = await bcrypt.hash(args.password, 10);
         // create the user in the database
