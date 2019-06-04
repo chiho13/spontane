@@ -39,6 +39,9 @@ const Auth = {
 
       async login(parent, {email, password}, ctx, info) {
         //check if there is user with that email
+        if (!/\S+@\S+\.\S+/.test(email)) {
+          throw new Error(`Invalid Email address`);
+        }
         const user = await ctx.db.query.user({ where: {email}});
 
         if(!user) {

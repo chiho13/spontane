@@ -152,7 +152,10 @@ function Login() {
                             placeholder="password"
                             value={form.password}
                             onChange={handleChange}
-                            required/>
+                            className={errors.password && 'is-danger'}
+                            required/> {errors.password && (   
+                                <p className="help is-danger">{errors.password}</p>
+                            )}
                     </div>
                     <ThemeProvider theme={invertTheme}>
                         <Button type="submit" disableRipple>Log in</Button>
