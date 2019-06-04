@@ -88,7 +88,6 @@ function Login() {
         if (me) {
             Router.push({pathname: '/admin/locations'})
         }
-        console.log(errors)
     });
 
     function handleChange(e) {

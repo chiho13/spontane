@@ -5,9 +5,9 @@ export default function validate(values) {
     } else if (!/\S+@\S+\.\S+/.test(values.email)) {
       errors.email = 'Email address is invalid';
     }
-    if (!values.password) {
+    if (values.password !== undefined && !values.password) {
         errors.password = 'Password is required';
-    } else if (values.password.length < 3) {
+    } else if (values.password !== undefined && values.password.length < 3) {
         errors.password = 'Password must be 3 or more characters';
     }
 

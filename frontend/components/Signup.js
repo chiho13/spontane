@@ -11,8 +11,7 @@ import {CURRENT_USER_QUERY} from './hooks/useUser';
 import validate from './helpers/AuthFormValidationsRules';
 import useFormValidation from './hooks/useFormValidation';
 import {useMutation} from './hooks/useMutation';
-
-const invertTheme = ({white, brandColor}) => ({black: white, white: brandColor, hoverColor: '#006fe6'});
+import {invertTheme} from './Login';
 
 const SIGNUP_MUTATION = gql `
     mutation SIGNUP_MUTATION($email: String!, $name: String!, $password: String!, $confirmPassword: String!) {
