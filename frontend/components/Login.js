@@ -13,6 +13,7 @@ import validate from './helpers/AuthFormValidationsRules';
 import useFormValidation from './hooks/useFormValidation';
 import {useMutation} from './hooks/useMutation';
 import useForm from './hooks/useForm';
+import Head from 'next/head';
 
 export const invertTheme = ({white, black}) => ({black: white, white: black, hoverColor: '#111'});
 
@@ -60,6 +61,7 @@ const LoginStyles = styled.div `
         font-family: 'Roboto';
         font-size: 0.9rem;
         margin-top: 0.5rem;
+        color: rgba(255,255,255,0.8);
         text-decoration: underline;
     }
 
@@ -121,6 +123,9 @@ function Login() {
     }
 
     return (!me && <LoginStyles>
+          <Head>
+             <title>Login | Spontane</title>
+            </Head>
         <div className="container">
             <h2>Log in to your account</h2>
             <Form top="0" right="0" method="post" onSubmit={handleSubmit} noValidate>

@@ -1,10 +1,10 @@
-import HomeLayout from '../components/Layout/HomeLayout';
+import AuthLayout from '../components/Layout/AuthLayout';
 import Signup from '../components/Signup';
 
 const SignUpPage = () => (
-  <HomeLayout>
+  <AuthLayout>
     <Signup/>
-  </HomeLayout>
+  </AuthLayout>
 );
 
 export default SignUpPage;

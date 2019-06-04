@@ -10,7 +10,7 @@ import validate from './helpers/AuthFormValidationsRules';
 import useFormValidation from './hooks/useFormValidation';
 import {useMutation} from './hooks/useMutation';
 import useForm from './hooks/useForm';
-
+import Head from 'next/head';
 import Link from 'next/link';
 import {invertTheme} from './Login';
 
@@ -100,9 +100,12 @@ function RequestReset() {
 
     return (
         <RequestResetStyles>
+            <Head>
+                <title>Reset Password | Spontane</title>
+            </Head>
             <h2>Forgotten your password?</h2>
             <Form top="0" right="0" method="post" onSubmit={handleSubmit} noValidate>
-                <fieldset>
+                <fieldset>  
                     <Error error={error}/> {!error && !loading && called && <Success message="Check your email for a reset"/>}
                     <div className="form-group">
                         <input

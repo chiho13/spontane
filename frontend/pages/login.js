@@ -1,8 +1,10 @@
-import HomeLayout from '../components/Layout/HomeLayout';
+import AuthLayout from '../components/Layout/AuthLayout';
 import Login from '../components/Login';
 
 const LoginPage = () => {
-  return  <Login/>
+  return  <AuthLayout>
+          <Login/>
+    </AuthLayout>
 };
 
 export default LoginPage;

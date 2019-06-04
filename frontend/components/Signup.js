@@ -12,6 +12,7 @@ import validate from './helpers/AuthFormValidationsRules';
 import useFormValidation from './hooks/useFormValidation';
 import {useMutation} from './hooks/useMutation';
 import {invertTheme} from './Login';
+import Head from 'next/head';
 
 const SIGNUP_MUTATION = gql `
     mutation SIGNUP_MUTATION($email: String!, $name: String!, $password: String!, $confirmPassword: String!) {
@@ -25,22 +26,27 @@ const SIGNUP_MUTATION = gql `
 
 const SignupStyles = styled.div `
     position: relative;
-    margin-top: 40px;
+    margin-top: 80px;
+    
+    form {
+        background-color: #fff;
+    }
 
     .loginLink {
         font-family: 'Roboto';
         text-align:center;
         margin-bottom: 20px;
+        color: rgba(255,255,255,0.8);
 
         a {
-            color: ${props => props.theme.brandColor};
-            padding: 8px;
-            margin-left: 5px;
-            background-color: rgba(255, 255, 255, 0.6);
+            color: ${props => props.theme.black};
+            padding: 0.5rem;
+            margin-left: 1rem;
+            background-color: rgba(255, 255, 255, 0.8);
             transition: background 0.2s ease;
-            border-radius: 8px;
+            border-radius: 0.5rem;
             &:hover {
-                background-color: rgba(255, 255, 255, 0.4);
+                background-color: rgba(255, 255, 255, 0.6);
             }
         }
     }
@@ -58,6 +64,9 @@ function Signup() {
     
     return (
         <SignupStyles>
+               <Head>
+             <title>Sign Up | Spontane</title>
+            </Head>
             <div className="loginLink">
                 Already have an account?
                 <Link href="/login">
