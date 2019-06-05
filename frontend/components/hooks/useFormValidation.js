@@ -3,7 +3,6 @@ import {useState, useEffect} from 'react';
 function useFormValidate(callback, validate, values) {
     const [errors, setErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [valid, setValid] = useState(false);
 
     useEffect(() => {
         if (Object.keys(errors).length === 0 && isSubmitting) {
@@ -11,10 +10,10 @@ function useFormValidate(callback, validate, values) {
         }
     }, [errors]);
 
-    const handleSubmit = (event, cb) => {
+    const handleSubmit = (event) => {
          event.preventDefault();
         setErrors(validate(values));
-        setIsSubmitting(true)
+        setIsSubmitting(true);
     };
 
     return {handleSubmit, errors}

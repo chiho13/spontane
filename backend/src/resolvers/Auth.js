@@ -18,8 +18,6 @@ const Auth = {
             throw new Error('Password must be 6 or more characters')
         }
 
-       
-
         args.email = args.email.toLowerCase();
 
         // hash their password
@@ -85,7 +83,7 @@ const Auth = {
         const [user] = await ctx.db.query.users({
             where: {
                 resetToken: args.resetToken,
-                resetTokenExpiry_gte: Date.now() - 3600000
+                resetTokenExpiry_gte: Date.now()
             }
         });
 

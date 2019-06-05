@@ -11,6 +11,7 @@ import DropMarker from './DropMarker/DropMarker';
 
 import useForm from '../hooks/useForm';
 import useMapMarker from '../hooks/useMapMarker';
+import {PAGINATION_QUERY} from './Pagination/Pagination';
 
 const CREATE_LOCATION_MUTATION = gql `
     mutation CREATE_LOCATION_MUTATION(
@@ -67,22 +68,6 @@ function CreateLocation() {
         });
     });
 
-    function update(cache, {data: {
-            createLocation
-        }}) {
-        try {
-
-            const data = cache.readQuery({query: ALL_LOCATIONS_QUERY});
-            console.log(data);
-            data
-                .locations
-                .push(createLocation);
-                cache.writeQuery({query: ALL_LOCATIONS_QUERY, data});
-        } catch (error) {
-            console.error(error);
-        }
-    }
-
     async function onSubmit(e, createLocation) {
         e.preventDefault();
         const res = await createLocation();
@@ -110,7 +95,9 @@ function CreateLocation() {
                     onMarkerDrag={onMarkerDrag}
                     onMarkerDragEnd={onMarkerDragEnd}/>}
             </MapGL>
-            <Mutation mutation={CREATE_LOCATION_MUTATION} variables={form} update={update}>
+            <Mutation mutation={CREATE_LOCATION_MUTATION} variables={form} refetchQueries={[
+                                {query: ALL_LOCATIONS_QUERY}, {query: PAGINATION_QUERY}
+                            ]}>
                 {(createLocation, {loading, error}) => (<CreateLocationForm
                     form={form}
                     defaultValue={form}

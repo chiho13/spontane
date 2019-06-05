@@ -73,5 +73,5 @@ LoadingSpinner.defaultProps = {
 };
 
 LoadingSpinner.propTypes = {
-  theme: PropTypes.object,
+  theme: PropTypes.any,
 };

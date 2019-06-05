@@ -90,14 +90,6 @@ function RequestReset() {
         }
     })
 
-    function handleChange(e) {
-        const {name, value} = e.target;
-        setForm({
-            ...form,
-            [name]: value
-        });
-    }
-
     return (
         <RequestResetStyles>
             <Head>
@@ -108,6 +100,9 @@ function RequestReset() {
                 <fieldset>  
                     <Error error={error}/> {!error && !loading && called && <Success message="Check your email for a reset"/>}
                     <div className="form-group">
+                    <label htmlFor="email">
+                        Enter your email address
+                    </label>
                         <input
                             id="email"
                             type="text"

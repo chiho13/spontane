@@ -2,6 +2,8 @@ const Auth = require('./Auth');
 const { randomBytes } = require('crypto');
 const { promisify } = require('util');
 
+const {transport, niceEmail} = require('../mail');
+
 const Mutations = {
     async createGeoLocation(parent, args, ctx, info) {
 
@@ -9,7 +11,6 @@ const Mutations = {
             data: {
                 ...args
             }
-                
         }, info);
 
         return geolocation;
@@ -19,9 +20,14 @@ const Mutations = {
 
         const location = await ctx.db.mutation.createLocation({
             data: {
+                  //this is how to create a relationship between Location and the user
+                  user: {
+                    connect: {
+                        id: ctx.request.userId
+                    }
+                },
                 ...args
             }
-                
         }, info);
 
         return location;
@@ -83,8 +89,17 @@ const Mutations = {
             data: { resetToken, resetTokenExpiry}
         });
 
-        console.log(res);
-        // 3. Email them a reset token
+        //3 / Email user reset token
+
+        const mailRes = await transport.sendMail({
+            from: 'a.chiho13@gmail.com',
+            to: user.email,
+            subject: 'Your password reset token',
+            html: niceEmail(`Your password reset token is here 
+            \n\n <a href="${process.env.FRONTEND_URL}/reset?resetToken=${resetToken}">Click here to reset</a>`)
+        });
+
+        // 4. Email them a reset token
         return {message: 'Cheers'};
     },
 

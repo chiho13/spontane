@@ -9,7 +9,7 @@ width: 100%;
 background: linear-gradient(45deg, rgba(0,123,255,1) 0%, rgba(66,151,255,1) 100%);
 overflow-y: auto;
 
-svg {
+.headerLogo {
   position: absolute;
   top: 3rem;
   left: 4rem;

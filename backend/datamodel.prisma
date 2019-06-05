@@ -34,6 +34,7 @@ type Location {
   description: String
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
+  user: User!
 }
 
 type Tour {

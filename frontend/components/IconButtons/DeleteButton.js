@@ -5,6 +5,7 @@ import {Mutation} from 'react-apollo';
 import gql from 'graphql-tag';
 import {ALL_LOCATIONS_QUERY} from '../Dashboard/LocationsListView';
 import Router from 'next/router';
+import {PAGINATION_QUERY} from '../Dashboard/Pagination/Pagination';
 
 const DELETE_LOCATION_MUTATION = gql`
     mutation DELETE_LOCATION_MUTATION($id: ID!) {
@@ -21,13 +22,7 @@ const theme = {
 
 const DeleteButton = (props) => {
 
-    const update = (cache, payload) => {
-        //manually update the cache on the client so it matches the server
-        // 1. Read the cache for the items we want
-        const data = cache.readQuery({query: ALL_LOCATIONS_QUERY})
-        //2. Filter the deletedItem out of the page
-        data.locations = data.locations.filter(location => location.id !== payload.data.deleteLocation.id)
-        cache.writeQuery({ query: ALL_LOCATIONS_QUERY, data});
+    const update = () => {
         Router.push({
             pathname: '/admin/locations',
             query: {
@@ -43,7 +38,10 @@ const DeleteButton = (props) => {
             variables={{
             id
         }}
-        update={update}>
+        update={update}
+        refetchQueries={[
+            {query: ALL_LOCATIONS_QUERY}, {query: PAGINATION_QUERY}
+        ]}>
             {(deleteLocation, {error}) => (
                 <ThemeProvider theme={theme}>
                 <IconButtonStyle onClick={() => {

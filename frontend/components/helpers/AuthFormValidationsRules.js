@@ -1,8 +1,9 @@
 export default function validate(values) {
     let errors = {};
-    if (!values.email) {
+   
+    if ( values.email !== undefined && !values.email) {
       errors.email = 'Email address is required';
-    } else if (!/\S+@\S+\.\S+/.test(values.email)) {
+    } else if ( values.email !== undefined && !/\S+@\S+\.\S+/.test(values.email)) {
       errors.email = 'Email address is invalid';
     }
     if (values.password !== undefined && !values.password) {

@@ -10,6 +10,8 @@ class Tabs extends Component {
     children: PropTypes.instanceOf(Array).isRequired,
   }
 
+  _isMounted = false;
+
   constructor(props) {
     super(props);
 
@@ -29,6 +31,10 @@ class Tabs extends Component {
   }
 
   componentDidUpdate() {
+    this._isMounted = true;
+
+    if (!this._isMounted) return;
+
     Router.onRouteChangeComplete = () => {
       const myParam = this.getParam();
       
@@ -36,16 +42,18 @@ class Tabs extends Component {
     };    
   }
 
-  componentDidMount() {
-    const myParam = this.getParam();
-
-      if(myParam === 'Map') {
-        this.setState({ activeTab: 'Map' });
-      } else if(myParam === 'List') {
-        this.setState({ activeTab: 'List' });
-      }
+  componentWillUnmount() {
+    this._isMounted = false;
   }
+
   componentWillMount() {
+    const myParam = this.getParam();
+  
+    if(myParam === 'Map') {
+      this.setState({ activeTab: 'Map' });
+    } else if(myParam === 'List') {
+      this.setState({ activeTab: 'List' });
+    }
       this.props.id && this.setState({ activeTab: 'Map' });
   }
 

@@ -1,5 +1,5 @@
 # source: https://eu1.prisma.sh/anthony-ho-b91ea0/spontane/dev
-# timestamp: Wed May 15 2019 00:33:53 GMT+0100 (BST)
+# timestamp: Wed Jun 05 2019 17:48:32 GMT+0100 (BST)
 
 type AggregateGeoLocation {
   count: Int!
@@ -300,6 +300,7 @@ type Location implements Node {
   description: String
   createdAt: DateTime!
   updatedAt: DateTime!
+  user: User!
 }
 
 """A connection to a list of items."""
@@ -318,6 +319,7 @@ input LocationCreateInput {
   city: String!
   description: String
   geoLocation: GeoLocationCreateOneInput!
+  user: UserCreateOneInput!
 }
 
 input LocationCreateManyInput {
@@ -617,6 +619,7 @@ input LocationUpdateDataInput {
   city: String
   description: String
   geoLocation: GeoLocationUpdateOneRequiredInput
+  user: UserUpdateOneRequiredInput
 }
 
 input LocationUpdateInput {
@@ -624,6 +627,7 @@ input LocationUpdateInput {
   city: String
   description: String
   geoLocation: GeoLocationUpdateOneRequiredInput
+  user: UserUpdateOneRequiredInput
 }
 
 input LocationUpdateManyDataInput {
@@ -880,6 +884,7 @@ input LocationWhereInput {
   """All values greater than or equal the given value."""
   updatedAt_gte: DateTime
   geoLocation: GeoLocationWhereInput
+  user: UserWhereInput
 }
 
 input LocationWhereUniqueInput {
@@ -893,29 +898,29 @@ Long can represent values between -(2^63) and 2^63 - 1.
 scalar Long
 
 type Mutation {
-  createUser(data: UserCreateInput!): User!
   createTour(data: TourCreateInput!): Tour!
   createGeoLocation(data: GeoLocationCreateInput!): GeoLocation!
+  createUser(data: UserCreateInput!): User!
   createLocation(data: LocationCreateInput!): Location!
-  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateTour(data: TourUpdateInput!, where: TourWhereUniqueInput!): Tour
   updateGeoLocation(data: GeoLocationUpdateInput!, where: GeoLocationWhereUniqueInput!): GeoLocation
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateLocation(data: LocationUpdateInput!, where: LocationWhereUniqueInput!): Location
-  deleteUser(where: UserWhereUniqueInput!): User
   deleteTour(where: TourWhereUniqueInput!): Tour
   deleteGeoLocation(where: GeoLocationWhereUniqueInput!): GeoLocation
+  deleteUser(where: UserWhereUniqueInput!): User
   deleteLocation(where: LocationWhereUniqueInput!): Location
-  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertTour(where: TourWhereUniqueInput!, create: TourCreateInput!, update: TourUpdateInput!): Tour!
   upsertGeoLocation(where: GeoLocationWhereUniqueInput!, create: GeoLocationCreateInput!, update: GeoLocationUpdateInput!): GeoLocation!
+  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertLocation(where: LocationWhereUniqueInput!, create: LocationCreateInput!, update: LocationUpdateInput!): Location!
-  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   updateManyTours(data: TourUpdateManyMutationInput!, where: TourWhereInput): BatchPayload!
   updateManyGeoLocations(data: GeoLocationUpdateManyMutationInput!, where: GeoLocationWhereInput): BatchPayload!
+  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   updateManyLocations(data: LocationUpdateManyMutationInput!, where: LocationWhereInput): BatchPayload!
-  deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManyTours(where: TourWhereInput): BatchPayload!
   deleteManyGeoLocations(where: GeoLocationWhereInput): BatchPayload!
+  deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManyLocations(where: LocationWhereInput): BatchPayload!
 }
 
@@ -956,17 +961,17 @@ enum Permission {
 }
 
 type Query {
-  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   tours(where: TourWhereInput, orderBy: TourOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Tour]!
   geoLocations(where: GeoLocationWhereInput, orderBy: GeoLocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [GeoLocation]!
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location]!
-  user(where: UserWhereUniqueInput!): User
   tour(where: TourWhereUniqueInput!): Tour
   geoLocation(where: GeoLocationWhereUniqueInput!): GeoLocation
+  user(where: UserWhereUniqueInput!): User
   location(where: LocationWhereUniqueInput!): Location
-  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   toursConnection(where: TourWhereInput, orderBy: TourOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TourConnection!
   geoLocationsConnection(where: GeoLocationWhereInput, orderBy: GeoLocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): GeoLocationConnection!
+  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   locationsConnection(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LocationConnection!
 
   """Fetches an object given its ID"""
@@ -977,9 +982,9 @@ type Query {
 }
 
 type Subscription {
-  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   tour(where: TourSubscriptionWhereInput): TourSubscriptionPayload
   geoLocation(where: GeoLocationSubscriptionWhereInput): GeoLocationSubscriptionPayload
+  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   location(where: LocationSubscriptionWhereInput): LocationSubscriptionPayload
 }
 
@@ -1254,6 +1259,11 @@ input UserCreateInput {
   permissions: UserCreatepermissionsInput
 }
 
+input UserCreateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+}
+
 input UserCreatepermissionsInput {
   set: [Permission!]
 }
@@ -1331,6 +1341,15 @@ input UserSubscriptionWhereInput {
   node: UserWhereInput
 }
 
+input UserUpdateDataInput {
+  name: String
+  email: String
+  password: String
+  resetToken: String
+  resetTokenExpiry: String
+  permissions: UserUpdatepermissionsInput
+}
+
 input UserUpdateInput {
   name: String
   email: String
@@ -1349,8 +1368,20 @@ input UserUpdateManyMutationInput {
   permissions: UserUpdatepermissionsInput
 }
 
+input UserUpdateOneRequiredInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
+}
+
 input UserUpdatepermissionsInput {
   set: [Permission!]
+}
+
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
 }
 
 input UserWhereInput {
