@@ -18,6 +18,10 @@ import useFormValidation from './hooks/useFormValidation';
 import {useMutation} from './hooks/useMutation';
 import useLoading from './hooks/useLoading';
 
+//proptype
+
+import Proptype from 'prop-types';
+
 export const invertTheme = ({white, black}) => ({black: white, white: black, hoverColor: '#111'});
 
 const brandTheme = ({white, black}) => ({black: white, white: 'linear-gradient(45deg,rgba(0,123,255,1) 0%,rgba(66,151,255,1) 100%)',
@@ -92,7 +96,7 @@ const LoginStyles = styled.div `
     }
 `;
 
-function Login() {
+function Login(props) {
     const [form,
         setForm,
         handleChange] = useForm({email: '', password: ''});
@@ -121,7 +125,7 @@ function Login() {
     const [showLoading, setShowLoading] = useLoading(loading, error, false);
 
     useEffect(() => {
-        if (!error && me) {
+        if (!error && me && props.continue) {
             setShowLoading(true);
             Router.push({pathname: '/admin/locations'})
         }
@@ -140,7 +144,7 @@ function Login() {
              <title>Login | Spontane</title>
             </Head>
         <div className="container">
-            <h2>Log in to your account</h2>
+            <h2>{props.title}</h2>
             <Form top="0" right="0" method="post" onSubmit={handleSubmit} noValidate>
                 <fieldset>
                     <Error error={error}/>
@@ -190,3 +194,8 @@ function Login() {
 }
 
 export default Login;
+
+Login.defaultProps = {
+    title: "Log in to your account",
+    continue: true
+};
