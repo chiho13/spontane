@@ -33,7 +33,7 @@ const DashboardLayout = props => {
     const [pageLoad,
         setPageLoad] = useState(false);
     const [auth,
-        setAuth] = useState(false)
+        setAuth] = useState(true)
 
     useEffect(() => {
         if (loading && called) {
