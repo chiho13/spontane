@@ -26,6 +26,8 @@ const MainContent = styled.div `
 }
 `;
 
+export const UserContext = React.createContext();
+
 const DashboardLayout = props => {
     const {data: {
             me
@@ -35,35 +37,37 @@ const DashboardLayout = props => {
     const [auth,
         setAuth] = useState(true);
 
+    const [user, setUser] = useState('');
+
     useEffect(() => {
         if (loading && called) {
             return
         }
         const timeout = setTimeout(() => {
-        if (me) {
-            setAuth(true)
-        } else {
-            setAuth(false);
+            if (me) {
+                setAuth(true)
+                setUser(me.id);
+            } else {
+                setAuth(false);
+            }
+        }, 200);
+        return () => {
+            clearTimeout(timeout);
         }
-      }, 200);
-      return () => {
-        clearTimeout(timeout);
-      }
     });
 
     useEffect(() => {
-          setPageLoad(true);
+        setPageLoad(true);
     }, [pageLoad]);
-
 
     if (!auth) {
         return <AuthLayout>
-            <Login title="Please log in to continue" continue={false} />
+            <Login title="Please log in to continue" continue={false}/>
         </AuthLayout>
     }
 
-    return <div>
-        <MainSideBar/>
+    return <UserContext.Provider value={user}>
+        <> <MainSideBar/>
         <MainContent>
             <ProfileNav/> {pageLoad
                 ? <div className="dashboard_content">
@@ -71,7 +75,8 @@ const DashboardLayout = props => {
                     </div>
                 : <Loading/>}
         </MainContent>
-    </div>
+    </>
+</UserContext.Provider>
 };
 
 export default DashboardLayout;

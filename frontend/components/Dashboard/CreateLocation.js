@@ -95,9 +95,7 @@ function CreateLocation() {
                     onMarkerDrag={onMarkerDrag}
                     onMarkerDragEnd={onMarkerDragEnd}/>}
             </MapGL>
-            <Mutation mutation={CREATE_LOCATION_MUTATION} variables={form} refetchQueries={[
-                                {query: ALL_LOCATIONS_QUERY}, {query: PAGINATION_QUERY}
-                            ]}>
+            <Mutation mutation={CREATE_LOCATION_MUTATION} variables={form}>
                 {(createLocation, {loading, error}) => (<CreateLocationForm
                     form={form}
                     defaultValue={form}

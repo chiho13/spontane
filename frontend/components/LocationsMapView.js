@@ -9,6 +9,7 @@ import getCoordinates from './helpers/offsetLocation';
 import MapGL from 'react-map-gl';
 import {TOKEN} from './MapGL';
 import {ALL_LOCATIONS_QUERY} from './Dashboard/LocationsListView';
+import {UserContext} from './Layout/DashboardLayout';
 
 const SINGLE_LOCATION_QUERY = gql `
     query SINGLE_LOCATION_QUERY($id: ID!) {
@@ -54,11 +55,10 @@ class AllLocations extends PureComponent {
             ? 0
             : parseFloat(offset.lat);
 
-        this
-            ._onViewportChange({
-                latitude: parseFloat(this.props.lat) + offsetLat,
-                longitude: parseFloat(this.props.lon) + offsetLon
-            })
+        this._onViewportChange({
+            latitude: parseFloat(this.props.lat) + offsetLat,
+            longitude: parseFloat(this.props.lon) + offsetLon
+        })
     }
 
     closeLocationDetail = () => {
@@ -110,24 +110,32 @@ class AllLocations extends PureComponent {
     _renderCityMarker = () => {
 
         return (
-            <Query query={ALL_LOCATIONS_QUERY}>
-                {({data, error, loading}) => {
-                    if (loading) 
-                        return <p>Loading...</p>;
-                    if (error) 
-                        return <p>Error: {error.message}</p>;
-                    return (data.locations.map(location => (
-                        <Marker
-                            key={`marker-${location.id}`}
-                            longitude={location.geoLocation.longitude}
-                            latitude={location.geoLocation.latitude}>
-                            <Link href={this._locationPathName(location)}>
-                                <CityPin size={20} onClick={() => this._toggleLocationDetail(location)}/>
-                            </Link>
-                        </Marker>
-                    )))
-                }}
-            </Query>
+            <UserContext.Consumer>
+                {userId => {
+                <Query
+                    query={ALL_LOCATIONS_QUERY}
+                    variables={{
+                    userId: userId
+                }}>
+                    {({data, error, loading}) => {
+                        if (loading) 
+                            return <p>Loading...</p>;
+                        if (error) 
+                            return <p>Error: {error.message}</p>;
+                        return (data.locations.map(location => (
+                            <Marker
+                                key={`marker-${location.id}`}
+                                longitude={location.geoLocation.longitude}
+                                latitude={location.geoLocation.latitude}>
+                                <Link href={this._locationPathName(location)}>
+                                    <CityPin size={20} onClick={() => this._toggleLocationDetail(location)}/>
+                                </Link>
+                            </Marker>
+                        )))
+                    }}
+                </Query>
+                 }}
+            </UserContext.Consumer>
         );
     }
 
@@ -184,15 +192,14 @@ class AllLocations extends PureComponent {
         const offsetLat = window.innerWidth > 1000
             ? 0
             : parseFloat(offset.lat);
-        
-        this
-            ._onViewportChange({
-                longitude: longitude + offsetLon,
-                latitude: latitude + offsetLat,
-                zoom: 9,
-                transitionInterpolator: new FlyToInterpolator(),
-                transitionDuration: 1000
-            });
+
+        this._onViewportChange({
+            longitude: longitude + offsetLon,
+            latitude: latitude + offsetLat,
+            zoom: 9,
+            transitionInterpolator: new FlyToInterpolator(),
+            transitionDuration: 1000
+        });
     };
 
     componentDidMount() {
@@ -209,10 +216,11 @@ class AllLocations extends PureComponent {
         return (
             <div className="map-container">
                 <MapGL
-                    {
-                    ...this.state.viewport
-                }
-                width="100%" height="100%" mapboxApiAccessToken={TOKEN} onViewportChange={this._onViewportChange}>
+                    { ...this.state.viewport }
+                    width="100%"
+                    height="100%"
+                    mapboxApiAccessToken={TOKEN}
+                    onViewportChange={this._onViewportChange}>
 
                     {this._renderCityMarker()}
                     {this.singleLocation()}

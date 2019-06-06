@@ -1,14 +1,18 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import styled from 'styled-components';
 import Location from './LocationListViewItem/LocationListViewItem';
 import Pagination from './Pagination/Pagination';
 import gql from 'graphql-tag';
 import {perPage} from '../../config';
 import {useQuery} from 'react-apollo-hooks';
+// import useUser from '../hooks/useUser';
+import {UserContext} from '../Layout/DashboardLayout';
 
 export const ALL_LOCATIONS_QUERY = gql `
-        query ALL_LOCATIONS_QUERY($skip: Int = 0, $first: Int = ${perPage}) {
-          locations(first: $first, skip: $skip, orderBy: createdAt_DESC) {
+        query ALL_LOCATIONS_QUERY($skip: Int = 0, $first: Int = ${perPage}, $userId: ID!) {
+          locations(where: { user: {
+              id: $userId
+          }}, first: $first, skip: $skip, orderBy: createdAt_DESC) {
             id
             country
             city
@@ -29,12 +33,16 @@ const LocationsListViewStyle = styled.div `
 `;
 
 const LocationListView = (props) => {
+    const userId = useContext(UserContext)
+
     const {data, error, loading} = useQuery(ALL_LOCATIONS_QUERY, {
         variables: {
             skip: props.page * perPage - perPage,
-            first: perPage
+            first: perPage,
+            userId
         }
     });
+
     if (loading) {
        console.log("Loading")
     }
@@ -45,13 +53,13 @@ const LocationListView = (props) => {
     return (
         <LocationsListViewStyle>
             <>
-            <Pagination page={props.page}/>
+            <Pagination page={props.page} user={userId}/>
             {  data.locations && data
                 .locations
                 .map(location => <Location location={location} key={location.id}/>)
             }
 
-        {(data.locations && data.locations.length) ? <Pagination page={props.page}/> : null }
+        {(data.locations && data.locations.length) ? <Pagination page={props.page} user={userId}/> : null }
             </> 
         </LocationsListViewStyle>
     );

@@ -8,8 +8,10 @@ import Link from 'next/link';
 import MaterialIcon from '@material/react-material-icon';
 
 export const PAGINATION_QUERY = gql`
-    query PAGINATION_QUERY {
-        locationsConnection {
+    query PAGINATION_QUERY($userId: ID!) {
+        locationsConnection(where: { user: {
+              id: $userId
+          }}) {
             aggregate {
                 count
             }
@@ -19,7 +21,7 @@ export const PAGINATION_QUERY = gql`
 
 function Pagination(props) {
     return (
-            <Query query={PAGINATION_QUERY}>
+            <Query query={PAGINATION_QUERY} variables={{userId: props.user}}>
             {({data, loading, error}) =>{
                 if(loading) return <div></div>
                 const count = data.locationsConnection.aggregate.count;
