@@ -35,8 +35,6 @@ const DashboardLayout = props => {
     const [auth,
         setAuth] = useState(true);
 
-    let isMounted = false
-
     useEffect(() => {
         if (loading && called) {
             return
