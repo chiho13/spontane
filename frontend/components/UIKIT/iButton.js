@@ -34,6 +34,8 @@ const iButton = styled(Button)`
     display: flex;
     align-items: center;
     justify-content: center;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
   }
 `;
