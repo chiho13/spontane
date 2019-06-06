@@ -135,14 +135,6 @@ input GeoLocationWhereUniqueInput {
   id: ID
 }
 
-type Location implements Node {
-  id: ID!
-  country: String!
-  city: String!
-  geoLocation: GeoLocation!
-  description: String
-}
-
 input LocationCreateInput {
   id: ID
   country: String!
@@ -171,177 +163,6 @@ enum LocationOrderByInput {
   createdAt_DESC
 }
 
-input LocationWhereInput {
-  """Logical AND on all given filters."""
-  AND: [LocationWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [LocationWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [LocationWhereInput!]
-  id: ID
-
-  """All values that are not equal to given value."""
-  id_not: ID
-
-  """All values that are contained in given list."""
-  id_in: [ID!]
-
-  """All values that are not contained in given list."""
-  id_not_in: [ID!]
-
-  """All values less than the given value."""
-  id_lt: ID
-
-  """All values less than or equal the given value."""
-  id_lte: ID
-
-  """All values greater than the given value."""
-  id_gt: ID
-
-  """All values greater than or equal the given value."""
-  id_gte: ID
-
-  """All values containing the given string."""
-  id_contains: ID
-
-  """All values not containing the given string."""
-  id_not_contains: ID
-
-  """All values starting with the given string."""
-  id_starts_with: ID
-
-  """All values not starting with the given string."""
-  id_not_starts_with: ID
-
-  """All values ending with the given string."""
-  id_ends_with: ID
-
-  """All values not ending with the given string."""
-  id_not_ends_with: ID
-  country: String
-
-  """All values that are not equal to given value."""
-  country_not: String
-
-  """All values that are contained in given list."""
-  country_in: [String!]
-
-  """All values that are not contained in given list."""
-  country_not_in: [String!]
-
-  """All values less than the given value."""
-  country_lt: String
-
-  """All values less than or equal the given value."""
-  country_lte: String
-
-  """All values greater than the given value."""
-  country_gt: String
-
-  """All values greater than or equal the given value."""
-  country_gte: String
-
-  """All values containing the given string."""
-  country_contains: String
-
-  """All values not containing the given string."""
-  country_not_contains: String
-
-  """All values starting with the given string."""
-  country_starts_with: String
-
-  """All values not starting with the given string."""
-  country_not_starts_with: String
-
-  """All values ending with the given string."""
-  country_ends_with: String
-
-  """All values not ending with the given string."""
-  country_not_ends_with: String
-  city: String
-
-  """All values that are not equal to given value."""
-  city_not: String
-
-  """All values that are contained in given list."""
-  city_in: [String!]
-
-  """All values that are not contained in given list."""
-  city_not_in: [String!]
-
-  """All values less than the given value."""
-  city_lt: String
-
-  """All values less than or equal the given value."""
-  city_lte: String
-
-  """All values greater than the given value."""
-  city_gt: String
-
-  """All values greater than or equal the given value."""
-  city_gte: String
-
-  """All values containing the given string."""
-  city_contains: String
-
-  """All values not containing the given string."""
-  city_not_contains: String
-
-  """All values starting with the given string."""
-  city_starts_with: String
-
-  """All values not starting with the given string."""
-  city_not_starts_with: String
-
-  """All values ending with the given string."""
-  city_ends_with: String
-
-  """All values not ending with the given string."""
-  city_not_ends_with: String
-  description: String
-
-  """All values that are not equal to given value."""
-  description_not: String
-
-  """All values that are contained in given list."""
-  description_in: [String!]
-
-  """All values that are not contained in given list."""
-  description_not_in: [String!]
-
-  """All values less than the given value."""
-  description_lt: String
-
-  """All values less than or equal the given value."""
-  description_lte: String
-
-  """All values greater than the given value."""
-  description_gt: String
-
-  """All values greater than or equal the given value."""
-  description_gte: String
-
-  """All values containing the given string."""
-  description_contains: String
-
-  """All values not containing the given string."""
-  description_not_contains: String
-
-  """All values starting with the given string."""
-  description_starts_with: String
-
-  """All values not starting with the given string."""
-  description_not_starts_with: String
-
-  """All values ending with the given string."""
-  description_ends_with: String
-
-  """All values not ending with the given string."""
-  description_not_ends_with: String
-  geoLocation: GeoLocationWhereInput
-}
 
 input LocationWhereUniqueInput {
   id: ID
@@ -396,4 +217,5 @@ type User {
   name: String!
   email: String!
   permissions: [Permission!]!
+  locations: [Location!]!
 }
