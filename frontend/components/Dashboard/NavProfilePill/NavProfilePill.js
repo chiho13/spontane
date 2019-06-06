@@ -30,7 +30,7 @@ function NavProfilePill() {
             return;
         }
 
-        setOpen(false)
+        setOpen(false);
     }
 
     return (
