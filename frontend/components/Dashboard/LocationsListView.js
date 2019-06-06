@@ -39,7 +39,7 @@ const LocationListView = (props) => {
         variables: {
             skip: props.page * perPage - perPage,
             first: perPage,
-            userId
+            userId: userId.id   
         }
     });
 
@@ -53,13 +53,13 @@ const LocationListView = (props) => {
     return (
         <LocationsListViewStyle>
             <>
-            <Pagination page={props.page} user={userId}/>
+            <Pagination page={props.page} user={userId.id}/>
             {  data.locations && data
                 .locations
                 .map(location => <Location location={location} key={location.id}/>)
             }
 
-        {(data.locations && data.locations.length) ? <Pagination page={props.page} user={userId}/> : null }
+        {(data.locations && data.locations.length) ? <Pagination page={props.page} user={userId.id}/> : null }
             </> 
         </LocationsListViewStyle>
     );

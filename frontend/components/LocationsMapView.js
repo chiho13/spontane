@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {Marker, FlyToInterpolator} from 'react-map-gl';
 import {Query} from 'react-apollo';
 import gql from 'graphql-tag';
@@ -10,6 +10,7 @@ import MapGL from 'react-map-gl';
 import {TOKEN} from './MapGL';
 import {ALL_LOCATIONS_QUERY} from './Dashboard/LocationsListView';
 import {UserContext} from './Layout/DashboardLayout';
+import useViewPort from './hooks/useViewPort';
 
 const SINGLE_LOCATION_QUERY = gql `
     query SINGLE_LOCATION_QUERY($id: ID!) {
@@ -26,28 +27,23 @@ const SINGLE_LOCATION_QUERY = gql `
     }
 `;
 
-class AllLocations extends PureComponent {
+function AllLocations(props){
+    const userId = useContext(UserContext);
+   const {viewport, setViewport, onViewportChange} = useViewPort({
+        latitude: 53.9777,
+        longitude: -1.6376,
+        zoom: props.id
+        ? 9
+        : 6
+   })
 
-    _isMounted = false;
+   const [locationDetail, setLocationDetail] = useState(null);
+   const [singleLocation, setSingleLocation] = useState(null);
+   const [paramProps, setParamProps] = useState(null);
+   const [isOpened, setIsOpened] = useState(null);
 
-    state = {
-        viewport: {
-            latitude: 53.9777,
-            longitude: -1.6376,
-            zoom: this.props.id
-                ? 9
-                : 6
-        },
-        locationDetail: null,
-        singleLocation: null,
-        paramProps: null,
-        isOpened: false,
-        events: {},
-        editButton: this.props.editButton
-    };
-
-    offsetMarker = () => {
-        const offset = getCoordinates().getCoords(window.innerWidth * 0.625, window.innerHeight * (0.5 - (30 / window.innerHeight)), this.props.lat, this.state.viewport.zoom);
+    function offsetMarker() {
+        const offset = getCoordinates().getCoords(window.innerWidth * 0.625, window.innerHeight * (0.5 - (30 / window.innerHeight)), props.lat, viewport.zoom);
         const offsetLon = window.innerWidth > 1000
             ? parseFloat(offset.lon)
             : 0;
@@ -55,37 +51,36 @@ class AllLocations extends PureComponent {
             ? 0
             : parseFloat(offset.lat);
 
-        this._onViewportChange({
-            latitude: parseFloat(this.props.lat) + offsetLat,
-            longitude: parseFloat(this.props.lon) + offsetLon
+        onViewportChange({
+            latitude: parseFloat(props.lat) + offsetLat,
+            longitude: parseFloat(props.lon) + offsetLon
         })
     }
 
-    closeLocationDetail = () => {
-        this.setState({isOpened: false});
-        this.setState({paramProps: null});
+    function closeLocationDetail() {
+        setIsOpened(false);
+        setParamProps(null)
         setTimeout(() => {
-            this.setState({locationDetail: null});
-            this.setState({singleLocation: null});
+            setLocationDetail(null)
+            setSingleLocation(null);
         }, 500);
     }
 
-    _toggleLocationDetail = (location) => {
-        let locationDetail = (this.state.locationDetail || this.state.singleLocation) && location.id === this.props.id;
-        console.log(location.id, this.props.id);
-        if (locationDetail) {
-            this.closeLocationDetail()
-
+   function _toggleLocationDetail(location) {
+        let locationDetailBool = (locationDetail || singleLocation) && location.id === props.id;
+        if (locationDetailBool) {
+                closeLocationDetail()
         } else {
-            this.setState({locationDetail: location, isOpened: true});
-            this._goToViewport(location);
+            setLocationDetail(location);
+            setIsOpened(true)
+            _goToViewport(location);
         }
     }
 
-    _locationPathName = (location) => {
-        let locationDetail = (this.state.locationDetail || this.state.singleLocation) && location.id === this.props.id;
+    function _locationPathName(location) {
+        let locationDetailBool = (locationDetail || singleLocation) && location.id === props.id;
         let pathNameLocation = {
-            pathname: this.props.pathname,
+            pathname: props.pathname,
             query: {
                 view: 'Map',
                 id: location.id,
@@ -95,27 +90,23 @@ class AllLocations extends PureComponent {
         };
 
         let pathNameRoot = {
-            pathname: this.props.pathname,
+            pathname: props.pathname,
             query: {
                 view: 'Map'
             }
         };
-        let locationPathName = locationDetail
+        let locationPathName = locationDetailBool
             ? pathNameRoot
             : pathNameLocation;
 
         return locationPathName;
     }
 
-    _renderCityMarker = () => {
-
-        return (
-            <UserContext.Consumer>
-                {userId => {
-                <Query
+    function RenderCityMarker() {
+        return ( <Query
                     query={ALL_LOCATIONS_QUERY}
                     variables={{
-                    userId: userId
+                    userId: userId.id
                 }}>
                     {({data, error, loading}) => {
                         if (loading) 
@@ -127,40 +118,40 @@ class AllLocations extends PureComponent {
                                 key={`marker-${location.id}`}
                                 longitude={location.geoLocation.longitude}
                                 latitude={location.geoLocation.latitude}>
-                                <Link href={this._locationPathName(location)}>
-                                    <CityPin size={20} onClick={() => this._toggleLocationDetail(location)}/>
+                                <Link href={_locationPathName(location)}>
+                                    <CityPin size={20} onClick={() => _toggleLocationDetail(location)}/>
                                 </Link>
                             </Marker>
                         )))
                     }}
                 </Query>
-                 }}
-            </UserContext.Consumer>
         );
     }
 
-    _renderLocationDetail = () => {
-        let locationDetail = this.state.locationDetail || this.state.singleLocation;
+    function RenderLocationDetail() {
+        let locationDetailBool = locationDetail || singleLocation;
 
-        return locationDetail && (<Location
-            location={locationDetail}
-            key={locationDetail.id}
-            closeLocation={this.closeLocationDetail}
-            isOpened={this.state.isOpened}
-            pathname={this.props.pathname}
-            editButton={this.state.editButton}/>)
+        return locationDetailBool && (<Location
+            location={locationDetailBool}
+            key={locationDetailBool.id}
+            closeLocation={closeLocationDetail}
+            isOpened={isOpened}
+            pathname={props.pathname}
+            editButton={props.editButton}/>)
     }
 
-    singleLocation = () => {
-        const checkForProps = this.state.paramProps && this._isMounted;
+    function _singleLocation() {
+        const checkForProps = paramProps;
         return checkForProps && <Query
             query={SINGLE_LOCATION_QUERY}
             variables={{
-            id: this.props.id
+            id: props.id
         }}
             onCompleted={data => {
             const {location} = data;
-            this.setState({singleLocation: location, isOpened: true});
+
+            setSingleLocation(location);
+            setIsOpened(true);
         }}>
             {({error, loading, data}) => {
                 if (error) 
@@ -172,19 +163,12 @@ class AllLocations extends PureComponent {
         </Query>
     }
 
-    _onViewportChange = viewport => this.setState({
-        viewport: {
-            ...this.state.viewport,
-            ...viewport
-        }
-    });
-
-    _goToViewport = ({
+    function _goToViewport({
         geoLocation: {
             longitude,
             latitude
         }
-    }) => {
+    }) {
         const offset = getCoordinates().getCoords(window.innerWidth * 0.625, window.innerHeight * (0.5 - (30 / window.innerHeight)), latitude, 9);
         const offsetLon = window.innerWidth > 1000
             ? parseFloat(offset.lon)
@@ -193,7 +177,7 @@ class AllLocations extends PureComponent {
             ? 0
             : parseFloat(offset.lat);
 
-        this._onViewportChange({
+        onViewportChange({
             longitude: longitude + offsetLon,
             latitude: latitude + offsetLat,
             zoom: 9,
@@ -202,33 +186,26 @@ class AllLocations extends PureComponent {
         });
     };
 
-    componentDidMount() {
-        this.setState({paramProps: this.props.id});
-        this.props.id && this.offsetMarker();
-        this._isMounted = true;
-    }
+    useEffect(() => {
+        setParamProps(props.id)
+        props.id && offsetMarker();
+    }, [])
 
-    componentWillUnmount() {
-        this._isMounted = false;
-    }
-
-    render() {
         return (
             <div className="map-container">
                 <MapGL
-                    { ...this.state.viewport }
+                    { ...viewport }
                     width="100%"
                     height="100%"
                     mapboxApiAccessToken={TOKEN}
-                    onViewportChange={this._onViewportChange}>
+                    onViewportChange={onViewportChange}>
 
-                    {this._renderCityMarker()}
-                    {this.singleLocation()}
+                   <RenderCityMarker />
+                    {_singleLocation()}
                 </MapGL>
-                {this._renderLocationDetail()}
+                {RenderLocationDetail()}
             </div>
         )
-    }
 }
 
 export default AllLocations;

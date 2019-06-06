@@ -66,14 +66,6 @@ function UpdateLocation(props) {
         id: props.id
     }})
 
-    const initialData = data.location ? {
-        country: data.location.country,
-        city: data.location.city,
-        description: data.location.description,
-        latitude: data.location.geoLocation.latitude,
-        longitude: data.location.geoLocation.longitude
-    } : null;
-
     const {viewport,
         setViewport} = useViewport({height: '100vh', width: '100vw', latitude: parseFloat(latitude), longitude: parseFloat(longitude) + 24, zoom: 3});
 

@@ -46,7 +46,10 @@ const DashboardLayout = props => {
         const timeout = setTimeout(() => {
             if (me) {
                 setAuth(true)
-                setUser(me.id);
+                setUser({
+                  id: me.id,
+                  name: me.name
+                });
             } else {
                 setAuth(false);
             }

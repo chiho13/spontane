@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import PaginationStyle from './PaginationStyle';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
@@ -6,6 +6,8 @@ import { perPage } from '../../../config';
 import Head from 'next/head';
 import Link from 'next/link';
 import MaterialIcon from '@material/react-material-icon';
+import {UserContext} from '../../Layout/DashboardLayout';
+import {useQuery} from 'react-apollo-hooks';
 
 export const PAGINATION_QUERY = gql`
     query PAGINATION_QUERY($userId: ID!) {
@@ -20,14 +22,19 @@ export const PAGINATION_QUERY = gql`
 `;
 
 function Pagination(props) {
-    return (
-            <Query query={PAGINATION_QUERY} variables={{userId: props.user}}>
-            {({data, loading, error}) =>{
-                if(loading) return <div></div>
-                const count = data.locationsConnection.aggregate.count;
-                const pages = Math.ceil(count / perPage);
-                const page = props.page;
-                return <PaginationStyle> 
+    const userId = useContext(UserContext)
+
+    const {data, loading, called} = useQuery(PAGINATION_QUERY, { variables: {
+        userId: userId && userId.id
+    }});
+
+    if(loading) return <div></div>
+
+    const count = data.locationsConnection.aggregate.count;
+    const pages = Math.ceil(count / perPage);
+    const page = props.page;
+
+    return <PaginationStyle> 
                     <Head><title>
                             Spontane | Page {page} of {pages}
                         </title>
@@ -44,9 +51,6 @@ function Pagination(props) {
                     }}><a className="next" aria-disabled={page >= pages }><MaterialIcon icon="chevron_right" /></a></Link>
                     
                     </PaginationStyle>;
-            } }
-            </Query>
-    )
 }
 
 export default Pagination;
