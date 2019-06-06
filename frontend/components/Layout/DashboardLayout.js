@@ -39,15 +39,20 @@ const DashboardLayout = props => {
         if (loading && called) {
             return
         }
+        const timeout = setTimeout(() => {
         if (me) {
             setAuth(true)
         } else {
             setAuth(false);
         }
+      }, 200);
+      return () => {
+        clearTimeout(timeout);
+      }
     });
 
     useEffect(() => {
-        setPageLoad(true)
+          setPageLoad(true);
     }, [pageLoad]);
 
 
