@@ -28,7 +28,7 @@ const SINGLE_LOCATION_QUERY = gql `
 `;
 
 function AllLocations(props){
-    const userId = useContext(UserContext);
+    const {data: Maplocations} = useContext(UserContext);
    const {viewport, setViewport, onViewportChange} = useViewPort({
         latitude: 53.9777,
         longitude: -1.6376,
@@ -103,17 +103,7 @@ function AllLocations(props){
     }
 
     function RenderCityMarker() {
-        return ( <Query
-                    query={ALL_LOCATIONS_QUERY}
-                    variables={{
-                    userId: userId.id
-                }}>
-                    {({data, error, loading}) => {
-                        if (loading) 
-                            return <p>Loading...</p>;
-                        if (error) 
-                            return <p>Error: {error.message}</p>;
-                        return (data.locations.map(location => (
+        return Maplocations && Maplocations.map(location => (
                             <Marker
                                 key={`marker-${location.id}`}
                                 longitude={location.geoLocation.longitude}
@@ -122,10 +112,7 @@ function AllLocations(props){
                                     <CityPin size={20} onClick={() => _toggleLocationDetail(location)}/>
                                 </Link>
                             </Marker>
-                        )))
-                    }}
-                </Query>
-        );
+                        ))
     }
 
     function RenderLocationDetail() {
@@ -140,9 +127,8 @@ function AllLocations(props){
             editButton={props.editButton}/>)
     }
 
-    function _singleLocation() {
-        const checkForProps = paramProps;
-        return checkForProps && <Query
+    function SingleLocation() {
+        return  <Query
             query={SINGLE_LOCATION_QUERY}
             variables={{
             id: props.id
@@ -200,8 +186,8 @@ function AllLocations(props){
                     mapboxApiAccessToken={TOKEN}
                     onViewportChange={onViewportChange}>
 
-                   <RenderCityMarker />
-                    {_singleLocation()}
+                   {RenderCityMarker()}
+                    {paramProps && <SingleLocation/>}
                 </MapGL>
                 {RenderLocationDetail()}
             </div>

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import LocationItemStyles from './LocationListViewItemStyle';
 import EditButton from '../../IconButtons/EditButton';
 import DeleteButton from '../../IconButtons/DeleteButton';

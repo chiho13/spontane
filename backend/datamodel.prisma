@@ -15,6 +15,7 @@ type User {
   resetToken: String
   resetTokenExpiry: String
   permissions: [Permission] @scalarList(strategy: RELATION)
+  locations: [Location] @relation(name: "UsersLocation")
 }
 
 type GeoLocation {
@@ -33,7 +34,7 @@ type Location {
   description: String
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
-  user: User!
+  user: User! @relation(name: "UsersLocation")
 }
 
 type Tour {

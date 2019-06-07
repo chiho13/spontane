@@ -42,7 +42,7 @@ export const UserContext = React.createContext();
 const DashboardLayout = props => {
     const {data: {
             me
-        }, loading, called} = useUser();
+        }, loading} = useUser();
     const [pageLoad,
         setPageLoad] = useState(false);
     const [auth,
@@ -60,7 +60,8 @@ const DashboardLayout = props => {
                 setAuth(true)
                 setUser({
                   id: me.id,
-                  name: me.name
+                  name: me.name,
+                  data: me.locations
                 });
             } else {
                 setAuth(false);

@@ -1,7 +1,5 @@
-
 import {useQuery} from 'react-apollo-hooks';
 import gql from 'graphql-tag';
-
 
 const CURRENT_USER_QUERY = gql `
     query {
@@ -10,6 +8,16 @@ const CURRENT_USER_QUERY = gql `
             email
             name
             permissions
+            locations {
+                id
+                country
+                city
+                geoLocation {
+                    latitude
+                    longitude
+                }
+                 description
+            }
         }
     }
 `;
