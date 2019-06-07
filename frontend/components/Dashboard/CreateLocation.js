@@ -6,12 +6,11 @@ import CreateLocationForm from '../LocationForm';
 
 import MapGL from '../MapGL';
 import CreateLocationMapStyle from '../styles/MapContainerStyle';
-import {ALL_LOCATIONS_QUERY} from './LocationsListView';
 import DropMarker from './DropMarker/DropMarker';
 
 import useForm from '../hooks/useForm';
 import useMapMarker from '../hooks/useMapMarker';
-import {PAGINATION_QUERY} from './Pagination/Pagination';
+import {CURRENT_USER_QUERY} from '../hooks/useUser';
 
 const CREATE_LOCATION_MUTATION = gql `
     mutation CREATE_LOCATION_MUTATION(
@@ -95,7 +94,7 @@ function CreateLocation() {
                     onMarkerDrag={onMarkerDrag}
                     onMarkerDragEnd={onMarkerDragEnd}/>}
             </MapGL>
-            <Mutation mutation={CREATE_LOCATION_MUTATION} variables={form}>
+            <Mutation mutation={CREATE_LOCATION_MUTATION} variables={form} refetchQueries={[{ query: CURRENT_USER_QUERY}]}>
                 {(createLocation, {loading, error}) => (<CreateLocationForm
                     form={form}
                     defaultValue={form}
