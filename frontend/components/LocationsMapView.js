@@ -1,6 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {Marker, FlyToInterpolator} from 'react-map-gl';
-import {Query} from 'react-apollo';
 import gql from 'graphql-tag';
 import CityPin from './Icons/CityMarker';
 import Location from './LocationMapViewItem';
@@ -8,7 +7,6 @@ import Link from 'next/link';
 import getCoordinates from './helpers/offsetLocation';
 import MapGL from 'react-map-gl';
 import {TOKEN} from './MapGL';
-import {ALL_LOCATIONS_QUERY} from './Dashboard/LocationsListView';
 import {UserContext} from './Layout/DashboardLayout';
 import useViewPort from './hooks/useViewPort';
 import {useQuery} from 'react-apollo-hooks';
