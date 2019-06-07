@@ -11,9 +11,10 @@ import {TOKEN} from './MapGL';
 import {ALL_LOCATIONS_QUERY} from './Dashboard/LocationsListView';
 import {UserContext} from './Layout/DashboardLayout';
 import useViewPort from './hooks/useViewPort';
+import {useQuery} from 'react-apollo-hooks';
 
 const SINGLE_LOCATION_QUERY = gql `
-    query SINGLE_LOCATION_QUERY($id: ID!) {
+    query SINGLE_LOCATION_QUERY($id: ID) {
         location(where: { id: $id }) {
             id
             country
@@ -27,20 +28,39 @@ const SINGLE_LOCATION_QUERY = gql `
     }
 `;
 
-function AllLocations(props){
-    const {data: Maplocations} = useContext(UserContext);
-   const {viewport, setViewport, onViewportChange} = useViewPort({
-        latitude: 53.9777,
-        longitude: -1.6376,
-        zoom: props.id
-        ? 9
-        : 6
-   })
+function AllLocations(props) {
+    const {data: MapLocationData} = useContext(UserContext);
+    const {viewport, setViewport, onViewportChange} = useViewPort({
+        latitude: 20,
+        longitude: 20,
+        zoom: props.id ? 9 : 1
+    })
 
-   const [locationDetail, setLocationDetail] = useState(null);
-   const [singleLocation, setSingleLocation] = useState(null);
-   const [paramProps, setParamProps] = useState(null);
-   const [isOpened, setIsOpened] = useState(null);
+    const [locationDetail,
+        setLocationDetail] = useState(null);
+    const [singleLocation,
+        setSingleLocation] = useState(null);
+    const [paramProps,
+        setParamProps] = useState(null);
+    const [isOpened,
+        setIsOpened] = useState(null);
+
+    const {data: singleLocationData, loading} = useQuery(SINGLE_LOCATION_QUERY, {
+        variables: {
+            id: props.id || 0
+        }
+    });
+
+    useEffect(() => {
+        if (loading) {
+            return
+        }
+        const {location} = singleLocationData;
+        if (paramProps) {
+            setSingleLocation(location);
+            setIsOpened(true);
+        }
+    });
 
     function offsetMarker() {
         const offset = getCoordinates().getCoords(window.innerWidth * 0.625, window.innerHeight * (0.5 - (30 / window.innerHeight)), props.lat, viewport.zoom);
@@ -66,10 +86,10 @@ function AllLocations(props){
         }, 500);
     }
 
-   function _toggleLocationDetail(location) {
+    function _toggleLocationDetail(location) {
         let locationDetailBool = (locationDetail || singleLocation) && location.id === props.id;
         if (locationDetailBool) {
-                closeLocationDetail()
+            closeLocationDetail()
         } else {
             setLocationDetail(location);
             setIsOpened(true)
@@ -103,16 +123,16 @@ function AllLocations(props){
     }
 
     function RenderCityMarker() {
-        return Maplocations && Maplocations.map(location => (
-                            <Marker
-                                key={`marker-${location.id}`}
-                                longitude={location.geoLocation.longitude}
-                                latitude={location.geoLocation.latitude}>
-                                <Link href={_locationPathName(location)}>
-                                    <CityPin size={20} onClick={() => _toggleLocationDetail(location)}/>
-                                </Link>
-                            </Marker>
-                        ))
+        return MapLocationData && MapLocationData.map(location => (
+            <Marker
+                key={`marker-${location.id}`}
+                longitude={location.geoLocation.longitude}
+                latitude={location.geoLocation.latitude}>
+                <Link href={_locationPathName(location)}>
+                    <CityPin size={20} onClick={() => _toggleLocationDetail(location)}/>
+                </Link>
+            </Marker>
+        ))
     }
 
     function RenderLocationDetail() {
@@ -125,28 +145,6 @@ function AllLocations(props){
             isOpened={isOpened}
             pathname={props.pathname}
             editButton={props.editButton}/>)
-    }
-
-    function SingleLocation() {
-        return  <Query
-            query={SINGLE_LOCATION_QUERY}
-            variables={{
-            id: props.id
-        }}
-            onCompleted={data => {
-            const {location} = data;
-
-            setSingleLocation(location);
-            setIsOpened(true);
-        }}>
-            {({error, loading, data}) => {
-                if (error) 
-                    console.log("error")
-                if (loading) 
-                    console.log("loading")
-                return null;
-            }}
-        </Query>
     }
 
     function _goToViewport({
@@ -173,26 +171,26 @@ function AllLocations(props){
     };
 
     useEffect(() => {
-        setParamProps(props.id)
-        props.id && offsetMarker();
+        if (props.id) {
+            setParamProps(props.id)
+            offsetMarker();
+        }
     }, [])
 
-        return (
-            <div className="map-container">
-                <MapGL
-                    { ...viewport }
-                    width="100%"
-                    height="100%"
-                    mapboxApiAccessToken={TOKEN}
-                    onViewportChange={onViewportChange}>
+    return (
+        <div className="map-container">
+            <MapGL
+                { ...viewport }
+                width="100%"
+                height="100%"
+                mapboxApiAccessToken={TOKEN}
+                onViewportChange={onViewportChange}>
 
-                   {RenderCityMarker()}
-                    {paramProps && <SingleLocation/>}
-                </MapGL>
-                {RenderLocationDetail()}
-            </div>
-        )
+                {RenderCityMarker()}
+            </MapGL>
+            {RenderLocationDetail()}
+        </div>
+    )
 }
 
 export default AllLocations;
-export {ALL_LOCATIONS_QUERY};

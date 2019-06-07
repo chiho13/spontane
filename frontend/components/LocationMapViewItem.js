@@ -90,7 +90,6 @@ export default class Location extends Component {
     componentDidMount() {
         window.innerWidth < 1000 && this.setHeight()
         window.innerWidth < 1000 && this.setState({draggable: true});
-        console.log(window.innerWidth);
     }
 
     render() {
