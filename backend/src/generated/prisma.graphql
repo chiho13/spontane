@@ -1,5 +1,5 @@
 # source: https://eu1.prisma.sh/anthony-ho-b91ea0/spontane/dev
-# timestamp: Wed Jun 05 2019 23:56:16 GMT+0100 (BST)
+# timestamp: Fri Jun 07 2019 11:40:41 GMT+0100 (BST)
 
 type AggregateGeoLocation {
   count: Int!
@@ -319,25 +319,12 @@ input LocationCreateInput {
   city: String!
   description: String
   geoLocation: GeoLocationCreateOneInput!
-  user: UserCreateOneWithoutLocationsInput!
+  user: UserCreateOneInput!
 }
 
 input LocationCreateManyInput {
   create: [LocationCreateInput!]
   connect: [LocationWhereUniqueInput!]
-}
-
-input LocationCreateManyWithoutUserInput {
-  create: [LocationCreateWithoutUserInput!]
-  connect: [LocationWhereUniqueInput!]
-}
-
-input LocationCreateWithoutUserInput {
-  id: ID
-  country: String!
-  city: String!
-  description: String
-  geoLocation: GeoLocationCreateOneInput!
 }
 
 """An edge in a connection."""
@@ -632,7 +619,7 @@ input LocationUpdateDataInput {
   city: String
   description: String
   geoLocation: GeoLocationUpdateOneRequiredInput
-  user: UserUpdateOneRequiredWithoutLocationsInput
+  user: UserUpdateOneRequiredInput
 }
 
 input LocationUpdateInput {
@@ -640,7 +627,7 @@ input LocationUpdateInput {
   city: String
   description: String
   geoLocation: GeoLocationUpdateOneRequiredInput
-  user: UserUpdateOneRequiredWithoutLocationsInput
+  user: UserUpdateOneRequiredInput
 }
 
 input LocationUpdateManyDataInput {
@@ -667,28 +654,9 @@ input LocationUpdateManyMutationInput {
   description: String
 }
 
-input LocationUpdateManyWithoutUserInput {
-  create: [LocationCreateWithoutUserInput!]
-  connect: [LocationWhereUniqueInput!]
-  set: [LocationWhereUniqueInput!]
-  disconnect: [LocationWhereUniqueInput!]
-  delete: [LocationWhereUniqueInput!]
-  update: [LocationUpdateWithWhereUniqueWithoutUserInput!]
-  updateMany: [LocationUpdateManyWithWhereNestedInput!]
-  deleteMany: [LocationScalarWhereInput!]
-  upsert: [LocationUpsertWithWhereUniqueWithoutUserInput!]
-}
-
 input LocationUpdateManyWithWhereNestedInput {
   where: LocationScalarWhereInput!
   data: LocationUpdateManyDataInput!
-}
-
-input LocationUpdateWithoutUserDataInput {
-  country: String
-  city: String
-  description: String
-  geoLocation: GeoLocationUpdateOneRequiredInput
 }
 
 input LocationUpdateWithWhereUniqueNestedInput {
@@ -696,21 +664,10 @@ input LocationUpdateWithWhereUniqueNestedInput {
   data: LocationUpdateDataInput!
 }
 
-input LocationUpdateWithWhereUniqueWithoutUserInput {
-  where: LocationWhereUniqueInput!
-  data: LocationUpdateWithoutUserDataInput!
-}
-
 input LocationUpsertWithWhereUniqueNestedInput {
   where: LocationWhereUniqueInput!
   update: LocationUpdateDataInput!
   create: LocationCreateInput!
-}
-
-input LocationUpsertWithWhereUniqueWithoutUserInput {
-  where: LocationWhereUniqueInput!
-  update: LocationUpdateWithoutUserDataInput!
-  create: LocationCreateWithoutUserInput!
 }
 
 input LocationWhereInput {
@@ -941,29 +898,29 @@ Long can represent values between -(2^63) and 2^63 - 1.
 scalar Long
 
 type Mutation {
-  createUser(data: UserCreateInput!): User!
   createTour(data: TourCreateInput!): Tour!
   createGeoLocation(data: GeoLocationCreateInput!): GeoLocation!
+  createUser(data: UserCreateInput!): User!
   createLocation(data: LocationCreateInput!): Location!
-  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateTour(data: TourUpdateInput!, where: TourWhereUniqueInput!): Tour
   updateGeoLocation(data: GeoLocationUpdateInput!, where: GeoLocationWhereUniqueInput!): GeoLocation
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateLocation(data: LocationUpdateInput!, where: LocationWhereUniqueInput!): Location
-  deleteUser(where: UserWhereUniqueInput!): User
   deleteTour(where: TourWhereUniqueInput!): Tour
   deleteGeoLocation(where: GeoLocationWhereUniqueInput!): GeoLocation
+  deleteUser(where: UserWhereUniqueInput!): User
   deleteLocation(where: LocationWhereUniqueInput!): Location
-  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertTour(where: TourWhereUniqueInput!, create: TourCreateInput!, update: TourUpdateInput!): Tour!
   upsertGeoLocation(where: GeoLocationWhereUniqueInput!, create: GeoLocationCreateInput!, update: GeoLocationUpdateInput!): GeoLocation!
+  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertLocation(where: LocationWhereUniqueInput!, create: LocationCreateInput!, update: LocationUpdateInput!): Location!
-  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   updateManyTours(data: TourUpdateManyMutationInput!, where: TourWhereInput): BatchPayload!
   updateManyGeoLocations(data: GeoLocationUpdateManyMutationInput!, where: GeoLocationWhereInput): BatchPayload!
+  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   updateManyLocations(data: LocationUpdateManyMutationInput!, where: LocationWhereInput): BatchPayload!
-  deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManyTours(where: TourWhereInput): BatchPayload!
   deleteManyGeoLocations(where: GeoLocationWhereInput): BatchPayload!
+  deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManyLocations(where: LocationWhereInput): BatchPayload!
 }
 
@@ -1004,17 +961,17 @@ enum Permission {
 }
 
 type Query {
-  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   tours(where: TourWhereInput, orderBy: TourOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Tour]!
   geoLocations(where: GeoLocationWhereInput, orderBy: GeoLocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [GeoLocation]!
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location]!
-  user(where: UserWhereUniqueInput!): User
   tour(where: TourWhereUniqueInput!): Tour
   geoLocation(where: GeoLocationWhereUniqueInput!): GeoLocation
+  user(where: UserWhereUniqueInput!): User
   location(where: LocationWhereUniqueInput!): Location
-  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   toursConnection(where: TourWhereInput, orderBy: TourOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TourConnection!
   geoLocationsConnection(where: GeoLocationWhereInput, orderBy: GeoLocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): GeoLocationConnection!
+  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   locationsConnection(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LocationConnection!
 
   """Fetches an object given its ID"""
@@ -1025,9 +982,9 @@ type Query {
 }
 
 type Subscription {
-  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   tour(where: TourSubscriptionWhereInput): TourSubscriptionPayload
   geoLocation(where: GeoLocationSubscriptionWhereInput): GeoLocationSubscriptionPayload
+  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   location(where: LocationSubscriptionWhereInput): LocationSubscriptionPayload
 }
 
@@ -1280,7 +1237,6 @@ type User implements Node {
   resetToken: String
   resetTokenExpiry: String
   permissions: [Permission!]!
-  locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location!]
 }
 
 """A connection to a list of items."""
@@ -1301,26 +1257,15 @@ input UserCreateInput {
   resetToken: String
   resetTokenExpiry: String
   permissions: UserCreatepermissionsInput
-  locations: LocationCreateManyWithoutUserInput
 }
 
-input UserCreateOneWithoutLocationsInput {
-  create: UserCreateWithoutLocationsInput
+input UserCreateOneInput {
+  create: UserCreateInput
   connect: UserWhereUniqueInput
 }
 
 input UserCreatepermissionsInput {
   set: [Permission!]
-}
-
-input UserCreateWithoutLocationsInput {
-  id: ID
-  name: String!
-  email: String!
-  password: String!
-  resetToken: String
-  resetTokenExpiry: String
-  permissions: UserCreatepermissionsInput
 }
 
 """An edge in a connection."""
@@ -1396,6 +1341,15 @@ input UserSubscriptionWhereInput {
   node: UserWhereInput
 }
 
+input UserUpdateDataInput {
+  name: String
+  email: String
+  password: String
+  resetToken: String
+  resetTokenExpiry: String
+  permissions: UserUpdatepermissionsInput
+}
+
 input UserUpdateInput {
   name: String
   email: String
@@ -1403,7 +1357,6 @@ input UserUpdateInput {
   resetToken: String
   resetTokenExpiry: String
   permissions: UserUpdatepermissionsInput
-  locations: LocationUpdateManyWithoutUserInput
 }
 
 input UserUpdateManyMutationInput {
@@ -1415,29 +1368,20 @@ input UserUpdateManyMutationInput {
   permissions: UserUpdatepermissionsInput
 }
 
-input UserUpdateOneRequiredWithoutLocationsInput {
-  create: UserCreateWithoutLocationsInput
+input UserUpdateOneRequiredInput {
+  create: UserCreateInput
   connect: UserWhereUniqueInput
-  update: UserUpdateWithoutLocationsDataInput
-  upsert: UserUpsertWithoutLocationsInput
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
 }
 
 input UserUpdatepermissionsInput {
   set: [Permission!]
 }
 
-input UserUpdateWithoutLocationsDataInput {
-  name: String
-  email: String
-  password: String
-  resetToken: String
-  resetTokenExpiry: String
-  permissions: UserUpdatepermissionsInput
-}
-
-input UserUpsertWithoutLocationsInput {
-  update: UserUpdateWithoutLocationsDataInput!
-  create: UserCreateWithoutLocationsInput!
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
 }
 
 input UserWhereInput {
@@ -1689,9 +1633,6 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   resetTokenExpiry_not_ends_with: String
-  locations_every: LocationWhereInput
-  locations_some: LocationWhereInput
-  locations_none: LocationWhereInput
 }
 
 input UserWhereUniqueInput {
