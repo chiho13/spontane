@@ -24,7 +24,7 @@ import Proptype from 'prop-types';
 
 export const invertTheme = ({white, black}) => ({black: white, white: black, hoverColor: '#111'});
 
-const brandTheme = ({white, black}) => ({black: white, white: 'linear-gradient(45deg,rgba(0,123,255,1) 0%,rgba(66,151,255,1) 100%)',
+export const brandTheme = ({white, black}) => ({black: white, white: 'linear-gradient(45deg,rgba(0,123,255,1) 0%,rgba(66,151,255,1) 100%)',
  hoverColor: 'linear-gradient(45deg, rgba(66,151,255,1) 0%, rgba(0,123,255,1) 100%)'});
 
 const LOGIN_MUTATION = gql `

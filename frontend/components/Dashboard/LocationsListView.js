@@ -5,11 +5,10 @@ import Pagination from './Pagination/Pagination';
 import gql from 'graphql-tag';
 import {perPage} from '../../config';
 import {useQuery} from 'react-apollo-hooks';
-// import useUser from '../hooks/useUser';
 import {UserContext} from '../Layout/DashboardLayout';
 
 export const ALL_LOCATIONS_QUERY = gql `
-        query ALL_LOCATIONS_QUERY($skip: Int = 0, $first: Int = ${perPage}, $userId: ID!) {
+        query ALL_LOCATIONS_QUERY($skip: Int = 0, $first: Int = ${perPage}, $userId: ID) {
           locations(where: { user: {
               id: $userId
           }}, first: $first, skip: $skip, orderBy: createdAt_DESC) {
@@ -53,13 +52,13 @@ const LocationListView = (props) => {
     return (
         <LocationsListViewStyle>
             <>
-            <Pagination page={props.page} user={userId.id}/>
+            <Pagination page={props.page}/>
             {  data.locations && data
                 .locations
                 .map(location => <Location location={location} key={location.id}/>)
             }
 
-        {(data.locations && data.locations.length) ? <Pagination page={props.page} user={userId.id}/> : null }
+        {(data.locations && data.locations.length) ? <Pagination page={props.page}/> : null }
             </> 
         </LocationsListViewStyle>
     );

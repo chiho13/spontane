@@ -3,10 +3,11 @@ import ProfileNav from '../Dashboard/NavProfilePill/NavProfilePill';
 import styled from 'styled-components';
 import React, {useEffect, useState} from 'react';
 import useUser from '../hooks/useUser';
-import Router from 'next/router';
 import Loading from '../LoadingSpinner';
 import Login from '../Login';
 import AuthLayout from './AuthLayout';
+
+import BuyCredit from '../Dashboard/BuyCredits';
 
 const MainContent = styled.div `
   display: flex;
@@ -26,6 +27,16 @@ const MainContent = styled.div `
 }
 `;
 
+const DashboardNav = styled.div`
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 1000;
+    display: grid;
+    grid-auto-flow: column;
+    grid-gap: 1rem;
+`;
+
 export const UserContext = React.createContext();
 
 const DashboardLayout = props => {
@@ -40,9 +51,10 @@ const DashboardLayout = props => {
     const [user, setUser] = useState('');
 
     useEffect(() => {
-        if (loading && called) {
-            return
+        if (loading) {
+           return
         }
+
         const timeout = setTimeout(() => {
             if (me) {
                 setAuth(true)
@@ -53,7 +65,8 @@ const DashboardLayout = props => {
             } else {
                 setAuth(false);
             }
-        }, 200);
+        }, 0);
+
         return () => {
             clearTimeout(timeout);
         }
@@ -72,7 +85,12 @@ const DashboardLayout = props => {
     return <UserContext.Provider value={user}>
         <> <MainSideBar/>
         <MainContent>
-            <ProfileNav/> {pageLoad
+          <DashboardNav>
+              <BuyCredit />
+              <ProfileNav/>
+          </DashboardNav>
+           
+             {pageLoad
                 ? <div className="dashboard_content">
                         {props.children}
                     </div>
