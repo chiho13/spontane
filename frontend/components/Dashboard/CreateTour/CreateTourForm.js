@@ -33,7 +33,7 @@ function CreateTourForm() {
     return <CreateTourStyle>
             <Mutation mutation={CREATE_TOUR_MUTATION} variables={form}>
                 {(createTour, {loading, error}) => (
-                    <Form top="0" right="0" width="100%"
+                    <Form top="0" right="0" width="100%" style={{height: '100%'}}
                         onSubmit={async e => {
                         e.preventDefault();
                         const res = await createTour();

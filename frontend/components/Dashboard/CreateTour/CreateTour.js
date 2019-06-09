@@ -24,12 +24,11 @@ function CreateTour() {
     const [initialData, setReorderState] = useState({
         locations: {
             'location-0' : {id: 'location-0', city: 'Loading...'},
-            'location-1' : {id: 'location-1', city: 'Loading1...'}
         },
         columns: {
             'column-1': {   
                 id: 'column-1',
-                locationIds: ['location-0', 'location-1']
+                locationIds: ['location-0']
             }
         }
     });
@@ -71,15 +70,12 @@ function CreateTour() {
             return;
         }
 
-
         const column = initialData.columns[source.droppableId];
         const newLocationIds = Array.from(column.locationIds);
         
-        console.log(newLocationIds);
         newLocationIds.splice(source.index, 1);
-        console.log(newLocationIds);
+
         newLocationIds.splice(destination.index, 0, draggableId);
-        console.log(newLocationIds);
 
         const newColumn = {
             ...column,
