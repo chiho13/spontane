@@ -32,7 +32,9 @@ const LocationsListViewStyle = styled.div `
 `;
 
 const LocationListView = (props) => {
-    const {data} = useContext(UserContext)
+    const {user: {
+        data
+    }} = useContext(UserContext)
     // const {data, error, loading} = useQuery(ALL_LOCATIONS_QUERY, {
     //     variables: {
     //         skip: props.page * perPage - perPage,

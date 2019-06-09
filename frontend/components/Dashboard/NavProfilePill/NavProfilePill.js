@@ -18,7 +18,7 @@ function NavProfilePill() {
     const [open,
         setOpen] = useState(false);
 
-    const userId = useContext(UserContext);
+    const {user} = useContext(UserContext);
 
     function handleToggle() {
         setOpen(!open)
@@ -45,7 +45,7 @@ function NavProfilePill() {
                 onClick={handleToggle}
                 disableRipple
                 width="150px">
-                {userId.name}
+                {user && user.name}
                 <MaterialIcon icon="arrow_drop_down"/>
 
             </NavButton>

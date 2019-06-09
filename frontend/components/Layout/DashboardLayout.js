@@ -41,14 +41,14 @@ export const UserContext = React.createContext();
 
 const DashboardLayout = props => {
     const {data: {
-            me
-        }, loading} = useUser();
+            me: user
+        }, loading, called} = useUser();
     const [pageLoad,
         setPageLoad] = useState(false);
     const [auth,
         setAuth] = useState(true);
 
-    const [user, setUser] = useState('');
+    // const [user, setUser] = useState('');
 
     useEffect(() => {
         if (loading) {
@@ -56,13 +56,13 @@ const DashboardLayout = props => {
         }
 
         const timeout = setTimeout(() => {
-            if (me) {
+            if (user) {
                 setAuth(true)
-                setUser({
-                  id: me.id,
-                  name: me.name,
-                  data: me.locations
-                });
+                // setUser({
+                //   id: me.id,
+                //   name: me.name,
+                //   data: me.locations, 
+                // });
             } else {
                 setAuth(false);
             }
@@ -83,11 +83,11 @@ const DashboardLayout = props => {
         </AuthLayout>
     }
 
-    return <UserContext.Provider value={user}>
+    return <UserContext.Provider value={{user, loading, called}}>
         <> <MainSideBar/>
         <MainContent>
           <DashboardNav>
-              <BuyCredit />
+              {/* <BuyCredit /> */}
               <ProfileNav/>
           </DashboardNav>
            

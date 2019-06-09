@@ -27,11 +27,16 @@ const SINGLE_LOCATION_QUERY = gql `
 `;
 
 function AllLocations(props) {
-    const {data: MapLocationData} = useContext(UserContext);
+    const {user: {
+            data
+        }} = useContext(UserContext);
+
     const {viewport, setViewport, onViewportChange} = useViewPort({
         latitude: 20,
         longitude: 20,
-        zoom: props.id ? 9 : 1
+        zoom: props.id
+            ? 9
+            : 1
     })
 
     const [locationDetail,
@@ -121,7 +126,7 @@ function AllLocations(props) {
     }
 
     function RenderCityMarker() {
-        return MapLocationData && MapLocationData.map(location => (
+        return data && data.map(location => (
             <Marker
                 key={`marker-${location.id}`}
                 longitude={location.geoLocation.longitude}

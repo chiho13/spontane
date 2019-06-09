@@ -22,11 +22,11 @@ export const PAGINATION_QUERY = gql `
 `;
 
 function Pagination(props) {
-    const userId = useContext(UserContext)
+    const {user} = useContext(UserContext)
 
     const {data, loading, called} = useQuery(PAGINATION_QUERY, {
         variables: {
-            userId: userId && userId.id
+            userId: user && user.id
         }
     });
 
