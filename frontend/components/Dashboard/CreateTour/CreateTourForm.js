@@ -41,8 +41,6 @@ function CreateTourForm() {
                         // Router.push({ // pathname: '/myTour/collection', // query: { // id: res.data.createTour.id // } // }) 
                     }}>
                         <Error error={error}/>
-                        <h2>
-                            Create a Tour</h2>
                         <fieldset disabled={loading} hasgrid={"true"} aria-busy={loading}>
                             <div className="fieldset_wrapper">
                                 <div className="wrapper">
