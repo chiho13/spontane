@@ -9,7 +9,7 @@ const Container = styled.div `
     display: grid;
     grid-template-columns: 1fr 1fr;
     position: relative;
-    top: 100px;
+    top: 60px;
     margin-left: 2rem;
     margin-right: 2rem;
     grid-gap: 2rem;
@@ -30,6 +30,10 @@ function CreateTour() {
             'column-1': {
                 id: 'column-1',
                 locationIds: ['location-0']
+            },
+            'column-2': {
+                id: 'column-2',
+                locationIds: []
             }
         }
     });
@@ -48,6 +52,10 @@ function CreateTour() {
                     'column-1': {
                         id: 'column-1',
                         locationIds: Object.keys(locationData)
+                    },
+                    'column-2': {
+                        id: 'column-2',
+                        locationIds: []
                     }
                 }
             });
@@ -94,22 +102,28 @@ function CreateTour() {
 
         setReorderState(newState)
     }
-    console.log(initialData.columns['column-1']);
+
+    const firstColumn = initialData.columns['column-1'];
+    const firstLocations = firstColumn
+        .locationIds
+        .map(locationId => initialData.locations[locationId]);
+
+    const formFieldColumn = initialData.columns['column-2'];
+    const formDroppedLocations = formFieldColumn
+        .locationIds
+        .map(locationId => initialData.locations[locationId]);
+
     return <div>
         <h2>Create a Tour</h2>
         <Container>
             <DragDropContext onDragEnd={onDragEnd}>
-                {Object
-                    .keys(initialData.columns)
-                    .map(columnId => {
-                        const column = initialData.columns[columnId];
-                        const locations = column
-                            .locationIds
-                            .map(locationId => initialData.locations[locationId]);
-                        return <LocationColumnSelect key={column.id} listItems={locations} column={column}/>
-                    })}
-
-                <CreateTourForm/>
+                <LocationColumnSelect
+                    key={firstColumn.id}
+                    listItems={firstLocations}
+                    column={firstColumn}/>
+                <CreateTourForm listItems={formDroppedLocations}
+                column={formFieldColumn}
+                />
             </DragDropContext>
         </Container>
     </div>

@@ -7,8 +7,7 @@ const Container = styled.div `
 `;
 
 const Title = styled.div `
-        padding-top: 1rem;
-        padding-bottom: 1rem;
+       padding: 0;
 `;
 
 const ListItems = styled.div `
@@ -17,6 +16,7 @@ const ListItems = styled.div `
         border-radius: 8px;
         transition: background-color 0.2s ease;
         min-height: 200px;
+        margin-top: 0.5rem;
         background-color: ${props => props.isDraggingOver ? '#cccccc' : '#dedede'}
 `;
 
@@ -24,14 +24,14 @@ function LocationListSelectColumn(props) {
     const {listItems} = props;
     return (
         <Container>
-            <Title>My Locations</Title>
+            <Title>{props.title}</Title>
             <Droppable droppableId={props.column.id}>
                 {(provided, snapshot) => (
                     <ListItems innerRef={provided.innerRef} 
                     {...provided.droppableProps}
                     isDraggingOver={snapshot.isDraggingOver}
                     >
-                        {listItems.map((location, index) => <LocationSelectItems
+                        { listItems.map((location, index) => <LocationSelectItems
                             key={location.id}
                             location={location}
                             city={location.city}
@@ -45,3 +45,7 @@ function LocationListSelectColumn(props) {
 }
 
 export default LocationListSelectColumn;
+
+LocationListSelectColumn.defaultProps = {
+    title: 'My Locations'
+}

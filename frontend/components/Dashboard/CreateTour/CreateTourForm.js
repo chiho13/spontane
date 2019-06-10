@@ -9,9 +9,23 @@ import useForm from '../../hooks/useForm';
 
 import {invertTheme} from '../../Login';
 
+import  LocationColumnSelect from './LocationColumnSelect';
+
 
 const CreateTourStyle = styled.div `
     width: 100%;
+`;
+
+
+const TourForm = styled(Form)`
+    margin: 0;
+    box-shadow: none;
+    background-color: transparent;
+    padding: 0;
+
+    fieldset {
+        margin: 0;
+    }
 `;
 
 const CREATE_TOUR_MUTATION = gql `
@@ -26,14 +40,14 @@ const CREATE_TOUR_MUTATION = gql `
     }
 `;
 
-function CreateTourForm() {
+function CreateTourForm(props) {
     const [form,
         handleChange] = useForm({title: ''});
 
     return <CreateTourStyle>
             <Mutation mutation={CREATE_TOUR_MUTATION} variables={form}>
                 {(createTour, {loading, error}) => (
-                    <Form top="0" right="0" width="100%" style={{height: '100%'}}
+                    <TourForm top="0" right="0" width="100%" style={{height: '100%'}}
                         onSubmit={async e => {
                         e.preventDefault();
                         const res = await createTour();
@@ -42,7 +56,7 @@ function CreateTourForm() {
                     }}>
                         <Error error={error}/>
                         <fieldset disabled={loading} hasgrid={"true"} aria-busy={loading}>
-                            <div className="fieldset_wrapper">
+
                                 <div className="wrapper">
                                     <label htmlFor="country">
                                         Tour title</label>
@@ -55,12 +69,15 @@ function CreateTourForm() {
                                         value={form.title}
                                         onChange={handleChange}/>
                                 </div>
-                            </div>
+                                <div>
+                                 <label>Drop your location here</label>
+                                    <LocationColumnSelect title="" listItems={props.listItems} column={props.column} />
+                                </div>
                             <ThemeProvider theme={invertTheme}>
                                 <Button type="submit" width="auto">Submit</Button>
                             </ThemeProvider>
                         </fieldset>
-                    </Form>
+                    </TourForm>
                 )}
             </Mutation>
         </CreateTourStyle>
