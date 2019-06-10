@@ -24,6 +24,7 @@ export const PAGINATION_QUERY = gql `
 function Pagination(props) {
     const {user} = useContext(UserContext)
 
+    console.log(user);
     const {data, loading, called} = useQuery(PAGINATION_QUERY, {
         variables: {
             userId: user && user.id

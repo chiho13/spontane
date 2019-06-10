@@ -32,9 +32,7 @@ const LocationsListViewStyle = styled.div `
 `;
 
 const LocationListView = (props) => {
-    const {user: {
-        data
-    }} = useContext(UserContext)
+    const {user: data, loading} = useContext(UserContext)
     // const {data, error, loading} = useQuery(ALL_LOCATIONS_QUERY, {
     //     variables: {
     //         skip: props.page * perPage - perPage,
@@ -43,14 +41,16 @@ const LocationListView = (props) => {
     //     }
     // });
 
+    console.log(data);
+
     return (
         <LocationsListViewStyle>
             <>
-            <Pagination page={props.page}/>
-            {  data && data.map((location, index) => <Location location={location} key={location.id}/>)
+            {data && <Pagination page={props.page}/>}
+            {  data && data.locations.map((location) => <Location location={location} key={location.id}/>)
             }
 
-        {data && data.length > 1 ? <Pagination page={props.page}/> : null }
+        {data && data.locations.length > 1 ? <Pagination page={props.page}/> : null }
             </> 
         </LocationsListViewStyle>
     );
