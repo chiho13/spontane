@@ -26,6 +26,15 @@ const TourForm = styled(Form)`
     fieldset {
         margin: 0;
     }
+
+    h2 {
+        font-size: 1.1rem;
+        font-family: 'Roboto';
+        padding: 0;
+        margin: 0;
+        line-height: 2;
+        text-align: left;
+    }
 `;
 
 const CREATE_TOUR_MUTATION = gql `
@@ -70,7 +79,7 @@ function CreateTourForm(props) {
                                         onChange={handleChange}/>
                                 </div>
                                 <div>
-                                 <label>Drop your location here</label>
+                                 <label>Drop your locations here</label>
                                     <LocationColumnSelect title="" listItems={props.listItems} column={props.column} />
                                 </div>
                             <ThemeProvider theme={invertTheme}>

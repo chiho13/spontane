@@ -4,6 +4,7 @@ import LocationColumnSelect from './LocationColumnSelect';
 import CreateTourForm from './CreateTourForm';
 import {UserContext} from '../../Layout/DashboardLayout';
 import {DragDropContext} from 'react-beautiful-dnd';
+import uuid from 'uuid/v4'
 
 const Container = styled.div `
     display: grid;
@@ -23,7 +24,8 @@ function CreateTour() {
         locations: {
             'location-0': {
                 id: 'location-0',
-                city: 'Loading...'
+                city: 'Loading...',
+                dragId: uuid()
             }
         },
         columns: {
@@ -43,7 +45,8 @@ function CreateTour() {
             const locationData = DATA
                 .locations
                 .reduce((acc, cur, i) => {
-                    acc[cur.id] = cur;
+                    cur["dragId"] = uuid();
+                    acc[cur.dragId] = cur;
                     return acc
                 }, {});
             setReorderState({
@@ -80,27 +83,91 @@ function CreateTour() {
             return;
         }
 
-        const column = initialData.columns[source.droppableId];
-        const newLocationIds = Array.from(column.locationIds);
+        const start = initialData.columns[source.droppableId];
+        const finish = initialData.columns[destination.droppableId];
 
-        newLocationIds.splice(source.index, 1);
+        const firstLocations = start
+        .locationIds
+        .map(locationId => initialData.locations[locationId]);
 
-        newLocationIds.splice(destination.index, 0, draggableId);
+        const formDroppedLocations = finish
+        .locationIds
+        .map(locationId => initialData.locations[locationId]);
 
-        const newColumn = {
-            ...column,
-            locationIds: newLocationIds
+        if(start === finish) {
+            const newLocationIds = Array.from(start.locationIds);
+            newLocationIds.splice(source.index, 1);
+    
+            newLocationIds.splice(destination.index, 0, draggableId);
+    
+            const newColumn = {
+                ...start,
+                locationIds: newLocationIds
+            }
+    
+            const newState = {
+                ...initialData,
+                columns: {
+                    ...initialData.columns,
+                    [newColumn.id]: newColumn
+                }
+            }
+    
+            setReorderState(newState)
+            return
+        }
+
+        const startLocationIds = Array.from(start.locationIds);
+        startLocationIds.splice(source.index, 1);
+        const sourceClone = Array.from(firstLocations);
+    // const destClone = Array.from(destination);
+    const item = sourceClone[source.index];
+     const destClone = Array.from(destination);
+
+    // console.log(item);
+
+        const newStart = {
+            ...start,
+            locationIds: startLocationIds
+        }
+
+        console.log(startLocationIds)
+
+        const finishLocationIds = Array.from(finish.locationIds);
+        destClone.splice(destination.index, 0, {...item, dragId: uuid()});
+
+        const dragIdFinish = destClone[0]['dragId'];
+
+        finishLocationIds.splice(destination.index, 0, dragIdFinish);
+        
+        console.log(...destClone)
+        // console.log(finishLocationIds);
+
+        const finished = {
+            [dragIdFinish]: destClone[0]
+        }
+       
+        console.log(finished);
+        console.log(destination)
+        const newFinish = {
+                id: destination.droppableId,
+                locationIds: finishLocationIds
         }
 
         const newState = {
             ...initialData,
             columns: {
                 ...initialData.columns,
-                [newColumn.id]: newColumn
+                [newFinish.id] : newFinish
+            },
+            locations: {
+                ...initialData.locations,
+                ...finished
             }
         }
 
         setReorderState(newState)
+
     }
 
     const firstColumn = initialData.columns['column-1'];
@@ -120,7 +187,9 @@ function CreateTour() {
                 <LocationColumnSelect
                     key={firstColumn.id}
                     listItems={firstLocations}
-                    column={firstColumn}/>
+                    column={firstColumn}
+                    copy={true}
+                    />
                 <CreateTourForm listItems={formDroppedLocations}
                 column={formFieldColumn}
                 />

@@ -10,6 +10,13 @@ const Container = styled.div `
         background-color: ${props => props.isDragging ? '#ACD4FF' : '#FFFFFF'}
 `;
 
+
+const Clone = styled(Container)`
+    ~ div {
+        transform: none !important;
+    }
+`; 
+
 const Title = styled.h2 `
         font-size: 1.1rem;
         font-family: 'Roboto';
@@ -18,9 +25,9 @@ const Title = styled.h2 `
 `;
 
 function LocationSelectItem(props) {
-    const {city, index} = props;
-    return (props.location.id && <Draggable draggableId={props.location.id} index={index}>
-        {(provided, snapshot) => (
+    const {city, index, copy} = props;
+    return (props.location.id && <Draggable draggableId={props.location.dragId} index={index}>
+        {(provided, snapshot) => (<>
             <Container
                 {...provided.draggableProps}
                 {...provided.dragHandleProps}
@@ -29,6 +36,9 @@ function LocationSelectItem(props) {
                 >
                 <Title>{city}</Title>
             </Container>
+            {snapshot.isDragging && copy && <Clone><Title>{city}</Title></Clone>}
+            </>
+        
         )}
     </Draggable>)
 }
