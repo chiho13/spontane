@@ -112,6 +112,8 @@ function CreateTour() {
                     [newColumn.id]: newColumn
                 }
             }
+
+            console.log(newState);
     
             setReorderState(newState)
             return
@@ -120,18 +122,9 @@ function CreateTour() {
         const startLocationIds = Array.from(start.locationIds);
         startLocationIds.splice(source.index, 1);
         const sourceClone = Array.from(firstLocations);
-    // const destClone = Array.from(destination);
     const item = sourceClone[source.index];
      const destClone = Array.from(destination);
 
-    // console.log(item);
-
-        const newStart = {
-            ...start,
-            locationIds: startLocationIds
-        }
-
-        console.log(startLocationIds)
 
         const finishLocationIds = Array.from(finish.locationIds);
         destClone.splice(destination.index, 0, {...item, dragId: uuid()});
@@ -139,16 +132,11 @@ function CreateTour() {
         const dragIdFinish = destClone[0]['dragId'];
 
         finishLocationIds.splice(destination.index, 0, dragIdFinish);
-        
-        console.log(...destClone)
-        // console.log(finishLocationIds);
 
         const finished = {
             [dragIdFinish]: destClone[0]
         }
-       
-        console.log(finished);
-        console.log(destination)
+
         const newFinish = {
                 id: destination.droppableId,
                 locationIds: finishLocationIds

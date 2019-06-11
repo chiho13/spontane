@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import {Draggable} from 'react-beautiful-dnd';
+import MaterialIcon from '@material/react-material-icon';
 
 const Container = styled.div `
         margin-top: 0.5rem;
