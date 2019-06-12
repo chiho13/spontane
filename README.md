@@ -8,8 +8,11 @@ Enables flyover tour in mapbox from a collection locations.
 
 #### Run in Command Line
 
-```npm i```
-```npm run dev```
+```sh
+npm i
+npm run dev
+```
+
 ### BACKEND 
 
 #### Setup local envirioment variables: 
@@ -30,5 +33,7 @@ MAIL_PASSWORD="changethis"
 #### Run in Command Line
 
 
-```npm i```
-```npm run dev```
+```sh
+npm i
+npm run dev
+```
