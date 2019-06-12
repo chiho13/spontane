@@ -9,7 +9,6 @@ Enables flyover tour in mapbox from a collection locations.
 #### Run in Command Line
 
 ```npm i
-
 npm run dev```
 
 ### BACKEND 
@@ -30,5 +29,4 @@ MAIL_PASSWORD="changethis"```
 #### Run in Command Line
 
 ```npm i
-
 npm run dev```
