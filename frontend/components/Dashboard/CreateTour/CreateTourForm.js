@@ -80,7 +80,7 @@ function CreateTourForm(props) {
                                 </div>
                                 <div>
                                  <label>Drop your locations here</label>
-                                    <LocationColumnSelect title="" listItems={props.listItems} column={props.column} />
+                                    <LocationColumnSelect title="" listItems={props.listItems} column={props.column} removable={true} />
                                 </div>
                             <ThemeProvider theme={invertTheme}>
                                 <Button type="submit" width="auto">Submit</Button>

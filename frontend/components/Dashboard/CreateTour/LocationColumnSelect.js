@@ -17,7 +17,7 @@ const ListItems = styled.div `
         min-height: 200px;
         max-height: 370px;
         transition: background-color 0.2s ease;
-        height: ${props => props.isDropDisabled ? '370px' : 'auto'};
+        height: ${props => props.isCopy ? '370px' : 'auto'};
         margin-top: 0.5rem;
         overflow: scroll;
         background-color: ${props => props.isDraggingOver ? '#C8F7C5' : '#DEDEDE'}
@@ -33,7 +33,7 @@ function LocationListSelectColumn(props) {
                     <ListItems innerRef={provided.innerRef} 
                     {...provided.droppableProps}
                     isDraggingOver={snapshot.isDraggingOver}
-                    isDropDisabled={copy}
+                    isCopy={copy}
                     >
                         { listItems.map((location, index) => <LocationSelectItems
                             key={location.dragId}

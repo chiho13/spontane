@@ -16,6 +16,8 @@ const Container = styled.div `
     grid-gap: 2rem;
 `;
 
+export const TourContext = React.createContext();
+
 function CreateTour() {
     const {user: data, loading} = useContext(UserContext);
 
@@ -90,10 +92,6 @@ function CreateTour() {
         .locationIds
         .map(locationId => initialData.locations[locationId]);
 
-        const formDroppedLocations = finish
-        .locationIds
-        .map(locationId => initialData.locations[locationId]);
-
         if(start === finish) {
             const newLocationIds = Array.from(start.locationIds);
             newLocationIds.splice(source.index, 1);
@@ -122,8 +120,8 @@ function CreateTour() {
         const startLocationIds = Array.from(start.locationIds);
         startLocationIds.splice(source.index, 1);
         const sourceClone = Array.from(firstLocations);
-    const item = sourceClone[source.index];
-     const destClone = Array.from(destination);
+        const item = sourceClone[source.index];
+        const destClone = Array.from(destination);
 
 
         const finishLocationIds = Array.from(finish.locationIds);
@@ -154,8 +152,33 @@ function CreateTour() {
             }
         }
 
-        setReorderState(newState)
+        setReorderState(newState);
+    }
 
+    function removeItem(e, dragId) {
+        e.preventDefault();
+
+        let locationIdsClone = Array.from(initialData.columns['column-2'].locationIds);
+        let index = locationIdsClone.indexOf(dragId);
+        let deletedClone = {...initialData.locations};
+
+        if (index > -1) {
+            locationIdsClone.splice(index, 1);
+            delete deletedClone[dragId];
+        }
+
+        const newState = {
+            columns: {
+                ...initialData.columns,
+                'column-2': {
+                    id: 'column-2',
+                    locationIds: locationIdsClone
+                }
+            },
+            locations: deletedClone
+        }
+
+        setReorderState(newState);
     }
 
     const firstColumn = initialData.columns['column-1'];
@@ -168,7 +191,7 @@ function CreateTour() {
         .locationIds
         .map(locationId => initialData.locations[locationId]);
 
-    return <div>
+    return <TourContext.Provider value={removeItem}>
         <h2>Create a Tour</h2>
         <Container>
             <DragDropContext onDragEnd={onDragEnd}>
@@ -178,12 +201,11 @@ function CreateTour() {
                     column={firstColumn}
                     copy={true}
                     />
-                <CreateTourForm listItems={formDroppedLocations}
-                column={formFieldColumn}
-                />
+                        <CreateTourForm listItems={formDroppedLocations}
+                        column={formFieldColumn}/>
             </DragDropContext>
         </Container>
-    </div>
+   </TourContext.Provider>
 }
 
 export default CreateTour;

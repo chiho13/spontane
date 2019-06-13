@@ -43,6 +43,7 @@
     "react-beautiful-dnd": "^11.0.3",
     "react-dom": "^16.8.6",
     "react-draggable": "^3.1.1",
+    "react-loading-skeleton": "^1.1.2",
     "react-map-gl": "^4.0.9",
     "react-mapbox-gl": "^4.2.0",
     "react-motion": "^0.5.2",
