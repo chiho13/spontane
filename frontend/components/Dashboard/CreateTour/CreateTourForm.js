@@ -79,7 +79,7 @@ function CreateTourForm(props) {
                                         onChange={handleChange}/>
                                 </div>
                                 <div>
-                                 <label>Drop your locations here</label>
+                                 <label>Drag and Drop your locations here</label>
                                     <LocationColumnSelect title="" listItems={props.listItems} column={props.column} removable={true} />
                                 </div>
                             <ThemeProvider theme={invertTheme}>

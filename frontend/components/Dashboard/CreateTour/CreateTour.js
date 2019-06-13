@@ -192,7 +192,7 @@ function CreateTour() {
         .map(locationId => initialData.locations[locationId]);
 
     return <TourContext.Provider value={removeItem}>
-        <h2>Create a Tour</h2>
+        <h2>Create Tour</h2>
         <Container>
             <DragDropContext onDragEnd={onDragEnd}>
                 <LocationColumnSelect
