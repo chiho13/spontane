@@ -65,7 +65,7 @@ function CreateLocation() {
             latitude: marker.latitude,
             longitude: marker.longitude
         });
-    });
+    }, [marker]);
 
     async function onSubmit(e, createLocation) {
         e.preventDefault();
