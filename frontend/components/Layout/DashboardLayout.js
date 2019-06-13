@@ -1,7 +1,7 @@
 import MainSideBar from '../Dashboard/MainSideBar/MainSideBar';
 import ProfileNav from '../Dashboard/NavProfilePill/NavProfilePill';
 import styled from 'styled-components';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import useUser from '../hooks/useUser';
 import Loading from '../LoadingSpinner';
 import Login from '../Login';
@@ -27,7 +27,7 @@ const MainContent = styled.div `
 }
 `;
 
-const DashboardNav = styled.div`
+const DashboardNav = styled.div `
     position: fixed;
     top: 16px;
     right: 16px;
@@ -40,42 +40,36 @@ const DashboardNav = styled.div`
 export const UserContext = React.createContext();
 
 const DashboardLayout = props => {
-    const {data: {
+    const {
+        data: {
             me: user
-        }, loading, called} = useUser();
+        },
+        loading,
+        called
+    } = useUser();
     const [pageLoad,
         setPageLoad] = useState(false);
     const [auth,
         setAuth] = useState(true);
 
-    // const [user, setUser] = useState('');
-
     useEffect(() => {
-        if (loading) {
-           return
-        }
-
-        const timeout = setTimeout(() => {
-            if (user) {
+        const isAuth = function (hasUser) {
+            if (hasUser) {
                 setAuth(true)
-                // setUser({
-                //   id: me.id,
-                //   name: me.name,
-                //   data: me.locations, 
-                // });
             } else {
                 setAuth(false);
             }
-        }, 0);
-
-        return () => {
-            clearTimeout(timeout);
+            return true
         }
-    });
+
+        if (isAuth && !loading) {
+            isAuth(user)
+        }
+    }, [loading, user]);
 
     useEffect(() => {
         setPageLoad(true);
-    }, [pageLoad]);
+    }, []);
 
     if (!auth) {
         return <AuthLayout>
@@ -83,15 +77,20 @@ const DashboardLayout = props => {
         </AuthLayout>
     }
 
-    return <UserContext.Provider value={{user, loading, called}}>
+    return <UserContext.Provider
+        value={{
+        user,
+        loading,
+        called
+    }}>
         <> <MainSideBar/>
         <MainContent>
-          <DashboardNav>
-              {/* <BuyCredit /> */}
-              <ProfileNav/>
-          </DashboardNav>
-           
-             {pageLoad
+            <DashboardNav>
+                {/* <BuyCredit /> */}
+                <ProfileNav/>
+            </DashboardNav>
+
+            {pageLoad
                 ? <div className="dashboard_content">
                         {props.children}
                     </div>
