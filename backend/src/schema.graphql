@@ -1,6 +1,8 @@
 # source: http://localhost:4444
 # timestamp: Fri Jun 07 2019 18:58:40 GMT+0100 (BST)
 
+# import * from './generated/prisma.graphql'
+
 type AggregateLocation {
   count: Int!
 }
@@ -677,8 +679,8 @@ input LocationWhereUniqueInput {
 }
 
 type Mutation {
-  createTour(title: String): Tour!
-  updateTour(id: ID!, title: String, locations: LocationUpdateManyInput): Tour!
+  createTour(title: String, locations: TourLocationCreateManyInput): Tour!
+  updateTour(id: ID!, title: String, locations: TourLocationUpdateManyInput): Tour!
   createLocation(country: String, city: String, geoLocation: GeoLocationCreateOneInput, description: String): Location!
   updateLocation(id: ID!, country: String, city: String, geoLocation: GeoLocationUpdateOneRequiredInput, description: String): Location!
   createGeoLocation(latitude: Float, longitude: Float): GeoLocation!

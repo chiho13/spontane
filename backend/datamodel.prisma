@@ -37,10 +37,17 @@ type Location {
   user: User! @relation(name: "UsersLocation")
 }
 
+type TourLocation {
+  id: ID! @id
+  locationId: String!
+  dragId: String!
+  location: String!
+}
+
 type Tour {
   id: ID! @id
   title: String!
-  locations: [Location]
+  locations: [TourLocation]
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }
