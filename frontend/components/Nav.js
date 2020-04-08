@@ -3,13 +3,11 @@ import NavStyles from './styles/NavStyles';
 
 const Nav = () => {
   return <NavStyles>
-    <Link href="/addLocation">
-      <a>Create Tour</a>
-    </Link>
+  
     <Link href="/">
       <a>Pricing</a>
     </Link>
-    <Link href="/">
+    <Link href="/login">
       <a>Login</a>
     </Link>
   </NavStyles>

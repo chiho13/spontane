@@ -62,9 +62,6 @@ function NavProfilePill() {
                         <Paper>
                             <ClickAwayListener onClickAway={handleClose}>
                                 <MenuList>
-                                    <MenuItem disableRipple onClick={handleClose}>Profile</MenuItem>
-                                    <MenuItem disableRipple onClick={handleClose}>My account</MenuItem>
-                                    <Divider/>
                                     <Logout handleClose={handleClose}/>
                                 </MenuList>
                             </ClickAwayListener>
