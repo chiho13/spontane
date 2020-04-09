@@ -5,7 +5,7 @@ import SideBarItem from '../SideBarItem/SideBarItem';
 const sideBarItems = [ {
     title: "My Locations",
     icon: "list",
-    link: "/admin/locations"
+    link: "/admin/locations/list"
 },{
     title: "Add Location",
     icon: "add_location",

@@ -46,13 +46,17 @@ function AllLocations(props) {
     const [isOpened,
         setIsOpened] = useState(null);
 
-    const {data: singleLocationData, loading} = useQuery(SINGLE_LOCATION_QUERY, {
-        variables: {
-            id: props.id || 0
-        }
-    });
+    
+     const {data: singleLocationData, loading} = useQuery(SINGLE_LOCATION_QUERY, {
+            variables: {
+                id: props.id || 0
+            }
+     });
+
+    
 
     useEffect(() => {
+
         if (loading) {
             return
         }
@@ -61,6 +65,7 @@ function AllLocations(props) {
             setSingleLocation(location);
             setIsOpened(true);
         }
+
     });
 
     function offsetMarker() {
@@ -176,7 +181,7 @@ function AllLocations(props) {
             setParamProps(props.id)
             offsetMarker();
         }
-    }, [])
+    });
 
     return (
         <div className="map-container">

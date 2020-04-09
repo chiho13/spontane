@@ -17,11 +17,11 @@ const LocationViewSwitcher = (props) => {
         return (
             <SwitcherStyle>
                 <Tabs id={props.id}>
-                    <div label="List" icon="view_list">
-                        <ListView page={props.page}/>
+                    <div label="list" icon="view_list">
+                    
                     </div>
-                    <div label="Map" icon="map">
-                       <MapView id={props.id} lat={props.lat} lon={props.lon} pathname="locations" editButton={true}/>
+                    <div label="map" icon="map">
+                       
                     </div>
                 </Tabs>
             </SwitcherStyle>

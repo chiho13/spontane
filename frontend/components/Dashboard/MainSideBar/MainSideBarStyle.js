@@ -14,7 +14,7 @@ transform: translateX(-100%);
     transform: translateX(0);
     flex: 0 0 25%;
     max-width: 25%;
-    box-shadow: 0 0.125rem 9.375rem rgba(90,97,105,.1), 0 0.25rem 0.5rem rgba(90,97,105,.12), 0 0.9375rem 1.375rem rgba(90,97,105,.1), 0 0.4375rem 2.1875rem rgba(165,182,201,.1)
+    border-right: 1px solid ${props => props.theme.white};
 }
 
 @media (min-width: 900px) {

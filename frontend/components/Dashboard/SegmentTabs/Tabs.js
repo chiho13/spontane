@@ -30,32 +30,32 @@ class Tabs extends Component {
     return myParam
   }
 
-  componentDidUpdate() {
-    this._isMounted = true;
+  // componentDidUpdate() {
+  //   this._isMounted = true;
 
-    if (!this._isMounted) return;
+  //   if (!this._isMounted) return;
 
-    Router.onRouteChangeComplete = () => {
-      const myParam = this.getParam();
+  //   Router.onRouteChangeComplete = () => {
+  //     const myParam = this.getParam();
       
-      myParam === 'List' && this.setState({ activeTab: 'List' });
-    };    
-  }
+  //     myParam === 'list' && this.setState({ activeTab: 'List' });
+  //   };    
+  // }
 
   componentWillUnmount() {
     this._isMounted = false;
   }
 
-  componentWillMount() {
-    const myParam = this.getParam();
+  // componentWillMount() {
+  //   const myParam = this.getParam();
   
-    if(myParam === 'Map') {
-      this.setState({ activeTab: 'Map' });
-    } else if(myParam === 'List') {
-      this.setState({ activeTab: 'List' });
-    }
-      this.props.id && this.setState({ activeTab: 'Map' });
-  }
+  //   if(myParam === 'map') {
+  //     this.setState({ activeTab: 'Map' });
+  //   } else if(myParam === 'list') {
+  //     this.setState({ activeTab: 'List' });
+  //   }
+  //     this.props.id && this.setState({ activeTab: 'Map' });
+  // }
 
   render() {
     const {

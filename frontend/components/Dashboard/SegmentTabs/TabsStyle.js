@@ -7,6 +7,35 @@ const TabsStyle = styled.div`
     grid-gap: 16px;
     padding-left: 32px;
     margin: 16px 0;
+
+
+    a.active {
+        color: ${props => props.theme.brandColor};
+        border-color: ${props => props.theme.brandColor};
+    
+        i {
+            color: ${props => props.theme.brandColor};
+        }
+    
+        &:hover {
+            background-color: inherit;
+            border-color: inherit;
+        }    color: ${props => props.theme.brandColor};
+    border-color: ${props => props.theme.brandColor};
+
+    i {
+        color: ${props => props.theme.brandColor};
+    }
+
+    &:hover {
+        background-color: inherit;
+        border-color: inherit;
+    }
+
+    .tab-list-item {
+        border: 2px solid ${props => props.theme.brandColor};
+    }
+    }
 }
 .tab-list-item {
     display: flex;
@@ -34,20 +63,6 @@ const TabsStyle = styled.div`
 
   }
   
-  .tab-list-active {
-    color: ${props => props.theme.brandColor};
-    border-color: ${props => props.theme.brandColor};
-
-    i {
-        color: ${props => props.theme.brandColor};
-    }
-
-    &:hover {
-        background-color: inherit;
-        border-color: inherit;
-    }
-  }
-
   .tab-content .map-container {
       position: relative;
       width: 100%;

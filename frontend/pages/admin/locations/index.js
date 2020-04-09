@@ -9,7 +9,6 @@ const Locations = props => (
       <title>My Locations</title>
     </Head>
     <Title title="My Locations" />
-    <LocationViewSwitcher id={props.query.id} lat={props.query.lat} lon={props.query.lon} page={parseFloat(props.query.page) || 1}/>
   </DashboardLayout>
 );
 

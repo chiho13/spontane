@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import MaterialIcon from '@material/react-material-icon';
-import Router from 'next/router';
+import Link from '../../helpers/link';
 
 class Tab extends Component {
   static propTypes = {
@@ -11,22 +11,10 @@ class Tab extends Component {
     onClick: PropTypes.func.isRequired,
   };
 
-  onClick = () => {
-    const { label, onClick } = this.props;
-    onClick(label);
-    Router.push({
-      pathname: '/admin/locations',
-      query: {
-          view: label
-      }
-  });
-  }
 
   render() {
     const {
-      onClick,
       props: {
-        activeTab,
         label,
         icon
       },
@@ -34,17 +22,14 @@ class Tab extends Component {
 
     let className = 'tab-list-item';
 
-    if (activeTab === label) {
-      className += ' tab-list-active';
-    }
-
     return (
-      <li
-        className={className}
-        onClick={onClick}
-      >
-        <MaterialIcon icon={icon} /> {label}
-      </li>
+      <Link href={`/admin/locations/${label}`}>
+        <a>
+          <li className={className}>
+            <MaterialIcon icon={icon} /> {label}
+          </li>
+        </a>
+      </Link>
     );
   }
 }
