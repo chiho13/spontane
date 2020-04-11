@@ -71,9 +71,9 @@ function CreateLocation() {
         e.preventDefault();
         const res = await createLocation();
         Router.push({
-            pathname: '/admin/locations',
+            pathname: '/admin/locations/map',
             query: {
-                view: 'Map',
+                view: 'map',
                 id: res.data.createLocation.id,
                 lat: form.latitude,
                 lon: form.longitude

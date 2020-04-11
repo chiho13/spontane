@@ -52,7 +52,7 @@ function Pagination(props) {
             <Link
                 prefetch
                 href={{
-                pathname: 'locations',
+                pathname: 'list',
                 query: {
                     page: page - 1
                 }
@@ -60,12 +60,11 @@ function Pagination(props) {
                 <a className="prev" aria-disabled={page <= 1}><MaterialIcon icon="chevron_left"/></a>
             </Link>
             <p>
-                Page {page}
-                of {pages}</p>
+                Page {page} of {pages}</p>
             <Link
                 prefetch
                 href={{
-                pathname: 'locations',
+                pathname: 'list',
                 query: {
                     page: page + 1
                 }

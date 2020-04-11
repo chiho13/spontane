@@ -62,7 +62,7 @@ function AllLocations(props) {
         }
 
 
-    }, [paramProps]);
+    }, []);
 
     function offsetMarker() {
         const offset = getCoordinates().getCoords(window.innerWidth * 0.625, window.innerHeight * (0.5 - (30 / window.innerHeight)), props.lat, viewport.zoom);
@@ -154,7 +154,7 @@ function AllLocations(props) {
             setParamProps(props.id);
             offsetMarker()
         }
-    },[singleLocationData]);
+    },[]);
 
     return (
         <div className="map-container">

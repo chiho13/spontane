@@ -9,7 +9,7 @@ import {UserContext} from '../Layout/DashboardLayout';
 
 export const ALL_LOCATIONS_QUERY = gql `
         query ALL_LOCATIONS_QUERY($skip: Int = 0, $first: Int = ${perPage}, $userId: ID) {
-          locations(where: { user: {
+            locations(where: { user: {
               id: $userId
           }}, first: $first, skip: $skip, orderBy: createdAt_DESC) {
             id
@@ -25,32 +25,27 @@ export const ALL_LOCATIONS_QUERY = gql `
 `;
 
 const LocationsListViewStyle = styled.div `
-  display: block;
-  max-width: ${props => props.theme.maxWidth};
+    display: block;
+    max-width: ${props => props.theme.maxWidth};
     padding-left: 32px;
     padding-right: 16px;
 `;
 
 const LocationListView = (props) => {
     const {user: data, loading} = useContext(UserContext)
-    // const {data, error, loading} = useQuery(ALL_LOCATIONS_QUERY, {
-    //     variables: {
-    //         skip: props.page * perPage - perPage,
-    //         first: perPage,
-    //         userId: userId.id   
-    //     }
-    // });
 
-    console.log(data);
+    const locations = data && data.locations.slice((props.page - 1) * perPage, props.page * perPage);
+
+    console.log(locations);
 
     return (
         <LocationsListViewStyle>
             <>
-            {data && <Pagination page={props.page}/>}
-            {  data && data.locations.map((location) => <Location location={location} key={location.id}/>)
+            {<Pagination page={props.page}/>}
+            { locations.map((location) => <Location location={location} key={location.id}/>)
             }
 
-        {data && data.locations.length > 1 ? <Pagination page={props.page}/> : null }
+        {locations.length > 1 ? <Pagination page={props.page}/> : null }
             </> 
         </LocationsListViewStyle>
     );
