@@ -37,7 +37,7 @@ const Item = styled.div`
     display: flex;
     width: 50%;
     bottom: initial;
-    top: 100px;
+    top: 30%;
     left: initial;
     right: 20px;
     max-height: 350px;

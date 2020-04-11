@@ -8,6 +8,8 @@ import Login from '../Login';
 import AuthLayout from './AuthLayout';
 
 import BuyCredit from '../Dashboard/BuyCredits';
+import {ViewPortProvider } from '../providers/MapProvider';
+
 
 const MainContent = styled.div `
   display: flex;
@@ -83,6 +85,8 @@ const DashboardLayout = props => {
         loading,
         called
     }}>
+        <ViewPortProvider id={props.id}>
+
         <> <MainSideBar/>
         <MainContent>
             <DashboardNav>
@@ -97,6 +101,7 @@ const DashboardLayout = props => {
                 : <Loading/>}
         </MainContent>
     </>
+    </ViewPortProvider>
 </UserContext.Provider>
 };
 

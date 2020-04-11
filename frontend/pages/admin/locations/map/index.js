@@ -13,7 +13,7 @@ const MapViewStyle = styled.div`
 }`;
 
 const Locations = props => (
-  <DashboardLayout>
+  <DashboardLayout id={props.query.id}>
     <Head>
       <title>My Locations</title>
     </Head>

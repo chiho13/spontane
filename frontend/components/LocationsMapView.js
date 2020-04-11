@@ -10,6 +10,8 @@ import {TOKEN} from './MapGL';
 import {UserContext} from './Layout/DashboardLayout';
 import useViewPort from './hooks/useViewPort';
 import {useQuery} from 'react-apollo-hooks';
+import Router from 'next/router'
+import {ViewPortContext} from './providers/MapProvider';
 
 const SINGLE_LOCATION_QUERY = gql `
     query SINGLE_LOCATION_QUERY($id: ID) {
@@ -28,14 +30,7 @@ const SINGLE_LOCATION_QUERY = gql `
 
 function AllLocations(props) {
     const {user: data} = useContext(UserContext);
-
-    const {viewport, setViewport, onViewportChange} = useViewPort({
-        latitude: 20,
-        longitude: 20,
-        zoom: props.id
-            ? 9
-            : 1
-    })
+    const {viewport, flyViewPort, onViewportChange} = useContext(ViewPortContext);
 
     const [locationDetail,
         setLocationDetail] = useState(null);
@@ -52,7 +47,6 @@ function AllLocations(props) {
                 id: props.id || 0
             }
      });
-
     
 
     useEffect(() => {
@@ -62,11 +56,13 @@ function AllLocations(props) {
         }
         const {location} = singleLocationData;
         if (paramProps) {
-            setSingleLocation(location);
+            location && setSingleLocation(location);
             setIsOpened(true);
+            location && flyViewPort(location);
         }
 
-    });
+
+    }, [paramProps]);
 
     function offsetMarker() {
         const offset = getCoordinates().getCoords(window.innerWidth * 0.625, window.innerHeight * (0.5 - (30 / window.innerHeight)), props.lat, viewport.zoom);
@@ -79,7 +75,7 @@ function AllLocations(props) {
 
         onViewportChange({
             latitude: parseFloat(props.lat) + offsetLat,
-            longitude: parseFloat(props.lon) + offsetLon
+            longitude: parseFloat(props.lon) + offsetLon,
         })
     }
 
@@ -89,7 +85,7 @@ function AllLocations(props) {
         setTimeout(() => {
             setLocationDetail(null)
             setSingleLocation(null);
-        }, 500);
+        }, 200);
     }
 
     function _toggleLocationDetail(location) {
@@ -99,7 +95,7 @@ function AllLocations(props) {
         } else {
             setLocationDetail(location);
             setIsOpened(true)
-            _goToViewport(location);
+            flyViewPort(location);
         }
     }
 
@@ -153,35 +149,12 @@ function AllLocations(props) {
             editButton={props.editButton}/>)
     }
 
-    function _goToViewport({
-        geoLocation: {
-            longitude,
-            latitude
-        }
-    }) {
-        const offset = getCoordinates().getCoords(window.innerWidth * 0.625, window.innerHeight * (0.5 - (30 / window.innerHeight)), latitude, 9);
-        const offsetLon = window.innerWidth > 1000
-            ? parseFloat(offset.lon)
-            : 0;
-        const offsetLat = window.innerWidth > 1000
-            ? 0
-            : parseFloat(offset.lat);
-
-        onViewportChange({
-            longitude: longitude + offsetLon,
-            latitude: latitude + offsetLat,
-            zoom: 9,
-            transitionInterpolator: new FlyToInterpolator(),
-            transitionDuration: 1000
-        });
-    };
-
     useEffect(() => {
         if (props.id) {
-            setParamProps(props.id)
-            offsetMarker();
+            setParamProps(props.id);
+            offsetMarker()
         }
-    });
+    },[singleLocationData]);
 
     return (
         <div className="map-container">

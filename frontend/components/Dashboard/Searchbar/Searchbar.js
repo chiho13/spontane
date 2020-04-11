@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import Downshift, { resetIdCounter } from 'downshift';
 import Router from 'next/router';
 import { ApolloConsumer } from 'react-apollo';
@@ -6,53 +6,49 @@ import gql from 'graphql-tag';
 import debounce from 'lodash.debounce';
 import { DropDown, DropDownItem, SearchStyles } from './SearchbarStyles';
 import MaterialIcon from '@material/react-material-icon';
+import {UserContext} from '../../Layout/DashboardLayout';
+import {ViewPortContext} from '../../providers/MapProvider';
 
-const SEARCH_LOCATIONS_QUERY = gql`
-  query SEARCH_LOCATIONS_QUERY($searchTerm: String!, $userId: ID) {
-    locations(where: { OR: [{ city_contains: $searchTerm }, { country_contains: $searchTerm }], user: {
-              id: $userId
-          }}, ) {
-      id
-      city
-      country
-      geoLocation {
-                latitude
-                longitude
-        }
-    }
-  }
-`;
-
-function routeToLocation(location) {
-  Router.push({
-    pathname: '/admin/locations/map',
-    query: {
-        view: 'map',
-      id: location.id,
-      lat: location.geoLocation.latitude,
-      lon: location.geoLocation.longitude
-    },
-  });
-}
 
 const AutoComplete = () => {
     const [locations, setLocations] = useState([]);
     const [loading, setLoading] = useState(false);
+    const {user: data} = useContext(UserContext);
+    const {flyViewPort} = useContext(ViewPortContext);
   
   const onChange = debounce(async (e, client) => {
     console.log('Searching...');
     // turn loading on
 
     setLoading(true);
-    // Manually query apollo client
-    const res = await client.query({
-      query: SEARCH_LOCATIONS_QUERY,
-      variables: { searchTerm: e.target.value },
+
+    const filtered = data.locations.filter((el) => {
+      return el.city.toLowerCase().includes(e.target.value.toLowerCase()) || el.country.toLowerCase().includes(e.target.value.toLowerCase());
     });
 
-    setLocations(res.data.locations);
+    console.log(filtered)
+
+    setLocations(filtered);
     setLoading(false);
   }, 350);
+
+
+
+  function routeToLocation(location) {
+    Router.push({
+      pathname: '/admin/locations/map',
+      query: {
+          view: 'map',
+        id: location.id,
+        lat: location.geoLocation.latitude,
+        lon: location.geoLocation.longitude
+      },
+    });
+
+      flyViewPort(location);
+
+  };
+
 
     useEffect(() => {
        return resetIdCounter();
