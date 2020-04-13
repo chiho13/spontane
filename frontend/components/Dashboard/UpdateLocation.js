@@ -6,8 +6,8 @@ import Router from 'next/router';
 
 import UpdateLocationForm from '../LocationForm';
 import MapGL from '../MapGL';
-import CreateLocationMapStyle from '../styles/MapContainerStyle';
-import {ALL_LOCATIONS_QUERY} from '../LocationsMapView';
+import CreateLocationMapStyle from './CreateLocation/MapContainerStyle';
+import {ALL_LOCATIONS_QUERY} from './LocationsListView';
 import DropMarker from './DropMarker/DropMarker';
 
 import useForm from '../hooks/useForm';

@@ -23,6 +23,7 @@ export default class CityPin extends PureComponent {
         onClick={onClick}
       >
         <path d={ICON}/>
+      
       </svg>
     );
   }

@@ -6,6 +6,7 @@ import gql from 'graphql-tag';
 import {perPage} from '../../config';
 import {useQuery} from 'react-apollo-hooks';
 import {UserContext} from '../Layout/DashboardLayout';
+import Loading from '../LoadingSpinner';
 
 export const ALL_LOCATIONS_QUERY = gql `
         query ALL_LOCATIONS_QUERY($skip: Int = 0, $first: Int = ${perPage}, $userId: ID) {
@@ -28,7 +29,7 @@ const LocationsListViewStyle = styled.div `
     display: block;
     max-width: ${props => props.theme.maxWidth};
     padding-left: 32px;
-    padding-right: 16px;
+    padding-right: 32px;
 `;
 
 const LocationListView = (props) => {
@@ -38,14 +39,17 @@ const LocationListView = (props) => {
 
     console.log(locations);
 
+    if(loading) {
+        return <Loading />
+    }
+
     return (
         <LocationsListViewStyle>
             <>
-            {<Pagination page={props.page}/>}
             { locations.map((location) => <Location location={location} key={location.id}/>)
             }
 
-        {locations.length > 1 ? <Pagination page={props.page}/> : null }
+        {<Pagination page={props.page}/>}
             </> 
         </LocationsListViewStyle>
     );

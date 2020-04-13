@@ -2,15 +2,15 @@ import React, {useState, useEffect, useRef} from 'react';
 import {Mutation} from 'react-apollo';
 import gql from 'graphql-tag';
 import Router from 'next/router';
-import CreateLocationForm from '../LocationForm';
+import CreateLocationForm from '../../LocationForm';
 
-import MapGL from '../MapGL';
-import CreateLocationMapStyle from '../styles/MapContainerStyle';
-import DropMarker from './DropMarker/DropMarker';
+import MapGL from '../../MapGL';
+import CreateLocationMapStyle from './MapContainerStyle';
+import DropMarker from '../DropMarker/DropMarker';
 
-import useForm from '../hooks/useForm';
-import useMapMarker from '../hooks/useMapMarker';
-import {CURRENT_USER_QUERY} from '../hooks/useUser';
+import useForm from '../../hooks/useForm';
+import useMapMarker from '../../hooks/useMapMarker';
+import {CURRENT_USER_QUERY} from '../../hooks/useUser';
 
 const CREATE_LOCATION_MUTATION = gql `
     mutation CREATE_LOCATION_MUTATION(
@@ -83,6 +83,7 @@ function CreateLocation() {
 
     return (
         <CreateLocationMapStyle>
+            
             <MapGL
                 viewport={{
                 ...viewport
@@ -94,6 +95,7 @@ function CreateLocation() {
                     onMarkerDrag={onMarkerDrag}
                     onMarkerDragEnd={onMarkerDragEnd}/>}
             </MapGL>
+            <h3>Click on map to drop a pin</h3>
             <Mutation mutation={CREATE_LOCATION_MUTATION} variables={form} refetchQueries={[{ query: CURRENT_USER_QUERY}]}>
                 {(createLocation, {loading, error}) => (<CreateLocationForm
                     form={form}

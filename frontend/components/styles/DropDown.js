@@ -14,6 +14,7 @@ const DropDownItem = styled.div`
   transition: all 0.2s;
   ${props => (props.highlighted ? 'padding-left: 2rem;' : null)};
   display: flex;
+  font-family: ${props => props.theme.fontFamily};
   align-items: center;
   border-left: 10px solid ${props => (props.highlighted ? props.theme.lightgrey : 'white')};
   img {
@@ -37,7 +38,7 @@ const SearchStyles = styled.div`
     width: 100%;
     padding: 10px;
     border: 0;
-    font-size: 2rem;
+    font-size: 16px
     &.loading {
       animation: ${glow} 0.5s ease-in-out infinite alternate;
     }

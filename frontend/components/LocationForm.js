@@ -12,18 +12,19 @@ function LocationForm(props) {
 
         return <Form fixed={true}
                     onSubmit={onSubmit}>
+                        <h2>{ EditMode ? 'Update Location' : 'Add Location'}</h2>
                     <Error error={error}/>
                     <fieldset disabled={loading} hasgrid={"true"} aria-busy={loading}>
                         <div className="fieldset_wrapper">
                             <div className="wrapper">
                                 <label htmlFor="city">
-                                    City
+                                    City/Town
                                 </label>
                                 <input
                                     type="text"
                                     id="city"
                                     name="city"
-                                    placeholder="City"
+                                    placeholder="City or Town"
                                     required
                                     defaultValue={defaultValue.city}
                                     onChange={handleChange}/>
@@ -42,7 +43,7 @@ function LocationForm(props) {
                                     />
                             </div>
                            
-                            <div className="wrapper">
+                            <div className="geowrapper">
                                 <label htmlFor="latitude">
                                     Latitude:
                                 </label>
@@ -54,9 +55,9 @@ function LocationForm(props) {
                                     readOnly
                                     value={marker.latitude && parseFloat(marker.latitude).toFixed(4)}
                                     />
+                                 </div>
 
-                            </div>
-                            <div className="wrapper">
+                                 <div className="geowrapper">
                                 <label htmlFor="longitude">
                                     Longitude:
                                 </label>
@@ -69,7 +70,8 @@ function LocationForm(props) {
                                     readOnly
                                     value={marker.longitude && parseFloat(marker.longitude).toFixed(4)}
                                     />
-                            </div>
+                           </div>
+                           
                             <div className="wrapper">
                                 <label htmlFor="description">
                                     Description
@@ -78,7 +80,7 @@ function LocationForm(props) {
                                     type="number"
                                     id="description"
                                     name="description"
-                                    placeholder="Enter a description"
+                                    placeholder="More Information about this place"
                                     required
                                     defaultValue={defaultValue.description}
                                     onChange={handleChange}/>

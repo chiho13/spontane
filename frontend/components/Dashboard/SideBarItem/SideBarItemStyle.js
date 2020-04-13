@@ -5,6 +5,7 @@ const SideBarItemStyle = styled.li`
     white-space: nowrap;
     min-width: 100%;
     max-width: 100%;
+    font-family: ${props => props.theme.fontFamily};
 
     a {
         display: flex;

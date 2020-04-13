@@ -18,7 +18,6 @@ const Form = styled.form`
   padding: 20px;
   font-size: 1rem;
   line-height: 1.5;
-  font-weight: 600;
   margin: 0 auto;
   max-width: 1000px;
   border-radius: 16px;
@@ -27,6 +26,8 @@ const Form = styled.form`
   left: 0;
   width: 100%;
   z-index: 20;
+
+}
 
   @media (min-width: 700px) {
     width: ${props => props.width || '40%'};
@@ -50,22 +51,40 @@ const Form = styled.form`
 
   h2 {
     padding: 0;
-    text-align: center;
+    text-align: left;
     font-size: 1.3rem;
+    font-family: ${props => props.theme.boldFont};
   }
 
   label {
     display: block;
-    margin-top: 1rem;
-    margin-bottom: 0.5rem;
-    font-family: 'Roboto';
-    font-size: 0.9rem;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-family: ${props => props.theme.boldFont};
+    font-size: 16px;
 
     .required {
       position: relative;
       left: 2px;
       color: ${props => props.theme.red}
     }
+  }
+
+
+  .geowrapper {
+    display: flex;
+    margin-top: 20px;
+
+    label {
+      display: flex;
+      margin: 0;
+      align-items: center;
+    }
+
+    input {
+      margin-left: 10px
+    }
+
   }
 
   .help {
@@ -86,7 +105,7 @@ const Form = styled.form`
   input,
   textarea,
   select {
-    font-family: 'Roboto';
+    font-family: ${props => props.theme.fontFamily};
     width: 100%;
     padding: 10px;
     font-size: 16px;
@@ -119,6 +138,7 @@ const Form = styled.form`
 
   textarea {
     resize: none;
+    height: 100px
   }
   button,
   input[type='submit'] {

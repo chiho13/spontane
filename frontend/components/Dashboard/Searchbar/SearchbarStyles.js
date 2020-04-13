@@ -10,10 +10,11 @@ const DropDown = styled.div`
 const DropDownItem = styled.div`
   border-bottom: 1px solid ${props => props.theme.lightgrey};
   background: ${props => (props.highlighted ? '#f7f7f7' : 'white')};
-  font-size: 12px;
+  font-size: 14px;
+  font-family: ${props => props.highlighted ? props.theme.boldFont   : props.theme.fontFamily};
   padding: 10px;
   transition: all 0.2s;
-  ${props => (props.highlighted ? 'padding-left: 2rem;' : null)};
+  ${props => (props.highlighted ? 'padding-left: 16px;' : null)};
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -45,11 +46,18 @@ const SearchStyles = styled.div`
     &.loading {
       animation: ${glow} 0.5s ease-in-out infinite alternate;
     }
+
+    font-family: ${props => props.theme.fontFamily};
   }
 
   .material-icons {
       position: absolute;
       padding: 8px;
+      left: 0;
+  }
+
+  input:focus + .material-icons {
+    color: ${props => props.theme.brandColor}
   }
 `;
 

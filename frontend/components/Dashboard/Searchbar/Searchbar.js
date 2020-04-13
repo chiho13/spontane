@@ -45,7 +45,9 @@ const AutoComplete = () => {
       },
     });
 
-      flyViewPort(location);
+      Router.onRouteChangeComplete = () => {
+        flyViewPort(location);
+      };
 
   };
 
@@ -56,12 +58,11 @@ const AutoComplete = () => {
     
     return (
       <SearchStyles>
-          <MaterialIcon icon="search" />
         <Downshift onChange={routeToLocation} itemToString={item => (item === null ? '' : item.city)}>
           {({ getInputProps, getItemProps, isOpen, inputValue, highlightedIndex }) => (
             <div>
               <ApolloConsumer>
-                {client => (
+                {client => (<>
                   <input
                     {...getInputProps({
                       type: 'search',
@@ -74,6 +75,8 @@ const AutoComplete = () => {
                       },
                     })}
                   />
+                        <MaterialIcon icon="search" />
+                  </>
                 )}
               </ApolloConsumer>
               {isOpen && (

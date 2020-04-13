@@ -4,24 +4,26 @@ const PaginationStyles = styled.div`
   text-align: center;
   display: flex;
   align-items: stretch;
-  justify-content: flex-end;
+  justify-content: center;
   align-content: center;
-  margin: 30px 0;
+  margin: 24px 0;
   margin-left: -10px;
+  font-family: ${props => props.theme.boldFont}; 
 
   .prev, .next {
     margin-left: 10px;
     margin-right: 10px;
-    border: 2px solid ${props => props.theme.grey};
+    border: 2px solid ${props => props.theme.brandColor};
     transition: background 0.3s ease;
+    border-radius: 6px;
 
     i {
-      color: ${props => props.theme.grey};
+      color: ${props => props.theme.brandColor};
     }
 
     &:hover {
       color: #fff;
-      background-color: ${props => props.theme.grey};
+      background-color: ${props => props.theme.brandColor};
 
       i {
         color: #fff;
@@ -40,7 +42,7 @@ const PaginationStyles = styled.div`
   }
 
   .totalLocations {
-    margin-right: 10px;  
+    margin-right: 10px; 
   }
 
   a {

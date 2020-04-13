@@ -9,6 +9,8 @@ import MaterialIcon from '@material/react-material-icon';
 import {UserContext} from '../../Layout/DashboardLayout';
 import {useQuery} from 'react-apollo-hooks';
 
+import styled from 'styled-components';
+
 export const PAGINATION_QUERY = gql `
     query PAGINATION_QUERY($userId: ID!) {
         locationsConnection(where: { user: {
@@ -21,10 +23,14 @@ export const PAGINATION_QUERY = gql `
     }
 `;
 
+const Lazyloader = styled.div`
+    display: block;
+    height: 64px;
+`;
+
 function Pagination(props) {
     const {user} = useContext(UserContext)
 
-    console.log(user);
     const {data, loading, called} = useQuery(PAGINATION_QUERY, {
         variables: {
             userId: user && user.id
@@ -32,21 +38,21 @@ function Pagination(props) {
     });
 
     if (loading) 
-        return <div></div>
+        return <Lazyloader></Lazyloader>
 
-    const count = data.locationsConnection.aggregate.count;
+    const count = user && data.locationsConnection.aggregate.count;
     const pages = Math.ceil(count / perPage);
     const page = props.page;
     
 
     return <PaginationStyle>
-        <Head>
+        <Head>  
             <title>
                 Spontane | Page {page}
                 of {pages}
             </title>
         </Head>
-        <p className="totalLocations">{count} Location{count > 1 && 's'}</p>
+        {count && <p className="totalLocations">{count} Location{count > 1 && 's'}</p>}
 
         {pages > 1 && <>
             <Link

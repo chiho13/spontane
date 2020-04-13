@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 
 const iButton = styled(Button)`
+
   && { 
   display: block;
   background: ${props => props.theme.white};
@@ -15,7 +16,7 @@ const iButton = styled(Button)`
   text-transform: none;
   width: ${props => props.width || '100%'};
   justify-content: center;
-  font-family: 'Roboto';
+  font-family: ${props => props.theme.fontFamily};
   line-height: 1.5;
   box-shadow: 0 1px 5px 1px rgba(100, 105, 135, .3);
   transition: all 0.4s ease;
@@ -36,6 +37,7 @@ const iButton = styled(Button)`
     justify-content: center;
     white-space: nowrap;
     text-overflow: ellipsis;
+    font-family: ${props => props.theme.boldFont};
   }
   }
 `;

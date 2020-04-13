@@ -11,7 +11,9 @@ export const theme = {
     lightgrey: '#E1E1E1',
     maxWidth: '100%',
     hoverColor: '#f1f1f1',
-    bs: '0 12px 24px 0 rgba(0, 0, 0, 0.09)'
+    bs: '0 12px 24px 0 rgba(0, 0, 0, 0.09)',
+    fontFamily: 'nunito, sans-serif',
+    boldFont: 'nunito-bold, sans-serif',
 };
 
 
@@ -25,9 +27,16 @@ const Inner = styled.div `
 
 injectGlobal `
 @font-face {
-    font-family: 'radnika_next';
-    src: url('/static/radnikanext-medium-webfont.woff2') format('woff2');
+    font-family: 'nunito';
+    src: url('/static/nunito.woff2') format('woff2');
     font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'nunito-bold';
+    src: url('/static/nunito-bold.woff2') format('woff2');
+    font-weight: bold;
     font-style: normal;
 }
 
@@ -43,9 +52,8 @@ html {
 body {
     padding: 0;
     margin: 0;
-    font-size: 1rem;
+    font-size: 16px;
     line-height: 2;
-    font-family: 'radnika_next';
     background: #f7f7f7;
 }
 

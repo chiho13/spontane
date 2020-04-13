@@ -46,8 +46,9 @@ const TabsStyle = styled.div`
     cursor: pointer;
     border-radius: 8px;
     font-size: 14px;
-    font-family: 'Roboto';
+    font-family: ${props => props.theme.fontFamily};
     font-weight: bold;
+    text-transform: capitalize;
     background-color: white;
     border: 2px solid rgba(100, 105, 135, .3);
     transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);

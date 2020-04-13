@@ -6,11 +6,20 @@ import Head from 'next/head';
 import styled from 'styled-components';
 
 const MapViewStyle = styled.div`
+
+margin: 32px;
+
 .map-container {
     position: relative;
     width: 100%;
-    height: calc(100vh - 140px)
-}`;
+    height: calc(100vh - 190px)
+}
+
+.mapboxgl-map {
+  border-radius: 16px;
+}
+
+`;
 
 const Locations = props => (
   <DashboardLayout id={props.query.id}>

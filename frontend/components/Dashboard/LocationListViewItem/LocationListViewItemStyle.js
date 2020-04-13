@@ -11,6 +11,7 @@ const LocationListViewItemStyle = styled(LocationItem)`
         margin-top: 2px;
         box-shadow: none;
         border-radius: 0;
+        align-items: center;
 
         &:first-child {
             border-top-left-radius: 4px;
@@ -18,7 +19,7 @@ const LocationListViewItemStyle = styled(LocationItem)`
         }
 
         h3 {
-            font-family: Helvetica;
+            font-family: ${props => props.theme.boldFont};
         }
 
         .location_content {
@@ -28,6 +29,7 @@ const LocationListViewItemStyle = styled(LocationItem)`
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
+                font-family: ${props => props.theme.fontFamily};
             }
         }
 

@@ -35,14 +35,13 @@ const Item = styled.div`
   }
   @media (min-width: 700px) {
     display: flex;
-    width: 50%;
+    width: 45%;
     bottom: initial;
     top: 30%;
     left: initial;
-    right: 20px;
+    right: 64px;
     max-height: 350px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
+    border-radius: 10px;
     border: none;
     animation: 0.6s ${props => props.isOpened ? fadeInRightAnimation : fadeOutRightAnimation};
   }
@@ -53,15 +52,16 @@ const Item = styled.div`
   }
 
   h3 {
-    margin-top: 3rem;
-    margin-bottom: 2rem;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    font-family: ${props => props.theme.boldFont};
   }
   p {
     line-height: 2;
     font-weight: 300;
     flex-grow: 1;
     font-size: 16px;
-    font-family: Helvetica
+    font-family: ${props => props.theme.fontFamily};
   }
 
   .dragNib {

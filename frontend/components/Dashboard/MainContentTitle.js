@@ -5,6 +5,9 @@ import styled from 'styled-components';
 const TitleStyle = styled.div`
     h2 {
         padding-left: 32px;
+        margin-top: 0;
+        padding-top: 16px;
+         font-family: ${props => props.theme.boldFont};
     }
 `;
 

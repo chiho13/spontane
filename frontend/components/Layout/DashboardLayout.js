@@ -14,6 +14,7 @@ import {ViewPortProvider } from '../providers/MapProvider';
 const MainContent = styled.div `
   display: flex;
   position: relative;
+
 @media (min-width: 700px) {
   margin-left: 172px;
   height: 100vh;
@@ -32,7 +33,7 @@ const MainContent = styled.div `
 const DashboardNav = styled.div `
     position: fixed;
     top: 16px;
-    right: 16px;
+    right: 32px;
     z-index: 1000;
     display: grid;
     grid-auto-flow: column;
