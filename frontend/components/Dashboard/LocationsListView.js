@@ -37,8 +37,6 @@ const LocationListView = (props) => {
 
     const locations = data && data.locations.slice((props.page - 1) * perPage, props.page * perPage);
 
-    console.log(locations);
-
     if(loading) {
         return <Loading />
     }

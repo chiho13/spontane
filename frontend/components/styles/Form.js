@@ -26,15 +26,15 @@ const Form = styled.form`
   left: 0;
   width: 100%;
   z-index: 20;
-
 }
 
   @media (min-width: 700px) {
     width: ${props => props.width || '40%'};
     bottom: initial;
-    top: ${props => props.top || '150px'};
+    top: ${props => props.top || '100px'};
     left: initial;
     right: ${props => props.right || '20px'};
+    border: 2px solid ${props => props.theme.lightgrey};
   }
 
   .fieldset_wrapper {

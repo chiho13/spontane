@@ -6,7 +6,7 @@ const fadeOutRightAnimation = keyframes`${fadeOutRight}`;
 const fadeInUpAnimation = keyframes`${fadeInUp}`;
 const fadeInDownAnimation = keyframes`${fadeOutDown}`;
 const Item = styled.div`
-  background: ${props => props.isExpanded ? 'rgba(255, 255, 255, 0.9)' : 'rgba(255, 255, 255, 0.7)'};
+  background: ${props => props.isExpanded ? 'rgba(255, 255, 255, 0.9)' : 'rgba(255, 255, 255, 0.8)'};
   border: 1px solid ${props => props.theme.lightgrey};
   box-shadow: ${props => props.theme.bs};
   position: fixed;
@@ -42,7 +42,7 @@ const Item = styled.div`
     right: 64px;
     max-height: 350px;
     border-radius: 10px;
-    border: none;
+    border: 2px solid  ${props => props.theme.lightgrey};
     animation: 0.6s ${props => props.isOpened ? fadeInRightAnimation : fadeOutRightAnimation};
   }
   img {

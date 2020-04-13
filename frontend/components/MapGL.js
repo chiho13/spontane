@@ -9,8 +9,8 @@ function Maps(props) {
     const {viewport, onViewportChange } = useViewPort(props.viewport);
 
         return (
-            <MapGL {...props} {...viewport} width="100%" height="100%" mapboxApiAccessToken={TOKEN} onViewportChange={onViewportChange} 
-            style="mapbox://styles/mapbox/streets-v8"
+            <MapGL mapStyle="mapbox://styles/anthonyhodesu/ck0y2dle1013q1cpk194xrvtu"  {...props} {...viewport} width="100%" height="100%" mapboxApiAccessToken={TOKEN} onViewportChange={onViewportChange} 
+           
             >
             {props.children}
         </MapGL>

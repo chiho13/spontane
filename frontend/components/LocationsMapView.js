@@ -159,6 +159,7 @@ function AllLocations(props) {
     return (
         <div className="map-container">
             <MapGL
+             mapStyle="mapbox://styles/anthonyhodesu/ck0y2dle1013q1cpk194xrvtu"
                 { ...viewport }
                 width="100%"
                 height="100%"
