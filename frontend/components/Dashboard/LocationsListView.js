@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useEffect, useContext} from 'react';
 import styled from 'styled-components';
 import Location from './LocationListViewItem/LocationListViewItem';
 import Pagination from './Pagination/Pagination';
@@ -7,6 +7,7 @@ import {perPage} from '../../config';
 import {useQuery} from 'react-apollo-hooks';
 import {UserContext} from '../Layout/DashboardLayout';
 import Loading from '../LoadingSpinner';
+import Router from 'next/router';
 
 export const ALL_LOCATIONS_QUERY = gql `
         query ALL_LOCATIONS_QUERY($skip: Int = 0, $first: Int = ${perPage}, $userId: ID) {
@@ -33,9 +34,13 @@ const LocationsListViewStyle = styled.div `
 `;
 
 const LocationListView = (props) => {
-    const {user: data, loading} = useContext(UserContext)
+    const {user: data, loading, refetch} = useContext(UserContext)
 
     const locations = data && data.locations.slice((props.page - 1) * perPage, props.page * perPage);
+    
+   useEffect(() => {
+    refetch();
+   }, [])
 
     if(loading) {
         return <Loading />

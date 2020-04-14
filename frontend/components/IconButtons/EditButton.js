@@ -12,7 +12,8 @@ const EditButton = (props) => {
     const {pathname, id, latitude, longitude} = props;
     return (
         <ThemeProvider theme={theme}>
-            <Link
+                <IconButtonStyle>
+                <Link
                 href={{
                 pathname: pathname,
                 query: {
@@ -21,13 +22,12 @@ const EditButton = (props) => {
                     longitude
                 }
             }}>
-
-                <IconButtonStyle>
                     <a>
                         <MaterialIcon icon="edit" className="materialIcon"/>
                     </a>
+                    </Link>
                 </IconButtonStyle>
-            </Link>
+         
         </ThemeProvider>
     )
 };

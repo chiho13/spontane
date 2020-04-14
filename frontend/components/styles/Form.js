@@ -34,7 +34,6 @@ const Form = styled.form`
     top: ${props => props.top || '100px'};
     left: initial;
     right: ${props => props.right || '20px'};
-    border: 2px solid ${props => props.theme.lightgrey};
   }
 
   .fieldset_wrapper {

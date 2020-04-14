@@ -5,12 +5,18 @@ import Error from './ErrorMessage';
 import {ThemeProvider} from 'styled-components';
 import Button from './UIKIT/iButton';
 import {invertTheme} from './Login';
-  
+import styled from 'styled-components';
+
+export const LocationFormStyle = styled(Form)`
+display: block;
+border: 2px solid ${props => props.theme.lightgrey};
+`;
+
 function LocationForm(props) {
     const {form, mode, defaultValue, marker, handleChange, loading, error, onSubmit} = props;
     const EditMode = mode === 'EDIT';
 
-        return <Form fixed={true}
+        return <LocationFormStyle fixed={true}
                     onSubmit={onSubmit}>
                         <h2>{ EditMode ? 'Update Location' : 'Add Location'}</h2>
                     <Error error={error}/>
@@ -94,7 +100,7 @@ function LocationForm(props) {
                         </ThemeProvider>
                        
                     </fieldset>
-                </Form>
+                </LocationFormStyle>
 }
 
 LocationForm.defaultProps = {

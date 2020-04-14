@@ -17,6 +17,7 @@ margin: 32px;
 
 .mapboxgl-map {
   border-radius: 16px;
+  box-shadow: 0 1px 5px 1px rgba(100,105,135,.3);
 }
 
 `;

@@ -48,7 +48,7 @@ const DashboardLayout = props => {
             me: user
         },
         loading,
-        called
+        called, refetch
     } = useUser();
     const [pageLoad,
         setPageLoad] = useState(false);
@@ -84,7 +84,7 @@ const DashboardLayout = props => {
         value={{
         user,
         loading,
-        called
+        called, refetch
     }}>
         <ViewPortProvider id={props.id}>
 

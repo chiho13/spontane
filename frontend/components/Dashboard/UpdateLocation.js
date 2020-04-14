@@ -1,8 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Mutation, Query} from 'react-apollo';
-import CreateLocationForm from '../LocationForm';
 import gql from 'graphql-tag';
-import Router from 'next/router';
 
 import UpdateLocationForm from '../LocationForm';
 import MapGL from '../MapGL';
@@ -13,8 +11,12 @@ import DropMarker from './DropMarker/DropMarker';
 import useForm from '../hooks/useForm';
 import useMapMarker from '../hooks/useMapMarker';
 import useViewport from '../hooks/useViewPort';
-
 import {useQuery} from 'react-apollo-hooks';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { css } from 'glamor';
+
+toast.configure()
 
 const SINGLE_LOCATION_QUERY = gql `
     query SINGLE_LOCATION_QUERY($id: ID!) {
@@ -94,10 +96,16 @@ function UpdateLocation(props) {
             longitude: marker.longitude
         });
     });
+    
+    const notify = () => toast.info("Location updated successfully!", {
+        position: toast.POSITION.BOTTOM_CENTER,
+        closeButton: false,
+        className: css({ fontFamily: "nunito, sans-serif" })
+    });
 
     async function updateForm(e, updateLocationMutation) {
         e.preventDefault();
-
+     
         const res = await updateLocationMutation({
             variables: {
                 id: props.id,
@@ -107,8 +115,10 @@ function UpdateLocation(props) {
 
         if(res) {
             console.log(res);
+            notify();
         }
     }
+
 
     if(loading) {
         return <div></div>
@@ -116,7 +126,7 @@ function UpdateLocation(props) {
 
     return (
         <CreateLocationMapStyle>
-                        <>
+                        <>  
                             <MapGL
                                 viewport={{
                                 ...viewport
@@ -129,19 +139,19 @@ function UpdateLocation(props) {
                                     onMarkerDrag={onMarkerDrag}
                                     onMarkerDragEnd={onMarkerDragEnd}/>
                             </MapGL>
-
                             <Mutation mutation={UPDATE_LOCATION_MUTATION} variables={form} 
                               refetchQueries={[
                                 {query: ALL_LOCATIONS_QUERY}
                             ]}
                             >
-                                {(updateLocation, {loading, error}) => (<UpdateLocationForm
+                                {(updateLocation, {loading, error}) => (<><UpdateLocationForm
                                     defaultValue={data.location}
                                     marker={marker} 
                                     handleChange={handleChange}
                                     loading={loading}
                                     onSubmit={e => updateForm(e, updateLocation)}
-                                    error={error}/>)}
+                                    error={error}/>
+                                    </>)}
                             </Mutation>
                         </>
         </CreateLocationMapStyle>
