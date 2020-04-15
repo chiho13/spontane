@@ -34,7 +34,11 @@ const LocationsListViewStyle = styled.div `
 `;
 
 const LocationListView = (props) => {
-    const {user: data, loading, refetch} = useContext(UserContext)
+    const {user: data, loading, refetch} = useContext(UserContext);
+
+    if(loading) {
+        return <Loading />
+    }
 
     const locations = data && data.locations.slice((props.page - 1) * perPage, props.page * perPage);
     
@@ -42,17 +46,15 @@ const LocationListView = (props) => {
     refetch();
    }, [])
 
-    if(loading) {
-        return <Loading />
-    }
+ 
 
     return (
         <LocationsListViewStyle>
             <>
-            { locations.map((location) => <Location location={location} key={location.id}/>)
+            { data && locations.map((location) => <Location location={location} key={location.id}/>)
             }
 
-        {<Pagination page={props.page}/>}
+        {data && locations.length > perPage && <Pagination page={props.page}/>}
             </> 
         </LocationsListViewStyle>
     );

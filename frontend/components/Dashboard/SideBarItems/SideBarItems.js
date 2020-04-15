@@ -2,7 +2,13 @@ import React, { Component } from 'react';
 import SideBarItemsStyle from './SideBarItemsStyle';
 import SideBarItem from '../SideBarItem/SideBarItem';
 
-const sideBarItems = [ {
+const sideBarItems = [ 
+    {
+        title: "Projects",
+        icon: "folder_open",
+        link: "/admin/projects"
+    },
+    {
     title: "My Locations",
     icon: "list",
     link: "/admin/locations/list"

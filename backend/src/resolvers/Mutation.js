@@ -103,8 +103,8 @@ const Mutations = {
         return {message: 'Cheers'};
     },
 
-    resetPassword(parent, args, ctx, info) {
-       const updatedUser = Auth.resetPassword(parent, args, ctx, info);
+    async resetPassword(parent, args, ctx, info) {
+       const updatedUser = await Auth.resetPassword(parent, args, ctx, info);
        return updatedUser;
     }
 };

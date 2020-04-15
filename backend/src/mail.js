@@ -10,7 +10,7 @@ const transport = nodemailer.createTransport({
 });
 
 const niceEmail = text => `
-    <div class="email" style="
+    <div className="email" style="
         border: 1px solid black;
         padding: 20px;
         font-family: 'Roboto';
