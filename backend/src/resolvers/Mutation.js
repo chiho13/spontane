@@ -15,7 +15,6 @@ const Mutations = {
 
         return geolocation;
     },
-
     async createLocation(parent, args, ctx, info) {
 
         const location = await ctx.db.mutation.createLocation({
@@ -31,6 +30,23 @@ const Mutations = {
         }, info);
 
         return location;
+    },
+
+    async createProject(parent, args, ctx, info) {
+
+        const project = await ctx.db.mutation.createProject({
+            data: {
+                  //this is how to create a relationship between Location and the user
+                  user: {
+                    connect: {
+                        id: ctx.request.userId
+                    }
+                },
+                ...args
+            }
+        }, info);
+
+        return project;
     },
 
     async updateLocation(parent, args, ctx, info) {

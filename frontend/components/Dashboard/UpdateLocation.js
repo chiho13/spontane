@@ -16,7 +16,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { css } from 'glamor';
 
-toast.configure()
+toast.configure();
 
 const SINGLE_LOCATION_QUERY = gql `
     query SINGLE_LOCATION_QUERY($id: ID!) {

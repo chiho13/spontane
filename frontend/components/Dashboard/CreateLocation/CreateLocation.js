@@ -11,6 +11,11 @@ import DropMarker from '../DropMarker/DropMarker';
 import useForm from '../../hooks/useForm';
 import useMapMarker from '../../hooks/useMapMarker';
 import {CURRENT_USER_QUERY} from '../../hooks/useUser';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { css } from 'glamor';
+
+toast.configure();
 
 const CREATE_LOCATION_MUTATION = gql `
     mutation CREATE_LOCATION_MUTATION(
@@ -67,9 +72,17 @@ function CreateLocation() {
         });
     }, [marker]);
 
+    const notify = () => toast.success("Location created!", {
+        position: toast.POSITION.BOTTOM_CENTER,
+        closeButton: false,
+        className: css({ fontFamily: "nunito, sans-serif" })
+    });
+
     async function onSubmit(e, createLocation) {
         e.preventDefault();
         const res = await createLocation();
+
+        notify();
         Router.push({
             pathname: '/admin/locations/map',
             query: {

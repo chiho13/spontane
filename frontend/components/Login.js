@@ -137,7 +137,7 @@ function Login(props) {
         }   else {
             setEnableButton(true)
         }
-    });
+    },[form]);
 
     return (showLoading ? <Loading theme={loadingBrandTheme} /> : <LoginStyles>
           <Head>

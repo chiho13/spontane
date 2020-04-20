@@ -102,7 +102,7 @@ function AllLocations(props) {
     function _locationPathName(location) {
         let locationDetailBool = (locationDetail || singleLocation) && location.id === props.id;
         let pathNameLocation = {
-            pathname: props.pathname,
+            pathname: props.pathname || 'map',
             query: {
                 view: 'Map',
                 id: location.id,
@@ -112,7 +112,7 @@ function AllLocations(props) {
         };
 
         let pathNameRoot = {
-            pathname: props.pathname,
+            pathname: props.pathname || 'map',
             query: {
                 view: 'Map'
             }
@@ -145,7 +145,7 @@ function AllLocations(props) {
             key={locationDetailBool.id}
             closeLocation={closeLocationDetail}
             isOpened={isOpened}
-            pathname={props.pathname}
+            pathname={props.pathname || 'map'}
             editButton={props.editButton}/>)
     }
 

@@ -18,6 +18,20 @@ const CURRENT_USER_QUERY = gql `
                 }
                  description
             }
+            projects {
+                id
+                title
+                locations {
+                    id
+                country
+                city
+                geoLocation {
+                    latitude
+                    longitude
+                }
+                 description
+                }
+            }
         }
     }
 `;
