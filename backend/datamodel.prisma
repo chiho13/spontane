@@ -35,14 +35,14 @@ type Location {
   description: String
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
+  project: Project! @relation(name: "ProjectLocation")
   user: User! @relation(name: "UsersLocation")
 }
-
 
 type Project {
   id: ID! @id
   title: String!
-  locations: [Location]
+  locations: [Location] @relation(name: "ProjectLocation")
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
   user: User! @relation(name: "UsersProject")

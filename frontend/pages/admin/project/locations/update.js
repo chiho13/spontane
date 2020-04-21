@@ -1,5 +1,5 @@
-import UpdateLocation from '../../../components/Dashboard/UpdateLocation';
-import DashboardLayout from '../../../components/Layout/DashboardLayout';
+import UpdateLocation from '../../../../components/Dashboard/UpdateLocation';
+import DashboardLayout from '../../../../components/Layout/DashboardLayout';
 import Head from 'next/head';
 
 const Update = props => (

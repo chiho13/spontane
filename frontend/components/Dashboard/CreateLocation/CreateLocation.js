@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useContext} from 'react';
 import {Mutation} from 'react-apollo';
 import gql from 'graphql-tag';
 import Router from 'next/router';
@@ -14,6 +14,8 @@ import {CURRENT_USER_QUERY} from '../../hooks/useUser';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { css } from 'glamor';
+
+import {UserContext} from '../../Layout/DashboardLayout';
 
 toast.configure();
 
@@ -44,7 +46,8 @@ const CREATE_LOCATION_MUTATION = gql `
 function CreateLocation() {
     const [viewport,
         setViewport] = useState({height: '100vh', width: '100vw', latitude: 52.85, longitude: 34.9, zoom: 3});
-
+    
+    const {projectId} = useContext(UserContext);
     const [form,
         setForm,
         handleChange] = useForm({

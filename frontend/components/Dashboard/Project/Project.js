@@ -3,12 +3,14 @@ import styled from 'styled-components';
 import MaterialIcon from '@material/react-material-icon';
 import Button from '../../UIKIT/iButton';
 import NewProject from '../NewProject/NewProject';
-import {UserContext} from '../../Layout/DashboardLayout';
+import {UserContext} from '../../Layout/ProjectsLayout';
 import LoadingSpinner from '../../LoadingSpinner';
+import Router from "next/router";
 
 const ProjectStyle = styled.div`
 
     padding-left: 32px;
+    display: flex;
     h4 {
         font-family: ${props => props.theme.fontFamily};
     }
@@ -18,7 +20,8 @@ const ProjectStyle = styled.div`
 const AddProject = styled(Button)`
     && {
         width: auto;
-        height: auto;
+        height:140px;
+        min-width:140px;
         padding: 32px;
         margin-top: 32px;
     }
@@ -30,6 +33,7 @@ const ProjectButtons = styled(AddProject)`
         height: auto;
         padding: 32px;
         margin-top: 32px;
+        margin-left: 32px;
         background-color: ${props => props.theme.lightgrey};
     }
 `;
@@ -48,6 +52,12 @@ const Project = () => {
         setOpen(false);
       };
 
+      const goToProject = (projectId) => {
+        Router.push({
+            pathname: `/admin/project/${projectId}`,
+        });
+      }
+
       if(loading) {
           return <LoadingSpinner />
       }
@@ -55,10 +65,10 @@ const Project = () => {
     return <ProjectStyle>
             <AddProject disableRipple onClick={handleClickOpen}>
                 <MaterialIcon icon="add" />
-                <p>Add Project</p>
+                <p>Create Project</p>
             </AddProject>
             {projectData && projectData.projects.map(project => {
-                return <ProjectButtons>
+                return <ProjectButtons onClick={() => goToProject(project.id)}>
                           <p>{project.title}</p>
                 </ProjectButtons>
             }

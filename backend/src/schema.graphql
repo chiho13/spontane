@@ -1,6 +1,5 @@
 # source: http://localhost:4444
-# timestamp: Fri Apr 17 2020 14:16:22 GMT+0100 (British Summer Time)
-# import * from './generated/prisma.graphql'
+# timestamp: Tue Apr 21 2020 12:57:27 GMT+0100 (British Summer Time)
 
 type AggregateLocation {
   count: Int!
@@ -177,6 +176,19 @@ input LocationCreateInput {
 input LocationCreateManyInput {
   create: [LocationCreateInput!]
   connect: [LocationWhereUniqueInput!]
+}
+
+input LocationCreateManyWithoutUserInput {
+  create: [LocationCreateWithoutUserInput!]
+  connect: [LocationWhereUniqueInput!]
+}
+
+input LocationCreateWithoutUserInput {
+  id: ID
+  country: String!
+  city: String!
+  description: String
+  geoLocation: GeoLocationCreateOneInput!
 }
 
 """An edge in a connection."""
@@ -681,30 +693,6 @@ input LocationWhereUniqueInput {
   id: ID
 }
 
-input UserCreateOneWithoutProjectsInput {
-  create: UserCreateWithoutProjectsInput
-  connect: UserWhereUniqueInput
-}
-
-input UserCreateWithoutProjectsInput {
-  id: ID
-  name: String!
-  email: String!
-  password: String!
-  resetToken: String
-  resetTokenExpiry: String
-  permissions: UserCreatepermissionsInput
-  locations: LocationCreateManyWithoutUserInput
-}
-
-
-input ProjectCreateInput {
-  id: ID
-  title: String!
-  locations: LocationCreateManyInput
-  user: UserCreateOneWithoutProjectsInput!
-}
-
 type Mutation {
   createLocation(country: String, city: String, geoLocation: GeoLocationCreateOneInput, description: String): Location!
   updateLocation(id: ID!, country: String, city: String, geoLocation: GeoLocationUpdateOneRequiredInput, description: String): Location!
@@ -769,6 +757,24 @@ type ProjectConnection {
   aggregate: AggregateProject!
 }
 
+input ProjectCreateInput {
+  id: ID
+  title: String!
+  locations: LocationCreateManyInput
+  user: UserCreateOneWithoutProjectsInput!
+}
+
+input ProjectCreateManyWithoutUserInput {
+  create: [ProjectCreateWithoutUserInput!]
+  connect: [ProjectWhereUniqueInput!]
+}
+
+input ProjectCreateOneWithoutLocationsInput {
+  create: ProjectCreateWithoutLocationsInput
+  connect: ProjectWhereUniqueInput
+}
+
+
 """An edge in a connection."""
 type ProjectEdge {
   """The item at the end of the edge."""
@@ -788,7 +794,6 @@ enum ProjectOrderByInput {
   updatedAt_ASC
   updatedAt_DESC
 }
-
 
 input ProjectWhereInput {
   """Logical AND on all given filters."""
@@ -975,10 +980,28 @@ input UserCreateInput {
   resetToken: String
   resetTokenExpiry: String
   permissions: UserCreatepermissionsInput
+  locations: LocationCreateManyWithoutUserInput
+  projects: ProjectCreateManyWithoutUserInput
+}
+
+input UserCreateOneWithoutProjectsInput {
+  create: UserCreateWithoutProjectsInput
+  connect: UserWhereUniqueInput
 }
 
 input UserCreatepermissionsInput {
   set: [Permission!]
+}
+
+input UserCreateWithoutProjectsInput {
+  id: ID
+  name: String!
+  email: String!
+  password: String!
+  resetToken: String
+  resetTokenExpiry: String
+  permissions: UserCreatepermissionsInput
+  locations: LocationCreateManyWithoutUserInput
 }
 
 input UserUpdateDataInput {
@@ -1260,4 +1283,61 @@ input UserWhereInput {
 input UserWhereUniqueInput {
   id: ID
   email: String
+}
+
+input ProjectCreateOneWithoutLocationsInput {
+  create: ProjectCreateWithoutLocationsInput
+  connect: ProjectWhereUniqueInput
+}
+
+input ProjectCreateWithoutLocationsInput {
+  id: ID
+  title: String!
+  user: UserCreateOneWithoutProjectsInput!
+}
+
+input ProjectUpdateManyWithoutUserInput {
+  create: [ProjectCreateWithoutUserInput!]
+  connect: [ProjectWhereUniqueInput!]
+}
+
+
+input ProjectCreateWithoutUserInput {
+  id: ID
+  title: String!
+  locations: LocationCreateManyWithoutProjectInput
+}
+
+input LocationCreateManyWithoutProjectInput {
+  create: [LocationCreateWithoutProjectInput!]
+  connect: [LocationWhereUniqueInput!]
+}
+
+input LocationCreateWithoutProjectInput {
+  id: ID
+  country: String!
+  city: String!
+  description: String
+  geoLocation: GeoLocationCreateOneInput!
+  user: UserCreateOneWithoutLocationsInput!
+}
+
+input LocationWhereUniqueInput {
+  id: ID
+}
+
+input UserCreateOneWithoutLocationsInput {
+  create: UserCreateWithoutLocationsInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutLocationsInput {
+  id: ID
+  name: String!
+  email: String!
+  password: String!
+  resetToken: String
+  resetTokenExpiry: String
+  permissions: UserCreatepermissionsInput
+  projects: ProjectCreateManyWithoutUserInput
 }

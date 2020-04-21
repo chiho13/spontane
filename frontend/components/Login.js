@@ -129,7 +129,8 @@ function Login(props) {
             setShowLoading(true);
             Router.push({pathname: '/admin/locations'})
         }
-    });
+
+    }, me);
 
     useEffect(() => {
         if(form.email.length && form.password.length) {

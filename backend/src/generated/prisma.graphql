@@ -1,5 +1,5 @@
 # source: https://eu1.prisma.sh/anthony-ho-b91ea0/spontane/dev
-# timestamp: Sun Apr 19 2020 16:42:33 GMT+0100 (British Summer Time)
+# timestamp: Tue Apr 21 2020 12:57:28 GMT+0100 (British Summer Time)
 
 type AggregateGeoLocation {
   count: Int!
@@ -300,6 +300,7 @@ type Location implements Node {
   description: String
   createdAt: DateTime!
   updatedAt: DateTime!
+  project: Project!
   user: User!
 }
 
@@ -319,11 +320,10 @@ input LocationCreateInput {
   city: String!
   description: String
   geoLocation: GeoLocationCreateOneInput!
-  user: UserCreateOneWithoutLocationsInput!
 }
 
-input LocationCreateManyInput {
-  create: [LocationCreateInput!]
+input LocationCreateManyWithoutProjectInput {
+  create: [LocationCreateWithoutProjectInput!]
   connect: [LocationWhereUniqueInput!]
 }
 
@@ -332,12 +332,22 @@ input LocationCreateManyWithoutUserInput {
   connect: [LocationWhereUniqueInput!]
 }
 
+input LocationCreateWithoutProjectInput {
+  id: ID
+  country: String!
+  city: String!
+  description: String
+  geoLocation: GeoLocationCreateOneInput!
+  user: UserCreateOneWithoutLocationsInput!
+}
+
 input LocationCreateWithoutUserInput {
   id: ID
   country: String!
   city: String!
   description: String
   geoLocation: GeoLocationCreateOneInput!
+  project: ProjectCreateOneWithoutLocationsInput!
 }
 
 """An edge in a connection."""
@@ -627,19 +637,12 @@ input LocationSubscriptionWhereInput {
   node: LocationWhereInput
 }
 
-input LocationUpdateDataInput {
-  country: String
-  city: String
-  description: String
-  geoLocation: GeoLocationUpdateOneRequiredInput
-  user: UserUpdateOneRequiredWithoutLocationsInput
-}
-
 input LocationUpdateInput {
   country: String
   city: String
   description: String
   geoLocation: GeoLocationUpdateOneRequiredInput
+  project: ProjectUpdateOneRequiredWithoutLocationsInput
   user: UserUpdateOneRequiredWithoutLocationsInput
 }
 
@@ -649,22 +652,22 @@ input LocationUpdateManyDataInput {
   description: String
 }
 
-input LocationUpdateManyInput {
-  create: [LocationCreateInput!]
-  connect: [LocationWhereUniqueInput!]
-  set: [LocationWhereUniqueInput!]
-  disconnect: [LocationWhereUniqueInput!]
-  delete: [LocationWhereUniqueInput!]
-  update: [LocationUpdateWithWhereUniqueNestedInput!]
-  updateMany: [LocationUpdateManyWithWhereNestedInput!]
-  deleteMany: [LocationScalarWhereInput!]
-  upsert: [LocationUpsertWithWhereUniqueNestedInput!]
-}
-
 input LocationUpdateManyMutationInput {
   country: String
   city: String
   description: String
+}
+
+input LocationUpdateManyWithoutProjectInput {
+  create: [LocationCreateWithoutProjectInput!]
+  connect: [LocationWhereUniqueInput!]
+  set: [LocationWhereUniqueInput!]
+  disconnect: [LocationWhereUniqueInput!]
+  delete: [LocationWhereUniqueInput!]
+  update: [LocationUpdateWithWhereUniqueWithoutProjectInput!]
+  updateMany: [LocationUpdateManyWithWhereNestedInput!]
+  deleteMany: [LocationScalarWhereInput!]
+  upsert: [LocationUpsertWithWhereUniqueWithoutProjectInput!]
 }
 
 input LocationUpdateManyWithoutUserInput {
@@ -684,16 +687,25 @@ input LocationUpdateManyWithWhereNestedInput {
   data: LocationUpdateManyDataInput!
 }
 
+input LocationUpdateWithoutProjectDataInput {
+  country: String
+  city: String
+  description: String
+  geoLocation: GeoLocationUpdateOneRequiredInput
+  user: UserUpdateOneRequiredWithoutLocationsInput
+}
+
 input LocationUpdateWithoutUserDataInput {
   country: String
   city: String
   description: String
   geoLocation: GeoLocationUpdateOneRequiredInput
+  project: ProjectUpdateOneRequiredWithoutLocationsInput
 }
 
-input LocationUpdateWithWhereUniqueNestedInput {
+input LocationUpdateWithWhereUniqueWithoutProjectInput {
   where: LocationWhereUniqueInput!
-  data: LocationUpdateDataInput!
+  data: LocationUpdateWithoutProjectDataInput!
 }
 
 input LocationUpdateWithWhereUniqueWithoutUserInput {
@@ -701,10 +713,10 @@ input LocationUpdateWithWhereUniqueWithoutUserInput {
   data: LocationUpdateWithoutUserDataInput!
 }
 
-input LocationUpsertWithWhereUniqueNestedInput {
+input LocationUpsertWithWhereUniqueWithoutProjectInput {
   where: LocationWhereUniqueInput!
-  update: LocationUpdateDataInput!
-  create: LocationCreateInput!
+  update: LocationUpdateWithoutProjectDataInput!
+  create: LocationCreateWithoutProjectInput!
 }
 
 input LocationUpsertWithWhereUniqueWithoutUserInput {
@@ -927,6 +939,7 @@ input LocationWhereInput {
   """All values greater than or equal the given value."""
   updatedAt_gte: DateTime
   geoLocation: GeoLocationWhereInput
+  project: ProjectWhereInput
   user: UserWhereInput
 }
 
@@ -942,29 +955,29 @@ scalar Long
 
 type Mutation {
   createUser(data: UserCreateInput!): User!
+  createLocation(data: LocationCreateInput!): Location!
   createProject(data: ProjectCreateInput!): Project!
   createGeoLocation(data: GeoLocationCreateInput!): GeoLocation!
-  createLocation(data: LocationCreateInput!): Location!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  updateLocation(data: LocationUpdateInput!, where: LocationWhereUniqueInput!): Location
   updateProject(data: ProjectUpdateInput!, where: ProjectWhereUniqueInput!): Project
   updateGeoLocation(data: GeoLocationUpdateInput!, where: GeoLocationWhereUniqueInput!): GeoLocation
-  updateLocation(data: LocationUpdateInput!, where: LocationWhereUniqueInput!): Location
   deleteUser(where: UserWhereUniqueInput!): User
+  deleteLocation(where: LocationWhereUniqueInput!): Location
   deleteProject(where: ProjectWhereUniqueInput!): Project
   deleteGeoLocation(where: GeoLocationWhereUniqueInput!): GeoLocation
-  deleteLocation(where: LocationWhereUniqueInput!): Location
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  upsertLocation(where: LocationWhereUniqueInput!, create: LocationCreateInput!, update: LocationUpdateInput!): Location!
   upsertProject(where: ProjectWhereUniqueInput!, create: ProjectCreateInput!, update: ProjectUpdateInput!): Project!
   upsertGeoLocation(where: GeoLocationWhereUniqueInput!, create: GeoLocationCreateInput!, update: GeoLocationUpdateInput!): GeoLocation!
-  upsertLocation(where: LocationWhereUniqueInput!, create: LocationCreateInput!, update: LocationUpdateInput!): Location!
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
+  updateManyLocations(data: LocationUpdateManyMutationInput!, where: LocationWhereInput): BatchPayload!
   updateManyProjects(data: ProjectUpdateManyMutationInput!, where: ProjectWhereInput): BatchPayload!
   updateManyGeoLocations(data: GeoLocationUpdateManyMutationInput!, where: GeoLocationWhereInput): BatchPayload!
-  updateManyLocations(data: LocationUpdateManyMutationInput!, where: LocationWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
+  deleteManyLocations(where: LocationWhereInput): BatchPayload!
   deleteManyProjects(where: ProjectWhereInput): BatchPayload!
   deleteManyGeoLocations(where: GeoLocationWhereInput): BatchPayload!
-  deleteManyLocations(where: LocationWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -1025,7 +1038,7 @@ type ProjectConnection {
 input ProjectCreateInput {
   id: ID
   title: String!
-  locations: LocationCreateManyInput
+  locations: LocationCreateManyWithoutProjectInput
   user: UserCreateOneWithoutProjectsInput!
 }
 
@@ -1034,10 +1047,21 @@ input ProjectCreateManyWithoutUserInput {
   connect: [ProjectWhereUniqueInput!]
 }
 
+input ProjectCreateOneWithoutLocationsInput {
+  create: ProjectCreateWithoutLocationsInput
+  connect: ProjectWhereUniqueInput
+}
+
+input ProjectCreateWithoutLocationsInput {
+  id: ID
+  title: String!
+  user: UserCreateOneWithoutProjectsInput!
+}
+
 input ProjectCreateWithoutUserInput {
   id: ID
   title: String!
-  locations: LocationCreateManyInput
+  locations: LocationCreateManyWithoutProjectInput
 }
 
 """An edge in a connection."""
@@ -1243,7 +1267,7 @@ input ProjectSubscriptionWhereInput {
 
 input ProjectUpdateInput {
   title: String
-  locations: LocationUpdateManyInput
+  locations: LocationUpdateManyWithoutProjectInput
   user: UserUpdateOneRequiredWithoutProjectsInput
 }
 
@@ -1272,14 +1296,31 @@ input ProjectUpdateManyWithWhereNestedInput {
   data: ProjectUpdateManyDataInput!
 }
 
+input ProjectUpdateOneRequiredWithoutLocationsInput {
+  create: ProjectCreateWithoutLocationsInput
+  connect: ProjectWhereUniqueInput
+  update: ProjectUpdateWithoutLocationsDataInput
+  upsert: ProjectUpsertWithoutLocationsInput
+}
+
+input ProjectUpdateWithoutLocationsDataInput {
+  title: String
+  user: UserUpdateOneRequiredWithoutProjectsInput
+}
+
 input ProjectUpdateWithoutUserDataInput {
   title: String
-  locations: LocationUpdateManyInput
+  locations: LocationUpdateManyWithoutProjectInput
 }
 
 input ProjectUpdateWithWhereUniqueWithoutUserInput {
   where: ProjectWhereUniqueInput!
   data: ProjectUpdateWithoutUserDataInput!
+}
+
+input ProjectUpsertWithoutLocationsInput {
+  update: ProjectUpdateWithoutLocationsDataInput!
+  create: ProjectCreateWithoutLocationsInput!
 }
 
 input ProjectUpsertWithWhereUniqueWithoutUserInput {
@@ -1433,17 +1474,17 @@ input ProjectWhereUniqueInput {
 
 type Query {
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
+  locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location]!
   projects(where: ProjectWhereInput, orderBy: ProjectOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Project]!
   geoLocations(where: GeoLocationWhereInput, orderBy: GeoLocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [GeoLocation]!
-  locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location]!
   user(where: UserWhereUniqueInput!): User
+  location(where: LocationWhereUniqueInput!): Location
   project(where: ProjectWhereUniqueInput!): Project
   geoLocation(where: GeoLocationWhereUniqueInput!): GeoLocation
-  location(where: LocationWhereUniqueInput!): Location
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  locationsConnection(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LocationConnection!
   projectsConnection(where: ProjectWhereInput, orderBy: ProjectOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProjectConnection!
   geoLocationsConnection(where: GeoLocationWhereInput, orderBy: GeoLocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): GeoLocationConnection!
-  locationsConnection(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LocationConnection!
 
   """Fetches an object given its ID"""
   node(
@@ -1454,9 +1495,9 @@ type Query {
 
 type Subscription {
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+  location(where: LocationSubscriptionWhereInput): LocationSubscriptionPayload
   project(where: ProjectSubscriptionWhereInput): ProjectSubscriptionPayload
   geoLocation(where: GeoLocationSubscriptionWhereInput): GeoLocationSubscriptionPayload
-  location(where: LocationSubscriptionWhereInput): LocationSubscriptionPayload
 }
 
 type User implements Node {

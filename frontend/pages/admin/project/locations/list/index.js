@@ -1,8 +1,8 @@
-import DashboardLayout from '../../../../components/Layout/DashboardLayout';
-import LocationViewSwitcher from  '../../../../components/Dashboard/LocationViewSwitcher';
-import ListView from  '../../../../components/Dashboard/LocationsListView';
-import Title from '../../../../components/Dashboard/MainContentTitle';
-import Pagination from '../../../../components/Dashboard/Pagination/Pagination';
+import DashboardLayout from '../../../../../components/Layout/DashboardLayout';
+import LocationViewSwitcher from  '../../../../../components/Dashboard/LocationViewSwitcher';
+import ListView from  '../../../../../components/Dashboard/LocationsListView';
+import Title from '../../../../../components/Dashboard/MainContentTitle';
+import Pagination from '../../../../../components/Dashboard/Pagination/Pagination';
 import Head from 'next/head';
 import styled from 'styled-components';
 
