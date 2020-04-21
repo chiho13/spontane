@@ -15,7 +15,6 @@ type User {
   resetToken: String
   resetTokenExpiry: String
   permissions: [Permission] @scalarList(strategy: RELATION)
-  locations: [Location] @relation(name: "UsersLocation")
   projects: [Project] @relation(name: "UsersProject")
 }
 
@@ -35,14 +34,12 @@ type Location {
   description: String
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
-  project: Project! @relation(name: "ProjectLocation")
-  user: User! @relation(name: "UsersLocation")
 }
 
 type Project {
   id: ID! @id
   title: String!
-  locations: [Location] @relation(name: "ProjectLocation")
+  locations: [Location] 
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
   user: User! @relation(name: "UsersProject")

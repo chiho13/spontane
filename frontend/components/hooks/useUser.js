@@ -8,16 +8,6 @@ const CURRENT_USER_QUERY = gql `
             email
             name
             permissions
-            locations {
-                id
-                country
-                city
-                geoLocation {
-                    latitude
-                    longitude
-                }
-                 description
-            }
             projects {
                 id
                 title

@@ -9,6 +9,7 @@ import gql from 'graphql-tag';
 import {Mutation} from 'react-apollo';
 import Button from '../../UIKIT/iButton';
 import {ThemeProvider} from 'styled-components';
+import Router from 'next/router';
 
 const invertTheme = ({white, brandColor}) => ({black: white, white: brandColor, hoverColor: '#1a88ff'});
 
@@ -63,6 +64,10 @@ function NewProject(props) {
         e.preventDefault();
         
         const res = await createProject();
+
+        Router.push({
+            pathname: `/admin/projects/${res.data.createProject.id}`,
+        });
     }
 
     return (

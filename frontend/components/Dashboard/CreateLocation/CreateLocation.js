@@ -21,14 +21,18 @@ toast.configure();
 
 const CREATE_LOCATION_MUTATION = gql `
     mutation CREATE_LOCATION_MUTATION(
+        $id: ID!
         $country: String!
         $city: String!
         $latitude: Float!
         $longitude: Float!
         $description: String
     ) {
-        createLocation(
-            country: $country
+        updateProject(
+            id: $id
+            locations: {
+                create: [{
+                country: $country
             city: $city
             geoLocation: {
                 create: {
@@ -37,17 +41,19 @@ const CREATE_LOCATION_MUTATION = gql `
                 }
             }
             description: $description
+            }]
+            }
         ) {
             id
         }
     }
 `;
 
-function CreateLocation() {
+function CreateLocation(props) {
     const [viewport,
         setViewport] = useState({height: '100vh', width: '100vw', latitude: 52.85, longitude: 34.9, zoom: 3});
     
-    const {projectId} = useContext(UserContext);
+    const {user, loading, setProjectID} = useContext(UserContext);
     const [form,
         setForm,
         handleChange] = useForm({
@@ -58,6 +64,7 @@ function CreateLocation() {
             longitude: 0
         });
 
+
     const {
         marker,
         addMarker,
@@ -66,6 +73,10 @@ function CreateLocation() {
         onMarkerDrag,
         onMarkerDragEnd
     } = useMapMarker({latitude: 0, longitude: 0});
+
+    useEffect(() => {
+        setProjectID(props.project)
+    },[]);
 
     useEffect(() => {
         setForm({
@@ -81,20 +92,16 @@ function CreateLocation() {
         className: css({ fontFamily: "nunito, sans-serif" })
     });
 
-    async function onSubmit(e, createLocation) {
+    async function onSubmit(e, updateProject) {
         e.preventDefault();
-        const res = await createLocation();
-
-        notify();
-        Router.push({
-            pathname: '/admin/locations/map',
-            query: {
-                view: 'map',
-                id: res.data.createLocation.id,
-                lat: form.latitude,
-                lon: form.longitude
+        const res = await updateProject({
+            variables: {
+                id: props.project,
+                ...form
             }
         });
+
+        notify();
     }
 
     return (

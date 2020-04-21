@@ -15,12 +15,12 @@ function SideBarItems() {
     const sideBarItems = [  {
         title: "List of Locations",
         icon: "list",
-        link: "/admin/project/locations/list"
+        link: `/admin/project/locations/list?projectId=${projectId}`
     },
         {
             title: "Add Location",
             icon: "add_location",
-            link: "/admin/add-location"
+            link: `/admin/add-location?projectId=${projectId}`
         },
   
     ];

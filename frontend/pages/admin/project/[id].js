@@ -25,13 +25,16 @@ const ProjectLocations = () => {
   const router = useRouter();
   const { user: data, loading, refetch, setProjectID} = useContext(UserContext);
 
+  useEffect(() => {
+
+    setProjectID(router.query.id);
+  }, loading);
+  
   if (loading) {
     return <LoadingSpinner />
   }
 
-  useEffect(() => {
-    setProjectID(router.query.id);
-  }, []);
+
 
   const filteredProject = data && data.projects.find(el => {
     return el.id === router.query.id

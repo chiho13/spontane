@@ -171,6 +171,8 @@ input LocationCreateInput {
   city: String!
   description: String
   geoLocation: GeoLocationCreateOneInput!
+  project: ProjectCreateOneWithoutLocationsInput
+  user: UserCreateOneWithoutLocationsInput
 }
 
 input LocationCreateManyInput {
@@ -694,7 +696,7 @@ input LocationWhereUniqueInput {
 }
 
 type Mutation {
-  createLocation(country: String, city: String, geoLocation: GeoLocationCreateOneInput, description: String): Location!
+  createLocation(country: String, city: String, geoLocation: GeoLocationCreateOneInput, description: String, project: ProjectCreateOneWithoutLocationsInput, user: UserCreateOneWithoutLocationsInput): Location!
   updateLocation(id: ID!, country: String, city: String, geoLocation: GeoLocationUpdateOneRequiredInput, description: String): Location!
   createGeoLocation(latitude: Float, longitude: Float): GeoLocation!
   createProject(title: String!, locations: LocationCreateManyInput): Project!
@@ -968,7 +970,6 @@ type User {
   name: String!
   email: String!
   permissions: [Permission!]!
-  locations: [Location!]!
   projects: [Project!]!
 }
 
@@ -980,7 +981,6 @@ input UserCreateInput {
   resetToken: String
   resetTokenExpiry: String
   permissions: UserCreatepermissionsInput
-  locations: LocationCreateManyWithoutUserInput
   projects: ProjectCreateManyWithoutUserInput
 }
 

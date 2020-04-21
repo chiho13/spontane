@@ -20,11 +20,6 @@ const Mutations = {
         const location = await ctx.db.mutation.createLocation({
             data: {
                   //this is how to create a relationship between Location and the user
-                  user: {
-                    connect: {
-                        id: ctx.request.userId
-                    }
-                },
                 ...args
             }
         }, info);
@@ -56,6 +51,22 @@ const Mutations = {
         delete updates.id;
         // run the update method
         return ctx.db.mutation.updateLocation(
+          {
+            data: updates,
+            where: {
+              id: args.id,
+            },
+          },
+          info
+        );
+      },
+      async updateProject(parent, args, ctx, info) {
+        // first take a copy of the updates
+        const updates = { ...args };
+        // remove the ID from the updates
+        delete updates.id;
+        // run the update method
+        return ctx.db.mutation.updateProject(
           {
             data: updates,
             where: {
