@@ -1,13 +1,12 @@
-import React, {Component} from 'react';
+import React from 'react';
 import SideBarItemStyle from './SideBarItemStyle';
-// import Link from 'next/link';
 import Link from '../../helpers/link';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+
 import MaterialIcon from '@material/react-material-icon';
 
-class SideBarItem extends Component {
-    render() {
-        const {item} = this.props;
+function SideBarItem(props) {
+        const {item} = props;
+
         return (
             <SideBarItemStyle>
                 <Link href={item.link}>
@@ -18,7 +17,6 @@ class SideBarItem extends Component {
                 </Link>
             </SideBarItemStyle>
         );
-    }
 }
 
 export default SideBarItem;

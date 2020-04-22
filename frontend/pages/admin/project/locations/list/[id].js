@@ -6,6 +6,7 @@ import Pagination from '../../../../../components/Dashboard/Pagination/Paginatio
 import Head from 'next/head';
 import styled from 'styled-components';
 
+
 const StickyTabs = styled.div`
   position: sticky;
   top: 0;
@@ -15,18 +16,20 @@ const StickyTabs = styled.div`
   padding-bottom: 4px;
 `;
 
-const Locations = props => (
-  <DashboardLayout>
+const Locations = props => {
+
+
+  return <DashboardLayout>
     <Head>
       <title>My Locations</title>
     </Head>
     <StickyTabs>
     <Title title="My Locations" />
     <LocationViewSwitcher />
-    <Pagination page={parseFloat(props.query.page) || 1 }/>
+    {/* <Pagination page={parseFloat(props.query.page) || 1 }/> */}
     </StickyTabs>
     <ListView page={parseFloat(props.query.page) || 1 } />
   </DashboardLayout>
-);
+};
 
 export default Locations;

@@ -6,16 +6,17 @@ import NewProject from '../NewProject/NewProject';
 import {UserContext} from '../../Layout/ProjectsLayout';
 import LoadingSpinner from '../../LoadingSpinner';
 import Router from "next/router";
+import useLocalStorage from '../../hooks/useLocalStorage';
 
 const ProjectStyle = styled.div`
 
     padding-left: 32px;
     display: flex;
+    flex-wrap: wrap;
     h4 {
         font-family: ${props => props.theme.fontFamily};
     }
 `;
-
 
 const AddProject = styled(Button)`
     && {
@@ -23,6 +24,7 @@ const AddProject = styled(Button)`
         height:140px;
         min-width:140px;
         padding: 32px;
+        margin-right: 32px;
         margin-top: 32px;
     }
 `;
@@ -30,10 +32,8 @@ const AddProject = styled(Button)`
 const ProjectButtons = styled(AddProject)`
     && {
         width: auto;
-        height: auto;
         padding: 32px;
         margin-top: 32px;
-        margin-left: 32px;
         background-color: ${props => props.theme.lightgrey};
     }
 `;
@@ -41,9 +41,11 @@ const ProjectButtons = styled(AddProject)`
 const Project = () => {
     const [open, setOpen] = useState(false);
     const {user: projectData, loading, refetch} = useContext(UserContext);
-    
 
-    console.log(projectData);
+    const [projectID, setProjectID] = useLocalStorage('projectID', null);
+
+
+    console.log(projectID);
     const handleClickOpen = () => {
         setOpen(true);
       };
@@ -53,6 +55,9 @@ const Project = () => {
       };
 
       const goToProject = (projectId) => {
+        
+        setProjectID(projectId);
+
         Router.push({
             pathname: `/admin/project/${projectId}`,
         });
@@ -67,8 +72,8 @@ const Project = () => {
                 <MaterialIcon icon="add" />
                 <p>Create Project</p>
             </AddProject>
-            {projectData && projectData.projects.map(project => {
-                return <ProjectButtons onClick={() => goToProject(project.id)}>
+            {projectData && projectData.projects.map((project, i) => {
+                return <ProjectButtons key={i} onClick={() => goToProject(project.id)}>
                           <p>{project.title}</p>
                 </ProjectButtons>
             }

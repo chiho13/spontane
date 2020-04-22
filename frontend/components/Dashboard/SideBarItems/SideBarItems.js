@@ -1,29 +1,37 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState} from 'react';
 import SideBarItemsStyle from './SideBarItemsStyle';
 import SideBarItem from '../SideBarItem/SideBarItem';
 import Divider from '@material-ui/core/Divider';
 import styled from 'styled-components';
 import {UserContext} from '../../../components/Layout/DashboardLayout';
+import useLocalStorage from '../../hooks/useLocalStorage';
+import { useRouter } from 'next/router';
 
 const ProjectSidebar = styled.div`
     margin-top: 32px;
 `;
 
 function SideBarItems() {
-    const {projectId} = useContext(UserContext);
+    // const {projectId} = useContext(UserContext);
 
-    const sideBarItems = [  {
+    const router = useRouter();
+    const [projectID, setProjectID] = useLocalStorage('projectID', router.query.id);
+
+    console.log('sidebar', projectID);
+
+    const sidebaritems =  [  {
         title: "List of Locations",
         icon: "list",
-        link: `/admin/project/locations/list?projectId=${projectId}`
+        link: `/admin/project/locations/list/${projectID}`
     },
         {
             title: "Add Location",
             icon: "add_location",
-            link: `/admin/add-location?projectId=${projectId}`
+            link: `/admin/add-location?projectId=${projectID}`
         },
   
-    ];
+    ]
+
     return (
         <SideBarItemsStyle>
             <SideBarItem item={{
@@ -35,7 +43,8 @@ function SideBarItems() {
             <Divider />
 
             <ProjectSidebar>
-                {sideBarItems.map((item, i) => (
+                {
+              sidebaritems.map((item, i) => (
                     <SideBarItem key={i} item={item} />
                 ))}
                 </ProjectSidebar>

@@ -11,6 +11,7 @@ import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import Router from 'next/router'
+import Paper from '@material-ui/core/Paper';
 
 const StickyTabs = styled.div`
   position: sticky;
@@ -21,30 +22,65 @@ const StickyTabs = styled.div`
   padding-bottom: 4px;
 `;
 
+const IPaper = styled(Paper)`
+  && {
+    display: inline-flex;
+    min-width: 240px;
+    min-height: 150px;
+  
+    font-family: ${props => props.theme.boldFont};
+    font-size: 20px;
+    line-height: 1.5;
+    box-shadow: 0 1px 5px 1px rgba(100, 105, 135, .3);
+
+    .paperContainer {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      justify-content: center;
+      padding: 32px;
+    }
+  }
+`;
+
+
+const ProjectDashboardContainer = styled.div`
+  display: block;
+  padding: 32px;
+
+`;
+
 const ProjectLocations = () => {
   const router = useRouter();
   const { user: data, loading, refetch, setProjectID} = useContext(UserContext);
 
   useEffect(() => {
-
     setProjectID(router.query.id);
   }, loading);
-  
+
   if (loading) {
     return <LoadingSpinner />
   }
 
-
-
   const filteredProject = data && data.projects.find(el => {
     return el.id === router.query.id
   });
+
+
+  console.log(filteredProject.locations);
 
   return <>
     <Head>
       <title>{filteredProject.title}</title>
     </Head>
     <Title title={filteredProject.title} />
+    <ProjectDashboardContainer>
+      <IPaper>
+        <div className="paperContainer">
+          {filteredProject.locations.length} Locations
+        </div>
+      </IPaper>
+    </ProjectDashboardContainer>
   </>
 }
 

@@ -10,6 +10,11 @@ import {Mutation} from 'react-apollo';
 import Button from '../../UIKIT/iButton';
 import {ThemeProvider} from 'styled-components';
 import Router from 'next/router';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { css } from 'glamor';
+
+toast.configure();
 
 const invertTheme = ({white, brandColor}) => ({black: white, white: brandColor, hoverColor: '#1a88ff'});
 
@@ -60,13 +65,20 @@ function NewProject(props) {
         onClose();
     };
 
+    const notify = () => toast.success("New Project created!", {
+        position: toast.POSITION.BOTTOM_CENTER,
+        closeButton: false,
+        className: css({ fontFamily: "nunito, sans-serif" })
+    });
+
     async function submitProject(e, createProject) {
         e.preventDefault();
         
         const res = await createProject();
-
+        
+        notify();
         Router.push({
-            pathname: `/admin/projects/${res.data.createProject.id}`,
+            pathname: `/admin/project/${res.data.createProject.id}`,
         });
     }
 

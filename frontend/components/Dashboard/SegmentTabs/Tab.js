@@ -16,14 +16,15 @@ class Tab extends Component {
     const {
       props: {
         label,
-        icon
+        icon, 
+        projectId
       },
     } = this;
 
     let className = 'tab-list-item';
 
     return (
-      <Link href={`/admin/locations/${label}`}>
+      <Link href={`/admin/project/locations/${label}/${projectId}`}>
         <a>
           <li className={className}>
             <MaterialIcon icon={icon} /> {label}

@@ -1,12 +1,17 @@
 import Link from "next/link";
-import {withRouter} from "next/router";
 import {Children} from "react";
-import React from "react";
+import React, {useState, useEffect} from "react";
 
-export default withRouter(({router, children, as, href, ...rest}) => (
-   <Link {...rest} href={href} as={as}>
+export default ({children, as, href, ...rest}) => {
+
+   const [pathname, setPathName] = useState();
+
+   useEffect(() => {
+       setPathName(window.location.pathname);
+   },[]);
+   return <Link {...rest} href={href}>
       {React.cloneElement(Children.only(children), {
-         className: (router.pathname === href || router.asPath === as) ? `active` : null
+         className: (pathname === href) ? `active` : null
       })}
    </Link>
-));
+};

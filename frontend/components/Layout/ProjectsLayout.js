@@ -17,13 +17,13 @@ const MainContent = styled.div `
   position: relative;
 
 @media (min-width: 700px) {
-  margin-left: 172px;
-  height: 100vh;
-  
+  height: 100vh; 
 }
 
-@media (min-width: 900px) {
-  margin-left: 200px;
+.navbar-brand {
+    margin-left: 64px;
+    margin-right: 32px;
+    margin-top: 16px;
 }
 
 .dashboard_content {
@@ -33,7 +33,7 @@ const MainContent = styled.div `
 
 const DashboardNav = styled.div `
     position: fixed;
-    top: 16px;
+    top: 28px;
     right: 32px;
     z-index: 1000;
     display: grid;
