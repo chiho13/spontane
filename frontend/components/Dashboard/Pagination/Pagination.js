@@ -8,6 +8,7 @@ import Link from 'next/link';
 import MaterialIcon from '@material/react-material-icon';
 import {UserContext} from '../../Layout/DashboardLayout';
 import {useQuery} from 'react-apollo-hooks';
+import {useRouter} from 'next/router'
 
 import styled from 'styled-components';
 
@@ -29,18 +30,24 @@ const Lazyloader = styled.div`
 `;
 
 function Pagination(props) {
-    const {user} = useContext(UserContext)
+    const router = useRouter();
+    const {user: data, loading} = useContext(UserContext)
 
-    const {data, loading, called} = useQuery(PAGINATION_QUERY, {
-        variables: {
-            userId: user && user.id
-        }
-    });
+    // const {data, loading, called} = useQuery(PAGINATION_QUERY, {
+    //     variables: {
+    //         userId: user && user.id
+    //     }
+    // });
 
-    if (loading) 
+    const filteredProject = data && data.projects.find(el => {
+        return el.id === router.query.id
+      });
+
+    if (loading) {
         return <Lazyloader></Lazyloader>
+    }
 
-    const count = user && data.locationsConnection.aggregate.count;
+    const count = data && filteredProject.locations.length;
     const pages = Math.ceil(count / perPage);
     const page = props.page;
     
@@ -52,7 +59,7 @@ function Pagination(props) {
                 of {pages}
             </title>
         </Head>
-        {count && <p className="totalLocations">{count} Location{count > 1 && 's'}</p>}
+        {data && <p className="totalLocations">{count} Location{count > 1 && 's'}</p>}
 
         {pages > 1 && <>
             <Link

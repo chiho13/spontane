@@ -58,7 +58,6 @@ const LocationListView = (props) => {
     const locations = filteredProject.locations.slice((props.page - 1) * perPage, props.page * perPage);
 
 
-
     return (
         <LocationsListViewStyle>
             <>

@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef, useContext} from 'react';
 import {Mutation} from 'react-apollo';
 import gql from 'graphql-tag';
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 import CreateLocationForm from '../../LocationForm';
 
 import MapGL from '../../MapGL';
@@ -50,10 +50,11 @@ const CREATE_LOCATION_MUTATION = gql `
 `;
 
 function CreateLocation(props) {
+    const router = useRouter();
     const [viewport,
         setViewport] = useState({height: '100vh', width: '100vw', latitude: 52.85, longitude: 34.9, zoom: 3});
     
-    const {user, loading, setProjectID} = useContext(UserContext);
+    const {user, loading} = useContext(UserContext);
     const [form,
         setForm,
         handleChange] = useForm({
@@ -75,10 +76,6 @@ function CreateLocation(props) {
     } = useMapMarker({latitude: 0, longitude: 0});
 
     useEffect(() => {
-        setProjectID(props.project)
-    },[]);
-
-    useEffect(() => {
         setForm({
             ...form,
             latitude: marker.latitude,
@@ -96,7 +93,7 @@ function CreateLocation(props) {
         e.preventDefault();
         const res = await updateProject({
             variables: {
-                id: props.project,
+                id: router.query.id,
                 ...form
             }
         });

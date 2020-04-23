@@ -16,6 +16,7 @@ const StickyTabs = styled.div`
   padding-bottom: 4px;
 `;
 
+
 const Locations = props => {
 
 
@@ -26,7 +27,7 @@ const Locations = props => {
     <StickyTabs>
     <Title title="My Locations" />
     <LocationViewSwitcher />
-    {/* <Pagination page={parseFloat(props.query.page) || 1 }/> */}
+    <Pagination page={parseFloat(props.query.page) || 1 }/>
     </StickyTabs>
     <ListView page={parseFloat(props.query.page) || 1 } />
   </DashboardLayout>

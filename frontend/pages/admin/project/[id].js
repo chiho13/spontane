@@ -67,17 +67,15 @@ const ProjectLocations = () => {
   });
 
 
-  console.log(filteredProject.locations);
-
   return <>
     <Head>
-      <title>{filteredProject.title}</title>
+      <title>{data && filteredProject.title}</title>
     </Head>
-    <Title title={filteredProject.title} />
+    <Title title={data && filteredProject.title} />
     <ProjectDashboardContainer>
       <IPaper>
         <div className="paperContainer">
-          {filteredProject.locations.length} Locations
+          {data && filteredProject.locations.length} Locations
         </div>
       </IPaper>
     </ProjectDashboardContainer>

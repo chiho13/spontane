@@ -19,7 +19,11 @@ function SideBarItems() {
 
     console.log('sidebar', projectID);
 
-    const sidebaritems =  [  {
+    const sidebaritems =  [   {
+        title: "Project Dashboard",
+        icon: "dashboard",
+        link: `/admin/project/${projectID}`
+    },{
         title: "List of Locations",
         icon: "list",
         link: `/admin/project/locations/list/${projectID}`
@@ -27,9 +31,9 @@ function SideBarItems() {
         {
             title: "Add Location",
             icon: "add_location",
-            link: `/admin/add-location?projectId=${projectID}`
+            link: `/admin/project/locations/add/${projectID}`
         },
-  
+
     ]
 
     return (
