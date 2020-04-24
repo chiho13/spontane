@@ -63,7 +63,6 @@ export default class Location extends Component {
             } else {
                 closeLocation();
                 this.setState({height: snappedPositions.closed});
-                Router.push(this.props.pathname);
             }
         } else {
             this.calcHeight(this.state.touchStartPos)
@@ -111,11 +110,7 @@ export default class Location extends Component {
                     <div className="dragNib"></div>
                     <div className="topCorner_container">
                         {editButton && <EditMore location={location} pathname={pathname}/>}
-                        <Link href={{
-                            pathname
-                        }}>
                             <a className="closeLocation_icon" onClick={closeLocation}><Cross/></a>
-                        </Link>
                     </div>
 
                     <div className="location_content">

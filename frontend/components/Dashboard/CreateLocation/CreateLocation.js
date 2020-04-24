@@ -52,7 +52,7 @@ const CREATE_LOCATION_MUTATION = gql `
 function CreateLocation(props) {
     const router = useRouter();
     const [viewport,
-        setViewport] = useState({height: '100vh', width: '100vw', latitude: 52.85, longitude: 34.9, zoom: 3});
+        setViewport] = useState({height: '100vh', width: '100vw', latitude: 55.85, longitude: 20, zoom: 2});
     
     const {user, loading} = useContext(UserContext);
     const [form,

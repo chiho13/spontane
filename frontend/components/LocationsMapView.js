@@ -5,13 +5,14 @@ import CityPin from './Icons/CityMarker';
 import Location from './LocationMapViewItem';
 import Link from 'next/link';
 import getCoordinates from './helpers/offsetLocation';
-import MapGL from 'react-map-gl';
-import {TOKEN} from './MapGL';
+
+import MapGL from './MapGL';
 import {UserContext} from './Layout/DashboardLayout';
 import useViewPort from './hooks/useViewPort';
 import {useQuery} from 'react-apollo-hooks';
 import {useRouter} from 'next/router'
 import {ViewPortContext} from './providers/MapProvider';
+
 
 const SINGLE_LOCATION_QUERY = gql `
     query SINGLE_LOCATION_QUERY($id: ID) {
@@ -32,6 +33,17 @@ function AllLocations(props) {
     const router = useRouter();
     const {user: data} = useContext(UserContext);
     const {viewport, flyViewPort, onViewportChange} = useContext(ViewPortContext);
+
+    const initialViewport = {
+        latitude: 55,
+        longitude: 0,
+        zoom: 2
+    }
+    // const {viewport, setViewport, onViewportChange} = useViewPort({
+    //     latitude: 55,
+    //     longitude: 2,
+    //     zoom: 2
+    // });
 
     const [locationDetail,
         setLocationDetail] = useState(null);
@@ -54,20 +66,20 @@ function AllLocations(props) {
       });
     
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        if (loading) {
-            return
-        }
-        const {location} = singleLocationData;
-        if (paramProps) {
-            location && setSingleLocation(location);
-            setIsOpened(true);
-            location && flyViewPort(location);
-        }
+    //     if (loading) {
+    //         return
+    //     }
+    //     const {location} = singleLocationData;
+    //     if (paramProps) {
+    //         location && setSingleLocation(location);
+    //         setIsOpened(true);
+    //         location && flyViewPort(location);
+    //     }
 
 
-    }, [paramProps]);
+    // }, [paramProps]);
 
     function offsetMarker() {
         const offset = getCoordinates().getCoords(window.innerWidth * 0.625, window.innerHeight * (0.5 - (30 / window.innerHeight)), props.lat, viewport.zoom);
@@ -85,8 +97,23 @@ function AllLocations(props) {
     }
 
     function closeLocationDetail() {
+
+        const href = `/admin/project/locations/map/[id]`;
+            
+        const newPath = `/admin/project/locations/map/${router.query.id}`;
+        
+        router.push(href, newPath, {shallow: true});
+
         setIsOpened(false);
-        setParamProps(null)
+        setParamProps(null);
+        
+        flyViewPort({
+            geoLocation: {
+              latitude: 55,
+            longitude: 0,
+            } 
+        }, 2, false);
+
         setTimeout(() => {
             setLocationDetail(null)
             setSingleLocation(null);
@@ -94,39 +121,39 @@ function AllLocations(props) {
     }
 
     function _toggleLocationDetail(location) {
-        let locationDetailBool = (locationDetail || singleLocation) && location.id === props.id;
+        let locationDetailBool = locationDetail || singleLocation;
         if (locationDetailBool) {
             closeLocationDetail()
-        } else {
+        } 
+
+        if(locationDetailBool && locationDetail.id !== location.id) {
+            closeLocationDetail()
+            setTimeout(() => {
+                setLocationDetail(location);
+                setIsOpened(true)
+                flyViewPort(location, 7);
+            }, 300)
+
+            _openLocationPath(location);
+        }
+
+        if(!locationDetailBool) {
             setLocationDetail(location);
             setIsOpened(true)
-            flyViewPort(location);
+            flyViewPort(location, 7);
+
+            console.log(location);
+
+            _openLocationPath(location);
         }
     }
 
-    function _locationPathName(location) {
-        let locationDetailBool = (locationDetail || singleLocation) && location.id === props.id;
-        let pathNameLocation = {
-            pathname: props.pathname || 'map',
-            query: {
-                view: 'Map',
-                id: location.id,
-                lat: location.geoLocation.latitude,
-                lon: location.geoLocation.longitude
-            }
-        };
-
-        let pathNameRoot = {
-            pathname: props.pathname || 'map',
-            query: {
-                view: 'Map'
-            }
-        };
-        let locationPathName = locationDetailBool
-            ? pathNameRoot
-            : pathNameLocation;
-
-        return locationPathName;
+    function _openLocationPath(location) {
+        const href = `/admin/project/locations/map/[id]`;
+            
+        const newPath = `/admin/project/locations/map/${router.query.id}` + `?id=${location.id}?lat=${location.geoLocation.latitude}?lon=${location.geoLocation.longitude}`;
+        
+        router.push(href, newPath, {shallow: true});
     }
 
     function RenderCityMarker() {
@@ -135,9 +162,8 @@ function AllLocations(props) {
                 key={`marker-${location.id}`}
                 longitude={location.geoLocation.longitude}
                 latitude={location.geoLocation.latitude}>
-                <Link href={_locationPathName(location)}>
+                
                     <CityPin size={20} onClick={() => _toggleLocationDetail(location)}/>
-                </Link>
             </Marker>
         ))
     }
@@ -150,26 +176,14 @@ function AllLocations(props) {
             key={locationDetailBool.id}
             closeLocation={closeLocationDetail}
             isOpened={isOpened}
-            pathname={props.pathname || 'map'}
             editButton={props.editButton}/>)
     }
 
-    useEffect(() => {
-        if (props.id) {
-            setParamProps(props.id);
-            offsetMarker()
-        }
-    },[singleLocationData]);
+
 
     return (
         <div className="map-container">
             <MapGL
-             mapStyle="mapbox://styles/anthonyhodesu/ck0y2dle1013q1cpk194xrvtu"
-                { ...viewport }
-                width="100%"
-                height="100%"
-                mapboxApiAccessToken={TOKEN}
-                onViewportChange={onViewportChange}
                 >
               
                 {RenderCityMarker()}

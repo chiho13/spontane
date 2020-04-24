@@ -31,7 +31,7 @@ const Locations = props => {
     <LocationViewSwitcher />
     <Pagination page={pageNum} setPageNum={setPageNum}/>
     </StickyTabs>
-    <ListView page={pageNum} setPageNum={setPageNum}/>
+    <ListView page={pageNum}/>
   </DashboardLayout>
 };
 
