@@ -37,15 +37,21 @@ const LocationsListViewStyle = styled.div `
 const LocationListView = (props) => {
     const router = useRouter();
     const {user: data, loading, refetch} = useContext(UserContext);
+
+    const {page} = props;
     // const [projectID, setProjectID] = useLocalStorage('projectID', router.query.id);
 
     // useEffect(() => {
     //     setProjectID(router.query.id);
     // }, loading);
 
-    useEffect(() => {
-        refetch();
-    }, [])
+    // useEffect(() => {
+    //     refetch();
+    //     console.log(router.query.page);
+    // }, [router.query.page])
+
+
+
 
     if(loading) {
         return <Loading />
@@ -55,7 +61,7 @@ const LocationListView = (props) => {
         return el.id === router.query.id
       });
 
-    const locations = filteredProject.locations.slice((props.page - 1) * perPage, props.page * perPage);
+    const locations = data && filteredProject.locations.slice((page - 1) * perPage, page * perPage);
 
 
     return (

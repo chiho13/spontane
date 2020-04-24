@@ -18,10 +18,8 @@ function ViewPortProvider(props) {
 })
 
   function flyViewPort({
-    geoLocation: {
         longitude,
         latitude
-    }
 }) {
     const offset = getCoordinates().getCoords(window.innerWidth * 0.625, window.innerHeight * (0.5 - (30 / window.innerHeight)), latitude, 9);
     const offsetLon = window.innerWidth > 1000

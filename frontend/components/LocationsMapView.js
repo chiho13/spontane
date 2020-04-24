@@ -10,7 +10,7 @@ import {TOKEN} from './MapGL';
 import {UserContext} from './Layout/DashboardLayout';
 import useViewPort from './hooks/useViewPort';
 import {useQuery} from 'react-apollo-hooks';
-import Router from 'next/router'
+import {useRouter} from 'next/router'
 import {ViewPortContext} from './providers/MapProvider';
 
 const SINGLE_LOCATION_QUERY = gql `
@@ -29,6 +29,7 @@ const SINGLE_LOCATION_QUERY = gql `
 `;
 
 function AllLocations(props) {
+    const router = useRouter();
     const {user: data} = useContext(UserContext);
     const {viewport, flyViewPort, onViewportChange} = useContext(ViewPortContext);
 
@@ -47,6 +48,10 @@ function AllLocations(props) {
                 id: props.id || 0
             }
      });
+
+     const filteredProject = data && data.projects.find(el => {
+        return el.id === router.query.id
+      });
     
 
     useEffect(() => {
@@ -125,7 +130,7 @@ function AllLocations(props) {
     }
 
     function RenderCityMarker() {
-        return data && data.locations.map(location => (
+        return data && filteredProject.locations.map(location => (
             <Marker
                 key={`marker-${location.id}`}
                 longitude={location.geoLocation.longitude}

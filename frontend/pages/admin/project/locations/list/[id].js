@@ -1,3 +1,5 @@
+import {useState} from 'react';
+
 import DashboardLayout from '../../../../../components/Layout/DashboardLayout';
 import LocationViewSwitcher from  '../../../../../components/Dashboard/LocationViewSwitcher';
 import ListView from  '../../../../../components/Dashboard/LocationsListView';
@@ -18,7 +20,7 @@ const StickyTabs = styled.div`
 
 
 const Locations = props => {
-
+  const [pageNum, setPageNum] = useState(parseFloat(props.query.page) || 1 );
 
   return <DashboardLayout>
     <Head>
@@ -27,9 +29,9 @@ const Locations = props => {
     <StickyTabs>
     <Title title="My Locations" />
     <LocationViewSwitcher />
-    <Pagination page={parseFloat(props.query.page) || 1 }/>
+    <Pagination page={pageNum} setPageNum={setPageNum}/>
     </StickyTabs>
-    <ListView page={parseFloat(props.query.page) || 1 } />
+    <ListView page={pageNum} setPageNum={setPageNum}/>
   </DashboardLayout>
 };
 

@@ -28,6 +28,11 @@ function SideBarItems() {
         icon: "list",
         link: `/admin/project/locations/list/${projectID}`
     },
+    {
+        title: "Map Preview",
+        icon: "map",
+        link: `/admin/project/locations/map/${projectID}`
+    },
         {
             title: "Add Location",
             icon: "add_location",

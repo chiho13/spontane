@@ -21,7 +21,7 @@ const LocationViewSwitcher = (props) => {
                     <div label="list" projectId={router.query.id} icon="view_list">
                     
                     </div>
-                    <div label="map" icon="map">
+                    <div label="map" projectId={router.query.id} icon="map">
                        
                     </div>
                 </Tabs>
