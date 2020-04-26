@@ -124,13 +124,6 @@ function Login(props) {
 
     const [showLoading, setShowLoading] = useLoading(loading, error, false);
 
-    useEffect(() => {
-        if (!error && me && props.continue) {
-            setShowLoading(true);
-            Router.push({pathname: '/admin/locations'})
-        }
-
-    }, me);
 
     useEffect(() => {
         if(form.email.length && form.password.length) {

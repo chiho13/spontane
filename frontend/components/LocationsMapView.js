@@ -15,8 +15,8 @@ import {ViewPortContext} from './providers/MapProvider';
 
 
 const SINGLE_LOCATION_QUERY = gql `
-    query SINGLE_LOCATION_QUERY($id: ID) {
-        location(where: { id: $id }) {
+    query SINGLE_LOCATION_QUERY($locationID: ID!) {
+        location(where: { id: $locationID }) {
             id
             country
             city
@@ -34,11 +34,7 @@ function AllLocations(props) {
     const {user: data} = useContext(UserContext);
     const {viewport, flyViewPort, onViewportChange} = useContext(ViewPortContext);
 
-    const initialViewport = {
-        latitude: 55,
-        longitude: 0,
-        zoom: 2
-    }
+
     // const {viewport, setViewport, onViewportChange} = useViewPort({
     //     latitude: 55,
     //     longitude: 2,
@@ -49,52 +45,38 @@ function AllLocations(props) {
         setLocationDetail] = useState(null);
     const [singleLocation,
         setSingleLocation] = useState(null);
+        const {locationID} = props;
     const [paramProps,
         setParamProps] = useState(null);
     const [isOpened,
         setIsOpened] = useState(null);
-
     
-     const {data: singleLocationData, loading} = useQuery(SINGLE_LOCATION_QUERY, {
+
+     const {data: singleLocationData, loading, refetch} = useQuery(SINGLE_LOCATION_QUERY, {
             variables: {
-                id: props.id || 0
+                locationID: locationID
             }
      });
 
      const filteredProject = data && data.projects.find(el => {
         return el.id === router.query.id
       });
+      
     
+      useEffect(() => {
+        if(loading) {
+            return
+        }
 
-    // useEffect(() => {
+        const {location} = singleLocationData
 
-    //     if (loading) {
-    //         return
-    //     }
-    //     const {location} = singleLocationData;
-    //     if (paramProps) {
-    //         location && setSingleLocation(location);
-    //         setIsOpened(true);
-    //         location && flyViewPort(location);
-    //     }
+        setLocationDetail(location);
+        setIsOpened(true)
+        flyViewPort(location, 7);
+
+      }, [singleLocationData]);
 
 
-    // }, [paramProps]);
-
-    function offsetMarker() {
-        const offset = getCoordinates().getCoords(window.innerWidth * 0.625, window.innerHeight * (0.5 - (30 / window.innerHeight)), props.lat, viewport.zoom);
-        const offsetLon = window.innerWidth > 1000
-            ? parseFloat(offset.lon)
-            : 0;
-        const offsetLat = window.innerWidth > 1000
-            ? 0
-            : parseFloat(offset.lat);
-
-        onViewportChange({
-            latitude: parseFloat(props.lat) + offsetLat,
-            longitude: parseFloat(props.lon) + offsetLon,
-        })
-    }
 
     function closeLocationDetail() {
 
@@ -151,7 +133,7 @@ function AllLocations(props) {
     function _openLocationPath(location) {
         const href = `/admin/project/locations/map/[id]`;
             
-        const newPath = `/admin/project/locations/map/${router.query.id}` + `?id=${location.id}?lat=${location.geoLocation.latitude}?lon=${location.geoLocation.longitude}`;
+        const newPath = `/admin/project/locations/map/${router.query.id}` + `?locationID=${location.id}`;
         
         router.push(href, newPath, {shallow: true});
     }

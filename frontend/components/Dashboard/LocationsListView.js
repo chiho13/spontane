@@ -32,6 +32,7 @@ const LocationsListViewStyle = styled.div `
     max-width: ${props => props.theme.maxWidth};
     padding-left: 32px;
     padding-right: 32px;
+    padding-bottom: 32px;
 `;
 
 const LocationListView = (props) => {

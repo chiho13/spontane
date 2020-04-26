@@ -30,7 +30,7 @@ const Locations = props => (
     <Title title="My Locations" />
     <LocationViewSwitcher />
     <MapViewStyle>
-        <MapView id={props.query.id} lat={props.query.lat} lon={props.query.lon} pathname="map" editButton={true}/>
+        <MapView locationID={props.query.locationID} pathname="map" editButton={true}/>
     </MapViewStyle>
   
   </DashboardLayout>

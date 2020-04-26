@@ -17,6 +17,7 @@ const PaginationStyles = styled.div`
     transition: background 0.3s ease;
     border-radius: 6px;
     padding: 0;
+    cursor: pointer;
 
     i {
       color: ${props => props.theme.brandColor};
