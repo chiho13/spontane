@@ -8,6 +8,7 @@ import {useQuery} from 'react-apollo-hooks';
 import {UserContext} from '../Layout/DashboardLayout';
 import Loading from '../LoadingSpinner';
 import Router from 'next/router';
+import { useRouter } from 'next/router';
 
 export const ALL_LOCATIONS_QUERY = gql `
         query ALL_LOCATIONS_QUERY($skip: Int = 0, $first: Int = ${perPage}, $userId: ID) {
@@ -31,22 +32,38 @@ const LocationsListViewStyle = styled.div `
     max-width: ${props => props.theme.maxWidth};
     padding-left: 32px;
     padding-right: 32px;
+    padding-bottom: 32px;
 `;
 
 const LocationListView = (props) => {
+    const router = useRouter();
     const {user: data, loading, refetch} = useContext(UserContext);
+
+    const {page} = props;
+    // const [projectID, setProjectID] = useLocalStorage('projectID', router.query.id);
+
+    // useEffect(() => {
+    //     setProjectID(router.query.id);
+    // }, loading);
+
+    // useEffect(() => {
+    //     refetch();
+    //     console.log(router.query.page);
+    // }, [router.query.page])
+
+
+
 
     if(loading) {
         return <Loading />
     }
 
-    const locations = data && data.locations.slice((props.page - 1) * perPage, props.page * perPage);
-    
-   useEffect(() => {
-    refetch();
-   }, [])
+    const filteredProject = data && data.projects.find(el => {
+        return el.id === router.query.id
+      });
 
- 
+    const locations = data && filteredProject.locations.slice((page - 1) * perPage, page * perPage);
+
 
     return (
         <LocationsListViewStyle>
@@ -54,7 +71,7 @@ const LocationListView = (props) => {
             { data && locations.map((location) => <Location location={location} key={location.id}/>)
             }
 
-        {data && locations.length > perPage && <Pagination page={props.page}/>}
+        {/* {data && locations.length > perPage && <Pagination page={props.page}/>} */}
             </> 
         </LocationsListViewStyle>
     );

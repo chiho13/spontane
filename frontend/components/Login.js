@@ -124,12 +124,6 @@ function Login(props) {
 
     const [showLoading, setShowLoading] = useLoading(loading, error, false);
 
-    useEffect(() => {
-        if (!error && me && props.continue) {
-            setShowLoading(true);
-            Router.push({pathname: '/admin/locations'})
-        }
-    });
 
     useEffect(() => {
         if(form.email.length && form.password.length) {
@@ -137,7 +131,7 @@ function Login(props) {
         }   else {
             setEnableButton(true)
         }
-    });
+    },[form]);
 
     return (showLoading ? <Loading theme={loadingBrandTheme} /> : <LoginStyles>
           <Head>

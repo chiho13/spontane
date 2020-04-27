@@ -8,8 +8,11 @@ const CURRENT_USER_QUERY = gql `
             email
             name
             permissions
-            locations {
+            projects {
                 id
+                title
+                locations {
+                    id
                 country
                 city
                 geoLocation {
@@ -17,6 +20,7 @@ const CURRENT_USER_QUERY = gql `
                     longitude
                 }
                  description
+                }
             }
         }
     }

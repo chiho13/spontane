@@ -1,5 +1,5 @@
-import CreateLocation from '../../components/Dashboard/CreateLocation/CreateLocation';
-import DashboardLayout from '../../components/Layout/DashboardLayout';
+import CreateLocation from '../../../../../components/Dashboard/CreateLocation/CreateLocation';
+import DashboardLayout from '../../../../../components/Layout/DashboardLayout';
 import Head from 'next/head';
 
 const addLocation = (props) => (

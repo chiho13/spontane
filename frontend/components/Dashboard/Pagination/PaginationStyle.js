@@ -11,11 +11,13 @@ const PaginationStyles = styled.div`
   font-family: ${props => props.theme.boldFont}; 
 
   .prev, .next {
-    margin-left: 10px;
-    margin-right: 10px;
+    margin-left: 16px;
+    margin-right: 16px;
     border: 2px solid ${props => props.theme.brandColor};
     transition: background 0.3s ease;
     border-radius: 6px;
+    padding: 0;
+    cursor: pointer;
 
     i {
       color: ${props => props.theme.brandColor};
@@ -31,7 +33,7 @@ const PaginationStyles = styled.div`
     }
   }
 
-  a[aria-disabled='true'] {
+  button[aria-disabled='true'] {
     border-color: #eee;
     color: grey;
     pointer-events: none;
@@ -45,7 +47,7 @@ const PaginationStyles = styled.div`
     margin-right: 10px; 
   }
 
-  a {
+  button {
     display: flex;
     align-items: center;
 

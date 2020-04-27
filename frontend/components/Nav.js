@@ -7,7 +7,7 @@ const Nav = () => {
     <Link href="/">
       <a>Pricing</a>
     </Link>
-    <Link href="/login">
+    <Link href="/admin">
       <a>Login</a>
     </Link>
   </NavStyles>

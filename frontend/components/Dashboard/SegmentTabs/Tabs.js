@@ -72,7 +72,7 @@ class Tabs extends Component {
       <TabsStyle>
         <ol className="tab-list">
           {children.map((child) => {
-            const { label, icon} = child.props;
+            const { label, icon, projectId} = child.props;
 
             return (
               <Tab
@@ -80,6 +80,7 @@ class Tabs extends Component {
                 key={label}
                 label={label}
                 icon={icon}
+                projectId={projectId}
                 onClick={onClickTabItem}
               />
             );

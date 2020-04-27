@@ -1,7 +1,7 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useContext} from 'react';
 import {Mutation} from 'react-apollo';
 import gql from 'graphql-tag';
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 import CreateLocationForm from '../../LocationForm';
 
 import MapGL from '../../MapGL';
@@ -11,17 +11,28 @@ import DropMarker from '../DropMarker/DropMarker';
 import useForm from '../../hooks/useForm';
 import useMapMarker from '../../hooks/useMapMarker';
 import {CURRENT_USER_QUERY} from '../../hooks/useUser';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { css } from 'glamor';
+
+import {UserContext} from '../../Layout/DashboardLayout';
+
+toast.configure();
 
 const CREATE_LOCATION_MUTATION = gql `
     mutation CREATE_LOCATION_MUTATION(
+        $id: ID!
         $country: String!
         $city: String!
         $latitude: Float!
         $longitude: Float!
         $description: String
     ) {
-        createLocation(
-            country: $country
+        updateProject(
+            id: $id
+            locations: {
+                create: [{
+                country: $country
             city: $city
             geoLocation: {
                 create: {
@@ -30,16 +41,20 @@ const CREATE_LOCATION_MUTATION = gql `
                 }
             }
             description: $description
+            }]
+            }
         ) {
             id
         }
     }
 `;
 
-function CreateLocation() {
+function CreateLocation(props) {
+    const router = useRouter();
     const [viewport,
-        setViewport] = useState({height: '100vh', width: '100vw', latitude: 52.85, longitude: 34.9, zoom: 3});
-
+        setViewport] = useState({height: '100vh', width: '100vw', latitude: 55.85, longitude: 20, zoom: 2});
+    
+    const {user, loading} = useContext(UserContext);
     const [form,
         setForm,
         handleChange] = useForm({
@@ -49,6 +64,7 @@ function CreateLocation() {
             latitude: 0,
             longitude: 0
         });
+
 
     const {
         marker,
@@ -67,18 +83,22 @@ function CreateLocation() {
         });
     }, [marker]);
 
-    async function onSubmit(e, createLocation) {
+    const notify = () => toast.success("Location created!", {
+        position: toast.POSITION.BOTTOM_CENTER,
+        closeButton: false,
+        className: css({ fontFamily: "nunito, sans-serif" })
+    });
+
+    async function onSubmit(e, updateProject) {
         e.preventDefault();
-        const res = await createLocation();
-        Router.push({
-            pathname: '/admin/locations/map',
-            query: {
-                view: 'map',
-                id: res.data.createLocation.id,
-                lat: form.latitude,
-                lon: form.longitude
+        const res = await updateProject({
+            variables: {
+                id: router.query.id,
+                ...form
             }
         });
+
+        notify();
     }
 
     return (

@@ -1,7 +1,7 @@
-import DashboardLayout from '../../../../components/Layout/DashboardLayout';
-import LocationViewSwitcher from  '../../../../components/Dashboard/LocationViewSwitcher';
-import MapView from  '../../../../components/LocationsMapView';
-import Title from '../../../../components/Dashboard/MainContentTitle';
+import DashboardLayout from '../../../../../components/Layout/DashboardLayout';
+import LocationViewSwitcher from  '../../../../../components/Dashboard/LocationViewSwitcher';
+import MapView from  '../../../../../components/LocationsMapView';
+import Title from '../../../../../components/Dashboard/MainContentTitle';
 import Head from 'next/head';
 import styled from 'styled-components';
 
@@ -30,7 +30,7 @@ const Locations = props => (
     <Title title="My Locations" />
     <LocationViewSwitcher />
     <MapViewStyle>
-        <MapView id={props.query.id} lat={props.query.lat} lon={props.query.lon} pathname="map" editButton={true}/>
+        <MapView locationID={props.query.locationID} pathname="map" editButton={true}/>
     </MapViewStyle>
   
   </DashboardLayout>

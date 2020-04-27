@@ -30,6 +30,7 @@ const Form = styled.form`
 
   @media (min-width: 700px) {
     width: ${props => props.width || '40%'};
+    max-width: 600px;
     bottom: initial;
     top: ${props => props.top || '100px'};
     left: initial;

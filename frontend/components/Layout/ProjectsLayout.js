@@ -6,6 +6,7 @@ import useUser from '../hooks/useUser';
 import Loading from '../LoadingSpinner';
 import Login from '../Login';
 import AuthLayout from './AuthLayout';
+import Logo from '../../components/Dashboard/SideBarLogo/SideBarLogo';
 
 import BuyCredit from '../Dashboard/BuyCredits';
 import {ViewPortProvider } from '../providers/MapProvider';
@@ -16,13 +17,13 @@ const MainContent = styled.div `
   position: relative;
 
 @media (min-width: 700px) {
-  margin-left: 172px;
-  height: 100vh;
-  
+  height: 100vh; 
 }
 
-@media (min-width: 900px) {
-  margin-left: 200px;
+.navbar-brand {
+    margin-left: 64px;
+    margin-right: 32px;
+    margin-top: 16px;
 }
 
 .dashboard_content {
@@ -32,7 +33,7 @@ const MainContent = styled.div `
 
 const DashboardNav = styled.div `
     position: fixed;
-    top: 16px;
+    top: 28px;
     right: 32px;
     z-index: 1000;
     display: grid;
@@ -42,7 +43,7 @@ const DashboardNav = styled.div `
 
 export const UserContext = React.createContext();
 
-const DashboardLayout = props => {
+const ProjectLayout = props => {
     const {
         data: {
             me: user
@@ -54,12 +55,6 @@ const DashboardLayout = props => {
         setPageLoad] = useState(false);
     const [auth,
         setAuth] = useState(true);
-
-    const [projectId, setProjectId] = useState(null);
-    
-    function setProjectID(id) {
-        setProjectId(id);
-    }
 
     useEffect(() => {
         const isAuth = function (hasUser) {
@@ -90,14 +85,13 @@ const DashboardLayout = props => {
         value={{
         user,
         loading,
-        called, refetch, projectId, setProjectID
+        called, refetch
     }}>
         <ViewPortProvider id={props.id}>
-
-        <> <MainSideBar/>
+        <>
         <MainContent>
+            <Logo />
             <DashboardNav>
-                {/* <BuyCredit /> */}
                 <ProfileNav user={user} />
             </DashboardNav>
 
@@ -112,4 +106,4 @@ const DashboardLayout = props => {
 </UserContext.Provider>
 };
 
-export default DashboardLayout;
+export default ProjectLayout;

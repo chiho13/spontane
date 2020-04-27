@@ -1,15 +1,22 @@
 import styled from 'styled-components';
+import ListItem from '@material-ui/core/ListItem';
 
-const SideBarItemStyle = styled.li`
+const SideBarItemStyle = styled(ListItem)`
+
     list-style: none;
     white-space: nowrap;
     min-width: 100%;
     max-width: 100%;
     font-family: ${props => props.theme.fontFamily};
 
+    && {
+        padding: 0;
+    }
+
     a {
         display: flex;
-        padding: 12px 24px;
+        padding: 16px 32px;
+        width: 100%;
         will-change: background-color,box-shadow,color;
         transition: box-shadow .2s ease,color .2s ease,background-color .2s ease;
 
@@ -43,6 +50,7 @@ const SideBarItemStyle = styled.li`
             color: ${props => props.theme.brandColor};
         }
     }
+
 
     span {
         overflow: hidden;

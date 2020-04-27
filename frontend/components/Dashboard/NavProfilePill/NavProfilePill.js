@@ -9,16 +9,15 @@ import NavButton from '../../UIKIT/iButton';
 import MaterialIcon from '@material/react-material-icon';
 import Divider from '@material-ui/core/Divider';
 import Logout from './Logout';
-import {UserContext} from '../../Layout/DashboardLayout';
 
-function NavProfilePill() {
+function NavProfilePill(props) {
 
     let anchorEl;
 
     const [open,
         setOpen] = useState(false);
 
-    const {user} = useContext(UserContext);
+    const {user} = props;
 
     function handleToggle() {
         setOpen(!open)

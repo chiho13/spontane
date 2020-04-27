@@ -8,14 +8,14 @@ enum Permission {
 }
 
 type User {
-  id: ID @id
+  id: ID! @id
   name: String!
   email: String! @unique
   password: String!
   resetToken: String
   resetTokenExpiry: String
   permissions: [Permission] @scalarList(strategy: RELATION)
-  locations: [Location] @relation(name: "UsersLocation")
+  projects: [Project] @relation(name: "UsersProject")
 }
 
 type GeoLocation {
@@ -34,14 +34,13 @@ type Location {
   description: String
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
-  user: User! @relation(name: "UsersLocation")
 }
-
 
 type Project {
   id: ID! @id
   title: String!
-  locations: [TourLocation]
+  locations: [Location] 
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
+  user: User! @relation(name: "UsersProject")
 }

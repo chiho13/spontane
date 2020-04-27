@@ -4,6 +4,9 @@ const Query = {
     locations: forwardTo('db'),
     location: forwardTo('db'),
     locationsConnection: forwardTo('db'),
+    projects: forwardTo('db'),
+    project: forwardTo('db'),
+    projectsConnection: forwardTo('db'),
 
     me(parent, args, ctx, info) {
         //check if there is a current user Id
