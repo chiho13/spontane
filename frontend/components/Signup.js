@@ -42,7 +42,7 @@ const SignupStyles = styled.div `
     }
 
     .loginLink {
-        font-family: 'Roboto';
+        font-family: 'nunito';
         text-align:center;
         margin-bottom: 20px;
         color: rgba(255,255,255,0.8);
@@ -93,7 +93,7 @@ function Signup() {
     useEffect(() => {
         if (!error && me) {
             setShowLoading(true)
-            Router.push({pathname: '/admin/locations'});
+            Router.push({pathname: '/admin'});
         }
     });
 

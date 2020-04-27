@@ -10,7 +10,7 @@ function  MainSideBar(props){
             <Row>
                 <MainSideBarStyle>
                     <Logo />
-                    {/* <Search /> */}
+                    <Search />
                     <MainSideBarItems />
                 </MainSideBarStyle>
             </Row>

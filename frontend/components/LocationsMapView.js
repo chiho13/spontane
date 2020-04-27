@@ -70,9 +70,11 @@ function AllLocations(props) {
 
         const {location} = singleLocationData
 
+        if(locationID) {
         setLocationDetail(location);
         setIsOpened(true)
         flyViewPort(location, 7);
+        }
 
       }, [singleLocationData]);
 
@@ -160,8 +162,6 @@ function AllLocations(props) {
             isOpened={isOpened}
             editButton={props.editButton}/>)
     }
-
-
 
     return (
         <div className="map-container">

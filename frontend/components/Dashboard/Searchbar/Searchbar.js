@@ -8,13 +8,16 @@ import { DropDown, DropDownItem, SearchStyles } from './SearchbarStyles';
 import MaterialIcon from '@material/react-material-icon';
 import {UserContext} from '../../Layout/DashboardLayout';
 import {ViewPortContext} from '../../providers/MapProvider';
-
+import {useRouter} from 'next/router'
+import useLocalStorage from '../../hooks/useLocalStorage';
 
 const AutoComplete = () => {
+    const router = useRouter();
     const [locations, setLocations] = useState([]);
     const [loading, setLoading] = useState(false);
     const {user: data} = useContext(UserContext);
     const {flyViewPort} = useContext(ViewPortContext);
+    const [projectID, setProjectID] = useLocalStorage('projectID', router.query.id);
   
   const onChange = debounce(async (e, client) => {
     console.log('Searching...');
@@ -22,11 +25,14 @@ const AutoComplete = () => {
 
     setLoading(true);
 
-    const filtered = data.locations.filter((el) => {
+    const filteredProject = data && data.projects.find(el => {
+      return el.id === projectID
+    });
+
+    const filtered = filteredProject.locations.filter((el) => {
       return el.city.toLowerCase().includes(e.target.value.toLowerCase()) || el.country.toLowerCase().includes(e.target.value.toLowerCase());
     });
 
-    console.log(filtered)
 
     setLocations(filtered);
     setLoading(false);
@@ -35,19 +41,13 @@ const AutoComplete = () => {
 
 
   function routeToLocation(location) {
+    
     Router.push({
-      pathname: '/admin/locations/map',
+      pathname: `/admin/project/locations/map/${projectID}`,
       query: {
-          view: 'map',
-        id: location.id,
-        lat: location.geoLocation.latitude,
-        lon: location.geoLocation.longitude
+        locationID: location.id
       },
     });
-
-      Router.onRouteChangeComplete = () => {
-        flyViewPort(location);
-      };
 
   };
 
