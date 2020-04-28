@@ -32,7 +32,7 @@ type Location {
   city: String!
   geoLocation: GeoLocation!
   description: String
-  user: User
+  user: String
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }
