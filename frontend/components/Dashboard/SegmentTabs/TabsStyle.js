@@ -52,7 +52,7 @@ const TabsStyle = styled.div`
     background-color: white;
     border: 2px solid rgba(100, 105, 135, .3);
     transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 1px 5px 1px rgba(100,105,135,.3);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
     i {
         color: #555555;
         margin-right: 8px;

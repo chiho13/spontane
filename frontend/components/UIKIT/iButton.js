@@ -18,7 +18,7 @@ const iButton = styled(Button)`
   justify-content: center;
   font-family: ${props => props.theme.fontFamily};
   line-height: 1.5;
-  box-shadow: 0 1px 5px 1px rgba(100, 105, 135, .3);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
   transition: all 0.4s ease;
 
   &:hover {
