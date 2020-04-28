@@ -152,7 +152,7 @@ type Location implements Node {
   description: String
   createdAt: DateTime!
   updatedAt: DateTime!
-  user: User!
+  user: String
 }
 
 """A connection to a list of items."""
@@ -171,8 +171,7 @@ input LocationCreateInput {
   city: String!
   description: String
   geoLocation: GeoLocationCreateOneInput!
-  project: ProjectCreateOneWithoutLocationsInput
-  user: UserCreateOneWithoutLocationsInput
+  user: String
 }
 
 input LocationCreateManyInput {
@@ -688,7 +687,7 @@ input LocationWhereInput {
   """All values greater than or equal the given value."""
   updatedAt_gte: DateTime
   geoLocation: GeoLocationWhereInput
-  user: UserWhereInput
+  user: String
 }
 
 input LocationWhereUniqueInput {
@@ -696,7 +695,7 @@ input LocationWhereUniqueInput {
 }
 
 type Mutation {
-  createLocation(country: String, city: String, geoLocation: GeoLocationCreateOneInput, description: String, project: ProjectCreateOneWithoutLocationsInput, user: UserCreateOneWithoutLocationsInput): Location!
+  createLocation(country: String, city: String, geoLocation: GeoLocationCreateOneInput, description: String, user: String): Location!
   updateLocation(id: ID!, country: String, city: String, geoLocation: GeoLocationUpdateOneRequiredInput, description: String): Location!
   createGeoLocation(latitude: Float, longitude: Float): GeoLocation!
   createProject(title: String!, locations: LocationCreateManyInput): Project!

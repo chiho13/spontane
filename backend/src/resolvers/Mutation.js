@@ -79,10 +79,15 @@ const Mutations = {
 
     async deleteLocation(parent, args, ctx, info) {
           const where = {id: args.id}
-
         //   const location = await ctx.db.query.location({where}, `id title`);
+        const location = await ctx.db.query.location({ where }, `{ id  user}`);
+        const ownLocation = location.user === ctx.request.userId;
 
-          return ctx.db.mutation.deleteLocation({ where }, info);
+        if (!ownLocation) {
+          throw new Error("You don't have permission to do that!");
+        }
+
+        return ctx.db.mutation.deleteLocation({ where }, info);
     },
 
     signup(parent, args, ctx, info) {

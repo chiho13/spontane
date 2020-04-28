@@ -1,3 +1,5 @@
+import {useContext} from 'react';
+
 import {ThemeProvider} from 'styled-components';
 import MaterialIcon from '@material/react-material-icon';
 import IconButtonStyle from './IconButtonStyle';
@@ -6,6 +8,9 @@ import gql from 'graphql-tag';
 import {ALL_LOCATIONS_QUERY} from '../Dashboard/LocationsListView';
 import Router from 'next/router';
 import {PAGINATION_QUERY} from '../Dashboard/Pagination/Pagination';
+import useLocalStorage from '../hooks/useLocalStorage';
+import { useRouter } from 'next/router';
+import {UserContext} from '../Layout/DashboardLayout';
 
 const DELETE_LOCATION_MUTATION = gql`
     mutation DELETE_LOCATION_MUTATION($id: ID!) {
@@ -21,27 +26,26 @@ const theme = {
 };
 
 const DeleteButton = (props) => {
-
+    const router = useRouter();
+    const [projectID, setProjectID] = useLocalStorage('projectID', router.query.id);
+    const {user: data, loading, refetch} = useContext(UserContext);
     const update = () => {
-        Router.push({
-            pathname: '/admin/locations',
-            query: {
-                view: 'List'
-            }
-        });
+        // Router.push({
+        //     pathname: `/admin/project/locations/list/${projectID}`,
+
+        // });
+        refetch();
     };
     
-    const {id} = props;
+    const {locationID} = props;
     return (
         <Mutation
             mutation={DELETE_LOCATION_MUTATION}
             variables={{
-            id
+            id: locationID
         }}
         update={update}
-        refetchQueries={[
-            {query: ALL_LOCATIONS_QUERY}, {query: PAGINATION_QUERY}
-        ]}>
+      >
             {(deleteLocation, {error}) => (
                 <ThemeProvider theme={theme}>
                 <IconButtonStyle onClick={() => {

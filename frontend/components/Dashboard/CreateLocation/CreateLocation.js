@@ -27,6 +27,7 @@ const CREATE_LOCATION_MUTATION = gql `
         $latitude: Float!
         $longitude: Float!
         $description: String
+        $user: String
     ) {
         updateProject(
             id: $id
@@ -41,6 +42,7 @@ const CREATE_LOCATION_MUTATION = gql `
                 }
             }
             description: $description
+            user: $user
             }]
             }
         ) {
@@ -94,6 +96,7 @@ function CreateLocation(props) {
         const res = await updateProject({
             variables: {
                 id: router.query.id,
+                user: user.id,
                 ...form
             }
         });

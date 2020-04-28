@@ -1,5 +1,5 @@
 # source: https://eu1.prisma.sh/anthony-ho-b91ea0/spontane/dev
-# timestamp: Tue Apr 21 2020 19:48:56 GMT+0100 (British Summer Time)
+# timestamp: Tue Apr 28 2020 20:06:02 GMT+0100 (British Summer Time)
 
 type AggregateGeoLocation {
   count: Int!
@@ -298,6 +298,7 @@ type Location implements Node {
   city: String!
   geoLocation: GeoLocation!
   description: String
+  user: String
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -317,6 +318,7 @@ input LocationCreateInput {
   country: String!
   city: String!
   description: String
+  user: String
   geoLocation: GeoLocationCreateOneInput!
 }
 
@@ -343,6 +345,8 @@ enum LocationOrderByInput {
   city_DESC
   description_ASC
   description_DESC
+  user_ASC
+  user_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -354,6 +358,7 @@ type LocationPreviousValues {
   country: String!
   city: String!
   description: String
+  user: String
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -527,6 +532,46 @@ input LocationScalarWhereInput {
 
   """All values not ending with the given string."""
   description_not_ends_with: String
+  user: String
+
+  """All values that are not equal to given value."""
+  user_not: String
+
+  """All values that are contained in given list."""
+  user_in: [String!]
+
+  """All values that are not contained in given list."""
+  user_not_in: [String!]
+
+  """All values less than the given value."""
+  user_lt: String
+
+  """All values less than or equal the given value."""
+  user_lte: String
+
+  """All values greater than the given value."""
+  user_gt: String
+
+  """All values greater than or equal the given value."""
+  user_gte: String
+
+  """All values containing the given string."""
+  user_contains: String
+
+  """All values not containing the given string."""
+  user_not_contains: String
+
+  """All values starting with the given string."""
+  user_starts_with: String
+
+  """All values not starting with the given string."""
+  user_not_starts_with: String
+
+  """All values ending with the given string."""
+  user_ends_with: String
+
+  """All values not ending with the given string."""
+  user_not_ends_with: String
   createdAt: DateTime
 
   """All values that are not equal to given value."""
@@ -616,6 +661,7 @@ input LocationUpdateDataInput {
   country: String
   city: String
   description: String
+  user: String
   geoLocation: GeoLocationUpdateOneRequiredInput
 }
 
@@ -623,6 +669,7 @@ input LocationUpdateInput {
   country: String
   city: String
   description: String
+  user: String
   geoLocation: GeoLocationUpdateOneRequiredInput
 }
 
@@ -630,6 +677,7 @@ input LocationUpdateManyDataInput {
   country: String
   city: String
   description: String
+  user: String
 }
 
 input LocationUpdateManyInput {
@@ -648,6 +696,7 @@ input LocationUpdateManyMutationInput {
   country: String
   city: String
   description: String
+  user: String
 }
 
 input LocationUpdateManyWithWhereNestedInput {
@@ -835,6 +884,46 @@ input LocationWhereInput {
 
   """All values not ending with the given string."""
   description_not_ends_with: String
+  user: String
+
+  """All values that are not equal to given value."""
+  user_not: String
+
+  """All values that are contained in given list."""
+  user_in: [String!]
+
+  """All values that are not contained in given list."""
+  user_not_in: [String!]
+
+  """All values less than the given value."""
+  user_lt: String
+
+  """All values less than or equal the given value."""
+  user_lte: String
+
+  """All values greater than the given value."""
+  user_gt: String
+
+  """All values greater than or equal the given value."""
+  user_gte: String
+
+  """All values containing the given string."""
+  user_contains: String
+
+  """All values not containing the given string."""
+  user_not_contains: String
+
+  """All values starting with the given string."""
+  user_starts_with: String
+
+  """All values not starting with the given string."""
+  user_not_starts_with: String
+
+  """All values ending with the given string."""
+  user_ends_with: String
+
+  """All values not ending with the given string."""
+  user_not_ends_with: String
   createdAt: DateTime
 
   """All values that are not equal to given value."""
