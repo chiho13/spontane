@@ -1,5 +1,5 @@
-# source: https://eu1.prisma.sh/anthony-ho-b91ea0/spontane/dev
-# timestamp: Tue Apr 28 2020 20:06:02 GMT+0100 (British Summer Time)
+# source: https://spontane-production-5131a41d3d.herokuapp.com/spontane-prod/prod
+# timestamp: Tue Apr 28 2020 21:51:55 GMT+0100 (British Summer Time)
 
 type AggregateGeoLocation {
   count: Int!
@@ -298,7 +298,7 @@ type Location implements Node {
   city: String!
   geoLocation: GeoLocation!
   description: String
-  user: String
+  user: User
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -318,8 +318,8 @@ input LocationCreateInput {
   country: String!
   city: String!
   description: String
-  user: String
   geoLocation: GeoLocationCreateOneInput!
+  user: UserCreateOneInput
 }
 
 input LocationCreateManyInput {
@@ -345,8 +345,6 @@ enum LocationOrderByInput {
   city_DESC
   description_ASC
   description_DESC
-  user_ASC
-  user_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -358,7 +356,6 @@ type LocationPreviousValues {
   country: String!
   city: String!
   description: String
-  user: String
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -532,46 +529,6 @@ input LocationScalarWhereInput {
 
   """All values not ending with the given string."""
   description_not_ends_with: String
-  user: String
-
-  """All values that are not equal to given value."""
-  user_not: String
-
-  """All values that are contained in given list."""
-  user_in: [String!]
-
-  """All values that are not contained in given list."""
-  user_not_in: [String!]
-
-  """All values less than the given value."""
-  user_lt: String
-
-  """All values less than or equal the given value."""
-  user_lte: String
-
-  """All values greater than the given value."""
-  user_gt: String
-
-  """All values greater than or equal the given value."""
-  user_gte: String
-
-  """All values containing the given string."""
-  user_contains: String
-
-  """All values not containing the given string."""
-  user_not_contains: String
-
-  """All values starting with the given string."""
-  user_starts_with: String
-
-  """All values not starting with the given string."""
-  user_not_starts_with: String
-
-  """All values ending with the given string."""
-  user_ends_with: String
-
-  """All values not ending with the given string."""
-  user_not_ends_with: String
   createdAt: DateTime
 
   """All values that are not equal to given value."""
@@ -661,23 +618,22 @@ input LocationUpdateDataInput {
   country: String
   city: String
   description: String
-  user: String
   geoLocation: GeoLocationUpdateOneRequiredInput
+  user: UserUpdateOneInput
 }
 
 input LocationUpdateInput {
   country: String
   city: String
   description: String
-  user: String
   geoLocation: GeoLocationUpdateOneRequiredInput
+  user: UserUpdateOneInput
 }
 
 input LocationUpdateManyDataInput {
   country: String
   city: String
   description: String
-  user: String
 }
 
 input LocationUpdateManyInput {
@@ -696,7 +652,6 @@ input LocationUpdateManyMutationInput {
   country: String
   city: String
   description: String
-  user: String
 }
 
 input LocationUpdateManyWithWhereNestedInput {
@@ -884,46 +839,6 @@ input LocationWhereInput {
 
   """All values not ending with the given string."""
   description_not_ends_with: String
-  user: String
-
-  """All values that are not equal to given value."""
-  user_not: String
-
-  """All values that are contained in given list."""
-  user_in: [String!]
-
-  """All values that are not contained in given list."""
-  user_not_in: [String!]
-
-  """All values less than the given value."""
-  user_lt: String
-
-  """All values less than or equal the given value."""
-  user_lte: String
-
-  """All values greater than the given value."""
-  user_gt: String
-
-  """All values greater than or equal the given value."""
-  user_gte: String
-
-  """All values containing the given string."""
-  user_contains: String
-
-  """All values not containing the given string."""
-  user_not_contains: String
-
-  """All values starting with the given string."""
-  user_starts_with: String
-
-  """All values not starting with the given string."""
-  user_not_starts_with: String
-
-  """All values ending with the given string."""
-  user_ends_with: String
-
-  """All values not ending with the given string."""
-  user_not_ends_with: String
   createdAt: DateTime
 
   """All values that are not equal to given value."""
@@ -969,6 +884,7 @@ input LocationWhereInput {
   """All values greater than or equal the given value."""
   updatedAt_gte: DateTime
   geoLocation: GeoLocationWhereInput
+  user: UserWhereInput
 }
 
 input LocationWhereUniqueInput {
@@ -982,30 +898,30 @@ Long can represent values between -(2^63) and 2^63 - 1.
 scalar Long
 
 type Mutation {
-  createUser(data: UserCreateInput!): User!
   createProject(data: ProjectCreateInput!): Project!
   createGeoLocation(data: GeoLocationCreateInput!): GeoLocation!
   createLocation(data: LocationCreateInput!): Location!
-  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  createUser(data: UserCreateInput!): User!
   updateProject(data: ProjectUpdateInput!, where: ProjectWhereUniqueInput!): Project
   updateGeoLocation(data: GeoLocationUpdateInput!, where: GeoLocationWhereUniqueInput!): GeoLocation
   updateLocation(data: LocationUpdateInput!, where: LocationWhereUniqueInput!): Location
-  deleteUser(where: UserWhereUniqueInput!): User
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   deleteProject(where: ProjectWhereUniqueInput!): Project
   deleteGeoLocation(where: GeoLocationWhereUniqueInput!): GeoLocation
   deleteLocation(where: LocationWhereUniqueInput!): Location
-  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  deleteUser(where: UserWhereUniqueInput!): User
   upsertProject(where: ProjectWhereUniqueInput!, create: ProjectCreateInput!, update: ProjectUpdateInput!): Project!
   upsertGeoLocation(where: GeoLocationWhereUniqueInput!, create: GeoLocationCreateInput!, update: GeoLocationUpdateInput!): GeoLocation!
   upsertLocation(where: LocationWhereUniqueInput!, create: LocationCreateInput!, update: LocationUpdateInput!): Location!
-  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
+  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   updateManyProjects(data: ProjectUpdateManyMutationInput!, where: ProjectWhereInput): BatchPayload!
   updateManyGeoLocations(data: GeoLocationUpdateManyMutationInput!, where: GeoLocationWhereInput): BatchPayload!
   updateManyLocations(data: LocationUpdateManyMutationInput!, where: LocationWhereInput): BatchPayload!
-  deleteManyUsers(where: UserWhereInput): BatchPayload!
+  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   deleteManyProjects(where: ProjectWhereInput): BatchPayload!
   deleteManyGeoLocations(where: GeoLocationWhereInput): BatchPayload!
   deleteManyLocations(where: LocationWhereInput): BatchPayload!
+  deleteManyUsers(where: UserWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -1473,18 +1389,18 @@ input ProjectWhereUniqueInput {
 }
 
 type Query {
-  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   projects(where: ProjectWhereInput, orderBy: ProjectOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Project]!
   geoLocations(where: GeoLocationWhereInput, orderBy: GeoLocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [GeoLocation]!
   locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location]!
-  user(where: UserWhereUniqueInput!): User
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   project(where: ProjectWhereUniqueInput!): Project
   geoLocation(where: GeoLocationWhereUniqueInput!): GeoLocation
   location(where: LocationWhereUniqueInput!): Location
-  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  user(where: UserWhereUniqueInput!): User
   projectsConnection(where: ProjectWhereInput, orderBy: ProjectOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProjectConnection!
   geoLocationsConnection(where: GeoLocationWhereInput, orderBy: GeoLocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): GeoLocationConnection!
   locationsConnection(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LocationConnection!
+  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
 
   """Fetches an object given its ID"""
   node(
@@ -1494,10 +1410,10 @@ type Query {
 }
 
 type Subscription {
-  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   project(where: ProjectSubscriptionWhereInput): ProjectSubscriptionPayload
   geoLocation(where: GeoLocationSubscriptionWhereInput): GeoLocationSubscriptionPayload
   location(where: LocationSubscriptionWhereInput): LocationSubscriptionPayload
+  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 
 type User implements Node {
@@ -1530,6 +1446,11 @@ input UserCreateInput {
   resetTokenExpiry: String
   permissions: UserCreatepermissionsInput
   projects: ProjectCreateManyWithoutUserInput
+}
+
+input UserCreateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
 }
 
 input UserCreateOneWithoutProjectsInput {
@@ -1624,6 +1545,16 @@ input UserSubscriptionWhereInput {
   node: UserWhereInput
 }
 
+input UserUpdateDataInput {
+  name: String
+  email: String
+  password: String
+  resetToken: String
+  resetTokenExpiry: String
+  permissions: UserUpdatepermissionsInput
+  projects: ProjectUpdateManyWithoutUserInput
+}
+
 input UserUpdateInput {
   name: String
   email: String
@@ -1641,6 +1572,15 @@ input UserUpdateManyMutationInput {
   resetToken: String
   resetTokenExpiry: String
   permissions: UserUpdatepermissionsInput
+}
+
+input UserUpdateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
 }
 
 input UserUpdateOneRequiredWithoutProjectsInput {
@@ -1661,6 +1601,11 @@ input UserUpdateWithoutProjectsDataInput {
   resetToken: String
   resetTokenExpiry: String
   permissions: UserUpdatepermissionsInput
+}
+
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
 }
 
 input UserUpsertWithoutProjectsInput {

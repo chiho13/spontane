@@ -7,6 +7,10 @@ const {transport, niceEmail} = require('../mail');
 const Mutations = {
     async createGeoLocation(parent, args, ctx, info) {
 
+      if (!ctx.request.userId) {
+        throw new Error('You must be logged in to do that!');
+      }
+
         const geolocation = await ctx.db.mutation.createGeoLocation({
             data: {
                 ...args
@@ -16,6 +20,10 @@ const Mutations = {
         return geolocation;
     },
     async createLocation(parent, args, ctx, info) {
+
+      if (!ctx.request.userId) {
+        throw new Error('You must be logged in to do that!');
+      }
 
         const location = await ctx.db.mutation.createLocation({
             data: {
@@ -28,6 +36,10 @@ const Mutations = {
     },
 
     async createProject(parent, args, ctx, info) {
+
+      if (!ctx.request.userId) {
+        throw new Error('You must be logged in to do that!');
+      }
 
         const project = await ctx.db.mutation.createProject({
             data: {
@@ -45,6 +57,11 @@ const Mutations = {
     },
 
     async updateLocation(parent, args, ctx, info) {
+
+      if (!ctx.request.userId) {
+        throw new Error('You must be logged in to do that!');
+      }
+
         // first take a copy of the updates
         const updates = { ...args };
         // remove the ID from the updates
@@ -61,6 +78,10 @@ const Mutations = {
         );
       },
       async updateProject(parent, args, ctx, info) {
+
+        if (!ctx.request.userId) {
+          throw new Error('You must be logged in to do that!');
+        }
         // first take a copy of the updates
         const updates = { ...args };
         // remove the ID from the updates
