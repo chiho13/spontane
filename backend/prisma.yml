@@ -1,5 +1,5 @@
-#endpoint: ${env:PRISMA_ENDPOINT}
-endpoint: https://spontane-production-5131a41d3d.herokuapp.com/spontane-prod/prod
+endpoint: ${env:PRISMA_ENDPOINT}
+# endpoint: https://spontane-production-5131a41d3d.herokuapp.com/spontane-prod/prod
 datamodel: datamodel.prisma
 secret: ${env:PRISMA_SECRET}
 hooks:
