@@ -940,8 +940,6 @@ input ProjectWhereUniqueInput {
 }
 
 type Query {
-  tours: [Tour]!
-  tour(where: TourWhereUniqueInput!): Tour
   project(where: ProjectWhereUniqueInput!): Project
   projects(where: ProjectWhereInput, orderBy: ProjectOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Project]!
   locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, first: Int): [Location]!
