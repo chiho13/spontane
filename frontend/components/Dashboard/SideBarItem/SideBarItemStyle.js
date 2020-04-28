@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import ListItem from '@material-ui/core/ListItem';
 
-const SideBarItemStyle = styled(ListItem)`
+const SideBarItemStyle = styled.li`
 
     list-style: none;
     white-space: nowrap;

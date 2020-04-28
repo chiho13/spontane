@@ -49,7 +49,6 @@ function SideBarItems() {
                 link: "/admin"
             }} />
 
-            <Divider />
 
             <ProjectSidebar>
                 {
@@ -59,7 +58,6 @@ function SideBarItems() {
                 </ProjectSidebar>
             <ProjectSidebar>
             
-            <Divider />
                   <SideBarItem item={      {
             title: "Project Settings",
             icon: "settings",
