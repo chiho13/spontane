@@ -12,7 +12,7 @@ margin: 32px;
 .map-container {
     position: relative;
     width: 100%;
-    height: calc(100vh - 190px)
+    height: calc(100vh - 220px)
 }
 
 .mapboxgl-map {

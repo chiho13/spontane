@@ -54,7 +54,7 @@ function AllLocations(props) {
 
      const {data: singleLocationData, loading, refetch} = useQuery(SINGLE_LOCATION_QUERY, {
             variables: {
-                locationID: locationID
+                locationID: locationID || 0
             }
      });
 
