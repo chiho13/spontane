@@ -6,10 +6,10 @@ const iButton = styled(Button)`
 
   && { 
   display: block;
-  background: ${props => props.theme.white};
+  background: ${props => props.selected ? props.theme.brandColor : props.theme.white};
   border-radius: 8px;
   border: 0;
-  color: ${props => props.theme.black};
+  color: ${props => props.selected ? props.theme.white : props.theme.black};
   height: 48px;
   padding: 12px 24px;
   font-size: 16px;
@@ -22,8 +22,8 @@ const iButton = styled(Button)`
   transition: all 0.4s ease;
 
   &:hover {
-    background: ${props => props.theme.hoverColor};
-    color: ${props => props.theme.black};
+    background: ${props => props.selected ? props.theme.brandColor : props.theme.hoverColor};
+    color: ${props => props.selected ? props.theme.white : props.theme.black};
   }
 
   &[disabled] {

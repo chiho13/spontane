@@ -7,6 +7,7 @@ import {UserContext} from '../../Layout/ProjectsLayout';
 import LoadingSpinner from '../../LoadingSpinner';
 import Router from "next/router";
 import useLocalStorage from '../../hooks/useLocalStorage';
+import MapSetBounds from '../MapSetBounds';
 
 const ProjectStyle = styled.div`
 
@@ -79,6 +80,7 @@ const Project = () => {
             }
             )}
             <NewProject open={open} onClose={handleClose} />
+            {/* <MapSetBounds /> */}
     </ProjectStyle>
 }
 

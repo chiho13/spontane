@@ -1,9 +1,9 @@
-import React, {useState, useEffect, useRef, useContext} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {Mutation} from 'react-apollo';
 import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
 import CreateLocationForm from '../../LocationForm';
-
+import {useQuery} from 'react-apollo-hooks';
 import MapGL from '../../MapGL';
 import CreateLocationMapStyle from './MapContainerStyle';
 import DropMarker from '../DropMarker/DropMarker';
@@ -19,6 +19,15 @@ import {UserContext} from '../../Layout/DashboardLayout';
 
 toast.configure();
 
+
+const SINGLE_PROJECT_QUERY = gql `
+    query SINGLE_PROJECT_QUERY($projectID: ID!) {
+        project(where: { id: $projectID }) {
+            mapBounds
+        }
+    }
+`;
+
 const CREATE_LOCATION_MUTATION = gql `
     mutation CREATE_LOCATION_MUTATION(
         $id: ID!
@@ -27,7 +36,6 @@ const CREATE_LOCATION_MUTATION = gql `
         $latitude: Float!
         $longitude: Float!
         $description: String
-        $user: String
     ) {
         updateProject(
             id: $id
@@ -42,7 +50,6 @@ const CREATE_LOCATION_MUTATION = gql `
                 }
             }
             description: $description
-            user: $user
             }]
             }
         ) {
@@ -56,7 +63,7 @@ function CreateLocation(props) {
     const [viewport,
         setViewport] = useState({height: '100vh', width: '100vw', latitude: 55.85, longitude: 20, zoom: 2});
     
-    const {user, loading} = useContext(UserContext);
+    const {user} = useContext(UserContext);
     const [form,
         setForm,
         handleChange] = useForm({
@@ -77,6 +84,24 @@ function CreateLocation(props) {
         onMarkerDragEnd
     } = useMapMarker({latitude: 0, longitude: 0});
 
+
+    const {data: singleProjectData, loading: projectLoading} = useQuery(SINGLE_PROJECT_QUERY, {
+            variables: {
+                projectID: router.query.id
+            }
+     });
+
+
+     useEffect(() => {
+        const {mapBounds} = singleProjectData;
+
+
+            console.log(singleProjectData)
+
+      }, [singleProjectData]);
+
+
+
     useEffect(() => {
         setForm({
             ...form,
@@ -96,7 +121,6 @@ function CreateLocation(props) {
         const res = await updateProject({
             variables: {
                 id: router.query.id,
-                user: user.id,
                 ...form
             }
         });

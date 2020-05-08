@@ -42,7 +42,7 @@ function ViewPortProvider(props) {
 };
 return (
    // new
-   <ViewPortContext.Provider value={{ viewport, flyViewPort, onViewportChange }}>
+   <ViewPortContext.Provider value={{ viewport, setViewport, flyViewPort, onViewportChange }}>
       {props.children}
     </ViewPortContext.Provider>
   );

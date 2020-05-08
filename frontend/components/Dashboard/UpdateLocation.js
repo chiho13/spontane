@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {Mutation, Query} from 'react-apollo';
 import gql from 'graphql-tag';
 
@@ -15,6 +15,7 @@ import {useQuery} from 'react-apollo-hooks';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { css } from 'glamor';
+import {ViewPortContext} from '../providers/MapProvider';
 
 toast.configure();
 
@@ -63,13 +64,24 @@ const UPDATE_LOCATION_MUTATION = gql `
 
 function UpdateLocation(props) {
     const {longitude, latitude } = props;
+    const {viewport, flyViewPort,} = useContext(ViewPortContext);
     
     const {data, loading} = useQuery(SINGLE_LOCATION_QUERY, {variables: {
-        id: props.id
+        id: props.locationID
     }})
 
-    const {viewport,
-        setViewport} = useViewport({height: '100vh', width: '100vw', latitude: parseFloat(latitude), longitude: parseFloat(longitude) + 24, zoom: 3});
+    // const {viewport,
+    //     setViewport} = useViewport({height: '100vh', width: '100vw', latitude: parseFloat(latitude), longitude: parseFloat(longitude), zoom: 3});
+
+
+    useEffect(() => {
+        flyViewPort({
+            geoLocation: {
+                latitude: parseFloat(latitude),
+                longitude: parseFloat(longitude)
+            },
+        }, 5);
+    }, [data]);
 
     const [form,
         setForm,
@@ -108,7 +120,7 @@ function UpdateLocation(props) {
      
         const res = await updateLocationMutation({
             variables: {
-                id: props.id,
+                id: props.locationID,
                 ...form
             }
         });
@@ -119,6 +131,7 @@ function UpdateLocation(props) {
         }
     }
 
+    // console.log(data.location)
 
     if(loading) {
         return <div></div>
@@ -128,9 +141,6 @@ function UpdateLocation(props) {
         <CreateLocationMapStyle>
                         <>  
                             <MapGL
-                                viewport={{
-                                ...viewport
-                            }}
                                 onClick={addMarker}>
                                 <DropMarker
                                     marker={marker}
@@ -139,11 +149,7 @@ function UpdateLocation(props) {
                                     onMarkerDrag={onMarkerDrag}
                                     onMarkerDragEnd={onMarkerDragEnd}/>
                             </MapGL>
-                            <Mutation mutation={UPDATE_LOCATION_MUTATION} variables={form} 
-                              refetchQueries={[
-                                {query: ALL_LOCATIONS_QUERY}
-                            ]}
-                            >
+                            <Mutation mutation={UPDATE_LOCATION_MUTATION} variables={form}>
                                 {(updateLocation, {loading, error}) => (<><UpdateLocationForm
                                     defaultValue={data.location}
                                     marker={marker} 

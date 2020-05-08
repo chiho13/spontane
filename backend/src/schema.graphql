@@ -698,8 +698,8 @@ type Mutation {
   createLocation(country: String, city: String, geoLocation: GeoLocationCreateOneInput, description: String, user: String): Location!
   updateLocation(id: ID!, country: String, city: String, geoLocation: GeoLocationUpdateOneRequiredInput, description: String): Location!
   createGeoLocation(latitude: Float, longitude: Float): GeoLocation!
-  createProject(title: String!, locations: LocationCreateManyInput): Project!
-  updateProject(id: ID!, title: String, locations: LocationUpdateManyInput): Project
+  createProject(title: String!, locations: LocationCreateManyInput, mapBounds: String): Project!
+  updateProject(id: ID!, title: String, locations: LocationUpdateManyInput, mapBounds: String): Project
   deleteLocation(id: ID!): Location
   signup(email: String!, password: String!, name: String!, confirmPassword: String!): User!
   login(email: String!, password: String!): User!
@@ -743,6 +743,7 @@ type Project implements Node {
   id: ID!
   title: String!
   locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location!]
+  mapBounds: String
   createdAt: DateTime!
   updatedAt: DateTime!
   user: User!
@@ -762,6 +763,7 @@ input ProjectCreateInput {
   id: ID
   title: String!
   locations: LocationCreateManyInput
+  mapBounds: String
   user: UserCreateOneWithoutProjectsInput!
 }
 

@@ -73,7 +73,7 @@ function AllLocations(props) {
         if(locationID) {
         setLocationDetail(location);
         setIsOpened(true)
-        flyViewPort(location, 7);
+        flyViewPort(location, 10);
         }
 
       }, [singleLocationData]);
@@ -91,12 +91,12 @@ function AllLocations(props) {
         setIsOpened(false);
         setParamProps(null);
         
-        flyViewPort({
-            geoLocation: {
-              latitude: 55,
-            longitude: 0,
-            } 
-        }, 2, false);
+        // flyViewPort({
+        //     geoLocation: {
+        //       latitude: 55,
+        //     longitude: 0,
+        //     } 
+        // }, 2, false);
 
         setTimeout(() => {
             setLocationDetail(null)

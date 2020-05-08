@@ -1,5 +1,5 @@
-# source: https://spontane-production-5131a41d3d.herokuapp.com/spontane-prod/prod
-# timestamp: Tue Apr 28 2020 22:13:22 GMT+0100 (British Summer Time)
+# source: https://eu1.prisma.sh/anthony-ho-b91ea0/spontane/dev
+# timestamp: Wed May 06 2020 01:15:10 GMT+0100 (British Summer Time)
 
 type AggregateGeoLocation {
   count: Int!
@@ -1048,6 +1048,7 @@ type Project implements Node {
   id: ID!
   title: String!
   locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location!]
+  mapBounds: String
   createdAt: DateTime!
   updatedAt: DateTime!
   user: User!
@@ -1066,6 +1067,7 @@ type ProjectConnection {
 input ProjectCreateInput {
   id: ID
   title: String!
+  mapBounds: String
   locations: LocationCreateManyInput
   user: UserCreateOneWithoutProjectsInput!
 }
@@ -1078,6 +1080,7 @@ input ProjectCreateManyWithoutUserInput {
 input ProjectCreateWithoutUserInput {
   id: ID
   title: String!
+  mapBounds: String
   locations: LocationCreateManyInput
 }
 
@@ -1095,6 +1098,8 @@ enum ProjectOrderByInput {
   id_DESC
   title_ASC
   title_DESC
+  mapBounds_ASC
+  mapBounds_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -1104,6 +1109,7 @@ enum ProjectOrderByInput {
 type ProjectPreviousValues {
   id: ID!
   title: String!
+  mapBounds: String
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -1197,6 +1203,46 @@ input ProjectScalarWhereInput {
 
   """All values not ending with the given string."""
   title_not_ends_with: String
+  mapBounds: String
+
+  """All values that are not equal to given value."""
+  mapBounds_not: String
+
+  """All values that are contained in given list."""
+  mapBounds_in: [String!]
+
+  """All values that are not contained in given list."""
+  mapBounds_not_in: [String!]
+
+  """All values less than the given value."""
+  mapBounds_lt: String
+
+  """All values less than or equal the given value."""
+  mapBounds_lte: String
+
+  """All values greater than the given value."""
+  mapBounds_gt: String
+
+  """All values greater than or equal the given value."""
+  mapBounds_gte: String
+
+  """All values containing the given string."""
+  mapBounds_contains: String
+
+  """All values not containing the given string."""
+  mapBounds_not_contains: String
+
+  """All values starting with the given string."""
+  mapBounds_starts_with: String
+
+  """All values not starting with the given string."""
+  mapBounds_not_starts_with: String
+
+  """All values ending with the given string."""
+  mapBounds_ends_with: String
+
+  """All values not ending with the given string."""
+  mapBounds_not_ends_with: String
   createdAt: DateTime
 
   """All values that are not equal to given value."""
@@ -1284,16 +1330,19 @@ input ProjectSubscriptionWhereInput {
 
 input ProjectUpdateInput {
   title: String
+  mapBounds: String
   locations: LocationUpdateManyInput
   user: UserUpdateOneRequiredWithoutProjectsInput
 }
 
 input ProjectUpdateManyDataInput {
   title: String
+  mapBounds: String
 }
 
 input ProjectUpdateManyMutationInput {
   title: String
+  mapBounds: String
 }
 
 input ProjectUpdateManyWithoutUserInput {
@@ -1315,6 +1364,7 @@ input ProjectUpdateManyWithWhereNestedInput {
 
 input ProjectUpdateWithoutUserDataInput {
   title: String
+  mapBounds: String
   locations: LocationUpdateManyInput
 }
 
@@ -1418,6 +1468,46 @@ input ProjectWhereInput {
 
   """All values not ending with the given string."""
   title_not_ends_with: String
+  mapBounds: String
+
+  """All values that are not equal to given value."""
+  mapBounds_not: String
+
+  """All values that are contained in given list."""
+  mapBounds_in: [String!]
+
+  """All values that are not contained in given list."""
+  mapBounds_not_in: [String!]
+
+  """All values less than the given value."""
+  mapBounds_lt: String
+
+  """All values less than or equal the given value."""
+  mapBounds_lte: String
+
+  """All values greater than the given value."""
+  mapBounds_gt: String
+
+  """All values greater than or equal the given value."""
+  mapBounds_gte: String
+
+  """All values containing the given string."""
+  mapBounds_contains: String
+
+  """All values not containing the given string."""
+  mapBounds_not_contains: String
+
+  """All values starting with the given string."""
+  mapBounds_starts_with: String
+
+  """All values not starting with the given string."""
+  mapBounds_not_starts_with: String
+
+  """All values ending with the given string."""
+  mapBounds_ends_with: String
+
+  """All values not ending with the given string."""
+  mapBounds_not_ends_with: String
   createdAt: DateTime
 
   """All values that are not equal to given value."""

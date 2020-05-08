@@ -9,7 +9,7 @@ const theme = {
 }
 
 const EditButton = (props) => {
-    const {pathname, id, latitude, longitude} = props;
+    const {pathname, locationID, latitude, longitude} = props;
     return (
         <ThemeProvider theme={theme}>
                 <IconButtonStyle>
@@ -17,7 +17,7 @@ const EditButton = (props) => {
                 href={{
                 pathname: pathname,
                 query: {
-                    id,
+                    locationID,
                     latitude,
                     longitude
                 }
