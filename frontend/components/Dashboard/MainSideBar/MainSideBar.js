@@ -6,12 +6,10 @@ import Logo from '../SideBarLogo/SideBarLogo';
 
 function  MainSideBar(props){
         return (
-            <Row>
                 <MainSideBarStyle>
                     <Logo />
                     <MainSideBarItems />
                 </MainSideBarStyle>
-            </Row>
         );
 }
 

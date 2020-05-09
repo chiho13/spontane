@@ -10,7 +10,7 @@ function Maps(props) {
 
         return (
             <MapGL  {...props} {...viewport} width="100%" height="100%" mapStyle="mapbox://styles/anthonyhodesu/ck0y2dle1013q1cpk194xrvtu" mapboxApiAccessToken={TOKEN} onViewportChange={onViewportChange} 
-           
+            attributionControl={false}
             >
             {props.children}
         </MapGL>

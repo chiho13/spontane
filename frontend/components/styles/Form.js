@@ -138,7 +138,7 @@ const Form = styled.form`
 
   textarea {
     resize: none;
-    height: 100px
+    height: 140px
   }
   button,
   input[type='submit'] {
@@ -151,6 +151,7 @@ const Form = styled.form`
     cursor: pointer;
     margin-top: 2rem;
     padding: 0.5rem 1.2rem;
+    font-family: ${props => props.theme.boldFont};
   }
   fieldset {
     border: 0;

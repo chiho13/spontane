@@ -62,6 +62,9 @@ ul, li, h1, h2, h3, p, a {
     margin: 0;
 }
 
+.mapboxgl-ctrl {
+    display: none;
+}
 
 h1, h2 {
     font-family: 'Roboto';

@@ -3,7 +3,6 @@ import {Mutation} from 'react-apollo';
 import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
 import CreateLocationForm from '../../LocationForm';
-import {useQuery} from 'react-apollo-hooks';
 import MapGL from '../../MapGL';
 import CreateLocationMapStyle from './MapContainerStyle';
 import DropMarker from '../DropMarker/DropMarker';
@@ -14,8 +13,10 @@ import {CURRENT_USER_QUERY} from '../../hooks/useUser';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { css } from 'glamor';
+import {ViewPortContext} from '../../providers/MapProvider';
 
 import {UserContext} from '../../Layout/DashboardLayout';
+
 
 toast.configure();
 
@@ -60,9 +61,8 @@ const CREATE_LOCATION_MUTATION = gql `
 
 function CreateLocation(props) {
     const router = useRouter();
-    const [viewport,
-        setViewport] = useState({height: '100vh', width: '100vw', latitude: 55.85, longitude: 20, zoom: 2});
-    
+    const {viewport, setViewport} = useContext(ViewPortContext);    
+    const [maxBounds, setMaxBounds] = useState(null)
     const {user} = useContext(UserContext);
     const [form,
         setForm,
@@ -74,7 +74,6 @@ function CreateLocation(props) {
             longitude: 0
         });
 
-
     const {
         marker,
         addMarker,
@@ -83,24 +82,6 @@ function CreateLocation(props) {
         onMarkerDrag,
         onMarkerDragEnd
     } = useMapMarker({latitude: 0, longitude: 0});
-
-
-    const {data: singleProjectData, loading: projectLoading} = useQuery(SINGLE_PROJECT_QUERY, {
-            variables: {
-                projectID: router.query.id
-            }
-     });
-
-
-     useEffect(() => {
-        const {mapBounds} = singleProjectData;
-
-
-            console.log(singleProjectData)
-
-      }, [singleProjectData]);
-
-
 
     useEffect(() => {
         setForm({
@@ -130,12 +111,10 @@ function CreateLocation(props) {
 
     return (
         <CreateLocationMapStyle>
-            
+            <div className="map_container">
             <MapGL
-                viewport={{
-                ...viewport
-            }}
-                onClick={addMarker}>
+                onClick={addMarker}
+                >
                 {showMarker && <DropMarker
                     marker={marker}
                     onMarkerDragStart={onMarkerDragStart}
@@ -143,6 +122,7 @@ function CreateLocation(props) {
                     onMarkerDragEnd={onMarkerDragEnd}/>}
             </MapGL>
             <h3>Click on map to drop a pin</h3>
+            </div>
             <Mutation mutation={CREATE_LOCATION_MUTATION} variables={form} refetchQueries={[{ query: CURRENT_USER_QUERY}]}>
                 {(createLocation, {loading, error}) => (<CreateLocationForm
                     form={form}

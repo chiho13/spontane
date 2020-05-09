@@ -10,20 +10,14 @@ import AuthLayout from './AuthLayout';
 import BuyCredit from '../Dashboard/BuyCredits';
 import {ViewPortProvider } from '../providers/MapProvider';
 
+const DashboardContainer = styled.div`
+    display: flex;
+`;
 
 const MainContent = styled.div `
   display: flex;
   position: relative;
-
-@media (min-width: 700px) {
-  margin-left: 172px;
-  height: 100vh;
-  
-}
-
-@media (min-width: 900px) {
-  margin-left: 200px;
-}
+  flex-grow: 1;
 
 .dashboard_content {
   width: 100%;
@@ -93,8 +87,10 @@ const DashboardLayout = props => {
         called, refetch, projectId, setProjectID
     }}>
         <ViewPortProvider id={props.id}>
+        
+        <DashboardContainer>
 
-        <> <MainSideBar/>
+        <MainSideBar/>
         <MainContent>
             <DashboardNav>
                 {/* <BuyCredit /> */}
@@ -107,7 +103,7 @@ const DashboardLayout = props => {
                     </div>
                 : <Loading/>}
         </MainContent>
-    </>
+        </DashboardContainer>
     </ViewPortProvider>
 </UserContext.Provider>
 };

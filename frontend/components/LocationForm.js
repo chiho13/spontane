@@ -9,14 +9,28 @@ import styled from 'styled-components';
 
 export const LocationFormStyle = styled(Form)`
 display: block;
-border: 2px solid ${props => props.theme.lightgrey};
+border: 0;
+top: 0;
+border-radius: 0;
+width: auto;
+margin: 0;
+box-shadow: none;
+right: 0;
+flex-basis: 35%;
+padding: 32px;
+max-width: 100%;
+overflow-y: auto;
+
+h2 {
+    margin-top: 64px;
+}
 `;
 
 function LocationForm(props) {
     const {form, mode, defaultValue, marker, handleChange, loading, error, onSubmit} = props;
     const EditMode = mode === 'EDIT';
 
-        return <LocationFormStyle fixed={true}
+        return <LocationFormStyle
                     onSubmit={onSubmit}>
                         <h2>{ EditMode ? 'Update Location' : 'Add Location'}</h2>
                     <Error error={error}/>
