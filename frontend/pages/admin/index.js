@@ -4,7 +4,7 @@ import Projects from '../../components/Dashboard/Project/Project';
 
 const Admin = () => (
   <ProjectsLayout>
-    <Title title="Projects" />
+    <Title title="My Maps" />
 
     <Projects />
   </ProjectsLayout>

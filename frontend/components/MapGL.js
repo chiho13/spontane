@@ -8,9 +8,8 @@ export const TOKEN = 'pk.eyJ1IjoiYW50aG9ueWhvZGVzdSIsImEiOiJjanI2aWdmMmYxNXB2NDN
 function Maps(props) {
     const {viewport, onViewportChange} = useContext(ViewPortContext);
   
-
         return (
-            <MapGL {...props} {...viewport} width="100%" height="100%" mapStyle="mapbox://styles/anthonyhodesu/ck0y2dle1013q1cpk194xrvtu" mapboxApiAccessToken={TOKEN} onViewportChange={onViewportChange} 
+            <MapGL {...props} {...viewport}  id="mapGL" width="100%" height="100%" mapStyle="mapbox://styles/anthonyhodesu/ck0y2dle1013q1cpk194xrvtu" mapboxApiAccessToken={TOKEN} onViewportChange={onViewportChange} 
             attributionControl={false}
             >
             {props.children}

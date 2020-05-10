@@ -135,8 +135,6 @@ function NewProject(props) {
         SW
     });
 
-    console.log(form);
-
     return (
         <NewProjectStyle onClose={handleClose} aria-labelledby="simple-dialog-title" open={open} scroll='body'>
             <Mutation mutation={CREATE_PROJECT_MUTATION} variables={form}>

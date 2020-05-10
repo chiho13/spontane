@@ -20,14 +20,14 @@ const SINGLE_PROJECT_QUERY = gql `
     }
 `;
 
-
 function ViewPortProvider(props) {
   // new
   const router = useRouter();
+  const projectID = router.query.id
 
   const { data: singleProjectData, loading: projectLoading, error } = useQuery(SINGLE_PROJECT_QUERY, {
     variables: {
-      projectID: router.query.id
+      projectID: projectID
     }
   });
 
@@ -38,8 +38,9 @@ function ViewPortProvider(props) {
   })
 
   useEffect(() => {
+    const mapExists = document.querySelector('.mapboxgl-map');
 
-    if (projectLoading || error) return;
+    if (projectLoading || error || !mapExists) return;
     const { project } = singleProjectData;
 
     const bounds = JSON.parse(project.mapBounds);
