@@ -2,11 +2,12 @@ import React, { useEffect } from 'react';
 
 import useViewPort from '../hooks/useViewPort';
 import getCoordinates from '../helpers/offsetLocation';
-import { FlyToInterpolator } from 'react-map-gl';
+import { FlyToInterpolator, WebMercatorViewport} from 'react-map-gl';
 import { easeCubic } from 'd3-ease';
 import { useQuery } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
+
 
 const ViewPortContext = React.createContext();
 
@@ -52,10 +53,21 @@ function ViewPortProvider(props) {
 
 
     console.log(lat, lng);
-    setViewport({
-      ...viewport,
-      latitude: lat, longitude: lng, zoom: 2.5
-    });
+
+
+    const vwprt = new WebMercatorViewport(viewport);
+const bound = vwprt.fitBounds(
+  [geometry[1], geometry[3]],
+  {padding: 5, offset: [0, 0]}
+);
+    // setViewport({
+    //   ...viewport,
+    //   latitude: lat, longitude: lng, zoom: 2.5
+    // });
+
+    setViewport(
+      bound
+    );
 
 
   }, [singleProjectData]);
