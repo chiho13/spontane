@@ -103,15 +103,14 @@ function NewProject(props) {
 
     const [projectID, setProjectID] = useLocalStorage('projectID', null);
     const [instanceWiz, setInstance] = useState();
-    const [feature, setFeature] = useState(null);
 
     const handleClose = () => {
         onClose();
     };
 
-    useEffect(() => {
+    const setFeature = (feature) => {
         setForm({...form, mapBounds: feature});
-    }, [feature]);
+    };
 
     const notify = () => toast.success("New Project created!", {
         position: toast.POSITION.BOTTOM_CENTER,
@@ -148,7 +147,7 @@ function NewProject(props) {
                     >
 
                     <StepOne handleChange={handleChange}/>
-                    <MapSetBounds setFeature={setFeature} feature={feature}/>
+                    <MapSetBounds setFeature={setFeature}/>
                     </StepWizard>
                     </Content>
                     {/* <ThemeProvider theme={invertTheme}>

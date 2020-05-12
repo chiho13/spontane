@@ -8,6 +8,7 @@ import LoadingSpinner from '../../LoadingSpinner';
 import Router from "next/router";
 import useLocalStorage from '../../hooks/useLocalStorage';
 import MapSetBounds from '../MapSetBounds';
+import SelectBaseMap from '../MapStyles';
 
 const ProjectStyle = styled.div`
 
@@ -71,7 +72,7 @@ const Project = () => {
     return <ProjectStyle>
             <AddProject disableRipple onClick={handleClickOpen}>
                 <MaterialIcon icon="add" />
-                <p>Create Project</p>
+                <p>Create Map</p>
             </AddProject>
             {projectData && projectData.projects.map((project, i) => {
                 return <ProjectButtons key={i} onClick={() => goToProject(project.id)}>
@@ -81,6 +82,7 @@ const Project = () => {
             )}
             <NewProject open={open} onClose={handleClose} />
             {/* <MapSetBounds /> */}
+            <SelectBaseMap />
     </ProjectStyle>
 }
 

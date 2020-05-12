@@ -16,7 +16,6 @@ import MaterialIcon from '@material/react-material-icon';
 import {getCountryPreset, listOfCountryPresets} from './countryPresets';
 import {ViewPortContext} from '../../providers/MapProvider';
 
-
 const Mapstyle = styled.div`
   position: relative;
       width: 100%;

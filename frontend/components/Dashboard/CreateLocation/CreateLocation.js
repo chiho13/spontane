@@ -20,15 +20,6 @@ import {UserContext} from '../../Layout/DashboardLayout';
 
 toast.configure();
 
-
-const SINGLE_PROJECT_QUERY = gql `
-    query SINGLE_PROJECT_QUERY($projectID: ID!) {
-        project(where: { id: $projectID }) {
-            mapBounds
-        }
-    }
-`;
-
 const CREATE_LOCATION_MUTATION = gql `
     mutation CREATE_LOCATION_MUTATION(
         $id: ID!

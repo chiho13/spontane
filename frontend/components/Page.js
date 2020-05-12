@@ -6,7 +6,7 @@ export const theme = {
     red: '#D64242',
     black: '#393939',
     white: '#FFFFFF',
-    grey: '#777',
+    grey: '#cccccc',
     brandColor: '#007bff',
     lightgrey: '#E1E1E1',
     maxWidth: '100%',
@@ -19,6 +19,7 @@ export const theme = {
 
 const StyledPage = styled.div `
     color: ${props => props.theme.black};
+
 `;
 
 const Inner = styled.div `

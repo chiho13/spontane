@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import useViewPort from '../hooks/useViewPort';
 import getCoordinates from '../helpers/offsetLocation';
@@ -31,11 +31,23 @@ function ViewPortProvider(props) {
     }
   });
 
-  const { viewport, setViewport, onViewportChange } = useViewPort({
+  const [viewport, setViewport] = useState({
     latitude: 55,
     longitude: 0,
     zoom: 2
-  })
+  }) ;
+
+  const [minZoom, setMinZoom] = useState(1);
+  const [maxBounds, setMaxBounds] = useState({
+    lat: {
+      min: -78,
+      max: 78
+    },
+    lng: {
+      min: -175,
+      max: 175
+    }
+  });
 
   useEffect(() => {
     const mapExists = document.querySelector('.mapboxgl-map');
@@ -61,18 +73,44 @@ const bound = vwprt.fitBounds(
   [geometry[1], geometry[3]],
   {padding: 5, offset: [0, 0]}
 );
-    // setViewport({
-    //   ...viewport,
-    //   latitude: lat, longitude: lng, zoom: 2.5
-    // });
-
+ 
     setViewport(
       bound
     );
 
+    console.log(bound);
+
+    setMinZoom(bound.zoom);
+
+    setMaxBounds({
+      lat: {
+        min: geometry[3][1],
+        max: geometry[1][1]
+      },
+      lng: {
+        min: geometry[3][0],
+        max: geometry[1][0]
+      }
+    })
 
   }, [singleProjectData]);
 
+  function onViewportChange(_viewport) {
+    if ( _viewport.longitude < maxBounds.lng.min ) {
+      _viewport.longitude = maxBounds.lng.min;
+    }
+    else if ( _viewport.longitude > maxBounds.lng.max ) {
+      _viewport.longitude = maxBounds.lng.max;
+    }
+    else if ( _viewport.latitude < maxBounds.lat.min ) {
+      _viewport.latitude = maxBounds.lat.min
+    }
+    else if ( _viewport.latitude > maxBounds.lat.max ) {
+      _viewport.latitude = maxBounds.lat.max;
+    }
+
+    setViewport(_viewport);
+  }
 
   function flyViewPort({
     geoLocation: {
@@ -99,7 +137,7 @@ const bound = vwprt.fitBounds(
   };
   return (
     // new
-    <ViewPortContext.Provider value={{ viewport, setViewport, flyViewPort, onViewportChange }}>
+    <ViewPortContext.Provider value={{ viewport, setViewport, flyViewPort, onViewportChange, minZoom }}>
       {props.children}
     </ViewPortContext.Provider>
   );

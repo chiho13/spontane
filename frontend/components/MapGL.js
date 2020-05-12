@@ -6,10 +6,10 @@ import {ViewPortContext} from './providers/MapProvider';
 export const TOKEN = 'pk.eyJ1IjoiYW50aG9ueWhvZGVzdSIsImEiOiJjanI2aWdmMmYxNXB2NDN0ZzJnd3FsMHg3In0.SejE2ZJApZ0Rg5UTsK7kPw';
 
 function Maps(props) {
-    const {viewport, onViewportChange} = useContext(ViewPortContext);
-  
+    const {viewport, onViewportChange, minZoom} = useContext(ViewPortContext);
+
         return (
-            <MapGL {...props} {...viewport}  id="mapGL" width="100%" height="100%" mapStyle="mapbox://styles/anthonyhodesu/ck0y2dle1013q1cpk194xrvtu" mapboxApiAccessToken={TOKEN} onViewportChange={onViewportChange} 
+            <MapGL {...props} {...viewport} minZoom={minZoom} id="mapGL" width="100%" height="100%" mapStyle="mapbox://styles/anthonyhodesu/ck0y2dle1013q1cpk194xrvtu" mapboxApiAccessToken={TOKEN} onViewportChange={onViewportChange} 
             attributionControl={false}
             >
             {props.children}
