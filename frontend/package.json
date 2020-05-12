@@ -85,6 +85,9 @@
       "^.+\\.js?$": "babel-jest"
     }
   },
+  "resolutions": {
+    "@turf/difference": "6.0.1"
+  },
   "//": "This is our babel config, I prefer this over a .babelrc file",
   "babel": {
     "env": {
