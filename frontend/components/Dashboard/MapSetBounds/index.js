@@ -69,7 +69,7 @@ function MapSetBounds(props) {
 
     const [disableButton, setDisableButton] = useState(true);
 
-    const {feature, setFeature} = props;
+    const {setFeature} = props;
     const editorRef = useRef(null);
 
     const initialViewPort = {
@@ -189,7 +189,7 @@ function handleClose(event) {
                 setResetButton(false)
             }
 
-            console.log(selected.selectedFeatureIndex);
+
             if(selected.mapCoords === undefined) {
                 switchMode(EditingMode);
             } 

@@ -42,6 +42,7 @@ type Project {
   title: String!
   locations: [Location] 
   mapBounds: String
+  mapStyle: String
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
   user: User! @relation(name: "UsersProject")

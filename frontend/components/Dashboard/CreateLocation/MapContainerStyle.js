@@ -12,8 +12,10 @@ const CreateLocationMapStyle = styled.div `
         top: 30px;
         right: 30px;
         font-family: ${props => props.theme.boldFont};
-        font-size: 24px;
+        font-size: 22px;
         color: ${props => props.theme.brandColor};
+        padding: 8px;
+        background-color: rgba(255, 255, 255, 0.8);
       }
 
       .map_container {

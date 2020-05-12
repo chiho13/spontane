@@ -70,7 +70,7 @@ const Project = () => {
       }
 
     return <ProjectStyle>
-            <AddProject disableRipple onClick={handleClickOpen}>
+            <AddProject onClick={handleClickOpen}>
                 <MaterialIcon icon="add" />
                 <p>Create Map</p>
             </AddProject>
@@ -81,8 +81,6 @@ const Project = () => {
             }
             )}
             <NewProject open={open} onClose={handleClose} />
-            {/* <MapSetBounds /> */}
-            <SelectBaseMap />
     </ProjectStyle>
 }
 

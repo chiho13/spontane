@@ -16,6 +16,7 @@ const SINGLE_PROJECT_QUERY = gql `
     query SINGLE_PROJECT_QUERY($projectID: ID!) {
         project(where: { id: $projectID }) {
             mapBounds
+            mapStyle
         }
     }
 `;
@@ -37,7 +38,12 @@ function ViewPortProvider(props) {
     zoom: 2
   }) ;
 
-  const [minZoom, setMinZoom] = useState(1);
+
+  const [mapConfig, setMapConfig] = useState({
+    minZoom: 1,
+    mapStyle: "mapbox://styles/anthonyhodesu/ck0y2dle1013q1cpk194xrvtu"
+  });
+
   const [maxBounds, setMaxBounds] = useState({
     lat: {
       min: -78,
@@ -57,15 +63,15 @@ function ViewPortProvider(props) {
 
     const bounds = JSON.parse(project.mapBounds);
 
+    console.log(project);
     console.log(bounds.geometry.coordinates);
     const geometry = bounds.geometry.coordinates[0];
 
+    // const lng = (geometry[1][0] + geometry[3][0]) / 2;
+    // const lat = (geometry[1][1] + geometry[3][1]) / 2;
 
-    const lng = (geometry[1][0] + geometry[3][0]) / 2;
-    const lat = (geometry[1][1] + geometry[3][1]) / 2;
 
-
-    console.log(lat, lng);
+    // console.log(lat, lng);
 
 
     const vwprt = new WebMercatorViewport(viewport);
@@ -78,9 +84,10 @@ const bound = vwprt.fitBounds(
       bound
     );
 
-    console.log(bound);
-
-    setMinZoom(bound.zoom);
+    setMapConfig({
+      mapStyle: project.mapStyle,
+      minZoom: bound.zoom
+    });
 
     setMaxBounds({
       lat: {
@@ -137,7 +144,7 @@ const bound = vwprt.fitBounds(
   };
   return (
     // new
-    <ViewPortContext.Provider value={{ viewport, setViewport, flyViewPort, onViewportChange, minZoom }}>
+    <ViewPortContext.Provider value={{ viewport, setViewport, flyViewPort, onViewportChange, mapConfig, setMapConfig }}>
       {props.children}
     </ViewPortContext.Provider>
   );

@@ -13,7 +13,7 @@ export const mapStyleLists = {
         imagePath: "/static/thumbnails/satellite.png"
     },
     "outdoors": {
-        stylesURL: "mapbox://styles/anthonyhodesu/cka06hfki23qd1ild80f5mqsv",
+        stylesURL: "mapbox://styles/anthonyhodesu/ck1p4tn2q00az1cn9i0wvlv93",
         imagePath: "static/thumbnails/outdoors.png"
     }
 }

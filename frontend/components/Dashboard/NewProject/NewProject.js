@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import PropTypes from 'prop-types';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
@@ -15,7 +15,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { css } from 'glamor';
 import StepWizard from 'react-step-wizard';
 import MapSetBounds from '../MapSetBounds';
+import SetMapStyle from '../MapStyles';
 import useLocalStorage from '../../hooks/useLocalStorage';
+import {ViewPortContext} from '../../providers/MapProvider';
 
 toast.configure();
 
@@ -82,10 +84,12 @@ const CREATE_PROJECT_MUTATION = gql`
     mutation CREATE_PROJECT_MUTATION(
         $title: String!
         $mapBounds: String
+        $mapStyle: String
     ) {
         createProject(
             title: $title
             mapBounds: $mapBounds
+            mapStyle: $mapStyle
         ) {
             id
         }
@@ -99,18 +103,22 @@ function NewProject(props) {
         handleChange] = useForm({
             title: ''
         });
-
+    
 
     const [projectID, setProjectID] = useLocalStorage('projectID', null);
     const [instanceWiz, setInstance] = useState();
+    const [feature, setFeature] = useState('');
+
+    const {mapConfig} = useContext(ViewPortContext)
 
     const handleClose = () => {
         onClose();
     };
 
-    const setFeature = (feature) => {
-        setForm({...form, mapBounds: feature});
-    };
+    useEffect(() => {
+        console.log(mapConfig.mapStyle);
+        setForm({...form, mapBounds: feature, mapStyle: mapConfig.mapStyle});
+    }, [mapConfig, feature]);
 
     const notify = () => toast.success("New Project created!", {
         position: toast.POSITION.BOTTOM_CENTER,
@@ -146,7 +154,8 @@ function NewProject(props) {
                     instance={initInstance}
                     >
 
-                    <StepOne handleChange={handleChange}/>
+                    <StepOne handleChange={handleChange} form={form}/>
+                    <SetMapStyle />
                     <MapSetBounds setFeature={setFeature}/>
                     </StepWizard>
                     </Content>
@@ -180,7 +189,7 @@ function StepOne(props) {
         </div>
     </div>
     <ThemeProvider theme={invertWhite}>
-        <Button className="next_button" onClick={props.nextStep}>Next</Button>
+        <Button  disabled={!props.form.title.length} className="next_button" onClick={props.nextStep}>Next</Button>
     </ThemeProvider>
 </fieldset>
                 </div> 

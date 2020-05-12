@@ -19,7 +19,6 @@ export const theme = {
 
 const StyledPage = styled.div `
     color: ${props => props.theme.black};
-
 `;
 
 const Inner = styled.div `
