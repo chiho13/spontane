@@ -36,6 +36,10 @@ const NewProjectStyle = styled(Dialog)`
             padding-top: 32px;
         }
 
+        .step3_text {
+            margin-top: 24px;
+        }
+
         .navButtons {
             display: flex;
             width: 100%;
@@ -104,10 +108,10 @@ function NewProject(props) {
             title: ''
         });
     
-
+    const worldBoundary = '{"type":"Feature","properties":{"shape":"Rectangle"},"geometry":{"type":"Polygon","coordinates":[[[-184,84],[184,84],[184,-84],[-184,-84],[-184,84]]]}}'
     const [projectID, setProjectID] = useLocalStorage('projectID', null);
     const [instanceWiz, setInstance] = useState();
-    const [feature, setFeature] = useState('');
+    const [feature, setFeature] = useState(worldBoundary);
 
     const {mapConfig} = useContext(ViewPortContext)
 
@@ -156,7 +160,7 @@ function NewProject(props) {
 
                     <StepOne handleChange={handleChange} form={form}/>
                     <SetMapStyle />
-                    <MapSetBounds setFeature={setFeature}/>
+                    <MapSetBounds setFeature={setFeature} defaultBoundary={worldBoundary}/>
                     </StepWizard>
                     </Content>
                     {/* <ThemeProvider theme={invertTheme}>

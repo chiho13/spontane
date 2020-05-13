@@ -67,11 +67,15 @@ ul, li, h1, h2, h3, p, a {
 }
 
 h1, h2 {
-    font-family: 'Roboto';
+    font-family: 'nunito-bold';
     font-size: 1.5rem;
     font-weight: bold;
     padding-left: 24px;
     margin-top: 16px;
+}
+
+p {
+    font-family: 'nunito';
 }
 
 a {

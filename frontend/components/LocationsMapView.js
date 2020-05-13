@@ -3,16 +3,15 @@ import {Marker, FlyToInterpolator} from 'react-map-gl';
 import gql from 'graphql-tag';
 import CityPin from './Icons/CityMarker';
 import Location from './LocationMapViewItem';
-import Link from 'next/link';
-import getCoordinates from './helpers/offsetLocation';
-
+import styled from 'styled-components';
+import IconButton from '@material-ui/core/IconButton';
+import MaterialIcon from '@material/react-material-icon';
 import MapGL from './MapGL';
 import {UserContext} from './Layout/DashboardLayout';
-import useViewPort from './hooks/useViewPort';
 import {useQuery} from 'react-apollo-hooks';
 import {useRouter} from 'next/router'
 import {ViewPortContext} from './providers/MapProvider';
-
+import { easeCubic } from 'd3-ease';
 
 const SINGLE_LOCATION_QUERY = gql `
     query SINGLE_LOCATION_QUERY($locationID: ID!) {
@@ -25,6 +24,22 @@ const SINGLE_LOCATION_QUERY = gql `
                 longitude
             }
             description
+        }
+    }
+`;
+
+const IconButtonStyle = styled(IconButton)`
+    && {
+        background-color: ${props => props.theme.white};
+        border: 1px solid ${props => props.theme.grey};
+        color: ${props => props.theme.black};
+        padding:8px;
+        position: absolute;
+        bottom: 8px;
+        right: 8px; 
+
+        &:hover {
+            background-color: ${props => props.theme.lightgrey};
         }
     }
 `;
@@ -80,6 +95,16 @@ function AllLocations(props) {
       }, [singleLocationData]);
 
 
+    function reCenter() {
+        onViewportChange({
+            latitude: mapConfig.originalLat,
+            longitude: mapConfig.originalLng,
+            zoom: mapConfig.minZoom,
+            transitionInterpolator: new FlyToInterpolator(),
+            transitionDuration: 500,
+            transitionEasing: easeCubic
+        });
+    }
 
     function closeLocationDetail() {
 
@@ -169,8 +194,8 @@ function AllLocations(props) {
         <div className="map-container">
             <MapGL
                 >
-              
                 {RenderCityMarker()}
+                <IconButtonStyle onClick={reCenter}><MaterialIcon icon="home"/></IconButtonStyle>
             </MapGL>
             {RenderLocationDetail()}
         </div>

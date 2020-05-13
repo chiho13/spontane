@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext} from 'react';
 
 import useViewPort from '../hooks/useViewPort';
 import getCoordinates from '../helpers/offsetLocation';
@@ -7,7 +7,7 @@ import { easeCubic } from 'd3-ease';
 import { useQuery } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
-
+import {UserContext} from '../Layout/DashboardLayout';
 
 const ViewPortContext = React.createContext();
 
@@ -36,6 +36,8 @@ function ViewPortProvider(props) {
     }
   });
 
+  const {user} = useContext(UserContext);
+
   const [viewport, setViewport] = useState({
     latitude: 55,
     longitude: 0,
@@ -58,20 +60,15 @@ function ViewPortProvider(props) {
     if (projectLoading || error || !mapExists) return;
     const { project } = singleProjectData;
 
-    const bounds = JSON.parse(project.mapBounds);
 
     // console.log(bounds.geometry.coordinates);
-    if(project.mapBounds) {
-      const bounds = JSON.parse(project.mapBounds);
+    const bounds = JSON.parse(project.mapBounds);
     const geometry = bounds.geometry.coordinates[0];
-
 
     const lng = (geometry[1][0] + geometry[3][0]) / 2;
     const lat = (geometry[1][1] + geometry[3][1]) / 2;
 
-
     console.log(lat, lng); 
-
 
     const vwprt = new WebMercatorViewport(viewport);
 const bound = vwprt.fitBounds(
@@ -101,7 +98,6 @@ const bound = vwprt.fitBounds(
         max: geometry[1][0]
       }
     })
-  }
 
   setMapConfig({
     ...mapConfig,
@@ -109,7 +105,7 @@ const bound = vwprt.fitBounds(
   });
 
 
-  }, [singleProjectData]);
+  }, [singleProjectData, user]);
 
   function onViewportChange(_viewport) {
 

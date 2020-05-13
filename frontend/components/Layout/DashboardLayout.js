@@ -47,7 +47,7 @@ const DashboardLayout = props => {
     const [pageLoad,
         setPageLoad] = useState(false);
     const [auth,
-        setAuth] = useState(true);
+        setAuth] = useState(false);
 
     const [projectId, setProjectId] = useState(null);
     
@@ -55,26 +55,30 @@ const DashboardLayout = props => {
         setProjectId(id);
     }
 
-    useEffect(() => {
-        const isAuth = function (hasUser) {
-            if (hasUser) {
-                setAuth(true)
-            } else {
-                setAuth(false);
-            }
-            return true
-        }
+    // useEffect(() => {
+    //     const isAuth = function (hasUser) {
+    //         if (hasUser) {
+    //             setAuth(true)
+    //         } else {
+    //             setAuth(false);
+    //         }
+    //         return true
+    //     }
 
-        if (isAuth && !loading) {
-            isAuth(user)
-        }
-    }, [loading, user]);
+    //     if (isAuth && !loading) {
+    //         isAuth(user)
+    //     }
+    // }, [loading, user]);
 
     useEffect(() => {
         setPageLoad(true);
     }, []);
 
-    if (!auth) {
+    if(loading) {
+        return <Loading/>
+    }
+
+    if (!user) {
         return <AuthLayout>
             <Login title="Please log in to continue" continue={false}/>
         </AuthLayout>
@@ -97,11 +101,9 @@ const DashboardLayout = props => {
                 <ProfileNav user={user} />
             </DashboardNav>
 
-            {pageLoad
-                ? <div className="dashboard_content">
+             <div className="dashboard_content">
                         {props.children}
                     </div>
-                : <Loading/>}
         </MainContent>
         </DashboardContainer>
     </ViewPortProvider>

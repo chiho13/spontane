@@ -27,8 +27,6 @@ function NavProfilePill(props) {
         if (anchorEl.contains(event.target)) {
             return;
         }
-
-        setOpen(false);
     }
 
     return (

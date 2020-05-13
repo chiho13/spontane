@@ -69,7 +69,7 @@ function MapSetBounds(props) {
 
     const [disableButton, setDisableButton] = useState(true);
 
-    const {setFeature} = props;
+    const {setFeature, defaultBoundary} = props;
     const editorRef = useRef(null);
 
     const initialViewPort = {
@@ -95,13 +95,8 @@ function MapSetBounds(props) {
     setResetButton(false);
     setDrawSelected(false);
     setSelectedMode(null);
-
+    setFeature(defaultBoundary);
   };
-
-//   const addShape = () => {
-//     editorRef.current.addFeatures({"type":"Feature","properties":{"shape":"Rectangle"},"geometry":{"type":"Polygon","coordinates":[[[-18.36914062500117,60.94938452276491],[8.525390624998632,60.94938452276491],[8.525390624998632,45.733420742426105],[-18.36914062500117,45.733420742426105],[-18.36914062500117,60.94938452276491]]]}})
-//   }
-
 
 let anchorEl;
 
@@ -171,11 +166,13 @@ function handleClose(event) {
     </ThemeProvider>
 
     <ThemeProvider theme={invertBrand}>
-            <Button disabled={disableButton} type="submit">Create Project</Button>
+            <Button type="submit">Create Project</Button>
     </ThemeProvider>
     </div>
+    <p className="step3_text">If unselected, boundary defaults to world map</p>
    
     <Mapstyle>
+   
         <MapGL >
               <Editor 
               ref={el => editorRef.current = el}
