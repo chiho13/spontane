@@ -197,6 +197,7 @@ function handleClose(event) {
           onUpdate={(feature) => {
               setFeature(JSON.stringify(feature.data[0]));
               setDisableButton(false);
+              console.log(JSON.stringify(feature.data[0]));
           }}
           featureStyle={featureStyle}
           editHandleStyle={editHandleStyle}

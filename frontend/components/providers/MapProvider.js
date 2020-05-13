@@ -24,7 +24,11 @@ const SINGLE_PROJECT_QUERY = gql `
 function ViewPortProvider(props) {
   // new
   const router = useRouter();
-  const projectID = router.query.id
+  const projectID = router.query.id;
+
+  const minZoomQuery = router.query.minZoom;
+
+  console.log(minZoomQuery);
 
   const { data: singleProjectData, loading: projectLoading, error } = useQuery(SINGLE_PROJECT_QUERY, {
     variables: {
@@ -35,25 +39,18 @@ function ViewPortProvider(props) {
   const [viewport, setViewport] = useState({
     latitude: 55,
     longitude: 0,
-    zoom: 2
+    zoom: 0
   }) ;
 
 
   const [mapConfig, setMapConfig] = useState({
-    minZoom: 1,
-    mapStyle: "mapbox://styles/anthonyhodesu/ck0y2dle1013q1cpk194xrvtu"
+    minZoom: 0,
+    mapStyle: "mapbox://styles/anthonyhodesu/ck0y2dle1013q1cpk194xrvtu",
+    originalLat: 0,
+    originalLng: 0
   });
 
-  const [maxBounds, setMaxBounds] = useState({
-    lat: {
-      min: -78,
-      max: 78
-    },
-    lng: {
-      min: -175,
-      max: 175
-    }
-  });
+  const [maxBounds, setMaxBounds] = useState(null);
 
   useEffect(() => {
     const mapExists = document.querySelector('.mapboxgl-map');
@@ -63,15 +60,17 @@ function ViewPortProvider(props) {
 
     const bounds = JSON.parse(project.mapBounds);
 
-    console.log(project);
-    console.log(bounds.geometry.coordinates);
+    // console.log(bounds.geometry.coordinates);
+    if(project.mapBounds) {
+      const bounds = JSON.parse(project.mapBounds);
     const geometry = bounds.geometry.coordinates[0];
 
-    // const lng = (geometry[1][0] + geometry[3][0]) / 2;
-    // const lat = (geometry[1][1] + geometry[3][1]) / 2;
+
+    const lng = (geometry[1][0] + geometry[3][0]) / 2;
+    const lat = (geometry[1][1] + geometry[3][1]) / 2;
 
 
-    // console.log(lat, lng);
+    console.log(lat, lng); 
 
 
     const vwprt = new WebMercatorViewport(viewport);
@@ -84,9 +83,12 @@ const bound = vwprt.fitBounds(
       bound
     );
 
+    console.log(bound);
+
     setMapConfig({
-      mapStyle: project.mapStyle,
-      minZoom: bound.zoom
+      minZoom: bound.zoom,
+      originalLat: lat,
+      originalLng: lng
     });
 
     setMaxBounds({
@@ -99,22 +101,30 @@ const bound = vwprt.fitBounds(
         max: geometry[1][0]
       }
     })
+  }
+
+  setMapConfig({
+    ...mapConfig,
+    mapStyle: project.mapStyle,
+  });
+
 
   }, [singleProjectData]);
 
   function onViewportChange(_viewport) {
-    if ( _viewport.longitude < maxBounds.lng.min ) {
-      _viewport.longitude = maxBounds.lng.min;
-    }
-    else if ( _viewport.longitude > maxBounds.lng.max ) {
-      _viewport.longitude = maxBounds.lng.max;
-    }
-    else if ( _viewport.latitude < maxBounds.lat.min ) {
-      _viewport.latitude = maxBounds.lat.min
-    }
-    else if ( _viewport.latitude > maxBounds.lat.max ) {
-      _viewport.latitude = maxBounds.lat.max;
-    }
+
+    // if ( _viewport.longitude < maxBounds.lng.min ) {
+    //   _viewport.longitude = maxBounds.lng.min;
+    // }
+    // else if ( _viewport.longitude > maxBounds.lng.max ) {
+    //   _viewport.longitude = maxBounds.lng.max;
+    // }
+    // else if ( _viewport.latitude < maxBounds.lat.min ) {
+    //   _viewport.latitude = maxBounds.lat.min
+    // }
+    // else if ( _viewport.latitude > maxBounds.lat.max ) {
+    //   _viewport.latitude = maxBounds.lat.max;
+    // }
 
     setViewport(_viewport);
   }
@@ -141,6 +151,8 @@ const bound = vwprt.fitBounds(
       transitionDuration: 1400,
       transitionEasing: easeCubic
     });
+
+    console.log(latitude, longitude);
   };
   return (
     // new

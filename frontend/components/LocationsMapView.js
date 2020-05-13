@@ -32,7 +32,7 @@ const SINGLE_LOCATION_QUERY = gql `
 function AllLocations(props) {
     const router = useRouter();
     const {user: data} = useContext(UserContext);
-    const {viewport, flyViewPort, onViewportChange} = useContext(ViewPortContext);
+    const {viewport, flyViewPort, onViewportChange, mapConfig} = useContext(ViewPortContext);
 
 
     // const {viewport, setViewport, onViewportChange} = useViewPort({
@@ -61,6 +61,7 @@ function AllLocations(props) {
      const filteredProject = data && data.projects.find(el => {
         return el.id === router.query.id
       });
+
       
     
       useEffect(() => {
@@ -71,9 +72,9 @@ function AllLocations(props) {
         const {location} = singleLocationData
 
         if(locationID) {
-        setLocationDetail(location);
+         setLocationDetail(location);
         setIsOpened(true)
-        flyViewPort(location, 10);
+        flyViewPort(location, parseFloat(props.minZoom) + 2);
         }
 
       }, [singleLocationData]);
@@ -93,10 +94,10 @@ function AllLocations(props) {
         
         // flyViewPort({
         //     geoLocation: {
-        //       latitude: 55,
-        //     longitude: 0,
+        //       latitude: 1.34,
+        //     longitude: 103,
         //     } 
-        // }, 2, false);
+        // }, mapConfig.minZoom, false);
 
         setTimeout(() => {
             setLocationDetail(null)
@@ -104,6 +105,7 @@ function AllLocations(props) {
         }, 200);
     }
 
+    console.log(viewport);
     function _toggleLocationDetail(location) {
         let locationDetailBool = locationDetail || singleLocation;
         if (locationDetailBool) {
@@ -115,7 +117,7 @@ function AllLocations(props) {
             setTimeout(() => {
                 setLocationDetail(location);
                 setIsOpened(true)
-                flyViewPort(location, 7);
+                flyViewPort(location, mapConfig.minZoom);
             }, 300)
 
             _openLocationPath(location);
@@ -124,7 +126,7 @@ function AllLocations(props) {
         if(!locationDetailBool) {
             setLocationDetail(location);
             setIsOpened(true)
-            flyViewPort(location, 7);
+            flyViewPort(location, mapConfig.minZoom + 2);
 
             console.log(location);
 
@@ -135,7 +137,7 @@ function AllLocations(props) {
     function _openLocationPath(location) {
         const href = `/admin/project/locations/map/[id]`;
             
-        const newPath = `/admin/project/locations/map/${router.query.id}` + `?locationID=${location.id}`;
+        const newPath = `/admin/project/locations/map/${router.query.id}` + `?locationID=${location.id}` + `&minZoom=${mapConfig.minZoom}`;
         
         router.push(href, newPath, {shallow: true});
     }

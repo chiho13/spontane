@@ -30,7 +30,7 @@ const Locations = props => (
     <Title title="My Locations" />
     <LocationViewSwitcher />
     <MapViewStyle>
-        <MapView locationID={props.query.locationID} pathname="map" editButton={true}/>
+        <MapView locationID={props.query.locationID} minZoom={props.query.minZoom} pathname="map" editButton={true}/>
     </MapViewStyle>
   
   </DashboardLayout>
