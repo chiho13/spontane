@@ -74,7 +74,7 @@ const DashboardLayout = props => {
         setPageLoad(true);
     }, []);
 
-    if(loading) {
+    if(loading && !user) {
         return <Loading/>
     }
 
@@ -90,7 +90,7 @@ const DashboardLayout = props => {
         loading,
         called, refetch, projectId, setProjectID
     }}>
-        <ViewPortProvider id={props.id}>
+        <ViewPortProvider id={props.id} user={user}>
         
         <DashboardContainer>
 

@@ -19,7 +19,7 @@ import {ViewPortContext} from '../../providers/MapProvider';
 const Mapstyle = styled.div`
   position: relative;
       width: 100%;
-      height: 350px;
+      height: calc(100vh - 220px);
       margin-top: 32px;
 
       .group_container {

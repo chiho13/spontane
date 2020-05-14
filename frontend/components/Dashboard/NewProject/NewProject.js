@@ -18,6 +18,7 @@ import MapSetBounds from '../MapSetBounds';
 import SetMapStyle from '../MapStyles';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import {ViewPortContext} from '../../providers/MapProvider';
+import MaterialIcon from '@material/react-material-icon';
 
 toast.configure();
 
@@ -25,7 +26,7 @@ const invertWhite = ({white, black}) => ({black: white, white: black, hoverColor
 
 const NewProjectStyle = styled(Dialog)`
     && {
-        
+    
         h2, h3 {
             font-family: ${props => props.theme.boldFont};
             padding: 0;
@@ -51,6 +52,20 @@ const NewProjectStyle = styled(Dialog)`
             }
         }
 
+        .close_button {
+            position: fixed;
+            top: 12px;
+            right: 12px;
+            font-size: 36px;
+            color: #aaaaaa;
+            transition: color 0.3s ease;
+            cursor: pointer;
+
+            &:hover {
+                color: ${props => props.theme.black};
+            }
+        }
+
         button {
             font-family: ${props => props.theme.fontFamily};
         }
@@ -64,8 +79,9 @@ const ProjectForm = styled(Form)`
         top: 0;
         left: 0;
         box-shadow: none;
-        margin: 0;
+        margin: 0 auto;
         padding-top: 0;
+        max-width: 1000px;
 
         .next_button {
             width: auto;
@@ -73,6 +89,7 @@ const ProjectForm = styled(Form)`
         
         .fieldset_wrapper .wrapper {
             grid-column: auto;
+            max-width: 350px;
         }
     }
 `;
@@ -147,7 +164,8 @@ function NewProject(props) {
     });
 
     return (
-        <NewProjectStyle onClose={handleClose} aria-labelledby="simple-dialog-title" open={open} scroll='body'>
+        <NewProjectStyle onClose={handleClose} aria-labelledby="simple-dialog-title" open={open} scroll='body' fullScreen={true}>
+            <MaterialIcon icon="close" className="close_button" onClick={handleClose}/>
             <Mutation mutation={CREATE_PROJECT_MUTATION} variables={form}>
                 {(createProject, { loading, error }) => (<ProjectForm onSubmit={e => submitProject(e, createProject)}>
 

@@ -26,24 +26,20 @@ function ViewPortProvider(props) {
   const router = useRouter();
   const projectID = router.query.id;
 
-  const minZoomQuery = router.query.minZoom;
-
-  console.log(minZoomQuery);
-
-  const { data: singleProjectData, loading: projectLoading, error } = useQuery(SINGLE_PROJECT_QUERY, {
+  const { data: singleProjectData, loading: projectLoading, error, refetch: refetchProject} = useQuery(SINGLE_PROJECT_QUERY, {
     variables: {
       projectID: projectID
     }
   });
 
-  const {user} = useContext(UserContext);
+
+  // const {user} = useContext(UserContext);
 
   const [viewport, setViewport] = useState({
     latitude: 55,
     longitude: 0,
     zoom: 0
   }) ;
-
 
   const [mapConfig, setMapConfig] = useState({
     minZoom: 0,
@@ -55,9 +51,11 @@ function ViewPortProvider(props) {
   const [maxBounds, setMaxBounds] = useState(null);
 
   useEffect(() => {
+    let mounted = true;
     const mapExists = document.querySelector('.mapboxgl-map');
 
     if (projectLoading || error || !mapExists) return;
+    
     const { project } = singleProjectData;
 
 
@@ -104,8 +102,8 @@ const bound = vwprt.fitBounds(
     mapStyle: project.mapStyle,
   });
 
-
-  }, [singleProjectData, user]);
+  return () => mounted = false;
+  }, [singleProjectData, props.user]);
 
   function onViewportChange(_viewport) {
 
@@ -152,7 +150,7 @@ const bound = vwprt.fitBounds(
   };
   return (
     // new
-    <ViewPortContext.Provider value={{ viewport, setViewport, flyViewPort, onViewportChange, mapConfig, setMapConfig }}>
+    <ViewPortContext.Provider value={{ viewport, setViewport, flyViewPort, onViewportChange, mapConfig, setMapConfig}}>
       {props.children}
     </ViewPortContext.Provider>
   );

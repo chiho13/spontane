@@ -9,7 +9,7 @@ import {mapStyleLists} from './mapStyleList';
 
 const SelectBaseMapStyle = styled.div`
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-gap: 24px;
     width: 100%;
     margin-top: 16px;

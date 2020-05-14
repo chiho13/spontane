@@ -694,6 +694,16 @@ input LocationWhereUniqueInput {
   id: ID
 }
 
+input UserUpdateInput {
+  name: String
+  email: String
+  password: String
+  resetToken: String
+  resetTokenExpiry: String
+  permissions: UserUpdatepermissionsInput
+  projects: ProjectUpdateManyWithoutUserInput
+}
+
 type Mutation {
   createLocation(country: String, city: String, geoLocation: GeoLocationCreateOneInput, description: String, user: String): Location!
   updateLocation(id: ID!, country: String, city: String, geoLocation: GeoLocationUpdateOneRequiredInput, description: String): Location!
@@ -704,6 +714,7 @@ type Mutation {
   signup(email: String!, password: String!, name: String!, confirmPassword: String!): User!
   login(email: String!, password: String!): User!
   createUser(data: UserCreateInput!): User!
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   logout: SuccessMessage
   requestReset(email: String!): SuccessMessage
   resetPassword(resetToken: String!, password: String!, confirmPassword: String!): User!
