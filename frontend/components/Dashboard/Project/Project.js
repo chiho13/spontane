@@ -28,6 +28,28 @@ const AddProject = styled(Button)`
         padding: 32px;
         margin-right: 32px;
         margin-top: 32px;
+       
+        
+        .add_new_wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            .material-icons {
+                font-size: 40px;
+                color: ${props => props.theme.brandColor};
+            }
+        }
+    p {
+        margin-top: 8px;
+        font-family: ${props => props.theme.boldFont};
+    }
+
+    &:hover {
+        color: ${props => props.theme.brandColor};
+        background-color: ${props => props.theme.white};
+        transform: translate3d(0px, -4px, 0px);
+    }
     }
 `;
 
@@ -36,7 +58,13 @@ const ProjectButtons = styled(AddProject)`
         width: auto;
         padding: 32px;
         margin-top: 32px;
-        background-color: ${props => props.theme.lightgrey};
+        background-color: ${props => props.theme.white};
+        color: ${props => props.theme.black};
+
+        &:hover {
+            color: ${props => props.theme.black};
+            box-shadow: 0 8px 6px rgba(0,0,0,0.1);
+        }
     }
 `;
 
@@ -71,8 +99,10 @@ const Project = () => {
 
     return <ProjectStyle>
             <AddProject onClick={handleClickOpen}>
-                <MaterialIcon icon="add" />
-                <p>Create Map</p>
+                <div className="add_new_wrapper">
+                    <MaterialIcon icon="add_circle_outline" />
+                    <p>Create New Map</p>
+                </div>
             </AddProject>
             {projectData && projectData.projects.map((project, i) => {
                 return <ProjectButtons key={i} onClick={() => goToProject(project.id)}>
