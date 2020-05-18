@@ -55,6 +55,8 @@ function CreateLocation(props) {
     const {viewport, setViewport} = useContext(ViewPortContext);    
     const [maxBounds, setMaxBounds] = useState(null)
     const {user} = useContext(UserContext);
+
+    const [dropMarker, setDropMarker] = useState(false);
     const [form,
         setForm,
         handleChange] = useForm({
@@ -100,19 +102,23 @@ function CreateLocation(props) {
         notify();
     }
 
+    function enableMarker(bool) {
+        setDropMarker(bool);
+    }
+
     return (
         <CreateLocationMapStyle>
             <div className="map_container">
             <MapGL
-                onClick={addMarker}
+                onClick={dropMarker ? addMarker : null}
                 >
                 {showMarker && <DropMarker
                     marker={marker}
                     onMarkerDragStart={onMarkerDragStart}
                     onMarkerDrag={onMarkerDrag}
                     onMarkerDragEnd={onMarkerDragEnd}/>}
-                    <Toolbar />
             </MapGL>
+            <Toolbar dropMarker={dropMarker} enableMarker={enableMarker}/>
             {/* <h3>Click on map to drop a pin</h3> */}
             </div>
             <Mutation mutation={CREATE_LOCATION_MUTATION} variables={form} refetchQueries={[{ query: CURRENT_USER_QUERY}]}>

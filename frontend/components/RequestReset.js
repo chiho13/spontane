@@ -105,6 +105,7 @@ function RequestReset() {
                     </label>
                         <input
                             id="email"
+                            className="form-input"
                             type="text"
                             name="email"
                             placeholder="email"

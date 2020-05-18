@@ -85,12 +85,34 @@ const ProjectForm = styled(Form)`
 
         .next_button {
             width: auto;
-            margin-top: 16px;
         }
         
         .fieldset_wrapper .wrapper {
             grid-column: auto;
             max-width: 350px;
+        }
+
+        .button_wrapper {
+            display: flex;
+            align-items: center;
+            margin-top: 16px;
+        }
+
+        .cancel-create {
+            background: none;
+            border: 0;
+            font-family: ${props => props.theme.fontFamily};
+            font-size: 16px;
+            margin-left: 32px;
+            cursor: pointer;
+
+            &:focus {
+                outline: none;
+            }
+
+            &:hover {
+                text-decoration: underline;
+            }
         }
     }
 `;
@@ -180,7 +202,7 @@ function NewProject(props) {
                     onKeyDown={(e)=>{e.target.keyCode === 13 && e.preventDefault();}}
                     >
 
-                    <StepOne handleChange={handleChange} form={form}/>
+                    <StepOne handleChange={handleChange} form={form} onClose={handleClose}/>
                     <SetMapStyle />
                     <MapSetBounds setFeature={setFeature} defaultBoundary={worldBoundary} submitForm={e => {
                         submitProject(e, createProject)
@@ -215,9 +237,13 @@ function StepOne(props) {
                 />
         </div>
     </div>
+    <div className="button_wrapper">
+
     <ThemeProvider theme={invertWhite}>
         <Button  type="button" disabled={!props.form.title.length} className="next_button" onClick={props.nextStep}>Next</Button>
     </ThemeProvider>
+    <button type="button" className="cancel-create" onClick={props.onClose}>Cancel</button>
+    </div>
 </fieldset>
                 </div> 
 }

@@ -132,6 +132,7 @@ function Signup() {
                     </label>
                     <input
                         id="email"
+                        className="form-input"
                         type="text"
                         name="email"
                         placeholder="email"
@@ -146,6 +147,7 @@ function Signup() {
                     </label>
                     <input
                         id="name"
+                        className="form-input"
                         type="text"
                         name="name"
                         placeholder="name"
@@ -160,6 +162,7 @@ function Signup() {
                     </label>
                     <input
                         id="password"
+                        className="form-input"
                         type="password"
                         name="password"
                         placeholder="password"
@@ -175,6 +178,7 @@ function Signup() {
                     </label>
                     <input
                         id="confirmPassword"
+                        className="form-input"
                         type="password"
                         name="confirmPassword"
                         placeholder="confirm password"

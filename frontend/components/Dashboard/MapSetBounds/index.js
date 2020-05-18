@@ -186,7 +186,7 @@ function handleClose(event) {
     }
 
     function getCursor() {
-        return drawSelected ? 'crosshair' : 'default';
+        return drawSelected ? 'crosshair' : 'grab';
     }
 
     return <div>

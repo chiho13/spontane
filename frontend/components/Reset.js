@@ -124,6 +124,7 @@ function Reset(props) {
                     </label>
                         <input
                             id="password"
+                            className="form-input"
                             type="password"
                             name="password"
                             placeholder="password"
@@ -140,6 +141,7 @@ function Reset(props) {
                     </label>
                         <input
                             id="confirmPassword"
+                            className="form-input"
                             type="password"
                             name="confirmPassword"
                             placeholder="confirm password"

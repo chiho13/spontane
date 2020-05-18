@@ -102,6 +102,7 @@ const Form = styled.form`
     -webkit-appearance: none;
     height: 40px;
   }
+  
   .form-input,
   textarea,
   select {
@@ -157,7 +158,7 @@ const Form = styled.form`
   button[type='submit'] {
     margin-top: 16px;
   }
-  
+
   fieldset {
     border: 0;
     padding: 0;

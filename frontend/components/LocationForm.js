@@ -114,7 +114,7 @@ function LocationForm(props) {
                             {EditMode ?  <Button width="auto" disableRipple type="submit">Sav{loading
                                                 ? 'ing '
                                                 : 'e '}
-                                            Changes</Button> : <Button width="auto" disableRipple type="submit">Submit</Button>}
+                                            Changes</Button> : <Button width="auto" disableRipple type="submit">Save</Button>}
                         </ThemeProvider>
                        
                     </fieldset>

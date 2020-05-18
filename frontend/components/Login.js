@@ -145,6 +145,7 @@ function Login(props) {
                     <div className="form-group">
                         <input
                             id="email"
+                            className="form-input"
                             type="text"
                             name="email"
                             placeholder="email"
@@ -158,6 +159,7 @@ function Login(props) {
                     <div className="form-group">
                         <input
                             id="password"
+                            className="form-input"
                             type="password"
                             name="password"
                             placeholder="password"
