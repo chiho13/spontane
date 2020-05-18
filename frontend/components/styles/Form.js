@@ -153,6 +153,11 @@ const Form = styled.form`
     padding: 0.5rem 1.2rem;
     font-family: ${props => props.theme.boldFont};
   }
+
+  button[type='submit'] {
+    margin-top: 16px;
+  }
+  
   fieldset {
     border: 0;
     padding: 0;

@@ -16,7 +16,7 @@ import { css } from 'glamor';
 import {ViewPortContext} from '../../providers/MapProvider';
 
 import {UserContext} from '../../Layout/DashboardLayout';
-
+import Toolbar from '../Toolbar';
 
 toast.configure();
 
@@ -111,8 +111,9 @@ function CreateLocation(props) {
                     onMarkerDragStart={onMarkerDragStart}
                     onMarkerDrag={onMarkerDrag}
                     onMarkerDragEnd={onMarkerDragEnd}/>}
+                    <Toolbar />
             </MapGL>
-            <h3>Click on map to drop a pin</h3>
+            {/* <h3>Click on map to drop a pin</h3> */}
             </div>
             <Mutation mutation={CREATE_LOCATION_MUTATION} variables={form} refetchQueries={[{ query: CURRENT_USER_QUERY}]}>
                 {(createLocation, {loading, error}) => (<CreateLocationForm

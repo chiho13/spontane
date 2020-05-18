@@ -85,6 +85,7 @@ const ProjectForm = styled(Form)`
 
         .next_button {
             width: auto;
+            margin-top: 16px;
         }
         
         .fieldset_wrapper .wrapper {

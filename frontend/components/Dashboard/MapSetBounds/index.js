@@ -185,6 +185,10 @@ function handleClose(event) {
 
     }
 
+    function getCursor() {
+        return drawSelected ? 'crosshair' : 'default';
+    }
+
     return <div>
      <h3>Select map bounds</h3>
     <div className="navButtons">
@@ -201,7 +205,7 @@ function handleClose(event) {
    
     <Mapstyle>
    
-        <MapGL ref={mapRef}>
+        <MapGL ref={mapRef} getCursor={getCursor}>
               <Editor 
               ref={el => editorRef.current = el}
           clickRadius={12}
