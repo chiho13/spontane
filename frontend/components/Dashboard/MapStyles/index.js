@@ -13,6 +13,7 @@ const SelectBaseMapStyle = styled.div`
     grid-gap: 24px;
     width: 100%;
     margin-top: 16px;
+    margin-bottom: 16px;
 
     .baseMap_wrapper {
         display: flex;
@@ -33,6 +34,15 @@ const SelectBaseMapStyle = styled.div`
         box-sizing: border-box;
         align-items: center;
         margin: 0;
+        box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+        transition: all 0.4s ease;
+
+        &:hover {
+            color: ${props => props.theme.brandColor};
+            background-color: ${props => props.theme.white};
+            transform: translate3d(0px, -4px, 0px);
+            box-shadow: 0 8px 6px rgba(0,0,0,0.1);
+        }
 
         &:focus {
             outline: 0;
@@ -128,11 +138,11 @@ function SelectBaseMap(props) {
     <div className="navButtons">
 
     <ThemeProvider theme={invertWhite}>
-            <Button  onClick={props.previousStep}>Back</Button>
+            <Button  type="button" onClick={props.previousStep}>Back</Button>
     </ThemeProvider>
 
     <ThemeProvider theme={invertBrand}>
-            <Button disabled={disableButton} onClick={props.nextStep}>Next</Button>
+            <Button disabled={disableButton} type="button" onClick={props.nextStep}>Next</Button>
     </ThemeProvider>
     </div>
     <SelectBaseMapStyle>

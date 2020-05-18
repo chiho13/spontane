@@ -41,6 +41,7 @@ function LocationForm(props) {
                                     City/Town
                                 </label>
                                 <input
+                                    className="form-input"
                                     type="text"
                                     id="city"
                                     name="city"
@@ -53,6 +54,7 @@ function LocationForm(props) {
                                 <label htmlFor="country">
                                     Country</label>
                                 <input
+                                     className="form-input"
                                     type="text"
                                     id="country"
                                     name="country"
@@ -68,6 +70,7 @@ function LocationForm(props) {
                                     Latitude:
                                 </label>
                                 <input
+                                     className="form-input"
                                     type="number"
                                     id="latitude"
                                     name="latitude"
@@ -83,6 +86,7 @@ function LocationForm(props) {
                                 </label>
 
                                 <input
+                                 className="form-input"
                                     type="number"
                                     id="longitude"
                                     name="longitude"

@@ -22,6 +22,7 @@ const MainContent = styled.div `
 .dashboard_content {
   width: 100%;
 }
+
 `;
 
 const DashboardNav = styled.div `

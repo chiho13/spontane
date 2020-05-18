@@ -28,7 +28,7 @@ function ViewPortProvider(props) {
 
   const { data: singleProjectData, loading: projectLoading, error, refetch: refetchProject} = useQuery(SINGLE_PROJECT_QUERY, {
     variables: {
-      projectID: projectID
+      projectID: projectID || '0'
     }
   });
 
@@ -53,10 +53,9 @@ function ViewPortProvider(props) {
   useEffect(() => {
     let mounted = true;
     const mapExists = document.querySelector('.mapboxgl-map');
-
-    if (projectLoading || error || !mapExists) return;
-    
     const { project } = singleProjectData;
+    if (projectLoading || error || !mapExists || !project) return;
+  
 
 
     // console.log(bounds.geometry.coordinates);
@@ -83,7 +82,8 @@ const bound = vwprt.fitBounds(
     setMapConfig({
       minZoom: bound.zoom,
       originalLat: lat,
-      originalLng: lng
+      originalLng: lng,
+      mapStyle: project.mapStyle,
     });
 
     setMaxBounds({
@@ -97,10 +97,6 @@ const bound = vwprt.fitBounds(
       }
     })
 
-  setMapConfig({
-    ...mapConfig,
-    mapStyle: project.mapStyle,
-  });
 
   return () => mounted = false;
   }, [singleProjectData, props.user]);
@@ -122,6 +118,25 @@ const bound = vwprt.fitBounds(
 
     setViewport(_viewport);
   }
+
+ function handleGeocoderViewportChange(_viewport) {
+    const geocoderDefaultOverrides = { transitionDuration: 4000 };
+
+    console.log("geocoder", _viewport);
+    // setTimeout(() => {
+    //   return onViewportChange({
+    //     ...viewport,
+    //     ...geocoderDefaultOverrides
+    //   });
+    // },4000);
+
+    flyViewPort({
+      geoLocation: {
+        latitude: _viewport.latitude,
+        longitude: _viewport.longitude
+      }
+    }, _viewport.zoom, false);
+  };
 
   function flyViewPort({
     geoLocation: {
@@ -146,11 +161,11 @@ const bound = vwprt.fitBounds(
       transitionEasing: easeCubic
     });
 
-    console.log(latitude, longitude);
+
   };
   return (
     // new
-    <ViewPortContext.Provider value={{ viewport, setViewport, flyViewPort, onViewportChange, mapConfig, setMapConfig}}>
+    <ViewPortContext.Provider value={{ viewport, setViewport, flyViewPort, onViewportChange, mapConfig, setMapConfig, handleGeocoderViewportChange}}>
       {props.children}
     </ViewPortContext.Provider>
   );

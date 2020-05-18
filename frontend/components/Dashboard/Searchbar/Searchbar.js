@@ -68,7 +68,7 @@ const AutoComplete = () => {
                       type: 'search',
                       placeholder: 'Search Locations',
                       id: 'search',
-                      className: loading ? 'loading' : '',
+                      className: loading ? 'form-input loading' : 'form-input',
                       onChange: e => {
                         e.persist();
                         onChange(e, client);

@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef, useContext} from 'react';
 import styled from 'styled-components';
-import MapGL from '../../MapGL';
+import MapGL, {TOKEN} from '../../MapGL';
 import { Editor, EditingMode} from 'react-map-gl-draw';
 import {featureStyle, editHandleStyle} from './areastyle';
 import Button from '../../UIKIT/iButton';
@@ -15,6 +15,18 @@ import MenuItem from '../../UIKIT/MenuItem';
 import MaterialIcon from '@material/react-material-icon';
 import {getCountryPreset, listOfCountryPresets} from './countryPresets';
 import {ViewPortContext} from '../../providers/MapProvider';
+import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css';
+// import Geocoder from 'react-map-gl-geocoder';
+// import dynamic from 'next/dynamic';
+// const Geocoder = dynamic(() => import('react-map-gl-geocoder'), {
+//     ssr: false
+//   });
+
+let Geocoder;
+
+if (typeof window !== 'undefined') { 
+  Geocoder = require('react-map-gl-geocoder').default; 
+}
 
 const Mapstyle = styled.div`
   position: relative;
@@ -49,6 +61,10 @@ const Mapstyle = styled.div`
       .insertArea_button {
           width: 150px;
       }
+
+      .mapboxgl-ctrl {
+          display: block !important;
+      }
 `;
 
 const MenuListUL = styled.div`
@@ -69,7 +85,7 @@ function MapSetBounds(props) {
 
     const [disableButton, setDisableButton] = useState(true);
 
-    const {setFeature, defaultBoundary} = props;
+    const {setFeature, defaultBoundary, submitForm} = props;
     const editorRef = useRef(null);
 
     const initialViewPort = {
@@ -79,11 +95,11 @@ function MapSetBounds(props) {
     };
 
 
-    const {setViewport} = useContext(ViewPortContext);
+    const {setViewport, handleGeocoderViewportChange} = useContext(ViewPortContext);
 
-    useEffect(() => {
-        setViewport(initialViewPort);
-    }, [])
+    // useEffect(() => {
+    //     setViewport(initialViewPort);
+    // }, [])
 
       function deleteSquare() {
     if (selectedFeatureIndex === null || selectedFeatureIndex === undefined) {
@@ -96,7 +112,19 @@ function MapSetBounds(props) {
     setDrawSelected(false);
     setSelectedMode(null);
     setFeature(defaultBoundary);
-  };
+  }
+
+
+  const mapRef = useRef();
+
+//   const handleGeocoderViewportChange = (viewport) => {
+//       const geocoderDefaultOverrides = { transitionDuration: 1000 }
+   
+//       setViewport({
+//         ...viewport,
+//         ...geocoderDefaultOverrides
+//       });
+//     }
 
 let anchorEl;
 
@@ -162,18 +190,18 @@ function handleClose(event) {
     <div className="navButtons">
 
     <ThemeProvider theme={invertWhite}>
-            <Button  onClick={props.previousStep}>Back</Button>
+            <Button type="button" onClick={props.previousStep}>Back</Button>
     </ThemeProvider>
 
     <ThemeProvider theme={invertBrand}>
-            <Button type="submit">Create Project</Button>
+            <Button type="button" disabled={!props.isActive} onClick={submitForm}>Create Project</Button>
     </ThemeProvider>
     </div>
     <p className="step3_text">If unselected, boundary defaults to world map</p>
    
     <Mapstyle>
    
-        <MapGL >
+        <MapGL ref={mapRef}>
               <Editor 
               ref={el => editorRef.current = el}
           clickRadius={12}
@@ -199,6 +227,13 @@ function handleClose(event) {
           featureStyle={featureStyle}
           editHandleStyle={editHandleStyle}
           mode={selectedMode}
+        />
+          <Geocoder
+          mapRef={mapRef}
+          onViewportChange={handleGeocoderViewportChange}
+          mapboxApiAccessToken={TOKEN}
+          position="top-right"
+          onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
         />
         </MapGL>
        

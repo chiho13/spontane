@@ -3,9 +3,9 @@ import React, {useState, useEffect} from 'react';
 function useForm(initialFormState) {
     const [form, setForm] = useState(initialFormState);
 
-    useEffect(() => {
-        setForm({...form});
-    });
+    // useEffect(() => {
+    //     setForm({...form});
+    // }, [form]);
 
     function handleChange(e) {
         e.persist();

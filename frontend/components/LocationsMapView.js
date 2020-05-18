@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect, useContext, useRef} from 'react';
 import {Marker, FlyToInterpolator} from 'react-map-gl';
 import gql from 'graphql-tag';
 import CityPin from './Icons/CityMarker';
@@ -6,12 +6,19 @@ import Location from './LocationMapViewItem';
 import styled from 'styled-components';
 import IconButton from '@material-ui/core/IconButton';
 import MaterialIcon from '@material/react-material-icon';
-import MapGL from './MapGL';
+import MapGL, {TOKEN} from './MapGL';
 import {UserContext} from './Layout/DashboardLayout';
 import {useQuery} from 'react-apollo-hooks';
 import {useRouter} from 'next/router'
 import {ViewPortContext} from './providers/MapProvider';
 import { easeCubic } from 'd3-ease';
+import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css';
+let Geocoder;
+
+if (typeof window !== 'undefined') { 
+  Geocoder = require('react-map-gl-geocoder').default; 
+}
+
 
 const SINGLE_LOCATION_QUERY = gql `
     query SINGLE_LOCATION_QUERY($locationID: ID!) {
@@ -49,12 +56,14 @@ function AllLocations(props) {
     const {user: data} = useContext(UserContext);
     const {viewport, flyViewPort, onViewportChange, mapConfig} = useContext(ViewPortContext);
 
+    console.log(mapConfig.minZoom);
 
     // const {viewport, setViewport, onViewportChange} = useViewPort({
     //     latitude: 55,
     //     longitude: 2,
     //     zoom: 2
     // });
+    const mapRef = useRef();
 
     const [locationDetail,
         setLocationDetail] = useState(null);
@@ -104,6 +113,8 @@ function AllLocations(props) {
             transitionDuration: 500,
             transitionEasing: easeCubic
         });
+
+        console.log(mapConfig.minZoom);
     }
 
     function closeLocationDetail() {
@@ -192,10 +203,16 @@ function AllLocations(props) {
 
     return (
         <div className="map-container">
-            <MapGL
+            <MapGL ref={mapRef}
                 >
                 {RenderCityMarker()}
                 <IconButtonStyle onClick={reCenter}><MaterialIcon icon="home"/></IconButtonStyle>
+                <Geocoder
+          mapRef={mapRef}
+          onViewportChange={onViewportChange}
+          mapboxApiAccessToken={TOKEN}
+          position="top-right"
+        />
             </MapGL>
             {RenderLocationDetail()}
         </div>

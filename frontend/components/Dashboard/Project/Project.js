@@ -111,6 +111,7 @@ const Project = () => {
             }
             )}
             <NewProject open={open} onClose={handleClose} />
+            {/* <MapSetBounds /> */}
     </ProjectStyle>
 }
 

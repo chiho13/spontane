@@ -98,11 +98,11 @@ const Form = styled.form`
     color: #ff3860;
   }
 
-  input {
+  .form-input {
     -webkit-appearance: none;
     height: 40px;
   }
-  input,
+  .form-input,
   textarea,
   select {
     font-family: ${props => props.theme.fontFamily};
@@ -140,8 +140,8 @@ const Form = styled.form`
     resize: none;
     height: 140px
   }
-  button,
-  input[type='submit'] {
+  button[type='button']
+  button[type='submit'] {
     width: auto;
     background: ${props => props.theme.black};
     color: white;

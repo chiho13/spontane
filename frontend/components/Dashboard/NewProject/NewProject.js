@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect, useContext, useRef} from 'react';
 import PropTypes from 'prop-types';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
@@ -149,6 +149,7 @@ function NewProject(props) {
 
     async function submitProject(e, createProject) {
         e.preventDefault();
+
         
         const res = await createProject();
         
@@ -162,32 +163,33 @@ function NewProject(props) {
     const initInstance = SW => setInstance({
         SW
     });
+    
 
     return (
         <NewProjectStyle onClose={handleClose} aria-labelledby="simple-dialog-title" open={open} scroll='body' fullScreen={true}>
             <MaterialIcon icon="close" className="close_button" onClick={handleClose}/>
             <Mutation mutation={CREATE_PROJECT_MUTATION} variables={form}>
-                {(createProject, { loading, error }) => (<ProjectForm onSubmit={e => submitProject(e, createProject)}>
+                {(createProject, { loading, error }) => (<ProjectForm >
 
                     <Content>
 
                     <StepWizard
                     isHashEnabled
                     instance={initInstance}
+                    onKeyDown={(e)=>{e.target.keyCode === 13 && e.preventDefault();}}
                     >
 
                     <StepOne handleChange={handleChange} form={form}/>
                     <SetMapStyle />
-                    <MapSetBounds setFeature={setFeature} defaultBoundary={worldBoundary}/>
+                    <MapSetBounds setFeature={setFeature} defaultBoundary={worldBoundary} submitForm={e => {
+                        submitProject(e, createProject)
+                    }}/>
                     </StepWizard>
                     </Content>
-                    {/* <ThemeProvider theme={invertTheme}>
-                            <Button width="auto" disableRipple type="submit">Create</Button>
-                        </ThemeProvider> */}
-                        
                 </ProjectForm>)}
             </Mutation>
         </NewProjectStyle>
+                   
     );
 }
 
@@ -202,16 +204,18 @@ function StepOne(props) {
                 Project Name
             </label>
             <input
+                 className="form-input"
                 type="text"
                 id="title"
                 name="title"
                 placeholder=""
                 required
-                onChange={props.handleChange} />
+                onChange={props.handleChange} 
+                />
         </div>
     </div>
     <ThemeProvider theme={invertWhite}>
-        <Button  disabled={!props.form.title.length} className="next_button" onClick={props.nextStep}>Next</Button>
+        <Button  type="button" disabled={!props.form.title.length} className="next_button" onClick={props.nextStep}>Next</Button>
     </ThemeProvider>
 </fieldset>
                 </div> 
@@ -221,5 +225,10 @@ NewProject.propTypes = {
     onClose: PropTypes.func.isRequired,
     open: PropTypes.bool.isRequired,
 };
+
+
+// const NewProject = () => {
+//     return  <MapSetBounds />
+// }
 
 export default NewProject;
