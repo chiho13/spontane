@@ -9,7 +9,7 @@ function SideBarItem(props) {
 
         return (
             <SideBarItemStyle>
-                <Link href={item.link}>
+                <Link href={item.link} as={item.as}>
                     <a >
                        <MaterialIcon icon={item.icon} className="materialIcons"/>
                         <span>{item.title}</span>

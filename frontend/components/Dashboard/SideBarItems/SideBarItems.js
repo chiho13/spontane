@@ -22,21 +22,25 @@ function SideBarItems() {
     const sidebaritems =  [   {
         title: "Project Dashboard",
         icon: "dashboard",
-        link: `/admin/project/${projectID}`
+        link: "/admin/project/[id]",
+        as: `/admin/project/${projectID}`
     },{
         title: "List of Locations",
         icon: "list",
-        link: `/admin/project/locations/list/${projectID}`
+        link: `/admin/project/locations/list/[id]]`,
+        as: `/admin/project/locations/list/${projectID}`
     },
     {
         title: "Map Preview",
         icon: "map",
-        link: `/admin/project/locations/map/${projectID}`
+        link: `/admin/project/locations/map/[id]`,
+        as: `/admin/project/locations/map/${projectID}`
     },
         {
             title: "Add Location",
             icon: "add_location",
-            link: `/admin/project/locations/add/${projectID}`
+            link: `/admin/project/locations/add/[id]`,
+            as: `/admin/project/locations/add/${projectID}`
         },
 
     ]

@@ -9,7 +9,7 @@ background-color: #ffffff;
 
 @media (min-width: 700px) {
     transform: translateX(0);
-    border-right: 1px solid ${props => props.theme.white};
+    border-right: 1px solid ${props => props.theme.lightgrey};
 }
 
 @media (min-width: 900px) {

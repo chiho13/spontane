@@ -9,9 +9,9 @@ export default ({children, as, href, ...rest}) => {
    useEffect(() => {
        setPathName(window.location.pathname);
    },[]);
-   return <Link {...rest} href={href}>
+   return <Link {...rest} href={href} as={as}>
       {React.cloneElement(Children.only(children), {
-         className: (pathname === href) ? `active` : null
+         className: (pathname === as) ? `active` : null
       })}
    </Link>
 };

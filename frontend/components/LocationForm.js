@@ -5,7 +5,42 @@ import Error from './ErrorMessage';
 import {ThemeProvider} from 'styled-components';
 import Button from './UIKIT/iButton';
 import {invertTheme} from './Login';
-import styled from 'styled-components';
+
+import styled, {keyframes} from 'styled-components';
+import { fadeInLeft, fadeOutRight} from 'react-animations';
+
+// const fadeInLeftAnimation = keyframes`${fadeInLeft}`;
+// const fadeOutRightAnimation = keyframes`${fadeOutRight}`;
+
+const expandIn = keyframes`
+
+0% {
+    flex-basis: 0;
+    opacity: 0;
+}
+
+100% {
+    flex-basis: 35%;
+    opacity: 1;
+}
+
+`;
+
+const expandOut = keyframes`
+
+0% { 
+    padding: 32px;
+    flex-basis: 35%;
+    opacity: 1;
+}
+
+100% {
+    padding: 0;
+    opacity: 0;
+    flex-basis: 0;
+}
+
+`;
 
 export const LocationFormStyle = styled(Form)`
 display: block;
@@ -15,22 +50,34 @@ border-radius: 0;
 width: auto;
 margin: 0;
 box-shadow: none;
-right: 0;
-flex-basis: 35%;
-padding: 32px;
+left: 0;
+flex-basis: 0%;
+padding: 0;
 max-width: 100%;
 overflow-y: auto;
+visibility: hidden;
+opacity: 0;
+transition: visibility 0.2s ease, flex-basis 0.3s ease, padding 0.2s ease, opacity 0.2s ease;
+box-shadow: 0 9px 0px 0px white, 0 -9px 0px 0px white, 8px 0 10px -4px rgba(100, 100, 100, 0.3), -12px 0 10px -4px rgba(100, 100, 100, 0.3);
 
+&.expandIn {
+    padding: 32px;
+    opacity: 1;
+    visibility: visible;
+    flex-basis: 35%;
+}
 h2 {
     margin-top: 64px;
 }
 `;
 
 function LocationForm(props) {
-    const {form, mode, defaultValue, marker, handleChange, loading, error, onSubmit} = props;
+    const {form, mode, defaultValue, marker, handleChange, loading, error, onSubmit, dropMarker} = props;
     const EditMode = mode === 'EDIT';
 
         return <LocationFormStyle
+                    isOpened={dropMarker}
+                    className={dropMarker && 'expandIn'}
                     onSubmit={onSubmit}>
                         <h2>{ EditMode ? 'Update Location' : 'Add Location'}</h2>
                     <Error error={error}/>

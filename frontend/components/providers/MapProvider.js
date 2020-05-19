@@ -42,6 +42,7 @@ function ViewPortProvider(props) {
   }) ;
 
   const [mapConfig, setMapConfig] = useState({
+    maxBounds: [[-180, -80], [180, 80]],
     minZoom: 0,
     mapStyle: "mapbox://styles/anthonyhodesu/ck0y2dle1013q1cpk194xrvtu",
     originalLat: 0,
@@ -49,57 +50,6 @@ function ViewPortProvider(props) {
   });
 
   const [maxBounds, setMaxBounds] = useState(null);
-
-  useEffect(() => {
-    let mounted = true;
-    const mapExists = document.querySelector('.mapboxgl-map');
-    const { project } = singleProjectData;
-    if (projectLoading || error || !mapExists || !project) return;
-  
-
-
-    // console.log(bounds.geometry.coordinates);
-    const bounds = JSON.parse(project.mapBounds);
-    const geometry = bounds.geometry.coordinates[0];
-
-    const lng = (geometry[1][0] + geometry[3][0]) / 2;
-    const lat = (geometry[1][1] + geometry[3][1]) / 2;
-
-    console.log(lat, lng); 
-
-    const vwprt = new WebMercatorViewport(viewport);
-const bound = vwprt.fitBounds(
-  [geometry[1], geometry[3]],
-  {padding: 5, offset: [0, 0]}
-);
- 
-    setViewport(
-      bound
-    );
-
-    console.log(bound);
-
-    setMapConfig({
-      minZoom: bound.zoom,
-      originalLat: lat,
-      originalLng: lng,
-      mapStyle: project.mapStyle,
-    });
-
-    setMaxBounds({
-      lat: {
-        min: geometry[3][1],
-        max: geometry[1][1]
-      },
-      lng: {
-        min: geometry[3][0],
-        max: geometry[1][0]
-      }
-    })
-
-
-  return () => mounted = false;
-  }, [singleProjectData, props.user]);
 
   function onViewportChange(_viewport) {
 

@@ -75,11 +75,7 @@ const DashboardLayout = props => {
         setPageLoad(true);
     }, []);
 
-    if(loading && !user) {
-        return <Loading/>
-    }
-
-    if (!user) {
+    if (!user && !loading) {
         return <AuthLayout>
             <Login title="Please log in to continue" continue={false}/>
         </AuthLayout>

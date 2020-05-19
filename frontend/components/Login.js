@@ -145,12 +145,11 @@ function Login(props) {
                     <div className="form-group">
                         <input
                             id="email"
-                            className="form-input"
                             type="text"
                             name="email"
                             placeholder="email"
                             value={form.email}
-                            className={errors.email && 'is-danger'}
+                            className={errors.email ? 'form-input is-danger' : 'form-input'}
                             onChange={handleChange}
                             required/> {errors.email && (
                             <p className="help is-danger">{errors.email}</p>
@@ -165,7 +164,7 @@ function Login(props) {
                             placeholder="password"
                             value={form.password}
                             onChange={handleChange}
-                            className={errors.password && 'is-danger'}
+                            className={errors.password ? 'form-input is-danger' : 'form-input'}
                             required/> {errors.password && (   
                                 <p className="help is-danger">{errors.password}</p>
                             )}
