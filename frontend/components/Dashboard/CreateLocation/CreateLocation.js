@@ -18,6 +18,7 @@ import useDimensions from 'react-use-dimensions';
 
 import { UserContext } from '../../Layout/DashboardLayout';
 import Toolbar from '../Toolbar';
+import Layers from '../Layers';
 
 toast.configure();
 
@@ -88,6 +89,7 @@ function CreateLocation(props) {
         });
     }, [marker]);
 
+    const mapRef = useRef(null);
 
     const notify = () => toast.success("Location created!", {
         position: toast.POSITION.BOTTOM_CENTER,
@@ -120,7 +122,7 @@ function CreateLocation(props) {
         <CreateLocationMapStyle>
             
             <div className="map_container">
-                <MapGL 
+                <MapGL ref={mapRef}
                     onClick={dropMarker ? addMarker : null}
                 >
                     {showMarker && <DropMarker
@@ -132,6 +134,7 @@ function CreateLocation(props) {
                 <Toolbar dropMarker={dropMarker} enableMarker={enableMarker} />
                 {/* <h3>Click on map to drop a pin</h3> */}
             </div>
+            <Layers>
             <Mutation mutation={CREATE_LOCATION_MUTATION} variables={form} refetchQueries={[{ query: CURRENT_USER_QUERY }]}>
                 {(createLocation, { loading, error }) => (<CreateLocationForm
                     form={form}
@@ -144,6 +147,7 @@ function CreateLocation(props) {
                     onSubmit={e => onSubmit(e, createLocation)}
                     error={error} />)}
             </Mutation>
+            </Layers>
         </CreateLocationMapStyle>
     );
 }

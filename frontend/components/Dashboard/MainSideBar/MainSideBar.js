@@ -4,11 +4,12 @@ import Row from '../../UIKIT/Row';
 import MainSideBarItems from '../SideBarItems/SideBarItems';
 import Logo from '../SideBarLogo/SideBarLogo';
 
-function  MainSideBar(props){
+
+function MainSideBar(props){
         return (
                 <MainSideBarStyle>
                     <Logo />
-                    <MainSideBarItems />
+                    <MainSideBarItems user={props.user}/>
                 </MainSideBarStyle>
         );
 }

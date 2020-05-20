@@ -12,7 +12,7 @@ const ToolbarContainer = styled.div`
     padding:8px;
     position: absolute;
     top: 8px;
-    left: 8px; 
+    right: 8px; 
 `;
 
 const IconButtonContainer = styled.div`
@@ -29,7 +29,7 @@ const IconButtonContainer = styled.div`
         color: ${props => props.theme.white};
         font-size: 14px;
         font-family: ${props => props.theme.fontFamily};
-        margin-left: -40px;
+        margin-right: -40px;
         transition: all 0.3s ease;
         visibility: hidden;
         cursor: pointer;
@@ -42,7 +42,7 @@ const IconButtonContainer = styled.div`
             background: rgba(0, 0, 0, 0.6);
         }
         &.selected {
-            margin-left: 0;
+            margin-right: 0;
             visibility: visible;
         }
     }
@@ -66,14 +66,14 @@ function Toolbar(props) {
     const {enableMarker, dropMarker} = props;
     return <ToolbarContainer>
         <IconButtonContainer>
+            <button className={dropMarker ? 'cancel-button selected' : 'cancel-button'} onClick={() => {
+                enableMarker(false);
+            }}>Cancel</button>
             <IconButtonStyle onClick={() => {
                 enableMarker(true);
             }}>
                 <MaterialIcon icon="add_location" />
             </IconButtonStyle>
-            <button className={dropMarker ? 'cancel-button selected' : 'cancel-button'} onClick={() => {
-                enableMarker(false);
-            }}>Cancel</button>
         </IconButtonContainer>
     </ToolbarContainer>
 }

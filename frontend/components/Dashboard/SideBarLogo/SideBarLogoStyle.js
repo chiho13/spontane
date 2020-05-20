@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 
 const SideBarLogoStyle = styled.nav`
+        display: flex;
+        align-items: center;
     .navbar-brand {
-        display: block;
-        padding-top: 16px;
+        display: flex;
         padding-left: 16px;
         padding-right: 16px;
         text-align: center;

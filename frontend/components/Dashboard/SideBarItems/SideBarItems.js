@@ -6,9 +6,10 @@ import styled from 'styled-components';
 import {UserContext} from '../../../components/Layout/DashboardLayout';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import { useRouter } from 'next/router';
+import ProfileNav from '../NavProfilePill/NavProfilePill';
 
 const ProjectSidebar = styled.div`
-    margin-top: 32px;
+display: flex;
 `;
 
 function SideBarItems() {
@@ -24,12 +25,13 @@ function SideBarItems() {
         icon: "dashboard",
         link: "/admin/project/[id]",
         as: `/admin/project/${projectID}`
-    },{
-        title: "List of Locations",
-        icon: "list",
-        link: `/admin/project/locations/list/[id]]`,
-        as: `/admin/project/locations/list/${projectID}`
     },
+    // {
+    //     title: "List of Locations",
+    //     icon: "list",
+    //     link: `/admin/project/locations/list/[id]]`,
+    //     as: `/admin/project/locations/list/${projectID}`
+    // },
     {
         title: "Map Preview",
         icon: "map",
@@ -37,7 +39,7 @@ function SideBarItems() {
         as: `/admin/project/locations/map/${projectID}`
     },
         {
-            title: "Add Location",
+            title: " Edit Map",
             icon: "add_location",
             link: `/admin/project/locations/add/[id]`,
             as: `/admin/project/locations/add/${projectID}`
@@ -47,27 +49,28 @@ function SideBarItems() {
 
     return (
         <SideBarItemsStyle>
+              <ProjectSidebar>
+
+             
             <SideBarItem item={{
                 title: "Back to Projects",
                 icon: "folder_open",
                 link: "/admin"
             }} />
 
-
-            <ProjectSidebar>
                 {
               sidebaritems.map((item, i) => (
                     <SideBarItem key={i} item={item} />
                 ))}
-                </ProjectSidebar>
-            <ProjectSidebar>
-            
+                 </ProjectSidebar>
+                <ProjectSidebar>
                   <SideBarItem item={      {
             title: "Project Settings",
             icon: "settings",
             link: "/admin/project_settings"
         }} />
-            </ProjectSidebar>
+         <ProfileNav />
+          </ProjectSidebar>
         </SideBarItemsStyle>
     );
 };

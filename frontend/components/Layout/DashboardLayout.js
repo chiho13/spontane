@@ -11,13 +11,14 @@ import BuyCredit from '../Dashboard/BuyCredits';
 import {ViewPortProvider } from '../providers/MapProvider';
 
 const DashboardContainer = styled.div`
-    display: flex;
+    display: block;
 `;
 
 const MainContent = styled.div `
   display: flex;
   position: relative;
   flex-grow: 1;
+  top: 60px;
 
 .dashboard_content {
   width: 100%;
@@ -91,12 +92,9 @@ const DashboardLayout = props => {
         
         <DashboardContainer>
 
-        <MainSideBar/>
+        <MainSideBar user={user}/>
         <MainContent>
-            <DashboardNav>
-                {/* <BuyCredit /> */}
-                <ProfileNav user={user} />
-            </DashboardNav>
+           
 
              <div className="dashboard_content">
                         {props.children}

@@ -24,13 +24,6 @@ const SINGLE_PROJECT_QUERY = gql `
 function ViewPortProvider(props) {
   // new
   const router = useRouter();
-  const projectID = router.query.id;
-
-  const { data: singleProjectData, loading: projectLoading, error, refetch: refetchProject} = useQuery(SINGLE_PROJECT_QUERY, {
-    variables: {
-      projectID: projectID || '0'
-    }
-  });
 
 
   // const {user} = useContext(UserContext);

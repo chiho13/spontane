@@ -5,10 +5,19 @@ import Paper from '../../UIKIT/ProfilePaperDropdown';
 import Popper from '@material-ui/core/Popper';
 import MenuItem from '../../UIKIT/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
-import NavButton from '../../UIKIT/iButton';
+import Button from '../../UIKIT/iButton';
 import MaterialIcon from '@material/react-material-icon';
 import Divider from '@material-ui/core/Divider';
 import Logout from './Logout';
+import {UserContext} from '../../Layout/DashboardLayout';
+import styled from 'styled-components';
+
+const NavButton = styled(Button)`
+    && {
+        height: 60px;
+        border-radius: 0;
+    }
+`;
 
 function NavProfilePill(props) {
 
@@ -17,7 +26,7 @@ function NavProfilePill(props) {
     const [open,
         setOpen] = useState(false);
 
-    const {user} = props;
+    const {user} = useContext(UserContext);
 
     function handleToggle() {
         setOpen(!open)

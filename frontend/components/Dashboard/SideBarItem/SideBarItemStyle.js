@@ -5,7 +5,6 @@ const SideBarItemStyle = styled.li`
 
     list-style: none;
     white-space: nowrap;
-    min-width: 100%;
     max-width: 100%;
     font-family: ${props => props.theme.fontFamily};
 
@@ -42,7 +41,7 @@ const SideBarItemStyle = styled.li`
     }
 
     a.active {
-        box-shadow: inset 3px 0 0 ${props => props.theme.brandColor};
+        box-shadow: inset  0 -3px 0 ${props => props.theme.brandColor};
         background-color: #f5f5f5;
         color: ${props => props.theme.brandColor};
 
