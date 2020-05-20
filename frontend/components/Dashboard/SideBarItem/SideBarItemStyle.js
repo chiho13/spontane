@@ -14,20 +14,27 @@ const SideBarItemStyle = styled.li`
 
     a {
         display: flex;
-        padding: 16px 32px;
+        padding: 16px 24px;
         width: 100%;
         will-change: background-color,box-shadow,color;
         transition: box-shadow .2s ease,color .2s ease,background-color .2s ease;
+        height: 100%;
 
+        @media (min-width: 1200px) {
+            padding: 16px 32px;
+        }
         .material-icons {
             display: flex;
             align-items: center;
             white-space: nowrap;
             word-wrap: normal;
-            margin-right: 8px;
             color: #bbc0d1;
             font-size: 20px;
             transition: color 0.2s ease;
+
+            @media (min-width: 1200px) {
+                margin-right: 8px;
+            }
         }
 
         &:hover {
@@ -48,6 +55,7 @@ const SideBarItemStyle = styled.li`
         i {
             color: ${props => props.theme.brandColor};
         }
+
     }
 
 
@@ -55,6 +63,14 @@ const SideBarItemStyle = styled.li`
         overflow: hidden;
         text-overflow: ellipsis;
         font-size: 14px;
+        display: none;
+    }
+
+    @media (min-width: 1200px) {
+
+        span {
+            display: block;
+        }
     }
 `;
 

@@ -6,6 +6,7 @@ import useUser from '../hooks/useUser';
 import Loading from '../LoadingSpinner';
 import Login from '../Login';
 import AuthLayout from './AuthLayout';
+
 import Logo from '../../components/Dashboard/SideBarLogo/SideBarLogo';
 
 import BuyCredit from '../Dashboard/BuyCredits';
@@ -92,7 +93,7 @@ const ProjectLayout = props => {
         <MainContent>
             <Logo />
             <DashboardNav>
-                <ProfileNav user={user} />
+                <ProfileNav />
             </DashboardNav>
 
             {pageLoad

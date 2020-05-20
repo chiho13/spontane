@@ -9,6 +9,8 @@ import AuthLayout from './AuthLayout';
 
 import BuyCredit from '../Dashboard/BuyCredits';
 import {ViewPortProvider } from '../providers/MapProvider';
+import Logo from '../../components/Dashboard/SideBarLogo/SideBarLogo';
+
 
 const DashboardContainer = styled.div`
     display: block;
@@ -53,6 +55,7 @@ const DashboardLayout = props => {
 
     const [projectId, setProjectId] = useState(null);
     
+    const {hideList} = props;
     function setProjectID(id) {
         setProjectId(id);
     }
@@ -91,11 +94,8 @@ const DashboardLayout = props => {
         <ViewPortProvider id={props.id} user={user}>
         
         <DashboardContainer>
-
-        <MainSideBar user={user}/>
+         <MainSideBar user={user} hideList={hideList}/>
         <MainContent>
-           
-
              <div className="dashboard_content">
                         {props.children}
                     </div>
@@ -106,3 +106,7 @@ const DashboardLayout = props => {
 };
 
 export default DashboardLayout;
+
+DashboardLayout.defaultProps = {
+    hideList: false
+}

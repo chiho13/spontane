@@ -1,11 +1,9 @@
-import ProjectsLayout from '../../components/Layout/ProjectsLayout';
-import Title from '../../components/Dashboard/MainContentTitle';
+import ProjectsLayout from '../../components/Layout/DashboardLayout';
+
 import Projects from '../../components/Dashboard/Project/Project';
 
 const Admin = () => (
-  <ProjectsLayout>
-    <Title title="My Maps" />
-
+  <ProjectsLayout hideList={true}>
     <Projects />
   </ProjectsLayout>
 );

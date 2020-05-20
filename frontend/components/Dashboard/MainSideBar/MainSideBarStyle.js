@@ -8,6 +8,7 @@ will-change:transform;
 transition: transform 0.2s ease-in-out;
 background-color: #ffffff;
 position: absolute;
+justify-content: space-between;
 
 @media (min-width: 700px) {
     transform: translateX(0);
@@ -17,6 +18,7 @@ position: absolute;
 
 .headerLogo {
     width: 100px;
+    padding-left:16px;
 }
 
 `;

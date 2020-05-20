@@ -1,20 +1,27 @@
-import React,{useState, useContext} from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import MaterialIcon from '@material/react-material-icon';
 import Button from '../../UIKIT/iButton';
 import NewProject from '../NewProject/NewProject';
-import {UserContext} from '../../Layout/ProjectsLayout';
+import { UserContext } from '../../Layout/DashboardLayout';
 import LoadingSpinner from '../../LoadingSpinner';
 import Router from "next/router";
 import useLocalStorage from '../../hooks/useLocalStorage';
-import MapSetBounds from '../MapSetBounds';
-import SelectBaseMap from '../MapStyles';
+import Title from '../MainContentTitle';
 
 const ProjectStyle = styled.div`
 
-    padding-left: 32px;
-    display: flex;
-    flex-wrap: wrap;
+    display: block;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+
+    .flex-container {
+        padding-left: 32px;
+        display: flex;
+   
+        flex-wrap: wrap;
+    }
     h4 {
         font-family: ${props => props.theme.fontFamily};
     }
@@ -70,7 +77,7 @@ const ProjectButtons = styled(AddProject)`
 
 const Project = () => {
     const [open, setOpen] = useState(false);
-    const {user: projectData, loading, refetch} = useContext(UserContext);
+    const { user: projectData, loading, refetch } = useContext(UserContext);
 
     const [projectID, setProjectID] = useLocalStorage('projectID', null);
 
@@ -78,26 +85,30 @@ const Project = () => {
     console.log(projectID);
     const handleClickOpen = () => {
         setOpen(true);
-      };
-    
-      const handleClose = () => {
-        setOpen(false);
-      };
+    };
 
-      const goToProject = (projectId) => {
-        
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const goToProject = (projectId) => {
+
         setProjectID(projectId);
 
         Router.push({
             pathname: `/admin/project/${projectId}`,
         });
-      }
+    }
 
-      if(loading) {
-          return <LoadingSpinner />
-      }
+    if (loading) {
+        return <LoadingSpinner />
+    }
 
     return <ProjectStyle>
+        <Title title="My Maps" />
+        <div className="flex-container">
+
+
             <AddProject onClick={handleClickOpen}>
                 <div className="add_new_wrapper">
                     <MaterialIcon icon="add_circle_outline" />
@@ -106,12 +117,12 @@ const Project = () => {
             </AddProject>
             {projectData && projectData.projects.map((project, i) => {
                 return <ProjectButtons key={i} onClick={() => goToProject(project.id)}>
-                          <p>{project.title}</p>
+                    <p>{project.title}</p>
                 </ProjectButtons>
             }
             )}
             <NewProject open={open} onClose={handleClose} />
-            {/* <MapSetBounds /> */}
+        </div>
     </ProjectStyle>
 }
 

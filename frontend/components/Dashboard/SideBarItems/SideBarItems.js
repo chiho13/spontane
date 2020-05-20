@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import {UserContext} from '../../../components/Layout/DashboardLayout';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import { useRouter } from 'next/router';
-import ProfileNav from '../NavProfilePill/NavProfilePill';
+
 
 const ProjectSidebar = styled.div`
 display: flex;
@@ -34,13 +34,13 @@ function SideBarItems() {
     // },
     {
         title: "Map Preview",
-        icon: "map",
+        icon: "remove_red_eye",
         link: `/admin/project/locations/map/[id]`,
         as: `/admin/project/locations/map/${projectID}`
     },
         {
             title: " Edit Map",
-            icon: "add_location",
+            icon: "map",
             link: `/admin/project/locations/add/[id]`,
             as: `/admin/project/locations/add/${projectID}`
         },
@@ -69,7 +69,6 @@ function SideBarItems() {
             icon: "settings",
             link: "/admin/project_settings"
         }} />
-         <ProfileNav />
           </ProjectSidebar>
         </SideBarItemsStyle>
     );

@@ -3,13 +3,14 @@ import MainSideBarStyle from './MainSideBarStyle';
 import Row from '../../UIKIT/Row';
 import MainSideBarItems from '../SideBarItems/SideBarItems';
 import Logo from '../SideBarLogo/SideBarLogo';
+import ProfileNav from '../NavProfilePill/NavProfilePill';
 
-
-function MainSideBar(props){
+function MainSideBar(props) {
         return (
                 <MainSideBarStyle>
                     <Logo />
-                    <MainSideBarItems user={props.user}/>
+                    {!props.hideList && <MainSideBarItems /> }
+                    <ProfileNav />
                 </MainSideBarStyle>
         );
 }
