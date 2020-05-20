@@ -37,7 +37,6 @@ const iButton = styled(Button)`
     justify-content: center;
     white-space: nowrap;
     text-overflow: ellipsis;
-    font-family: ${props => props.theme.boldFont};
   }
   }
 `;

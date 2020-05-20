@@ -29,6 +29,7 @@ const CREATE_LOCATION_MUTATION = gql`
         $latitude: Float!
         $longitude: Float!
         $description: String
+        $user: String
     ) {
         updateProject(
             id: $id
@@ -43,6 +44,7 @@ const CREATE_LOCATION_MUTATION = gql`
                 }
             }
             description: $description
+            user: $user
             }]
             }
         ) {
@@ -98,6 +100,7 @@ function CreateLocation(props) {
         const res = await updateProject({
             variables: {
                 id: router.query.id,
+                user: user.id,
                 ...form
             }
         });
@@ -115,18 +118,7 @@ function CreateLocation(props) {
 
     return (
         <CreateLocationMapStyle>
-             <Mutation mutation={CREATE_LOCATION_MUTATION} variables={form} refetchQueries={[{ query: CURRENT_USER_QUERY }]}>
-                {(createLocation, { loading, error }) => (<CreateLocationForm
-                    form={form}
-                    defaultValue={form}
-                    mode="CREATE"
-                    marker={marker}
-                    dropMarker={dropMarker}
-                    handleChange={handleChange}
-                    loading={loading}
-                    onSubmit={e => onSubmit(e, createLocation)}
-                    error={error} />)}
-            </Mutation>
+            
             <div className="map_container">
                 <MapGL 
                     onClick={dropMarker ? addMarker : null}
@@ -140,6 +132,18 @@ function CreateLocation(props) {
                 <Toolbar dropMarker={dropMarker} enableMarker={enableMarker} />
                 {/* <h3>Click on map to drop a pin</h3> */}
             </div>
+            <Mutation mutation={CREATE_LOCATION_MUTATION} variables={form} refetchQueries={[{ query: CURRENT_USER_QUERY }]}>
+                {(createLocation, { loading, error }) => (<CreateLocationForm
+                    form={form}
+                    defaultValue={form}
+                    mode="CREATE"
+                    marker={marker}
+                    dropMarker={dropMarker}
+                    handleChange={handleChange}
+                    loading={loading}
+                    onSubmit={e => onSubmit(e, createLocation)}
+                    error={error} />)}
+            </Mutation>
         </CreateLocationMapStyle>
     );
 }

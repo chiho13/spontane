@@ -57,6 +57,7 @@ max-width: 100%;
 overflow-y: auto;
 visibility: hidden;
 opacity: 0;
+will-change, visibility, opacity, padding, flex-basis;
 transition: visibility 0.2s ease, flex-basis 0.3s ease, padding 0.2s ease, opacity 0.2s ease;
 box-shadow: 0 9px 0px 0px white, 0 -9px 0px 0px white, 8px 0 10px -4px rgba(100, 100, 100, 0.3), -12px 0 10px -4px rgba(100, 100, 100, 0.3);
 
@@ -64,10 +65,14 @@ box-shadow: 0 9px 0px 0px white, 0 -9px 0px 0px white, 8px 0 10px -4px rgba(100,
     padding: 32px;
     opacity: 1;
     visibility: visible;
-    flex-basis: 35%;
+    flex-basis: 30%;
 }
 h2 {
     margin-top: 64px;
+}
+
+button {
+    font-family: ${props => props.theme.boldFont};
 }
 `;
 
