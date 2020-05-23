@@ -15,10 +15,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import { css } from 'glamor';
 import { ViewPortContext } from '../../providers/MapProvider';
 import useDimensions from 'react-use-dimensions';
+import useLocalStorage from '../../hooks/useLocalStorage';
 
 import { UserContext } from '../../Layout/DashboardLayout';
 import Toolbar from '../Toolbar';
-import Layers from '../Layers';
+import RightPanel from '../RightPanel';
+
 
 toast.configure();
 
@@ -60,8 +62,10 @@ function CreateLocation(props) {
     const [maxBounds, setMaxBounds] = useState(null)
     const { user } = useContext(UserContext);
 
+    const [savedLayerOpen, setSavedLayerOpen] = useLocalStorage('layerOpened', true);
+
     const [dropMarker, setDropMarker] = useState(false);
-    const [layerOpen, setLayerOpen] = useState(false);
+    const [layerOpen, setLayerOpen] = useState(null);
     const [form,
         setForm,
         handleChange] = useForm({
@@ -80,6 +84,11 @@ function CreateLocation(props) {
         onMarkerDrag,
         onMarkerDragEnd
     } = useMapMarker({ latitude: 0, longitude: 0 });
+
+
+    useEffect(() => {
+        setLayerOpen(savedLayerOpen);
+    }, [])
 
     useEffect(() => {
         setForm({
@@ -118,15 +127,15 @@ function CreateLocation(props) {
 
     function showLayerPanel() {
         setLayerOpen(!layerOpen);
-
-        if(layerOpen == true) {
+        setSavedLayerOpen(!layerOpen);
+        if (layerOpen == true) {
             setDropMarker(false);
         }
     }
 
     return (
         <CreateLocationMapStyle>
-            
+
             <div className="map_container">
                 <MapGL ref={mapRef}
                     onClick={dropMarker ? addMarker : null}
@@ -137,23 +146,23 @@ function CreateLocation(props) {
                         onMarkerDrag={onMarkerDrag}
                         onMarkerDragEnd={onMarkerDragEnd} />}
                 </MapGL>
-                <Toolbar dropMarker={dropMarker} enableMarker={enableMarker} layerOpen={layerOpen} showLayerPanel={showLayerPanel}/>
+                <Toolbar dropMarker={dropMarker} enableMarker={enableMarker} layerOpen={layerOpen} showLayerPanel={showLayerPanel} />
                 {/* <h3>Click on map to drop a pin</h3> */}
             </div>
-            <Layers layerOpen={layerOpen}>
-            <Mutation mutation={CREATE_LOCATION_MUTATION} variables={form} refetchQueries={[{ query: CURRENT_USER_QUERY }]}>
-                {(createLocation, { loading, error }) => (<CreateLocationForm
-                    form={form}
-                    defaultValue={form}
-                    mode="CREATE"
-                    marker={marker}
-                    dropMarker={dropMarker}
-                    handleChange={handleChange}
-                    loading={loading}
-                    onSubmit={e => onSubmit(e, createLocation)}
-                    error={error} />)}
-            </Mutation>
-            </Layers>
+            <RightPanel layerOpen={layerOpen}>
+                <Mutation mutation={CREATE_LOCATION_MUTATION} variables={form} refetchQueries={[{ query: CURRENT_USER_QUERY }]}>
+                    {(createLocation, { loading, error }) => (<CreateLocationForm
+                        form={form}
+                        defaultValue={form}
+                        mode="CREATE"
+                        marker={marker}
+                        dropMarker={dropMarker}
+                        handleChange={handleChange}
+                        loading={loading}
+                        onSubmit={e => onSubmit(e, createLocation)}
+                        error={error} />)}
+                </Mutation>
+            </RightPanel>
         </CreateLocationMapStyle>
     );
 }

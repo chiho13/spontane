@@ -9,8 +9,7 @@ import Search from './Searchbar/Searchbar';
 const SwitcherStyle = styled.div`
         display: flex;
         align-items: center;
-        margin-top: 16px;
-        
+
     .locationItem {
       position: absolute;
     }
@@ -25,6 +24,12 @@ const LocationViewSwitcher = (props) => {
     const router = useRouter();
         return (
             <SwitcherStyle>
+                {/* <Tabs id={props.id}>
+                    <div label="list" projectId={router.query.id} icon="view_list">
+                    </div>
+                    <div label="map" projectId={router.query.id} icon="map">
+                    </div>
+                </Tabs> */}
                 <div className="search_container">
                     <Search />
                 </div>

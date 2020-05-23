@@ -3,43 +3,31 @@ import PropTypes from 'prop-types';
 import MaterialIcon from '@material/react-material-icon';
 import Link from '../../helpers/link';
 
-class Tab extends Component {
-  static propTypes = {
-    activeTab: PropTypes.string.isRequired,
-    label: PropTypes.string.isRequired,
-    icon: PropTypes.string.isRequired,
-    onClick: PropTypes.func.isRequired,
-  };
+function Tab(props) {
+  const { label, icon, activeTab, onClick } = props;
 
-  changeTabs = () => {
-    const { label, onClick } = this.props;
+  function changeTabs() {
     onClick(label);
   }
 
-  render() {
-    const {
-      changeTabs,
-      props: {
-        label,
-        icon, 
-        activeTab,
-        projectId
-      },
-    } = this;
+  let className = 'tab-list-item';
 
-    let className = 'tab-list-item';
-
-
-    if (activeTab === label ) {
-      className += ' tab-list-active';
-    }
-
-    return (
-          <button className={className} onClick={changeTabs}>  
-            <MaterialIcon icon={icon} /> {label}
-          </button>
-    );
+  if (activeTab === label) {
+    className += ' tab-list-active';
   }
+
+  return (
+    <button className={className} onClick={changeTabs}>
+      <MaterialIcon icon={icon} /> {label}
+    </button>
+  );
 }
+
+Tab.propTypes = {
+  activeTab: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  icon: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+};
 
 export default Tab;

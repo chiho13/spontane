@@ -1,12 +1,9 @@
 import React, {useEffect} from 'react';
 import Router from 'next/router';
-
-
 import {ThemeProvider} from 'styled-components';
-
-
 import styled, {keyframes} from 'styled-components';
-import { fadeInLeft, fadeOutRight} from 'react-animations';
+
+import Tabs from '../SegmentTabs/Tabs';
 
 // const fadeInLeftAnimation = keyframes`${fadeInLeft}`;
 // const fadeOutRightAnimation = keyframes`${fadeOutRight}`;
@@ -57,7 +54,7 @@ max-width: 100%;
 overflow-y: auto;
 opacity: 0;
 visibility: visible;
-background-color: #eeeeee;
+background-color: #f1f1f1;;
 will-change, visibility, opacity, padding, flex-basis;
 transition: visibility 0.2s ease, flex-basis 0.3s ease, padding 0.2s ease, opacity 0.2s ease;
 box-shadow: 0 9px 0px 0px white, 0 -9px 0px 0px white, 8px 0 10px -4px rgba(100, 100, 100, 0.3), -12px 0 10px -4px rgba(100, 100, 100, 0.3);
@@ -77,14 +74,22 @@ button {
 }
 `;
 
-function Layers(props) {
+function RightPanel(props) {
     const {layerOpen} = props;
         return <LayerStyle
                     className={layerOpen && 'expandIn'}>
-                        <h2>Layers</h2>
+                        {/* <h2>Layers</h2> */}
+
+                        <Tabs id={props.id}>
+                            <div label="Layers" icon="view_list">
+                                list
+                             </div>
+                            <div label="Map Settings" icon="settings">
+                                map
+                            </div>
+                         </Tabs>
                         {props.children}
                 </LayerStyle>
 }
 
-
-export default Layers;
+export default RightPanel;

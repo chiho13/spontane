@@ -172,7 +172,6 @@ function NewProject(props) {
 
     async function submitProject(e, createProject) {
         e.preventDefault();
-
         
         const res = await createProject();
         
