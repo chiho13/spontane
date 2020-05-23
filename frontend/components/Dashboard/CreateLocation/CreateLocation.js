@@ -61,7 +61,7 @@ function CreateLocation(props) {
     const { user } = useContext(UserContext);
 
     const [dropMarker, setDropMarker] = useState(false);
-    const [addLocation, showAddLocation] = useState(false);
+    const [layerOpen, setLayerOpen] = useState(false);
     const [form,
         setForm,
         handleChange] = useForm({
@@ -113,9 +113,15 @@ function CreateLocation(props) {
     function enableMarker(bool) {
         setDropMarker(bool);
 
-        setTimeout(() => {
-            showAddLocation(bool);
-        }, 100);
+        setLayerOpen(true);
+    }
+
+    function showLayerPanel() {
+        setLayerOpen(!layerOpen);
+
+        if(layerOpen == true) {
+            setDropMarker(false);
+        }
     }
 
     return (
@@ -131,10 +137,10 @@ function CreateLocation(props) {
                         onMarkerDrag={onMarkerDrag}
                         onMarkerDragEnd={onMarkerDragEnd} />}
                 </MapGL>
-                <Toolbar dropMarker={dropMarker} enableMarker={enableMarker} />
+                <Toolbar dropMarker={dropMarker} enableMarker={enableMarker} layerOpen={layerOpen} showLayerPanel={showLayerPanel}/>
                 {/* <h3>Click on map to drop a pin</h3> */}
             </div>
-            <Layers>
+            <Layers layerOpen={layerOpen}>
             <Mutation mutation={CREATE_LOCATION_MUTATION} variables={form} refetchQueries={[{ query: CURRENT_USER_QUERY }]}>
                 {(createLocation, { loading, error }) => (<CreateLocationForm
                     form={form}

@@ -55,14 +55,15 @@ flex-basis: 0%;
 padding: 0;
 max-width: 100%;
 overflow-y: auto;
-flex-basis: 30%;
+opacity: 0;
+visibility: visible;
 background-color: #eeeeee;
 will-change, visibility, opacity, padding, flex-basis;
 transition: visibility 0.2s ease, flex-basis 0.3s ease, padding 0.2s ease, opacity 0.2s ease;
 box-shadow: 0 9px 0px 0px white, 0 -9px 0px 0px white, 8px 0 10px -4px rgba(100, 100, 100, 0.3), -12px 0 10px -4px rgba(100, 100, 100, 0.3);
 
 &.expandIn {
-    padding: 32px;
+    flex-basis: 30%;
     opacity: 1;
     visibility: visible;
 }
@@ -77,9 +78,9 @@ button {
 `;
 
 function Layers(props) {
-    const {dropMarker} = props;
+    const {layerOpen} = props;
         return <LayerStyle
-                    className={dropMarker && 'expandIn'}>
+                    className={layerOpen && 'expandIn'}>
                         <h2>Layers</h2>
                         {props.children}
                 </LayerStyle>

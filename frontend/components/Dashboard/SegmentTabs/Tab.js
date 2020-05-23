@@ -11,26 +11,33 @@ class Tab extends Component {
     onClick: PropTypes.func.isRequired,
   };
 
+  changeTabs = () => {
+    const { label, onClick } = this.props;
+    onClick(label);
+  }
 
   render() {
     const {
+      changeTabs,
       props: {
         label,
         icon, 
+        activeTab,
         projectId
       },
     } = this;
 
     let className = 'tab-list-item';
 
+
+    if (activeTab === label ) {
+      className += ' tab-list-active';
+    }
+
     return (
-      <Link href={`/admin/project/locations/${label}/${projectId}`}>
-        <a>
-          <li className={className}>
+          <button className={className} onClick={changeTabs}>  
             <MaterialIcon icon={icon} /> {label}
-          </li>
-        </a>
-      </Link>
+          </button>
     );
   }
 }

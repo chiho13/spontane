@@ -20,12 +20,13 @@ function SideBarItems() {
 
     console.log('sidebar', projectID);
 
-    const sidebaritems =  [   {
-        title: "Project Dashboard",
-        icon: "dashboard",
-        link: "/admin/project/[id]",
-        as: `/admin/project/${projectID}`
-    },
+    const sidebaritems =  [   
+    //     {
+    //     title: "Project Dashboard",
+    //     icon: "dashboard",
+    //     link: "/admin/project/[id]",
+    //     as: `/admin/project/${projectID}`
+    // },
     // {
     //     title: "List of Locations",
     //     icon: "list",
@@ -33,17 +34,18 @@ function SideBarItems() {
     //     as: `/admin/project/locations/list/${projectID}`
     // },
     {
-        title: "Map Preview",
+        title: "Map Editor",
+        icon: "map",
+        link: `/admin/project/locations/editor/[id]`,
+        as: `/admin/project/locations/editor/${projectID}`
+    },
+    {
+        title: "Preview",
         icon: "remove_red_eye",
         link: `/admin/project/locations/map/[id]`,
         as: `/admin/project/locations/map/${projectID}`
     },
-        {
-            title: " Edit Map",
-            icon: "map",
-            link: `/admin/project/locations/add/[id]`,
-            as: `/admin/project/locations/add/${projectID}`
-        },
+      
 
     ]
 
@@ -64,11 +66,11 @@ function SideBarItems() {
                 ))}
                  </ProjectSidebar>
                 <ProjectSidebar>
-                  <SideBarItem item={      {
+                  {/* <SideBarItem item={      {
             title: "Project Settings",
             icon: "settings",
             link: "/admin/project_settings"
-        }} />
+        }} /> */}
           </ProjectSidebar>
         </SideBarItemsStyle>
     );

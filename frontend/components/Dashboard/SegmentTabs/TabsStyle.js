@@ -34,6 +34,8 @@ const TabsStyle = styled.div`
 
     .tab-list-item {
         border: 2px solid ${props => props.theme.brandColor};
+
+
     }
     }
 }
@@ -58,9 +60,28 @@ const TabsStyle = styled.div`
         margin-right: 8px;
     }
 
+    &:focus {
+        outline: 0;
+    }
+
     &:hover {
         background-color: #f9f9f9;
         border-color: rgba(100, 105, 135, .7);
+    }
+
+  }
+
+  .tab-list-active {
+    color: ${props => props.theme.brandColor};
+    border: 2px solid ${props => props.theme.brandColor};
+
+    i {
+        color: ${props => props.theme.brandColor};
+    }
+
+    &:hover {
+        background-color: inherit;
+        border-color: inherit;
     }
 
   }

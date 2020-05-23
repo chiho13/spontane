@@ -72,51 +72,6 @@ const NewProjectStyle = styled(Dialog)`
     }
 `;
 
-const ProjectForm = styled(Form)`
-    && {
-        width: 100%;
-
-        top: 0;
-        left: 0;
-        box-shadow: none;
-        margin: 0 auto;
-        padding-top: 0;
-        max-width: 1000px;
-
-        .next_button {
-            width: auto;
-        }
-        
-        .fieldset_wrapper .wrapper {
-            grid-column: auto;
-            max-width: 350px;
-        }
-
-        .button_wrapper {
-            display: flex;
-            align-items: center;
-            margin-top: 16px;
-        }
-
-        .cancel-create {
-            background: none;
-            border: 0;
-            font-family: ${props => props.theme.fontFamily};
-            font-size: 16px;
-            margin-left: 32px;
-            cursor: pointer;
-
-            &:focus {
-                outline: none;
-            }
-
-            &:hover {
-                text-decoration: underline;
-            }
-        }
-    }
-`;
-
 
 const Content = styled.div`
     && {
@@ -124,13 +79,15 @@ const Content = styled.div`
     }
 `;
 
-const CREATE_PROJECT_MUTATION = gql`
-    mutation CREATE_PROJECT_MUTATION(
+const UPDATE_PROJECT_MUTATION = gql`
+    mutation UPDATE_PROJECT_MUTATION(
+        $id: ID!
         $title: String!
         $mapBounds: String
         $mapStyle: String
     ) {
-        createProject(
+        updateProject(
+            id: $id
             title: $title
             mapBounds: $mapBounds
             mapStyle: $mapStyle
@@ -160,27 +117,19 @@ function NewProject(props) {
     };
 
     useEffect(() => {
-        console.log(mapConfig.mapStyle);
-        setForm({...form, mapBounds: feature, mapStyle: mapConfig.mapStyle});
-    }, [mapConfig, feature]);
+        setForm({...form,mapStyle: mapConfig.mapStyle});
+    }, [mapConfig]);
 
-    const notify = () => toast.success("New Project created!", {
+    const notify = () => toast.success("Map Settings updated!", {
         position: toast.POSITION.BOTTOM_CENTER,
         closeButton: false,
         className: css({ fontFamily: "nunito, sans-serif" })
     });
 
-    async function submitProject(e, createProject) {
-        e.preventDefault();
-
+    async function _updateProject(e, updateProject) {
+        e.preventDefault();        
+        const res = await updateProject();
         
-        const res = await createProject();
-        
-        notify();
-        setProjectID(res.data.createProject.id);
-        Router.push({
-            pathname: `/admin/project/locations/editor/${res.data.createProject.id}`,
-        });
     }
 
     const initInstance = SW => setInstance({
@@ -192,7 +141,7 @@ function NewProject(props) {
         <NewProjectStyle onClose={handleClose} aria-labelledby="simple-dialog-title" open={open} scroll='body' fullScreen={true}>
             <MaterialIcon icon="close" className="close_button" onClick={handleClose}/>
             <Mutation mutation={CREATE_PROJECT_MUTATION} variables={form}>
-                {(createProject, { loading, error }) => (<ProjectForm >
+                {(updateProject, { loading, error }) => (<ProjectForm >
 
                     <Content>
 
@@ -205,7 +154,7 @@ function NewProject(props) {
                     <StepOne handleChange={handleChange} form={form} onClose={handleClose}/>
                     <SetMapStyle />
                     <MapSetBounds setFeature={setFeature} defaultBoundary={worldBoundary} submitForm={e => {
-                        submitProject(e, createProject)
+                        _updateProject(e, updateProject)
                     }}/>
                     </StepWizard>
                     </Content>

@@ -17,7 +17,7 @@ justify-content: space-between;
 
 
 .headerLogo {
-    width: 100px;
+    width: 110px;
     padding-left:16px;
 }
 
