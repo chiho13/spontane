@@ -62,9 +62,9 @@ function Pagination(props) {
     function pageChange(num) {
         
         setPageNum(num);
-        const href = `/admin/project/locations/list/[id]`;
+        const href = `/admin/project/locations/editor/[id]`;
             
-        const newPath = `/admin/project/locations/list/${router.query.id}` + `?page=${num}`;
+        const newPath = `/admin/project/locations/editor/${router.query.id}` + `?page=${num}`;
         
         Router.push(href, newPath, {shallow: true});
 

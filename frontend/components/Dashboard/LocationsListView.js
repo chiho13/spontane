@@ -23,6 +23,7 @@ export const ALL_LOCATIONS_QUERY = gql `
                 longitude
             }
             description
+            user
           }
         }
 `;
@@ -30,9 +31,7 @@ export const ALL_LOCATIONS_QUERY = gql `
 const LocationsListViewStyle = styled.div `
     display: block;
     max-width: ${props => props.theme.maxWidth};
-    padding-left: 32px;
-    padding-right: 32px;
-    padding-bottom: 32px;
+    padding-top: 16px;
 `;
 
 const LocationListView = (props) => {
@@ -40,19 +39,6 @@ const LocationListView = (props) => {
     const {user: data, loading, refetch} = useContext(UserContext);
 
     const {page} = props;
-    // const [projectID, setProjectID] = useLocalStorage('projectID', router.query.id);
-
-    // useEffect(() => {
-    //     setProjectID(router.query.id);
-    // }, loading);
-
-    // useEffect(() => {
-    //     refetch();
-    //     console.log(router.query.page);
-    // }, [router.query.page])
-
-
-
 
     if(loading) {
         return <Loading />

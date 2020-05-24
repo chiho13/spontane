@@ -30,14 +30,12 @@ const DeleteButton = (props) => {
     const [projectID, setProjectID] = useLocalStorage('projectID', router.query.id);
     const {user: data, loading, refetch} = useContext(UserContext);
     const update = () => {
-        // Router.push({
-        //     pathname: `/admin/project/locations/list/${projectID}`,
-
-        // });
+     
         refetch();
     };
     
     const {locationID} = props;
+    
     return (
         <Mutation
             mutation={DELETE_LOCATION_MUTATION}

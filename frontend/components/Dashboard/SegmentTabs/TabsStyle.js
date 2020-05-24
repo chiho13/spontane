@@ -22,7 +22,7 @@ const TabsStyle = styled.div`
     text-transform: capitalize;
     background-color: white;
     border: 0;
-    transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease;
 
     &:first-child:not(.tab-list-active) {
         border-right: 1px solid #f1f1f1;
@@ -60,11 +60,20 @@ const TabsStyle = styled.div`
         background-color: inherit;
     }
   }
+
+  .tab-content {
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 16px;
+    height: calc(100vh - 120px);
+    overflow: auto;
+    
+  }
   
   .tab-content .map-container {
       position: relative;
       width: 100%;
-      height: calc(100vh - 140px)
+      height: calc(100vh - 140px);
   }
 `;
 
