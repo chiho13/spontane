@@ -55,7 +55,7 @@ const IconButtonStyle = styled(IconButton)`
     && {
         background-color: ${props => props.theme.white};
         border: 1px solid ${props => props.theme.grey};
-        color: ${props => props.theme.brandColor};
+        color: ${props => props.theme.black};
         padding: 10px;
         border-radius: 10px;
 
@@ -63,7 +63,7 @@ const IconButtonStyle = styled(IconButton)`
             background-color: ${props => props.theme.lightgrey};
         }
 
-        &.layer-button {
+        &.layer-button, &.add-button {
             color: ${props => props.selected ? props.theme.brandColor : props.theme.black};
         }
     }
@@ -88,7 +88,7 @@ function Toolbar(props) {
             }}>Cancel</button>
             <IconButtonStyle onClick={() => {
                 enableMarker(true);
-            }}>
+            }} className="add-button" selected={layerOpen && dropMarker}>
                 <MaterialIcon icon="add_location" />
             </IconButtonStyle>
         </IconButtonContainer>

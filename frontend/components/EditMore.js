@@ -62,7 +62,7 @@ class EditMore extends React.Component {
                             id={location.id} 
                             latitude={location.geoLocation.latitude}
                             longitude={location.geoLocation.longitude}
-                            pathname={`/admin/locations/update`}
+                            pathname={`/admin/map/update`}
                           />
                         <DeleteButton
                             id={location.id}

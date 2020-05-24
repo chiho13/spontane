@@ -39,7 +39,8 @@ function ViewPortProvider(props) {
     minZoom: 0,
     mapStyle: "mapbox://styles/anthonyhodesu/ck0y2dle1013q1cpk194xrvtu",
     originalLat: 0,
-    originalLng: 0
+    originalLng: 0,
+    data: false
   });
 
   const [maxBounds, setMaxBounds] = useState(null);

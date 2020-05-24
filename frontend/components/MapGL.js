@@ -68,6 +68,7 @@ const Maps = React.forwardRef((props, ref) => {
                 originalLat: lat,
                 originalLng: lng,
                 mapStyle: project.mapStyle,
+                data: project
             });
         }
 

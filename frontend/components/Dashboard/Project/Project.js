@@ -96,7 +96,7 @@ const Project = () => {
         setProjectID(projectId);
 
         Router.push({
-            pathname: `/admin/project/${projectId}`,
+            pathname: `/admin/project/map/editor/${projectId}`,
         });
     }
 

@@ -17,8 +17,7 @@ function SideBarItems() {
 
     const router = useRouter();
     const [projectID, setProjectID] = useLocalStorage('projectID', router.query.id);
-
-    console.log('sidebar', projectID);
+    
 
     const sidebaritems =  [   
     //     {
@@ -36,14 +35,14 @@ function SideBarItems() {
     {
         title: "Map Editor",
         icon: "map",
-        link: `/admin/project/locations/editor/[id]`,
-        as: `/admin/project/locations/editor/${projectID}`
+        link: `/admin/project/map/editor/[id]`,
+        as: `/admin/project/map/editor/${projectID}`
     },
     {
         title: "Preview",
         icon: "remove_red_eye",
-        link: `/admin/project/locations/map/[id]`,
-        as: `/admin/project/locations/map/${projectID}`
+        link: `/admin/project/map/preview/[id]`,
+        as: `/admin/project/map/preview/${projectID}`
     },
       
 

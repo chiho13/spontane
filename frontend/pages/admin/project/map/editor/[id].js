@@ -1,11 +1,9 @@
-import CreateLocation from '../../../../../components/Dashboard/CreateLocation/CreateLocation';
+import CreateLocation from '../../../../../components/Dashboard/EditorMap/Editor';
 import DashboardLayout from '../../../../../components/Layout/DashboardLayout';
 import Head from 'next/head';
-import {useState} from 'react';
 
 const addLocation = (props) => {
 
-    const [pageNum, setPageNum] = useState(parseFloat(props.query.page) || 1 );
    return <DashboardLayout>
         <Head>
             <title>Add Location</title>

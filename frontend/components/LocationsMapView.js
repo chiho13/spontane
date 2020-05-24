@@ -119,9 +119,9 @@ function AllLocations(props) {
 
     function closeLocationDetail() {
 
-        const href = `/admin/project/locations/map/[id]`;
+        const href = `/admin/project/map/preview/[id]`;
             
-        const newPath = `/admin/project/locations/map/${router.query.id}`;
+        const newPath = `/admin/project/map/preview/${router.query.id}`;
         
         router.push(href, newPath, {shallow: true});
 

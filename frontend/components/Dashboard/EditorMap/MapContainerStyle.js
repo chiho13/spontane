@@ -4,7 +4,6 @@ const CreateLocationMapStyle = styled.div `
     position: relative;
     display: flex;
     width: 100%;
-    height: 100vh;
       
       .map_container {
         position: relative;

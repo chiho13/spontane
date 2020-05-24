@@ -54,10 +54,11 @@ padding: 0;
 max-width: 100%;
 opacity: 0;
 visibility: hidden;
-background-color: #f1f1f1;;
+background-color: #f1f1f1;
+height: calc(100vh - 60px);
 will-change, visibility, opacity, padding, flex-basis;
 transition: visibility 0.2s ease, flex-basis 0.3s ease, padding 0.2s ease, opacity 0.2s ease;
-box-shadow: 0 9px 0px 0px white, 0 -9px 0px 0px white, 8px 0 10px -4px rgba(100, 100, 100, 0.3), -12px 0 10px -4px rgba(100, 100, 100, 0.3);
+box-shadow: 8px 0 10px -4px rgba(100, 100, 100, 0.3), -12px 0 10px -4px rgba(100, 100, 100, 0.3);
 
 > div {
     display: none;
@@ -109,12 +110,13 @@ function RightPanel(props) {
                                     <Pagination page={pageNum} setPageNum={setPageNum}/>
                                 </StickyTabs>
                                  <ListView page={pageNum}/>
+                                 {props.children}
                              </div>
                             <div label="Map Settings" icon="settings">
                                 map
                             </div>
                          </Tabs>
-                        {props.children}
+                      
                 </LayerStyle>
 }
 

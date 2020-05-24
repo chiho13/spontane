@@ -56,7 +56,7 @@ const CREATE_LOCATION_MUTATION = gql`
     }
 `;
 
-function CreateLocation(props) {
+function MapEditor(props) {
     const router = useRouter();
     const { viewport, setViewport, mapConfig } = useContext(ViewPortContext);
     const [maxBounds, setMaxBounds] = useState(null)
@@ -80,6 +80,7 @@ function CreateLocation(props) {
         marker,
         addMarker,
         showMarker,
+        setShowMarker,
         onMarkerDragStart,
         onMarkerDrag,
         onMarkerDragEnd
@@ -123,6 +124,10 @@ function CreateLocation(props) {
         setDropMarker(bool);
 
         setLayerOpen(true);
+
+        if(bool == false) {
+            setShowMarker(false);
+        }
     }
 
     function showLayerPanel() {
@@ -167,5 +172,5 @@ function CreateLocation(props) {
     );
 }
 
-export default CreateLocation;
+export default MapEditor;
 export { CREATE_LOCATION_MUTATION };
