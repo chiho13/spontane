@@ -9,7 +9,7 @@ const CreateLocationMapStyle = styled.div `
       .map_container {
         position: relative;
         flex-grow: 1;
-        height: 100vh;
+        height: calc(100vh - 60px);
       }
 `;
 

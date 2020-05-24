@@ -31,7 +31,7 @@ const IconButtonContainer = styled.div`
         color: ${props => props.theme.white};
         font-size: 14px;
         font-family: ${props => props.theme.fontFamily};
-        right: 0;
+        right: 50%;
         transition: right 0.5s ease, opacity 0.3s ease;
         visibility: hidden;
         cursor: pointer;

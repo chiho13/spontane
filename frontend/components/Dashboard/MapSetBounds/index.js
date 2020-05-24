@@ -186,6 +186,12 @@ function handleClose(event) {
     }
 
     function getCursor() {
+        if(mapRef.current) {
+            if(mapRef.current.state.isDragging) {
+                return 'grabbing';
+            }
+        }
+
         return drawSelected ? 'crosshair' : 'grab';
     }
 
