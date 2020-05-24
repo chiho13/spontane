@@ -5,6 +5,7 @@ import styled, {keyframes} from 'styled-components';
 import ListView from '../LocationsListView';
 import Tabs from '../SegmentTabs/Tabs';
 import Pagination from '../Pagination/Pagination';
+import AddLocation from '../EditorMap/AddLocation';
 
 // const fadeInLeftAnimation = keyframes`${fadeInLeft}`;
 // const fadeOutRightAnimation = keyframes`${fadeOutRight}`;
@@ -54,7 +55,6 @@ padding: 0;
 max-width: 100%;
 opacity: 0;
 visibility: hidden;
-background-color: #f1f1f1;
 height: calc(100vh - 60px);
 will-change, visibility, opacity, padding, flex-basis;
 transition: visibility 0.2s ease, flex-basis 0.3s ease, padding 0.2s ease, opacity 0.2s ease;
@@ -87,16 +87,12 @@ button {
 const StickyTabs = styled.div`
   position: sticky;
   top: 0;
-  padding-top: 4px;
   display: block;
-  background-color: #f1f1f1;
   z-index: 10;
-  padding-bottom: 4px;
 `;
 
 
 function RightPanel(props) {
-
     const router = useRouter();
     const page = router.query.page
     const [pageNum, setPageNum] = useState(parseFloat(page) || 1);
@@ -110,7 +106,7 @@ function RightPanel(props) {
                                     <Pagination page={pageNum} setPageNum={setPageNum}/>
                                 </StickyTabs>
                                  <ListView page={pageNum}/>
-                                 {props.children}
+                                 <AddLocation />
                              </div>
                             <div label="Map Settings" icon="settings">
                                 map

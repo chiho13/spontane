@@ -16,8 +16,7 @@ function SideBarItems() {
     // const {projectId} = useContext(UserContext);
 
     const router = useRouter();
-    const [projectID, setProjectID] = useLocalStorage('projectID', router.query.id);
-    
+    const projectID = router.query.id;
 
     const sidebaritems =  [   
     //     {

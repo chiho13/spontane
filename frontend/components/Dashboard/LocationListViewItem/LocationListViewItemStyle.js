@@ -6,17 +6,12 @@ const LocationListViewItemStyle = styled(LocationItem)`
         display: flex;
         position: relative;
         justify-content: space-between;
-        background-color: ${props => props.theme.white};
+        background-color: #f1f1f1;
         border: none;
-        margin-top: 2px;
+        margin-top: 4px;
         box-shadow: none;
         border-radius: 0;
         align-items: center;
-
-        &:first-child {
-            border-top-left-radius: 4px;
-            border-top-right-radius: 4px;
-        }
 
         h3 {
             font-family: ${props => props.theme.boldFont};

@@ -49,6 +49,7 @@ const TabsStyle = styled.div`
     color: ${props => props.theme.brandColor};
     background-color: #f1f1f1;
     box-shadow: none;
+    padding-top: 5px;
    
     border-top: 3px solid ${props => props.theme.brandColor};
    
@@ -57,19 +58,14 @@ const TabsStyle = styled.div`
     }
 
     &:hover {
-        background-color: inherit;
+        background-color: #f7f7f7;
     }
   }
 
   .tab-content {
-    padding-left: 16px;
-    padding-right: 16px;
-    padding-bottom: 16px;
-    height: calc(100vh - 120px);
-    overflow: auto;
-    
+      position: relative;
   }
-  
+
   .tab-content .map-container {
       position: relative;
       width: 100%;

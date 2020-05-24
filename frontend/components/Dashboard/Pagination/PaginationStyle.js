@@ -6,8 +6,8 @@ const PaginationStyles = styled.div`
   align-items: stretch;
   justify-content: center;
   align-content: center;
-  margin: 24px 0;
-  margin-left: -10px;
+  padding: 24px 0;
+  background-color: #f1f1f1;
   font-family: ${props => props.theme.boldFont}; 
 
   .prev, .next {

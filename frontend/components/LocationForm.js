@@ -47,9 +47,9 @@ position: absolute;
 display: block;
 border: 0;
 top: 0;
+height: 100%;
 border-radius: 0;
 width: auto;
-height: 100%;
 margin: 0;
 box-shadow: none;
 right: -100%;
@@ -58,7 +58,7 @@ padding: 32px;
 max-width: 100%;
 overflow-y: auto;
 visibility: hidden;
-background-color: #f7f7f7;
+background-color: #f1f1f1;
 opacity: 0;
 will-change, visibility, opacity, right;
 transition: visibility 0.2s ease, opacity 0.2s ease, right 0.2s ease;
@@ -130,7 +130,7 @@ function LocationForm(props) {
                                     name="latitude"
                                     placeholder="0"
                                     readOnly
-                                    value={marker.latitude && parseFloat(marker.latitude).toFixed(4)}
+                                    value={defaultValue.latitude && parseFloat(defaultValue.latitude).toFixed(4)}
                                     />
                                  </div>
 
@@ -146,7 +146,7 @@ function LocationForm(props) {
                                     name="longitude"
                                     placeholder="0"
                                     readOnly
-                                    value={marker.longitude && parseFloat(marker.longitude).toFixed(4)}
+                                    value={defaultValue.longitude && parseFloat(defaultValue.longitude).toFixed(4)}
                                     />
                            </div>
                            

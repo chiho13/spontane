@@ -1,6 +1,7 @@
 import CreateLocation from '../../../../../components/Dashboard/EditorMap/Editor';
 import DashboardLayout from '../../../../../components/Layout/DashboardLayout';
 import Head from 'next/head';
+import {MapEditorProvider} from '../../../../../components/providers/MapEditorProvider';
 
 const addLocation = (props) => {
 
@@ -8,7 +9,9 @@ const addLocation = (props) => {
         <Head>
             <title>Add Location</title>
         </Head>
-        <CreateLocation project={props.query.projectId}/>
+        <MapEditorProvider>
+            <CreateLocation project={props.query.projectId}/>
+        </MapEditorProvider>
     </DashboardLayout>
 };
 
