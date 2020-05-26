@@ -101,7 +101,7 @@ function MapEditor(props) {
                 longitude={_location.geoLocation.longitude}
                 latitude={_location.geoLocation.latitude}>
                 
-                    <CityPin size={25} pinColor="#f5f5dc" onClick={(e) => {
+                    <CityPin pinColor="#f5f5dc" onClick={(e) => {
                         e.stopPropagation();
                         updateLocation(_location);
                         }}/>

@@ -45,7 +45,7 @@ function UpdateLocation(props) {
     const router = useRouter();
     const { user } = useContext(UserContext);
 
-    const { form, setForm, handleChange, dropMarker, singleLocation} = useContext(MapEditorContext);
+    const { form, setForm, handleChange, dropMarker, singleLocation, editLocation} = useContext(MapEditorContext);
 
     const notify = () => toast.info("Location updated successfully!", {
         position: toast.POSITION.BOTTOM_CENTER,
@@ -71,7 +71,7 @@ function UpdateLocation(props) {
                 longitude: 0
             });
         }
-    }, [singleLocation]);
+    }, [editLocation]);
 
     async function updateForm(e, updateLocationMutation) {
         e.preventDefault();
