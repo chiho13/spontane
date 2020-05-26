@@ -185,7 +185,7 @@ function AllLocations(props) {
                 longitude={location.geoLocation.longitude}
                 latitude={location.geoLocation.latitude}>
                 
-                    <CityPin size={20} onClick={() => _toggleLocationDetail(location)}/>
+                    <CityPin onClick={() => _toggleLocationDetail(location)}/>
             </Marker>
         ))
     }
