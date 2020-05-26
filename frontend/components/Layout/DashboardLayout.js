@@ -6,7 +6,7 @@ import useUser from '../hooks/useUser';
 import Loading from '../LoadingSpinner';
 import Login from '../Login';
 import AuthLayout from './AuthLayout';
-
+import {useRouter} from 'next/router';
 import BuyCredit from '../Dashboard/BuyCredits';
 import {ViewPortProvider } from '../providers/MapProvider';
 import Logo from '../../components/Dashboard/SideBarLogo/SideBarLogo';
@@ -41,6 +41,7 @@ const DashboardNav = styled.div `
 export const UserContext = React.createContext();
 
 const DashboardLayout = props => {
+    const router = useRouter();
     const {
         data: {
             me: user
@@ -59,6 +60,11 @@ const DashboardLayout = props => {
     function setProjectID(id) {
         setProjectId(id);
     }
+
+
+    const projectData = user && user.projects.find(el => {
+        return el.id === router.query.id
+    });
 
     // useEffect(() => {
     //     const isAuth = function (hasUser) {
@@ -89,7 +95,7 @@ const DashboardLayout = props => {
         value={{
         user,
         loading,
-        called, refetch, projectId, setProjectID
+        called, refetch, projectId, setProjectID, projectData
     }}>
         <ViewPortProvider id={props.id} user={user}>
         

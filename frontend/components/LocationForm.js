@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import Router from 'next/router';
 import Form from './styles/Form';
 import Error from './ErrorMessage';
@@ -49,25 +49,15 @@ border: 0;
 top: 0;
 height: 100%;
 border-radius: 0;
-width: auto;
+width: 100%;
 margin: 0;
 box-shadow: none;
-right: -100%;
+right: 0;
 flex-basis: 0%;
 padding: 32px;
 max-width: 100%;
 overflow-y: auto;
-visibility: hidden;
 background-color: #f1f1f1;
-opacity: 0;
-will-change, visibility, opacity, right;
-transition: visibility 0.2s ease, opacity 0.2s ease, right 0.2s ease;
-
-&.expandIn {
-    opacity: 1;
-    visibility: visible;
-    right: 0;
-}
 
 h2 {
     margin-top: 64px;
@@ -79,12 +69,10 @@ button {
 `;
 
 function LocationForm(props) {
-    const {form, mode, defaultValue, marker, handleChange, loading, error, onSubmit, dropMarker} = props;
+    const {form, mode, defaultValue, marker, handleChange, loading, error, onSubmit} = props;
     const EditMode = mode === 'EDIT';
-
+        console.log(defaultValue);
         return <LocationFormStyle
-                    isOpened={dropMarker}
-                    className={dropMarker && 'expandIn'}
                     onSubmit={onSubmit}>
                         <h2>{ EditMode ? 'Update Location' : 'Add Location'}</h2>
                     <Error error={error}/>
@@ -101,7 +89,7 @@ function LocationForm(props) {
                                     name="city"
                                     placeholder="City or Town"
                                     required
-                                    defaultValue={defaultValue.city}
+                                    value={defaultValue.city}
                                     onChange={handleChange}/>
                             </div>
                             <div className="wrapper">
@@ -114,7 +102,7 @@ function LocationForm(props) {
                                     name="country"
                                     placeholder="Country"
                                     required
-                                    defaultValue={defaultValue.country}
+                                    value={defaultValue.country}
                                     onChange={handleChange}
                                     />
                             </div>
@@ -160,7 +148,7 @@ function LocationForm(props) {
                                     name="description"
                                     placeholder="More Information about this place"
                                     required
-                                    defaultValue={defaultValue.description}
+                                    value={defaultValue.description}
                                     onChange={handleChange}/>
                             </div>
                         </div>

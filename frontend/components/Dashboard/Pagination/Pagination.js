@@ -31,7 +31,7 @@ const Lazyloader = styled.div`
 
 function Pagination(props) {
     const router = useRouter();
-    const {user: data, loading, refetch} = useContext(UserContext)
+    const {user: data, loading, projectData} = useContext(UserContext)
 
     const {page, setPageNum} = props;
     // const {data, loading, called} = useQuery(PAGINATION_QUERY, {
@@ -40,9 +40,9 @@ function Pagination(props) {
     //     }
     // });
 
-    const filteredProject = data && data.projects.find(el => {
-        return el.id === router.query.id
-      });
+    // const filteredProject = data && data.projects.find(el => {
+    //     return el.id === router.query.id
+    //   });
 
     
     //   useEffect(() => {
@@ -56,7 +56,7 @@ function Pagination(props) {
         return <Lazyloader></Lazyloader>
     }
 
-    const count = data && filteredProject.locations.length;
+    const count = projectData && projectData.locations.length;
     const pages = Math.ceil(count / perPage);
 
     function pageChange(num) {

@@ -6,8 +6,8 @@ import {Marker} from 'react-map-gl';
 function DropMarker(props) {
     const {marker: {
         latitude, longitude
-    }, onMarkerDragStart, onMarkerDrag, onMarkerDragEnd} = props;
-    return <ShowMarker>
+    }, onMarkerDragStart, onMarkerDrag, onMarkerDragEnd, editLocation} = props;
+    return <ShowMarker isUpdate={editLocation}>
         <Marker
             longitude={parseFloat(longitude)}
             latitude={parseFloat(latitude)}
@@ -15,7 +15,7 @@ function DropMarker(props) {
             onDragStart={onMarkerDragStart}
             onDrag={onMarkerDrag}
             onDragEnd={onMarkerDragEnd}>
-            <CityPin size={20}/>
+            <CityPin dropShadowColor="#ffffff" pinColor="#cc0000"/>
         </Marker>
     </ShowMarker>
 }

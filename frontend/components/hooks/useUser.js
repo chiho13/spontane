@@ -11,6 +11,8 @@ const CURRENT_USER_QUERY = gql `
             projects {
                 id
                 title
+                mapBounds
+                mapStyle
                 locations {
                     id
                 country

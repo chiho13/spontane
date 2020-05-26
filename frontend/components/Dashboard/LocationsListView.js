@@ -64,23 +64,14 @@ const LocationsListViewStyle = styled.div `
 `;
 
 const LocationListView = (props) => {
-    const router = useRouter();
-    const {user: data, loading, refetch} = useContext(UserContext);
+    const {loading, projectData: filteredProject} = useContext(UserContext);
 
     const {page} = props;
 
-    const filteredProject = data && data.projects.find(el => {
-        return el.id === router.query.id
-    });
-
-    const [projectData, setProjectData] = useState();
     const [locations, setLocations] = useState(null);
 
     useEffect(() => {
         if(loading) return;
-        const filteredProject =  data.projects.find(el => {
-            return el.id === router.query.id
-        });
 
         let reversed =  filteredProject.locations.reverse();
         const locations = reversed.slice((page - 1) * perPage, page * perPage);

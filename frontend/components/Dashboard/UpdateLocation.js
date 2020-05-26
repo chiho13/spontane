@@ -64,7 +64,7 @@ const UPDATE_LOCATION_MUTATION = gql `
 
 function UpdateLocation(props) {
     const {longitude, latitude } = props;
-    const {viewport, flyViewPort,} = useContext(ViewPortContext);
+    const {viewport, flyViewPort} = useContext(ViewPortContext);
     
     const {data, loading} = useQuery(SINGLE_LOCATION_QUERY, {variables: {
         id: props.locationID

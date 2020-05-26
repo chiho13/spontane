@@ -19,36 +19,28 @@ const SINGLE_PROJECT_QUERY = gql`
 
 
 const Maps = React.forwardRef((props, ref) => {
+    const {loading, projectData, } = useContext(UserContext);
     const { viewport, setViewport, onViewportChange, mapConfig, setMapConfig } = useContext(ViewPortContext);
 
     const router = useRouter();
     const projectID = router.query.id;
 
-    const { data: singleProjectData, loading: projectLoading, error, refetch: refetchProject } = useQuery(SINGLE_PROJECT_QUERY, {
-        variables: {
-            projectID: projectID,
-        }
-    });
+    // const { data: singleProjectData, loading: projectLoading, error, refetch: refetchProject } = useQuery(SINGLE_PROJECT_QUERY, {
+    //     variables: {
+    //         projectID: projectID,
+    //     }
+    // });
 
     const [mercator, setMercator] = useState(new WebMercatorViewport(viewport));
 
     useEffect(() => {
+        if (loading) return;
 
-        const { project } = singleProjectData;
-        if (projectLoading || error || !project) return;
-
-        console.log(project);
-        // console.log(bounds.geometry.coordinates);
-        const bounds = JSON.parse(project.mapBounds);
+        const bounds = JSON.parse(projectData.mapBounds);
         const geometry = bounds.geometry.coordinates[0];
 
         const lng = (geometry[1][0] + geometry[3][0]) / 2;
         const lat = (geometry[1][1] + geometry[3][1]) / 2;
-
-        console.log(lat, lng);
-
-        console.log(ref.current._width);
-
 
         if (mercator.width > 1) {
             const bound = mercator.fitBounds(
@@ -67,24 +59,21 @@ const Maps = React.forwardRef((props, ref) => {
                 maxBounds: [geometry[1], geometry[3]],
                 originalLat: lat,
                 originalLng: lng,
-                mapStyle: project.mapStyle,
-                data: project
+                mapStyle: projectData.mapStyle,
+                loadedMap: true
             });
         }
 
 
-    }, [projectLoading, mercator]);
-    //   useEffect(() => {
-    //     let vwprt = new WebMercatorViewport(viewport);
-    //     setMercator(vwprt);
-    // }, []);
+    }, [loading, mercator]);
 
-      useEffect(() => {
+    useEffect(() => {
         let vwprt = new WebMercatorViewport(viewport);
           if(mercator.width > 1) return;
         setMercator(vwprt);
 
     });
+
     return (
         <MapGL ref={ref} {...props} {...viewport} minZoom={mapConfig.minZoom} id="mapGL" width="100%" height="100%" mapStyle={mapConfig.mapStyle} mapboxApiAccessToken={TOKEN} onViewportChange={onViewportChange}
             attributionControl={false}

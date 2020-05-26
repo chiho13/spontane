@@ -46,7 +46,6 @@ const CREATE_LOCATION_MUTATION = gql`
 `;
 
 
-
 function AddLocation(props) {
     const router = useRouter();
     const { user } = useContext(UserContext);
@@ -76,7 +75,6 @@ function AddLocation(props) {
             form={form}
             defaultValue={form}
             mode="CREATE"
-            dropMarker={dropMarker}
             handleChange={handleChange}
             loading={loading}
             onSubmit={e => onSubmit(e, createLocation)}

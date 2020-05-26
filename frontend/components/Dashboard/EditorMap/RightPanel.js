@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {useRouter} from 'next/router';
 import {ThemeProvider} from 'styled-components';
 import styled, {keyframes} from 'styled-components';
@@ -6,6 +6,8 @@ import ListView from '../LocationsListView';
 import Tabs from '../SegmentTabs/Tabs';
 import Pagination from '../Pagination/Pagination';
 import AddLocation from '../EditorMap/AddLocation';
+import UpdateLocation from '../EditorMap/UpdateLocation';
+import { MapEditorContext } from '../../providers/MapEditorProvider';
 
 // const fadeInLeftAnimation = keyframes`${fadeInLeft}`;
 // const fadeOutRightAnimation = keyframes`${fadeOutRight}`;
@@ -91,11 +93,45 @@ const StickyTabs = styled.div`
   z-index: 10;
 `;
 
+const EditLocationStyle = styled.div`
+position: absolute;
+top: 0;
+width: 100%;
+height: 100%;
+right: -100%;
+visibility: hidden;
+opacity: 0;
+z-index: 10;
+will-change, visibility, opacity, right;
+transition: visibility 0.2s ease, opacity 0.2s ease, right 0.2s ease;
+
+&.expandIn {
+    opacity: 1;
+    visibility: visible;
+    right: 0;
+}
+
+h2 {
+    margin-top: 64px;
+}
+
+button {
+    font-family: ${props => props.theme.boldFont};
+}
+`;
+
 
 function RightPanel(props) {
     const router = useRouter();
     const page = router.query.page
     const [pageNum, setPageNum] = useState(parseFloat(page) || 1);
+    const {dropMarker, editLocation} = useContext(MapEditorContext);
+
+    const [edit, setEdit] = useState(editLocation);
+
+    useEffect(() => {
+        setEdit(editLocation);
+    }, [editLocation]);
     const {layerOpen} = props;
         return <LayerStyle
                     className={layerOpen && 'expandIn'}>
@@ -106,7 +142,9 @@ function RightPanel(props) {
                                     <Pagination page={pageNum} setPageNum={setPageNum}/>
                                 </StickyTabs>
                                  <ListView page={pageNum}/>
-                                 <AddLocation />
+                                 <EditLocationStyle className={dropMarker && 'expandIn'}>
+                                    {edit ? <UpdateLocation /> : <AddLocation />}
+                                 </EditLocationStyle>
                              </div>
                             <div label="Map Settings" icon="settings">
                                 map
