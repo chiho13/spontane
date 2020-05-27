@@ -26,8 +26,7 @@ const theme = {
 };
 
 const DeleteButton = (props) => {
-    const router = useRouter();
-    const [projectID, setProjectID] = useLocalStorage('projectID', router.query.id);
+    const router = useRouter();Map
     const {user: data, loading, refetch} = useContext(UserContext);
     const update = () => {
      

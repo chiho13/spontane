@@ -51,6 +51,26 @@ function MapEditor(props) {
         });
     }, [marker]);
 
+    useEffect(() => {
+            setForm({
+                city: singleLocation.city,
+                country: singleLocation.country,
+                description: singleLocation.description,
+                latitude: marker.latitude,
+                longitude: marker.longitude
+            });
+    
+            // return () => {
+            //     setForm({
+            //         city: '',
+            //         country: '',
+            //         description: '',
+            //         latitude: 0,
+            //         longitude: 0
+            //     });
+            // }
+    }, [singleLocation, marker]);
+
     const mapRef = useRef(null);
 
     function enableMarker(bool) {
@@ -60,37 +80,41 @@ function MapEditor(props) {
         setEditLocation(false);
 
         if(bool == false) {
-            setShowMarker(false);
-            setSingleLocation({id: 'dsfsdf',
-            country: '',
-            city: '',
-            description: '',
-            geoLocation: {
-                latitude: 0,
-                longitude: 0
-           }
-        });
+            resetLocation()
         }
+    }
+
+    function resetLocation() {
+        setDropMarker(false);
+        setShowMarker(false);
+        setSingleLocation({id: 'dsfsdf',
+        country: '',
+        city: '',
+        description: '',
+        geoLocation: {
+            latitude: 0,
+            longitude: 0
+       }
+    });
     }
 
     function showLayerPanel() {
         setLayerOpen(!layerOpen);
         setSavedLayerOpen(!layerOpen);
         if (layerOpen == true) {
-            setDropMarker(false);
+            resetLocation();
         }
     }
 
     function updateLocation(location) {
-        console.log(location);
+        
         setSingleLocation(location);
-
         enableMarker(true);
         setEditLocation(true);
-        setMarker({
-            latitude: location.geoLocation.latitude,
-            longitude: location.geoLocation.longitude
-        });
+            setMarker({
+                latitude: location.geoLocation.latitude,
+                longitude: location.geoLocation.longitude
+            });
         setShowMarker(true);
     }
 
@@ -130,7 +154,7 @@ function MapEditor(props) {
                 </MapGL>
                 <Toolbar dropMarker={dropMarker} enableMarker={enableMarker} layerOpen={layerOpen} showLayerPanel={showLayerPanel} />
             </div>
-            <RightPanel layerOpen={layerOpen}>
+            <RightPanel layerOpen={layerOpen} updateLocation={updateLocation}>
             </RightPanel>
         </CreateLocationMapStyle>
     );

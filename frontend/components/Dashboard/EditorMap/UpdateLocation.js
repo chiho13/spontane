@@ -53,26 +53,6 @@ function UpdateLocation(props) {
         className: css({ fontFamily: "nunito, sans-serif" })
     });
 
-    useEffect(() => {
-        setForm({
-            city: singleLocation.city,
-            country: singleLocation.country,
-            description: singleLocation.description,
-            latitude: singleLocation.geoLocation.latitude,
-            longitude: singleLocation.geoLocation.longitude
-        });
-
-        return () => {
-            setForm({
-                city: '',
-                country: '',
-                description: '',
-                latitude: 0,
-                longitude: 0
-            });
-        }
-    }, [editLocation]);
-
     async function updateForm(e, updateLocationMutation) {
         e.preventDefault();
         const res = await updateLocationMutation({

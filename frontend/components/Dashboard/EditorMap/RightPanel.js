@@ -132,7 +132,7 @@ function RightPanel(props) {
     useEffect(() => {
         setEdit(editLocation);
     }, [editLocation]);
-    const {layerOpen} = props;
+    const {layerOpen, updateLocation} = props;
         return <LayerStyle
                     className={layerOpen && 'expandIn'}>
                         {/* <h2>Layers</h2> */}
@@ -141,7 +141,7 @@ function RightPanel(props) {
                                 <StickyTabs>
                                     <Pagination page={pageNum} setPageNum={setPageNum}/>
                                 </StickyTabs>
-                                 <ListView page={pageNum}/>
+                                 <ListView page={pageNum} updateLocation={updateLocation}/>
                                  <EditLocationStyle className={dropMarker && 'expandIn'}>
                                     {edit ? <UpdateLocation /> : <AddLocation />}
                                  </EditLocationStyle>

@@ -55,18 +55,21 @@ height: 100px;
     
     `;
 
-const LocationsListViewStyle = styled.div `
+const LocationsListViewStyle = styled.ol`
     display: block;
     max-width: ${props => props.theme.maxWidth};
     padding-bottom: 32px;
     height: calc(100vh - 190px);
     overflow-y: scroll;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 `;
 
 const LocationListView = (props) => {
     const {loading, projectData: filteredProject} = useContext(UserContext);
 
-    const {page} = props;
+    const {page, updateLocation} = props;
 
     const [locations, setLocations] = useState(null);
 
@@ -75,13 +78,16 @@ const LocationListView = (props) => {
 
         let reversed =  filteredProject.locations.reverse();
         const locations = reversed.slice((page - 1) * perPage, page * perPage);
-        console.log(locations);
         setLocations(locations);
 
         return () => {
             reversed =  filteredProject.locations.reverse();
         }
-    }, [loading, page]);
+    }, [loading, page, locations]);
+
+    function listItemUpdate(location) {
+
+    }
 
     if(loading) {
         return <LocationsListViewStyle>
@@ -90,10 +96,8 @@ const LocationListView = (props) => {
     }
     return (
         <LocationsListViewStyle>
-            <>
-            { locations && locations.map((location) => <Location location={location} key={location.id}/>)
+            { locations && locations.map((location) => <li key={location.id} onClick={() => updateLocation(location)}><Location location={location} /></li>)
             }
-            </> 
         </LocationsListViewStyle>
     );
 }

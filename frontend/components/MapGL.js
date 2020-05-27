@@ -34,7 +34,7 @@ const Maps = React.forwardRef((props, ref) => {
     const [mercator, setMercator] = useState(new WebMercatorViewport(viewport));
 
     useEffect(() => {
-        if (loading) return;
+        if (loading || !projectData) return;
 
         const bounds = JSON.parse(projectData.mapBounds);
         const geometry = bounds.geometry.coordinates[0];

@@ -12,6 +12,8 @@ const LocationListViewItemStyle = styled(LocationItem)`
         box-shadow: none;
         border-radius: 0;
         align-items: center;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
         h3 {
             font-family: ${props => props.theme.boldFont};
@@ -31,6 +33,10 @@ const LocationListViewItemStyle = styled(LocationItem)`
         .buttonList {
             display: flex;
             width: auto;
+        }
+
+        &:hover {
+            background-color: #dddddd;
         }
     }
 `;
