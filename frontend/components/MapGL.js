@@ -52,18 +52,16 @@ const Maps = React.forwardRef((props, ref) => {
                 bound
             );
 
-            console.log(bound);
-
             setMapConfig({
                 minZoom: bound.zoom,
                 maxBounds: [geometry[1], geometry[3]],
                 originalLat: lat,
                 originalLng: lng,
                 mapStyle: projectData.mapStyle,
+                title: projectData.title,
                 loadedMap: true
             });
         }
-
 
     }, [loading, mercator]);
 

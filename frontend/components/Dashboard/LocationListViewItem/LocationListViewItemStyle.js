@@ -16,6 +16,9 @@ const LocationListViewItemStyle = styled(LocationItem)`
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
         h3 {
+            padding: 0;
+            margin: 0;
+            font-size: 18px;
             font-family: ${props => props.theme.boldFont};
         }
 

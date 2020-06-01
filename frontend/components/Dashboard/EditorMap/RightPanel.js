@@ -8,22 +8,21 @@ import Pagination from '../Pagination/Pagination';
 import AddLocation from '../EditorMap/AddLocation';
 import UpdateLocation from '../EditorMap/UpdateLocation';
 import { MapEditorContext } from '../../providers/MapEditorProvider';
+import MapSettings from '../MapSettings';
 
 // const fadeInLeftAnimation = keyframes`${fadeInLeft}`;
 // const fadeOutRightAnimation = keyframes`${fadeOutRight}`;
 
 const expandIn = keyframes`
+    0% {
+        flex-basis: 0;
+        opacity: 0;
+    }
 
-0% {
-    flex-basis: 0;
-    opacity: 0;
-}
-
-100% {
-    flex-basis: 35%;
-    opacity: 1;
-}
-
+    100% {
+        flex-basis: 35%;
+        opacity: 1;
+    }
 `;
 
 const expandOut = keyframes`
@@ -43,47 +42,47 @@ const expandOut = keyframes`
 `;
 
 export const LayerStyle = styled.div`
-display: block;
-
-border: 0;
-top: 0;
-border-radius: 0;
-width: auto;
-margin: 0;
-box-shadow: none;
-right: 0;
-flex-basis: 0%;
-padding: 0;
-max-width: 100%;
-opacity: 0;
-visibility: hidden;
-height: calc(100vh - 60px);
-will-change, visibility, opacity, padding, flex-basis;
-transition: visibility 0.2s ease, flex-basis 0.3s ease, padding 0.2s ease, opacity 0.2s ease;
-box-shadow: 8px 0 10px -4px rgba(100, 100, 100, 0.3), -12px 0 10px -4px rgba(100, 100, 100, 0.3);
-
-> div {
-    display: none;
-}
-
-&.expandIn {
-    position: relative;
-    flex-basis: 30%;
-    opacity: 1;
-    visibility: visible;
+    display: block;
+    border: 0;
+    top: 0;
+    border-radius: 0;
+    width: auto;
+    margin: 0;
+    box-shadow: none;
+    overflow: hidden;
+    right: 0;
+    flex-basis: 0%;
+    padding: 0;
+    max-width: 100%;
+    opacity: 0;
+    visibility: hidden;
+    height: calc(100vh - 60px);
+    will-change, visibility, opacity, padding, flex-basis;
+    transition: visibility 0.2s ease, flex-basis 0.4s ease, padding 0.2s ease, opacity 0.3s ease;
+    box-shadow: 8px 0 10px -4px rgba(100, 100, 100, 0.3), -12px 0 10px -4px rgba(100, 100, 100, 0.3);
 
     > div {
-        display: block;
+        display: none;
     }
-}
 
-h2 {
-    margin-top: 32px;
-}
+    &.expandIn {
+        position: relative;
+        flex-basis: 30%;
+        opacity: 1;
+        visibility: visible;
 
-button {
-    font-family: ${props => props.theme.boldFont};
-}
+        > div {
+            display: block;
+        }
+    }
+
+    h2 {
+        margin-top: 32px;
+    }
+
+    button {
+        font-family: ${props => props.theme.boldFont};
+    }
 `;
 
 const StickyTabs = styled.div`
@@ -94,30 +93,31 @@ const StickyTabs = styled.div`
 `;
 
 const EditLocationStyle = styled.div`
-position: absolute;
-top: 0;
-width: 100%;
-height: 100%;
-right: -100%;
-visibility: hidden;
-opacity: 0;
-z-index: 10;
-will-change, visibility, opacity, right;
-transition: visibility 0.2s ease, opacity 0.2s ease, right 0.2s ease;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    right: -100%;
+    visibility: hidden;
+    opacity: 0;
+    z-index: 10;
+    will-change, visibility, opacity, right;
+    transition: visibility 0.2s ease, opacity 0.2s ease, right 0.3s ease;
 
-&.expandIn {
-    opacity: 1;
-    visibility: visible;
-    right: 0;
-}
+    &.expandIn {
+        opacity: 1;
+        visibility: visible;
+        right: 0;
+    }
 
-h2 {
-    margin-top: 64px;
-}
 
-button {
-    font-family: ${props => props.theme.boldFont};
-}
+    h2 {
+        margin-top: 64px;
+    }
+
+    button {
+        font-family: ${props => props.theme.boldFont};
+    }
 `;
 
 
@@ -147,7 +147,7 @@ function RightPanel(props) {
                                  </EditLocationStyle>
                              </div>
                             <div label="Map Settings" icon="settings">
-                                map
+                                <MapSettings />
                             </div>
                          </Tabs>
                       

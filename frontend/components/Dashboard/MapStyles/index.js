@@ -1,13 +1,11 @@
-import React, {useState, useEffect, useRef, useContext} from 'react';
-import styled from 'styled-components';
+import React, { useState } from 'react';
 import Button from '../../UIKIT/iButton';
-import {ThemeProvider} from 'styled-components';
-import MaterialIcon from '@material/react-material-icon';
-import {ViewPortContext} from '../../providers/MapProvider';
+import { ThemeProvider } from 'styled-components';
 
-import {mapStyleLists} from './mapStyleList';
+import SelectMapStyle from './selectStyles';
+import styled from 'styled-components';
 
-const SelectBaseMapStyle = styled.div`
+export const SelectBaseMapStyle = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-gap: 24px;
@@ -98,59 +96,26 @@ const SelectBaseMapStyle = styled.div`
 `;
 
 
-function ButtonRadio(props) {
-
-    const {val, selected, setSelectedRadio, setDisableButton} = props;
-
-    const radioButton = useRef(null);
-    const {mapConfig, setMapConfig} = useContext(ViewPortContext);
-
-    function handleRadio(event) {
-
-        const getMapStyle = radioButton.current.dataset.mapStyle
-        event.preventDefault();
-        setSelectedRadio(getMapStyle);
-        setDisableButton(false);
-
-        setMapConfig({
-            ...mapConfig,
-            mapStyle: getMapStyle 
-        })
-    }
-
-    return <button type="button" ref={radioButton} className={selected ? 'baseMap_wrapper baseMap_wrapper__selected' : 'baseMap_wrapper'} data-map-style={mapStyleLists[val]["stylesURL"]} onClick={handleRadio}>
-    <img className="baseMap_image" src={mapStyleLists[val]["imagePath"]} />
-    <span className="baseMap_labelText"> 
-        {val}
-        <MaterialIcon icon="done" />
-    </span>
-</button>
-}
-
-const invertWhite = ({white, black}) => ({black: white, white: black, hoverColor: '#1a88ff'});
-const invertBrand = ({white, brandColor}) => ({black: white, white: brandColor, hoverColor: '#1a88ff'});
+const invertWhite = ({ white, black }) => ({ black: white, white: black, hoverColor: '#1a88ff' });
+const invertBrand = ({ white, brandColor }) => ({ black: white, white: brandColor, hoverColor: '#1a88ff' });
 
 function SelectBaseMap(props) {
-    const [selectedRadio, setSelectedRadio] = useState('');
-    const [disableButton, setDisableButton] = useState(true);
+  
     return <>
-         <h3>Choose a style</h3>
-    <div className="navButtons">
+        <h3>Choose a style</h3>
+        <div className="navButtons">
 
-    <ThemeProvider theme={invertWhite}>
-            <Button  type="button" onClick={props.previousStep}>Back</Button>
-    </ThemeProvider>
+            <ThemeProvider theme={invertWhite}>
+                <Button type="button" onClick={props.previousStep}>Back</Button>
+            </ThemeProvider>
 
-    <ThemeProvider theme={invertBrand}>
-            <Button disabled={disableButton} type="button" onClick={props.nextStep}>Next</Button>
-    </ThemeProvider>
-    </div>
-    <SelectBaseMapStyle>
-        {Object.keys(mapStyleLists).map((val, i) => {  
-            const selected = selectedRadio == mapStyleLists[val]["stylesURL"];
-            return <ButtonRadio key={i} val={val} selected={selected} setSelectedRadio={setSelectedRadio} setDisableButton={setDisableButton} />
-        })}
-    </SelectBaseMapStyle>
+            <ThemeProvider theme={invertBrand}>
+                <Button type="button" onClick={props.nextStep}>Next</Button>
+            </ThemeProvider>
+        </div>
+        <SelectBaseMapStyle>
+            <SelectMapStyle />
+        </SelectBaseMapStyle>
     </>
 }
 

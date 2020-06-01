@@ -25,7 +25,6 @@ function MapEditorProvider(props) {
     const [singleLocation, setSingleLocation] = useState({...form, id: 'dsd'});
 
   return (
-    // new
     <MapEditorContext.Provider value={{form, setForm, handleChange, dropMarker, setDropMarker, editLocation, setEditLocation, singleLocation, setSingleLocation}}>
       {props.children}
     </MapEditorContext.Provider>

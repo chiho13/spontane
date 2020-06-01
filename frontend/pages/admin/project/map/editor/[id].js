@@ -7,7 +7,7 @@ const addLocation = (props) => {
 
    return <DashboardLayout>
         <Head>
-            <title>Add Location</title>
+            <title>Map Editor</title>
         </Head>
         <MapEditorProvider>
             <CreateLocation project={props.query.projectId}/>

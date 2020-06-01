@@ -1,83 +1,28 @@
-import React, {useState, useEffect, useContext, useRef} from 'react';
-import PropTypes from 'prop-types';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Dialog from '@material-ui/core/Dialog';
+import React, {useState, useEffect, useContext} from 'react';
+
 import styled from 'styled-components';
 import useForm from '../../hooks/useForm';
-import Form from '../../styles/Form';
 import gql from 'graphql-tag';
-import {Mutation} from 'react-apollo';
-import Button from '../../UIKIT/iButton';
-import {ThemeProvider} from 'styled-components';
-import Router from 'next/router';
+
+import {useRouter} from 'next/router';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { css } from 'glamor';
-import StepWizard from 'react-step-wizard';
+
 import MapSetBounds from '../MapSetBounds';
-import SetMapStyle from '../MapStyles';
-import useLocalStorage from '../../hooks/useLocalStorage';
+import SetMapStyle from '../MapStyles/selectStyles';
+
+import {SelectBaseMapStyle} from '../MapStyles';
+
 import {ViewPortContext} from '../../providers/MapProvider';
+import { UserContext } from '../../Layout/DashboardLayout';
 import MaterialIcon from '@material/react-material-icon';
+import {useMutation} from '../../hooks/useMutation';
+
+import Button from '../../UIKIT/iButton';
+import { ThemeProvider } from 'styled-components';
 
 toast.configure();
-
-const invertWhite = ({white, black}) => ({black: white, white: black, hoverColor: '#1a88ff'});
-
-const NewProjectStyle = styled(Dialog)`
-    && {
-    
-        h2, h3 {
-            font-family: ${props => props.theme.boldFont};
-            padding: 0;
-            text-align: center;
-        }
-
-        h3 {
-            padding-top: 32px;
-        }
-
-        .step3_text {
-            margin-top: 24px;
-        }
-
-        .navButtons {
-            display: flex;
-            width: 100%;
-            justify-content: space-between;
-
-            button {
-                margin-top: 0;
-                width: auto;
-            }
-        }
-
-        .close_button {
-            position: fixed;
-            top: 12px;
-            right: 12px;
-            font-size: 36px;
-            color: #aaaaaa;
-            transition: color 0.3s ease;
-            cursor: pointer;
-
-            &:hover {
-                color: ${props => props.theme.black};
-            }
-        }
-
-        button {
-            font-family: ${props => props.theme.fontFamily};
-        }
-    }
-`;
-
-
-const Content = styled.div`
-    && {
-        overflow: hidden;
-    }
-`;
 
 const UPDATE_PROJECT_MUTATION = gql`
     mutation UPDATE_PROJECT_MUTATION(
@@ -97,28 +42,86 @@ const UPDATE_PROJECT_MUTATION = gql`
     }
 `;
 
-function NewProject(props) {
-    const { onClose, open } = props;
+
+const MapSettingsStyle = styled.div`
+    padding: 8px;
+    margin-left: 8px;
+    margin-right: 8px;
+    height: calc(100vh - 100px);
+
+    h3 {
+        font-size: 18px;
+        padding-left: 0;
+    }
+
+    .mapSettings_save {
+        width: auto;
+        position: absolute;
+        bottom: 16px;
+    }
+
+    .form-input {
+        font-family: ${props => props.theme.fontFamily};
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #999;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        margin-top: 16px;
+        margin-bottom: 16px;
+        &:focus {
+          outline: 0;
+          border-width: 2px;
+          border-color: ${props => props.theme.brandColor};
+        }
+    
+        @media (min-width: 700px) {
+          font-size: 14px;
+        }
+    }
+`;
+
+
+const SetMapStyleOveride = styled(SelectBaseMapStyle)`
+    grid-auto-flow: column; 
+    grid-template-columns: auto; 
+    padding-bottom: 16px;
+    padding-top: 8px;
+    overflow-x: auto;
+
+    .baseMap_wrapper {
+        width: 220px;
+    }
+`;
+
+const invertBrand = ({ white, brandColor }) => ({ black: white, white: brandColor, hoverColor: '#1a88ff' });
+
+
+function MapSettings(props) {
     const [form,
         setForm,
         handleChange] = useForm({
             title: ''
         });
     
+    const router = useRouter();
     const worldBoundary = '{"type":"Feature","properties":{"shape":"Rectangle"},"geometry":{"type":"Polygon","coordinates":[[[-184,84],[184,84],[184,-84],[-184,-84],[-184,84]]]}}'
-    const [projectID, setProjectID] = useLocalStorage('projectID', null);
-    const [instanceWiz, setInstance] = useState();
-    const [feature, setFeature] = useState(worldBoundary);
+    
+    const {mapConfig} = useContext(ViewPortContext);
+    const {refetch} = useContext(UserContext);
 
-    const {mapConfig} = useContext(ViewPortContext)
-
-    const handleClose = () => {
-        onClose();
-    };
+    const [updateProject, {loading, error, data}] = useMutation(UPDATE_PROJECT_MUTATION, {
+        variables: {
+            id: router.query.id,
+            ...form
+        }
+    });
 
     useEffect(() => {
-        setForm({...form,mapStyle: mapConfig.mapStyle});
+        setForm({title: mapConfig.title, mapStyle: mapConfig.mapStyle});
     }, [mapConfig]);
+
 
     const notify = () => toast.success("Map Settings updated!", {
         position: toast.POSITION.BOTTOM_CENTER,
@@ -126,54 +129,20 @@ function NewProject(props) {
         className: css({ fontFamily: "nunito, sans-serif" })
     });
 
-    async function _updateProject(e, updateProject) {
-        e.preventDefault();        
-        const res = await updateProject();
-        
+    const saveSettings = async () => {
+       const res =  await updateProject();
+
+       if(res) {
+            notify();
+            refetch();
+       }
     }
 
-    const initInstance = SW => setInstance({
-        SW
-    });
-    
+    return <MapSettingsStyle>
 
-    return (
-        <NewProjectStyle onClose={handleClose} aria-labelledby="simple-dialog-title" open={open} scroll='body' fullScreen={true}>
-            <MaterialIcon icon="close" className="close_button" onClick={handleClose}/>
-            <Mutation mutation={CREATE_PROJECT_MUTATION} variables={form}>
-                {(updateProject, { loading, error }) => (<ProjectForm >
-
-                    <Content>
-
-                    <StepWizard
-                    isHashEnabled
-                    instance={initInstance}
-                    onKeyDown={(e)=>{e.target.keyCode === 13 && e.preventDefault();}}
-                    >
-
-                    <StepOne handleChange={handleChange} form={form} onClose={handleClose}/>
-                    <SetMapStyle />
-                    <MapSetBounds setFeature={setFeature} defaultBoundary={worldBoundary} submitForm={e => {
-                        _updateProject(e, updateProject)
-                    }}/>
-                    </StepWizard>
-                    </Content>
-                </ProjectForm>)}
-            </Mutation>
-        </NewProjectStyle>
-                   
-    );
-}
-
-
-function StepOne(props) {
-    return <div>
-         <DialogTitle id="simple-dialog-title">New Project</DialogTitle>
-    <fieldset>
-    <div className="fieldset_wrapper">
         <div className="wrapper">
             <label htmlFor="title">
-                Project Name
+                <h3>Title</h3>
             </label>
             <input
                  className="form-input"
@@ -182,29 +151,26 @@ function StepOne(props) {
                 name="title"
                 placeholder=""
                 required
-                onChange={props.handleChange} 
+                value={form.title}
+                onChange={handleChange} 
                 />
         </div>
-    </div>
-    <div className="button_wrapper">
 
-    <ThemeProvider theme={invertWhite}>
-        <Button  type="button" disabled={!props.form.title.length} className="next_button" onClick={props.nextStep}>Next</Button>
-    </ThemeProvider>
-    <button type="button" className="cancel-create" onClick={props.onClose}>Cancel</button>
-    </div>
-</fieldset>
-                </div> 
+            <h3>Map Style</h3>
+            <SetMapStyleOveride>
+                
+                <SetMapStyle mapStyle={mapConfig.mapStyle}/>
+            </SetMapStyleOveride>
+
+            <ThemeProvider theme={invertBrand}>
+                <Button type="button" className="mapSettings_save" onClick={saveSettings}>Apply</Button>
+            </ThemeProvider>
+    </MapSettingsStyle>
 }
-
-NewProject.propTypes = {
-    onClose: PropTypes.func.isRequired,
-    open: PropTypes.bool.isRequired,
-};
 
 
 // const NewProject = () => {
 //     return  <MapSetBounds />
 // }
 
-export default NewProject;
+export default MapSettings;

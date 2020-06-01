@@ -66,7 +66,7 @@ ul, li, h1, h2, h3, p, a {
     display: none;
 }
 
-h1, h2 {
+h1, h2, h3 {
     font-family: 'nunito-bold';
     font-size: 1.5rem;
     font-weight: bold;

@@ -45,7 +45,9 @@ const DeleteButton = (props) => {
       >
             {(deleteLocation, {error}) => (
                 <ThemeProvider theme={theme}>
-                <IconButtonStyle onClick={() => {
+                <IconButtonStyle onClick={(e) => {
+                    e.stopPropagation();
+
                     if(confirm('Are you sure you want to delete this location?')) {
                         deleteLocation();
                     }

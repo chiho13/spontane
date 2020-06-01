@@ -14,14 +14,14 @@ export const mapStyleLists = {
     },
     "outdoors": {
         stylesURL: "mapbox://styles/anthonyhodesu/ck1p4tn2q00az1cn9i0wvlv93",
-        imagePath: "static/thumbnails/outdoors.png"
+        imagePath: "/static/thumbnails/outdoors.png"
     },
     "minimalist": {
         stylesURL: "mapbox://styles/anthonyhodesu/cka06cljg2evy1iphop40k3ah",
-        imagePath: "static/thumbnails/minimalist.png"
+        imagePath: "/static/thumbnails/minimalist.png"
     },
     "midnight": {
         stylesURL: "mapbox://styles/anthonyhodesu/cka8t6w971d0b1iljsdkgcbdy",
-        imagePath: "static/thumbnails/midnight.png"
+        imagePath: "/static/thumbnails/midnight.png"
     }
 }

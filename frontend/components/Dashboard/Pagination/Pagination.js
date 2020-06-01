@@ -71,14 +71,7 @@ function Pagination(props) {
     }
 
 
-
     return <PaginationStyle>
-        <Head>  
-            <title>
-                Spontane | Page {page}
-                of {pages}
-            </title>
-        </Head>
         {data && <p className="totalLocations">{count} Location{count > 1 && 's'}</p>}
 
         {pages > 1 && <>

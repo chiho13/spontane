@@ -26,9 +26,6 @@ margin: 32px;
 
 const Locations = props => (
   <DashboardLayout id={props.query.id}>
-    <Head>
-      <title>My Locations</title>
-    </Head>
     <Title title="My Locations" />
     <LocationViewSwitcher />
     <MapViewStyle>

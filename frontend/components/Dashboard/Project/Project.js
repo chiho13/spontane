@@ -8,6 +8,7 @@ import LoadingSpinner from '../../LoadingSpinner';
 import Router from "next/router";
 import useLocalStorage from '../../hooks/useLocalStorage';
 import Title from '../MainContentTitle';
+import { useEffect } from 'react';
 
 const ProjectStyle = styled.div`
 
@@ -99,6 +100,10 @@ const Project = () => {
             pathname: `/admin/project/map/editor/${projectId}`,
         });
     }
+
+    useEffect(() => {
+        refetch();
+    }, [])
 
     if (loading) {
         return <LoadingSpinner />
