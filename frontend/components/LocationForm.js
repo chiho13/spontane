@@ -153,10 +153,10 @@ function LocationForm(props) {
                             </div>
                         </div>
                         <ThemeProvider theme={invertTheme}>
-                            {EditMode ?  <Button width="auto" disableRipple type="submit">Sav{loading
-                                                ? 'ing '
-                                                : 'e '}
-                                            Changes</Button> : <Button width="auto" disableRipple type="submit">Save</Button>}
+                            {EditMode ?  <Button width="auto" disableRipple type="submit">{loading
+                                                ? 'Updating '
+                                                : 'Update '}
+                                            </Button> : <Button width="auto" disableRipple type="submit">Save</Button>}
                         </ThemeProvider>
                        
                     </fieldset>

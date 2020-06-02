@@ -53,11 +53,12 @@ function UpdateLocation(props) {
         className: css({ fontFamily: "nunito, sans-serif" })
     });
 
+
     async function updateForm(e, updateLocationMutation) {
         e.preventDefault();
         const res = await updateLocationMutation({
             variables: {
-                id: location.id,
+                id: singleLocation.id,
                 ...form
             }
         });
