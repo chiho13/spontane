@@ -15,6 +15,22 @@ import useLocalStorage from '../../hooks/useLocalStorage';
 import Toolbar from '../Toolbar';
 import RightPanel from './RightPanel';
 import CityPin from '../../Icons/CityMarker';
+import axios from 'axios';
+import {TOKEN} from '../../MapGL';
+import {debounce} from 'lodash';
+
+
+// function debounce(func, wait) {
+//     let timeout;
+//     return function(...args) {
+//       const context = this;
+//       if (timeout) clearTimeout(timeout);
+//       timeout = setTimeout(() => {
+//         timeout = null;
+//         func.apply(context, args);
+//       }, wait);
+//     };
+//   }
 
 function MapEditor(props) {
     const { viewport, setViewport, mapConfig } = useContext(ViewPortContext);
@@ -70,6 +86,39 @@ function MapEditor(props) {
             //     });
             // }
     }, [singleLocation, marker]);
+
+    // const debouncedAddress = useDebounce(, 1000);
+    useEffect(() => {
+        let timeout;
+        const fetchData = async () => {
+            const result = await axios(`https://api.mapbox.com/geocoding/v5/mapbox.places/${form.longitude},${form.latitude}.json?types=poi&access_token=${TOKEN}
+            `);
+
+            if(result.data.features.length) {
+
+                // timeout = setTimeout(() => {
+                  
+                // }, 1000);
+                // debounce(() => {
+                    setForm({
+                        ...form,
+                        city: result.data.features[0].place_name
+                    }); 
+                // }, 1000);
+               
+            }
+        }
+
+        // fetchData();
+
+        const debouncedData = debounce(fetchData, 500);
+
+        debouncedData();
+
+        return () => {
+            debouncedData.cancel();
+        }
+    }, [form.latitude]);
 
     const mapRef = useRef(null);
 

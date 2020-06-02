@@ -63,6 +63,10 @@ h2 {
     margin-top: 64px;
 }
 
+.wrapper {
+    grid-column: span 2;
+}
+
 button {
     font-family: ${props => props.theme.boldFont};
 }
@@ -80,31 +84,17 @@ function LocationForm(props) {
                         <div className="fieldset_wrapper">
                             <div className="wrapper">
                                 <label htmlFor="city">
-                                    City/Town
+                                    Address
                                 </label>
                                 <input
                                     className="form-input"
                                     type="text"
                                     id="city"
                                     name="city"
-                                    placeholder="City or Town"
+                                    placeholder="Drop marker on map to get address"
                                     required
                                     value={defaultValue.city}
                                     onChange={handleChange}/>
-                            </div>
-                            <div className="wrapper">
-                                <label htmlFor="country">
-                                    Country</label>
-                                <input
-                                     className="form-input"
-                                    type="text"
-                                    id="country"
-                                    name="country"
-                                    placeholder="Country"
-                                    required
-                                    value={defaultValue.country}
-                                    onChange={handleChange}
-                                    />
                             </div>
                            
                             <div className="geowrapper">
