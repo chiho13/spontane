@@ -111,10 +111,6 @@ const EditLocationStyle = styled.div`
     }
 
 
-    h2 {
-        margin-top: 64px;
-    }
-
     button {
         font-family: ${props => props.theme.boldFont};
     }

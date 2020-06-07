@@ -59,7 +59,7 @@ const LocationsListViewStyle = styled.ol`
     display: block;
     max-width: ${props => props.theme.maxWidth};
     padding-bottom: 32px;
-    height: calc(100vh - 190px);
+    height: calc(100vh - 182px);
     overflow-y: scroll;
     list-style: none;
     margin: 0;

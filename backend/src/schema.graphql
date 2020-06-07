@@ -711,6 +711,7 @@ type Mutation {
   createProject(title: String!, locations: LocationCreateManyInput, mapBounds: String, mapStyle: String): Project!
   updateProject(id: ID!, title: String, locations: LocationUpdateManyInput, mapBounds: String, mapStyle: String): Project
   deleteLocation(id: ID!): Location
+  deleteGeoLocation(id: ID!): GeoLocation
   signup(email: String!, password: String!, name: String!, confirmPassword: String!): User!
   login(email: String!, password: String!): User!
   createUser(data: UserCreateInput!): User!

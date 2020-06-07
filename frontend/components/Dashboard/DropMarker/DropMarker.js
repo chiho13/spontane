@@ -1,6 +1,6 @@
 import React from 'react';
 import ShowMarker from './ShowMarker';
-import CityPin from '../../Icons/CityMarker';
+import CityPin from '../../Icons/BaseMarker';
 import {Marker} from 'react-map-gl';
 
 function DropMarker(props) {

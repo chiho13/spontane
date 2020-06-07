@@ -11,6 +11,7 @@ import {PAGINATION_QUERY} from '../Dashboard/Pagination/Pagination';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { useRouter } from 'next/router';
 import {UserContext} from '../Layout/DashboardLayout';
+import {useMutation} from '../hooks/useMutation';
 
 const DELETE_LOCATION_MUTATION = gql`
     mutation DELETE_LOCATION_MUTATION($id: ID!) {
@@ -26,37 +27,33 @@ const theme = {
 };
 
 const DeleteButton = (props) => {
-    const router = useRouter();Map
+    const router = useRouter();
     const {user: data, loading, refetch} = useContext(UserContext);
-    const update = () => {
-     
-        refetch();
-    };
-    
+ 
     const {locationID} = props;
-    
-    return (
-        <Mutation
-            mutation={DELETE_LOCATION_MUTATION}
-            variables={{
-            id: locationID
-        }}
-        update={update}
-      >
-            {(deleteLocation, {error}) => (
-                <ThemeProvider theme={theme}>
-                <IconButtonStyle onClick={(e) => {
-                    e.stopPropagation();
 
-                    if(confirm('Are you sure you want to delete this location?')) {
-                        deleteLocation();
-                    }
-                }}>
+    const [deleteLocation] = useMutation(DELETE_LOCATION_MUTATION, {
+        variables: {
+            id: locationID
+        }
+    });
+
+    async function deleteStuff(e) {
+        e.stopPropagation();
+        if(confirm('Are you sure you want to delete this location?')) {
+           const res = await deleteLocation();
+           if(res) {
+                refetch();
+                console.log(res);
+                console.log("deleted")
+           }
+        }
+    }
+    
+    return <ThemeProvider theme={theme}>
+                <IconButtonStyle onClick={deleteStuff}>
                     <MaterialIcon icon="delete" className="materialIcon" /></IconButtonStyle>
             </ThemeProvider>
-            )}
-        </Mutation>
-    )
 };
 
 export default DeleteButton;

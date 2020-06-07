@@ -26,6 +26,13 @@ type GeoLocation {
   updatedAt: DateTime! @updatedAt
 }
 
+type Marker {
+  id: ID! @id
+  type: String!
+  pinColor: String!
+  dropShadow: String!
+}
+
 type Location {
   id: ID! @id
   country: String!

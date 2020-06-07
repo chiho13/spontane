@@ -24,8 +24,19 @@ function MapEditorProvider(props) {
     const [editLocation, setEditLocation] = useState(false);
     const [singleLocation, setSingleLocation] = useState({...form, id: 'dsd'});
 
+    const [suggestions, setSuggestions] = useState({
+      place: null,
+      address: null
+    });
+
   return (
-    <MapEditorContext.Provider value={{form, setForm, handleChange, dropMarker, setDropMarker, editLocation, setEditLocation, singleLocation, setSingleLocation}}>
+    <MapEditorContext.Provider value={{form, setForm, handleChange, 
+    dropMarker, setDropMarker, 
+    editLocation, 
+    setEditLocation, 
+    singleLocation, setSingleLocation, 
+    suggestions, setSuggestions
+    }}>
       {props.children}
     </MapEditorContext.Provider>
   );

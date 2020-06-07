@@ -50,7 +50,7 @@ function AddLocation(props) {
     const router = useRouter();
     const { user } = useContext(UserContext);
 
-    const { form, handleChange, dropMarker } = useContext(MapEditorContext);
+    const { form, handleChange} = useContext(MapEditorContext);
 
     const notify = () => toast.success("Location created!", {
         position: toast.POSITION.BOTTOM_CENTER,

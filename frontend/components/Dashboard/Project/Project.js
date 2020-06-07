@@ -101,9 +101,6 @@ const Project = () => {
         });
     }
 
-    useEffect(() => {
-        refetch();
-    }, [])
 
     if (loading) {
         return <LoadingSpinner />
