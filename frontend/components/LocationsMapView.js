@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useContext, useRef} from 'react';
 import {Marker, FlyToInterpolator} from 'react-map-gl';
 import gql from 'graphql-tag';
-import CityPin from './Icons/CityMarker';
+import CityPin from './Icons/BaseMarker';
 import Location from './LocationMapViewItem';
 import styled from 'styled-components';
 import IconButton from '@material-ui/core/IconButton';
