@@ -14,7 +14,7 @@ function CityMarker(props) {
     viewBox="0 0 100 100"
     style={{
       transform: `translate(${-size / 2}px,${-size}px)`,
-      filter: `drop-shadow(0 0 8px ${dropShadowColor}`,
+      filter: `drop-shadow(0 0 4px ${dropShadowColor}`,
       fill: markerColor,
       stroke: 'none'
     }}
@@ -51,8 +51,8 @@ function BaseMarker(props) {
 
 BaseMarker.defaultProps = {
   size: 30,
-  pinColor: '#f5f5dc',
-  dropShadowColor: '#dd0000',
+  pinColor: '#f7f7f7',
+  dropShadowColor: '#333333',
   markerType: 'cityMarker'
 }
 

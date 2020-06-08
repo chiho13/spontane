@@ -113,6 +113,11 @@ function MapEditor(props) {
             longitude: 0
        }
     });
+
+    setSuggestions({
+        place: null,
+        address: null
+    });
     }
 
     function showLayerPanel() {

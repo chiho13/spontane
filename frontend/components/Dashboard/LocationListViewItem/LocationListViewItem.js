@@ -10,7 +10,7 @@ const LocationListViewItem = (props) => {
     return (
         <LocationItemStyles>
             <div className="location_content">
-                <h3>{location.city}, {location.country}</h3>
+                <h3>{location.city}</h3>
                 <p>
                     {location.description}
                 </p>
