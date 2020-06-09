@@ -1,15 +1,22 @@
 import React, { useEffect, useState, useContext } from 'react';
 import Router from 'next/router';
-import Form from './styles/Form';
-import Error from './ErrorMessage';
+import Form from '../../styles/Form';
+import Error from '../../ErrorMessage';
 import { ThemeProvider } from 'styled-components';
-import Button from './UIKIT/iButton';
-import { invertTheme } from './Login';
-import { MapEditorContext } from './providers/MapEditorProvider';
-
+import Button from '../../UIKIT/iButton';
+import { invertTheme } from '../../Login';
+import { MapEditorContext } from '../../providers/MapEditorProvider';
 import styled, { keyframes } from 'styled-components';
 import { fadeInRight, fadeOutRight } from 'react-animations';
-import Cross from './Icons/Cross';
+import Cross from '../../Icons/Cross';
+import Popper from '@material-ui/core/Popper';
+
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Grow from '@material-ui/core/Grow';
+import Paper from '../../UIKIT/ProfilePaperDropdown';
+import MaterialIcon from '@material/react-material-icon';
+
+
 
 const fadeInRightAnimation = keyframes`${fadeInRight}`;
 const fadeOutRightAnimation = keyframes`${fadeOutRight}`;
@@ -56,10 +63,11 @@ margin: 0;
 box-shadow: none;
 right: 0;
 flex-basis: 0%;
-padding: 32px;
+padding: 0;
 max-width: 100%;
-overflow-y: auto;
 background-color: #f1f1f1;
+height: calc(100vh - 100px);
+overflow: hidden;
 
 h2 {
     margin-top: 24px;
@@ -72,9 +80,31 @@ h2 {
 
 button {
     font-family: ${props => props.theme.boldFont};
+    padding: 0;
+}
+
+
+.button_wrapper {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 32px;
+    padding-top: 16px;
+    width: 100%;
+    background-color: #f1f1f1;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-input {
+    width: 90%;
+}
+
+.fieldset_wrapper {
+    padding: 32px;
+    height: calc(100vh - 300px);
+    overflow-y: scroll;
 }
 `;
-
 
 const SuggestionBoxStyle = styled.div`
     display: block;
@@ -125,6 +155,39 @@ const SuggestionBoxStyle = styled.div`
     }
 `;
 
+const SelectMarkerButton = styled(Button)`
+    && {
+        height: 60px;
+
+        &:hover {
+            background: #ffffff;
+            color: ${props => props.theme.brandColor};
+        }
+    }
+`;
+
+const SelectMarkerPaper = styled(Paper)`
+    && {
+        position: absolute;
+        left: 0;
+        padding: 16px;
+        width: 400px;
+        box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+    }
+`;
+
+const SelectMarkerContainer = styled.div`
+    display: block;
+    width: 100%;
+    padding-left: 32px;
+    padding-right: 32px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid #cccccc;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+`;
+
+
 function SuggestionBox(props) {
     const { suggestions, onClose, insertForm} = props;
     return <SuggestionBoxStyle>
@@ -138,18 +201,65 @@ function SuggestionBox(props) {
     </SuggestionBoxStyle>
 }
 
+function CustomMarker(props) {
+
+    let anchorEl;
+
+    const [open,
+        setOpen] = useState(false);
+
+    function handleToggle() {
+        setOpen(!open)
+    }
+
+    function handleClose(event) {
+        if (anchorEl.contains(event.target)) {
+            return;
+        }
+
+        setOpen(false);
+    }
+
+    return  <SelectMarkerContainer>
+    <SelectMarkerButton
+        buttonRef={node => {
+            anchorEl = node;
+        }}
+        aria-owns={open
+            ? 'menu-list-grow'
+            : undefined}
+        aria-haspopup="true"
+        onClick={handleToggle}
+        disableRipple
+        width="150px">
+         Choose Marker
+        <MaterialIcon icon="arrow_drop_down" />
+
+    </SelectMarkerButton>
+    <Popper open={open} anchorEl={anchorEl} transition disablePortal>
+        {({ TransitionProps, placement }) => (
+            <Grow
+                {...TransitionProps}
+                id="menu-list-grow"
+                style={{
+                    transformOrigin: placement === 'bottom'
+                        ? 'center top'
+                        : 'center bottom'
+                }}>
+                <SelectMarkerPaper>
+                    <ClickAwayListener onClickAway={handleClose}>
+                       hello
+                    </ClickAwayListener>
+                </SelectMarkerPaper>
+            </Grow>
+        )}
+    </Popper>
+</SelectMarkerContainer>
+}
+
 function LocationForm(props) {
     const { suggestions, setSuggestions, form, setForm, dropMarker } = useContext(MapEditorContext);
     const { mode, defaultValue, handleChange, loading, error, onSubmit } = props;
-
-    // useEffect(() => {
-    //     return () => {
-    //         setSuggestions({
-    //             place: null,
-    //             address: null
-    //         })
-    //     }
-    // }, [dropMarker]);
 
     function closeSuggestion(suggest) {
         switch(suggest) {
@@ -188,7 +298,7 @@ function LocationForm(props) {
     const EditMode = mode === 'EDIT';
     return <LocationFormStyle
         onSubmit={onSubmit}>
-        <h2>{EditMode ? 'Update Location' : 'Add Location'}</h2>
+        <CustomMarker />
         <Error error={error} />
         <fieldset disabled={loading} hasgrid={"true"} aria-busy={loading}>
             <div className="fieldset_wrapper">
@@ -205,7 +315,7 @@ function LocationForm(props) {
                         placeholder="Drop marker to get suggested place name"
                         required
                         value={defaultValue.city}
-                        autocomplete="off"
+                        autoComplete="off"
                         onChange={handleChange} />
                 </div>
 
@@ -259,7 +369,7 @@ function LocationForm(props) {
 
                 <div className="wrapper">
                     <label htmlFor="description">
-                        Description
+                        More Info
                                 </label>
                     <textarea
                         type="number"
@@ -271,12 +381,14 @@ function LocationForm(props) {
                         onChange={handleChange} />
                 </div>
             </div>
-            <ThemeProvider theme={invertTheme}>
-                {EditMode ? <Button width="auto" disableRipple type="submit">{loading
-                    ? 'Updating '
-                    : 'Update '}
-                </Button> : <Button width="auto" disableRipple type="submit">Save</Button>}
-            </ThemeProvider>
+            <div class="button_wrapper">
+                <ThemeProvider theme={invertTheme}>
+                    {EditMode ? <Button width="auto" disableRipple type="submit">{loading
+                        ? 'Updating '
+                        : 'Update '}
+                    </Button> : <Button width="auto" disableRipple type="submit">Save</Button>}
+                </ThemeProvider>
+            </div>
 
         </fieldset>
     </LocationFormStyle>

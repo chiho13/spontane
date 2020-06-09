@@ -66,7 +66,7 @@ function NavProfilePill(props) {
                 disableRipple
                 width="150px">
                 {user && user.name}
-                <MaterialIcon icon="arrow_drop_down" />
+                <MaterialIcon icon="keyboard_arrow_right" />
 
             </NavButton>
             <Popper open={open} anchorEl={anchorEl} transition disablePortal>

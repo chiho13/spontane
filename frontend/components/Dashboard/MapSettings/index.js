@@ -62,7 +62,7 @@ const MapSettingsStyle = styled.div`
 
     .form-input {
         font-family: ${props => props.theme.fontFamily};
-        width: 100%;
+        width: 80%;
         padding: 10px;
         font-size: 16px;
         border: 1px solid #999;

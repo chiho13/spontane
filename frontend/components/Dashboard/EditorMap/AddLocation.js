@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext, useRef } from 'react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
-import CreateLocationForm from '../../LocationForm';
+import CreateLocationForm from './LocationForm';
 
 import { CURRENT_USER_QUERY } from '../../hooks/useUser';
 import { ToastContainer, toast } from 'react-toastify';
