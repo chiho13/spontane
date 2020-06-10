@@ -3,22 +3,23 @@ import styled from 'styled-components';
 import { darken } from 'polished';
 
 import OriginalMarker from './MapMarkers/Original';
+import CoffeeMarker from './MapMarkers/Coffee';
 
 const BaseMarkerStyle = styled.div`
 cursor: pointer;
 `;
 
 
-const Markers = {
-  originalMarker: OriginalMarker
+export const Markers = {
+  Default: OriginalMarker,
+  Coffee: CoffeeMarker
 };
 
 function BaseMarker(props) {
   const { size, pinColor, onClick, dropShadowColor, markerType } = props;
-
   const DynamicMarker = Markers[markerType];
-
   const [markerColor, setMarkerColor] = useState(pinColor);
+
   return (
     <BaseMarkerStyle
       onMouseEnter={() => {
@@ -39,7 +40,7 @@ BaseMarker.defaultProps = {
   size: 30,
   pinColor: '#f7f7f7',
   dropShadowColor: '#333333',
-  markerType: 'originalMarker'
+  markerType: 'Default'
 }
 
 export default BaseMarker;

@@ -9,14 +9,7 @@ import { MapEditorContext } from '../../providers/MapEditorProvider';
 import styled, { keyframes } from 'styled-components';
 import { fadeInRight, fadeOutRight } from 'react-animations';
 import Cross from '../../Icons/Cross';
-import Popper from '@material-ui/core/Popper';
-
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import Grow from '@material-ui/core/Grow';
-import Paper from '../../UIKIT/ProfilePaperDropdown';
-import MaterialIcon from '@material/react-material-icon';
-
-
+import CustomMarker from './CustomMarker';
 
 const fadeInRightAnimation = keyframes`${fadeInRight}`;
 const fadeOutRightAnimation = keyframes`${fadeOutRight}`;
@@ -155,38 +148,6 @@ const SuggestionBoxStyle = styled.div`
     }
 `;
 
-const SelectMarkerButton = styled(Button)`
-    && {
-        height: 60px;
-
-        &:hover {
-            background: #ffffff;
-            color: ${props => props.theme.brandColor};
-        }
-    }
-`;
-
-const SelectMarkerPaper = styled(Paper)`
-    && {
-        position: absolute;
-        left: 0;
-        padding: 16px;
-        width: 400px;
-        box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
-    }
-`;
-
-const SelectMarkerContainer = styled.div`
-    display: block;
-    width: 100%;
-    padding-left: 32px;
-    padding-right: 32px;
-    padding-top: 16px;
-    padding-bottom: 16px;
-    border-bottom: 2px solid #cccccc;
-    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
-`;
-
 
 function SuggestionBox(props) {
     const { suggestions, onClose, insertForm} = props;
@@ -199,62 +160,6 @@ function SuggestionBox(props) {
             <Cross />
         </button>
     </SuggestionBoxStyle>
-}
-
-function CustomMarker(props) {
-
-    let anchorEl;
-
-    const [open,
-        setOpen] = useState(false);
-
-    function handleToggle() {
-        setOpen(!open)
-    }
-
-    function handleClose(event) {
-        if (anchorEl.contains(event.target)) {
-            return;
-        }
-
-        setOpen(false);
-    }
-
-    return  <SelectMarkerContainer>
-    <SelectMarkerButton
-        buttonRef={node => {
-            anchorEl = node;
-        }}
-        aria-owns={open
-            ? 'menu-list-grow'
-            : undefined}
-        aria-haspopup="true"
-        onClick={handleToggle}
-        disableRipple
-        width="150px">
-         Choose Marker
-        <MaterialIcon icon="arrow_drop_down" />
-
-    </SelectMarkerButton>
-    <Popper open={open} anchorEl={anchorEl} transition disablePortal>
-        {({ TransitionProps, placement }) => (
-            <Grow
-                {...TransitionProps}
-                id="menu-list-grow"
-                style={{
-                    transformOrigin: placement === 'bottom'
-                        ? 'center top'
-                        : 'center bottom'
-                }}>
-                <SelectMarkerPaper>
-                    <ClickAwayListener onClickAway={handleClose}>
-                       hello
-                    </ClickAwayListener>
-                </SelectMarkerPaper>
-            </Grow>
-        )}
-    </Popper>
-</SelectMarkerContainer>
 }
 
 function LocationForm(props) {
