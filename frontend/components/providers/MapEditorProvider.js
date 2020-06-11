@@ -17,7 +17,10 @@ function MapEditorProvider(props) {
         city: '',
         description: '',
         latitude: 0,
-        longitude: 0
+        longitude: 0,
+        markerType: 'Default',
+        pinColor: '#dd0000',
+        dropShadow: '#f1f1f1'
     });
 
     const [dropMarker, setDropMarker] = useState(false);

@@ -38,6 +38,7 @@ type Location {
   country: String!
   city: String!
   geoLocation: GeoLocation!
+  markerType: Marker!
   description: String
   user: String
   createdAt: DateTime! @createdAt

@@ -94,7 +94,7 @@ button {
 
 .fieldset_wrapper {
     padding: 32px;
-    height: calc(100vh - 300px);
+    height: calc(100vh - 360px);
     overflow-y: scroll;
 }
 `;
@@ -203,7 +203,7 @@ function LocationForm(props) {
     const EditMode = mode === 'EDIT';
     return <LocationFormStyle
         onSubmit={onSubmit}>
-        <CustomMarker />
+        <CustomMarker form={defaultValue} setForm={setForm} dropMarker={dropMarker}/>
         <Error error={error} />
         <fieldset disabled={loading} hasgrid={"true"} aria-busy={loading}>
             <div className="fieldset_wrapper">
@@ -250,7 +250,6 @@ function LocationForm(props) {
                         type="number"
                         id="latitude"
                         name="latitude"
-                        placeholder="0"
                         readOnly
                         value={defaultValue.latitude && parseFloat(defaultValue.latitude).toFixed(4)}
                     />
@@ -266,7 +265,6 @@ function LocationForm(props) {
                         type="number"
                         id="longitude"
                         name="longitude"
-                        placeholder="0"
                         readOnly
                         value={defaultValue.longitude && parseFloat(defaultValue.longitude).toFixed(4)}
                     />

@@ -14,7 +14,6 @@ const LOG_OUT_MUTATION = gql`
     }
 `;
 
-
 const Logout = (props) => {
 
     function signout(event, logout) {

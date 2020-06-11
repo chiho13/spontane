@@ -4,15 +4,20 @@ import { darken } from 'polished';
 
 import OriginalMarker from './MapMarkers/Original';
 import CoffeeMarker from './MapMarkers/Coffee';
+import AirportMarker from './MapMarkers/Airport';
 
 const BaseMarkerStyle = styled.div`
 cursor: pointer;
-`;
 
+svg {
+  transition: all 0.3s ease;
+}
+`;
 
 export const Markers = {
   Default: OriginalMarker,
-  Coffee: CoffeeMarker
+  Coffee: CoffeeMarker,
+  Airport: AirportMarker
 };
 
 function BaseMarker(props) {

@@ -54,6 +54,7 @@ function MapEditor(props) {
     }, [marker]);
 
     useEffect(() => {
+        if(!singleLocation) return;
             setForm({
                 city: singleLocation.city,
                 country: singleLocation.country,

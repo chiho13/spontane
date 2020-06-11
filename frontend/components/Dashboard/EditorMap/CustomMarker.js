@@ -16,13 +16,9 @@ const SelectMarkerPaper = styled(Paper)`
         position: absolute;
         left: 0;
         padding: 0;
-        width: 250px;
+        width: 200px;
         z-index: 10;
         box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
-
-        svg {
-            transform: none !important; 
-        }
 
         .marker_text {
             margin-left: 8px;
@@ -39,6 +35,16 @@ const SelectMarkerContainer = styled.div`
     padding-bottom: 16px;
     border-bottom: 2px solid #cccccc;
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+
+    .current_marker {
+        font-size: 16px;
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    svg {
+            transform: none !important; 
+    }
 `;
 
 const SelectMarkerButton = styled(Button)`
@@ -49,9 +55,12 @@ const SelectMarkerButton = styled(Button)`
             background: #ffffff;
             color: ${props => props.theme.brandColor};
         }
+
+        &:hover svg {
+            fill: ${props => props.theme.brandColor} !important;
+        }
     }
 `;
-
 
 function CustomMarker(props) {
 
@@ -59,10 +68,23 @@ function CustomMarker(props) {
 
     const [open, setOpen] = useState(false);
 
+    const {form, setForm, dropMarker} = props;
     const markerComponents = Object.keys(Markers);
 
+    const [markerType, setMarkerType] = useState('Default')
+    useEffect(() => {
+        setForm({
+            ...form,
+            markerType
+        });
+    }, [dropMarker, markerType]);
     function handleToggle() {
         setOpen(!open)
+    }
+
+    function selectMarker(event, markerType) {
+        setMarkerType(markerType);
+        handleClose(event);
     }
 
     function handleClose(event) {
@@ -74,6 +96,9 @@ function CustomMarker(props) {
     }
 
     return  <SelectMarkerContainer>
+              <label>
+                Choose Marker
+            </label>
     <SelectMarkerButton
         buttonRef={node => {
             anchorEl = node;
@@ -84,8 +109,17 @@ function CustomMarker(props) {
         aria-haspopup="true"
         onClick={handleToggle}
         disableRipple
-        width="150px">
-         Choose Marker
+        width="200px">
+            <BaseMarker  markerType={markerType} pinColor="#333333" dropShadowColor="#ffffff"/>
+            {/* <input
+                        className="form-input"
+                        type="text"
+                        id="marker"
+                        name="marker"
+                        readOnly
+                        value={form.markerType}
+                    /> */}
+                    <span className="current_marker">{markerType}</span>
         <MaterialIcon icon="arrow_drop_down" />
 
     </SelectMarkerButton>
@@ -103,9 +137,9 @@ function CustomMarker(props) {
                     <ClickAwayListener onClickAway={handleClose}>
                         <MenuList>
                         {markerComponents.map((type, i) => {
-                            return <MenuItem key={i}>
+                            return <MenuItem key={i} onClick={(e) => selectMarker(e, type)}>
                                 <BaseMarker  markerType={type} pinColor="#333333" dropShadowColor="#ffffff"/>
-                        <span class="marker_text">{markerComponents[i]}</span>
+                        <span class="marker_text">{type}</span>
                             </MenuItem>
                             })}
                         </MenuList>
