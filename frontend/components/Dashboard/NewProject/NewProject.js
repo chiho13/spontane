@@ -129,11 +129,13 @@ const CREATE_PROJECT_MUTATION = gql`
         $title: String!
         $mapBounds: String
         $mapStyle: String
+        $markerColor: String
     ) {
         createProject(
             title: $title
             mapBounds: $mapBounds
             mapStyle: $mapStyle
+            markerColor: $markerColor
         ) {
             id
         }
@@ -160,8 +162,8 @@ function NewProject(props) {
     };
 
     useEffect(() => {
-        console.log(mapConfig.mapStyle);
-        setForm({...form, mapBounds: feature, mapStyle: mapConfig.mapStyle});
+        console.log(mapConfig);
+        setForm({...form, mapBounds: feature, mapStyle: mapConfig.mapStyle, markerColor: mapConfig.markerColor});
     }, [mapConfig, feature]);
 
     const notify = () => toast.success("New Project created!", {
@@ -178,7 +180,7 @@ function NewProject(props) {
         notify();
         setProjectID(res.data.createProject.id);
         Router.push({
-            pathname: `/admin/project/locations/editor/${res.data.createProject.id}`,
+            pathname: `/admin/project/map/editor/${res.data.createProject.id}`,
         });
     }
 

@@ -237,7 +237,7 @@ function LocationForm(props) {
                         placeholder="Drop marker on map to get suggested address"
                         required
                         value={defaultValue.country}
-                        autocomplete="off"
+                        autoComplete="off"
                         onChange={handleChange} />
                 </div>
 
@@ -284,7 +284,7 @@ function LocationForm(props) {
                         onChange={handleChange} />
                 </div>
             </div>
-            <div class="button_wrapper">
+            <div className="button_wrapper">
                 <ThemeProvider theme={invertTheme}>
                     {EditMode ? <Button width="auto" disableRipple type="submit">{loading
                         ? 'Updating '

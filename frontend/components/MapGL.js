@@ -58,6 +58,7 @@ const Maps = React.forwardRef((props, ref) => {
                 originalLat: lat,
                 originalLng: lng,
                 mapStyle: projectData.mapStyle,
+                markerColor: projectData.markerColor,
                 title: projectData.title,
                 loadedMap: true
             });

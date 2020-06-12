@@ -30,7 +30,6 @@ type Marker {
   id: ID! @id
   type: String!
   pinColor: String!
-  dropShadow: String!
 }
 
 type Location {
@@ -51,6 +50,7 @@ type Project {
   locations: [Location] 
   mapBounds: String
   mapStyle: String
+  markerColor: String
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
   user: User! @relation(name: "UsersProject")

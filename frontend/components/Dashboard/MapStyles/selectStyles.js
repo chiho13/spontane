@@ -12,19 +12,23 @@ function ButtonRadio(props) {
     const radioButton = useRef(null);
     const {mapConfig, setMapConfig} = useContext(ViewPortContext);
 
-    function handleRadio(event) {
+  
+    
+    function handleRadio(event, _mapStyle) {
 
-        const getMapStyle = radioButton.current.dataset.mapStyle
+        const mapStyle = mapStyleLists[val]["stylesURL"];
+        const markerColor = mapStyleLists[val]["markerColor"];
         event.preventDefault();
-        setSelectedRadio(getMapStyle);
+        setSelectedRadio(mapStyle);
 
         setMapConfig({
             ...mapConfig,
-            mapStyle: getMapStyle 
+            mapStyle,
+            markerColor
         })
     }
 
-    return <button type="button" ref={radioButton} className={selected ? 'baseMap_wrapper baseMap_wrapper__selected' : 'baseMap_wrapper'} data-map-style={mapStyleLists[val]["stylesURL"]} onClick={handleRadio}>
+    return <button type="button" ref={radioButton} className={selected ? 'baseMap_wrapper baseMap_wrapper__selected' : 'baseMap_wrapper'} onClick={handleRadio}>
     <img className="baseMap_image" src={mapStyleLists[val]["imagePath"]} />
     <span className="baseMap_labelText"> 
         {val}

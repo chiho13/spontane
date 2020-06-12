@@ -11,12 +11,14 @@ import {Markers} from '../../Icons/BaseMarker';
 import BaseMarker from '../../Icons/BaseMarker';
 import MenuList from '@material-ui/core/MenuList';
 
+import {ViewPortContext} from '../../providers/MapProvider';
+
 const SelectMarkerPaper = styled(Paper)`
     && {
         position: absolute;
         left: 0;
         padding: 0;
-        width: 200px;
+        width: 170px;
         z-index: 10;
         box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
 
@@ -50,6 +52,8 @@ const SelectMarkerContainer = styled.div`
 const SelectMarkerButton = styled(Button)`
     && {
         height: 60px;
+        padding-left: 8px;
+        padding-right: 8px;
 
         &:hover {
             background: #ffffff;
@@ -71,13 +75,19 @@ function CustomMarker(props) {
     const {form, setForm, dropMarker} = props;
     const markerComponents = Object.keys(Markers);
 
-    const [markerType, setMarkerType] = useState('Default')
+    const {mapConfig} = useContext(ViewPortContext);
+
+    const [markerType, setMarkerType] = useState(form.markerType);
+    const [pinColor, setPinColor] = useState(mapConfig.markerColor);
     useEffect(() => {
         setForm({
             ...form,
-            markerType
+            markerType,
+            pinColor
         });
-    }, [dropMarker, markerType]);
+    }, [dropMarker, markerType, pinColor]);
+
+    console.log(form);
     function handleToggle() {
         setOpen(!open)
     }
@@ -109,16 +119,8 @@ function CustomMarker(props) {
         aria-haspopup="true"
         onClick={handleToggle}
         disableRipple
-        width="200px">
-            <BaseMarker  markerType={markerType} pinColor="#333333" dropShadowColor="#ffffff"/>
-            {/* <input
-                        className="form-input"
-                        type="text"
-                        id="marker"
-                        name="marker"
-                        readOnly
-                        value={form.markerType}
-                    /> */}
+        width="170px">
+            <BaseMarker  markerType={markerType} pinColor={pinColor} dropShadowColor="#ffffff" />
                     <span className="current_marker">{markerType}</span>
         <MaterialIcon icon="arrow_drop_down" />
 
@@ -138,8 +140,8 @@ function CustomMarker(props) {
                         <MenuList>
                         {markerComponents.map((type, i) => {
                             return <MenuItem key={i} onClick={(e) => selectMarker(e, type)}>
-                                <BaseMarker  markerType={type} pinColor="#333333" dropShadowColor="#ffffff"/>
-                        <span class="marker_text">{type}</span>
+                                <BaseMarker  markerType={type} dropShadowColor="#ffffff" pinColor="#333333"/>
+                        <span className="marker_text">{type}</span>
                             </MenuItem>
                             })}
                         </MenuList>

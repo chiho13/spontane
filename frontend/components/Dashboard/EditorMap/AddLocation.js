@@ -20,6 +20,8 @@ const CREATE_LOCATION_MUTATION = gql`
         $city: String!
         $latitude: Float!
         $longitude: Float!
+        $markerType: String!
+        $pinColor: String!
         $description: String
         $user: String
     ) {
@@ -33,6 +35,12 @@ const CREATE_LOCATION_MUTATION = gql`
                 create: {
                     latitude: $latitude
                     longitude: $longitude
+                }
+            }
+            markerType: {
+                create: {
+                    type: $markerType
+                    pinColor: $pinColor
                 }
             }
             description: $description
@@ -57,6 +65,8 @@ function AddLocation(props) {
         closeButton: false,
         className: css({ fontFamily: "nunito, sans-serif" })
     });
+
+    console.log(form);
 
     async function onSubmit(e, updateProject) {
         e.preventDefault();

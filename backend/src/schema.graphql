@@ -149,6 +149,7 @@ type Location implements Node {
   country: String!
   city: String!
   geoLocation: GeoLocation!
+  markerType: Marker!
   description: String
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -165,12 +166,20 @@ type LocationConnection {
   aggregate: AggregateLocation!
 }
 
+
+type Marker implements Node {
+  id: ID!
+  type: String!
+  pinColor: String!
+}
+
 input LocationCreateInput {
   id: ID
   country: String!
   city: String!
   description: String
   geoLocation: GeoLocationCreateOneInput!
+  markerType: MarkerCreateOneInput!
   user: String
 }
 
@@ -642,6 +651,46 @@ input LocationWhereInput {
 
   """All values not ending with the given string."""
   description_not_ends_with: String
+  user: String
+
+  """All values that are not equal to given value."""
+  user_not: String
+
+  """All values that are contained in given list."""
+  user_in: [String!]
+
+  """All values that are not contained in given list."""
+  user_not_in: [String!]
+
+  """All values less than the given value."""
+  user_lt: String
+
+  """All values less than or equal the given value."""
+  user_lte: String
+
+  """All values greater than the given value."""
+  user_gt: String
+
+  """All values greater than or equal the given value."""
+  user_gte: String
+
+  """All values containing the given string."""
+  user_contains: String
+
+  """All values not containing the given string."""
+  user_not_contains: String
+
+  """All values starting with the given string."""
+  user_starts_with: String
+
+  """All values not starting with the given string."""
+  user_not_starts_with: String
+
+  """All values ending with the given string."""
+  user_ends_with: String
+
+  """All values not ending with the given string."""
+  user_not_ends_with: String
   createdAt: DateTime
 
   """All values that are not equal to given value."""
@@ -687,7 +736,139 @@ input LocationWhereInput {
   """All values greater than or equal the given value."""
   updatedAt_gte: DateTime
   geoLocation: GeoLocationWhereInput
-  user: String
+  markerType: MarkerWhereInput
+}
+
+
+input MarkerWhereInput {
+  """Logical AND on all given filters."""
+  AND: [MarkerWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [MarkerWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [MarkerWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  type: String
+
+  """All values that are not equal to given value."""
+  type_not: String
+
+  """All values that are contained in given list."""
+  type_in: [String!]
+
+  """All values that are not contained in given list."""
+  type_not_in: [String!]
+
+  """All values less than the given value."""
+  type_lt: String
+
+  """All values less than or equal the given value."""
+  type_lte: String
+
+  """All values greater than the given value."""
+  type_gt: String
+
+  """All values greater than or equal the given value."""
+  type_gte: String
+
+  """All values containing the given string."""
+  type_contains: String
+
+  """All values not containing the given string."""
+  type_not_contains: String
+
+  """All values starting with the given string."""
+  type_starts_with: String
+
+  """All values not starting with the given string."""
+  type_not_starts_with: String
+
+  """All values ending with the given string."""
+  type_ends_with: String
+
+  """All values not ending with the given string."""
+  type_not_ends_with: String
+  pinColor: String
+
+  """All values that are not equal to given value."""
+  pinColor_not: String
+
+  """All values that are contained in given list."""
+  pinColor_in: [String!]
+
+  """All values that are not contained in given list."""
+  pinColor_not_in: [String!]
+
+  """All values less than the given value."""
+  pinColor_lt: String
+
+  """All values less than or equal the given value."""
+  pinColor_lte: String
+
+  """All values greater than the given value."""
+  pinColor_gt: String
+
+  """All values greater than or equal the given value."""
+  pinColor_gte: String
+
+  """All values containing the given string."""
+  pinColor_contains: String
+
+  """All values not containing the given string."""
+  pinColor_not_contains: String
+
+  """All values starting with the given string."""
+  pinColor_starts_with: String
+
+  """All values not starting with the given string."""
+  pinColor_not_starts_with: String
+
+  """All values ending with the given string."""
+  pinColor_ends_with: String
+
+  """All values not ending with the given string."""
+  pinColor_not_ends_with: String
 }
 
 input LocationWhereUniqueInput {
@@ -704,11 +885,44 @@ input UserUpdateInput {
   projects: ProjectUpdateManyWithoutUserInput
 }
 
+input MarkerCreateOneInput {
+  create: MarkerCreateInput
+  connect: MarkerWhereUniqueInput
+}
+
+input MarkerWhereUniqueInput {
+  id: ID
+}
+
+input MarkerCreateInput {
+  id: ID
+  type: String!
+  pinColor: String!
+}
+
+
+input MarkerUpdateOneRequiredInput {
+  create: MarkerCreateInput
+  connect: MarkerWhereUniqueInput
+  update: MarkerUpdateDataInput
+  upsert: MarkerUpsertNestedInput
+}
+
+input MarkerUpdateDataInput {
+  type: String
+  pinColor: String
+}
+
+input MarkerUpsertNestedInput {
+  update: MarkerUpdateDataInput!
+  create: MarkerCreateInput!
+}
+
 type Mutation {
-  createLocation(country: String, city: String, geoLocation: GeoLocationCreateOneInput, description: String, user: String): Location!
-  updateLocation(id: ID!, country: String, city: String, geoLocation: GeoLocationUpdateOneRequiredInput, description: String): Location!
+  createLocation(country: String, city: String, geoLocation: GeoLocationCreateOneInput, markerType: MarkerCreateInput, description: String, user: String): Location!
+  updateLocation(id: ID!, country: String, city: String, geoLocation: GeoLocationUpdateOneRequiredInput, markerType: MarkerUpdateOneRequiredInput, description: String): Location!
   createGeoLocation(latitude: Float, longitude: Float): GeoLocation!
-  createProject(title: String!, locations: LocationCreateManyInput, mapBounds: String, mapStyle: String): Project!
+  createProject(title: String!, locations: LocationCreateManyInput, mapBounds: String, mapStyle: String, markerColor: String): Project!
   updateProject(id: ID!, title: String, locations: LocationUpdateManyInput, mapBounds: String, mapStyle: String): Project
   deleteLocation(id: ID!): Location
   deleteGeoLocation(id: ID!): GeoLocation

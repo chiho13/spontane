@@ -38,6 +38,7 @@ function ViewPortProvider(props) {
     maxBounds: [[-180, -80], [180, 80]],
     minZoom: 0,
     mapStyle: "mapbox://styles/anthonyhodesu/ck0y2dle1013q1cpk194xrvtu",
+    markerColor: '#007bff',
     originalLat: 0,
     originalLng: 0,
     loadedMap: false

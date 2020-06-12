@@ -22,6 +22,10 @@ const CURRENT_USER_QUERY = gql `
                     latitude
                     longitude
                 }
+                markerType {
+                    type
+                    pinColor
+                }
                  description
                 }
             }

@@ -7,7 +7,7 @@ function CoffeeMarker(props) {
       style={{
         transform: `translate(${-size / 2}px,${-size}px)`,
         filter: `drop-shadow(0 0 4px ${dropShadowColor}`,
-        fill: markerColor,
+        fill: markerColor || '#333333',
         stroke: 'none'
       }}
     >

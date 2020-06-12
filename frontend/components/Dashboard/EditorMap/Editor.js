@@ -60,7 +60,9 @@ function MapEditor(props) {
                 country: singleLocation.country,
                 description: singleLocation.description,
                 latitude: marker.latitude,
-                longitude: marker.longitude
+                longitude: marker.longitude,
+                markerType: singleLocation.markerType.type,
+                pinColor: singleLocation.markerType.pinColor
             });
     }, [singleLocation]);
 
@@ -112,7 +114,12 @@ function MapEditor(props) {
         geoLocation: {
             latitude: 0,
             longitude: 0
+       },
+       markerType: {
+           type: 'Default',
+           pinColor: '#333333'
        }
+
     });
 
     setSuggestions({
@@ -148,10 +155,12 @@ function MapEditor(props) {
                 longitude={_location.geoLocation.longitude}
                 latitude={_location.geoLocation.latitude}>
                 
-                    <CityPin pinColor="#f5f5dc" onClick={(e) => {
+                    <CityPin onClick={(e) => {
                         e.stopPropagation();
                         updateLocation(_location);
-                        }}/>
+                        }} pinColor={_location.markerType.pinColor}
+                            markerType={_location.markerType.type}
+                        />
             </Marker>
         }
         )
