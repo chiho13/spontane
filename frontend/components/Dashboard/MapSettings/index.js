@@ -30,12 +30,14 @@ const UPDATE_PROJECT_MUTATION = gql`
         $title: String!
         $mapBounds: String
         $mapStyle: String
+        $markerColor: String
     ) {
         updateProject(
             id: $id
             title: $title
             mapBounds: $mapBounds
             mapStyle: $mapStyle
+            markerColor: $markerColor
         ) {
             id
         }
@@ -119,9 +121,10 @@ function MapSettings(props) {
     });
 
     useEffect(() => {
-        setForm({title: mapConfig.title, mapStyle: mapConfig.mapStyle});
+        setForm({title: mapConfig.title, mapStyle: mapConfig.mapStyle, markerColor: mapConfig.markerColor});
     }, [mapConfig]);
 
+    console.log(form.markerColor);
 
     const notify = () => toast.success("Map Settings updated!", {
         position: toast.POSITION.BOTTOM_CENTER,

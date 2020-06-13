@@ -12,6 +12,7 @@ import BaseMarker from '../../Icons/BaseMarker';
 import MenuList from '@material-ui/core/MenuList';
 
 import {ViewPortContext} from '../../providers/MapProvider';
+import { MapEditorContext } from '../../providers/MapEditorProvider';
 
 const SelectMarkerPaper = styled(Paper)`
     && {
@@ -28,26 +29,6 @@ const SelectMarkerPaper = styled(Paper)`
     }
 `;
 
-const SelectMarkerContainer = styled.div`
-    display: block;
-    width: 100%;
-    padding-left: 32px;
-    padding-right: 32px;
-    padding-top: 16px;
-    padding-bottom: 16px;
-    border-bottom: 2px solid #cccccc;
-    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
-
-    .current_marker {
-        font-size: 16px;
-        padding-left: 16px;
-        padding-right: 16px;
-    }
-
-    svg {
-            transform: none !important; 
-    }
-`;
 
 const SelectMarkerButton = styled(Button)`
     && {
@@ -76,18 +57,32 @@ function CustomMarker(props) {
     const markerComponents = Object.keys(Markers);
 
     const {mapConfig} = useContext(ViewPortContext);
-
+    const {editLocation} = useContext(MapEditorContext)
     const [markerType, setMarkerType] = useState(form.markerType);
-    const [pinColor, setPinColor] = useState(mapConfig.markerColor);
+    const [pinColor, setPinColor] = useState(form.pinColor);
+
+
     useEffect(() => {
         setForm({
             ...form,
-            markerType,
-            pinColor
+            markerType
         });
-    }, [dropMarker, markerType, pinColor]);
 
-    console.log(form);
+        if(!dropMarker) {
+                setMarkerType('Default');
+        }
+    }, [markerType, dropMarker]);
+
+
+    useEffect(() => {
+        if(editLocation) return;
+        setForm({
+            ...form,
+            pinColor: mapConfig.markerColor
+        });
+    }, [dropMarker, mapConfig, editLocation]);
+
+    console.log(mapConfig.markerColor);
     function handleToggle() {
         setOpen(!open)
     }
@@ -105,7 +100,7 @@ function CustomMarker(props) {
         setOpen(false);
     }
 
-    return  <SelectMarkerContainer>
+    return  <div>
               <label>
                 Choose Marker
             </label>
@@ -120,7 +115,7 @@ function CustomMarker(props) {
         onClick={handleToggle}
         disableRipple
         width="170px">
-            <BaseMarker  markerType={markerType} pinColor={pinColor} dropShadowColor="#ffffff" />
+            <BaseMarker  markerType={markerType} pinColor="#444444" dropShadowColor="#ffffff" />
                     <span className="current_marker">{markerType}</span>
         <MaterialIcon icon="arrow_drop_down" />
 
@@ -150,7 +145,7 @@ function CustomMarker(props) {
             </Grow>
         )}
     </Popper>
-</SelectMarkerContainer>
+</div>
 }
 
 export default CustomMarker;

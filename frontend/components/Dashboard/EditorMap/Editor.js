@@ -137,7 +137,7 @@ function MapEditor(props) {
     }
 
     function updateLocation(location) {
-        
+        setShowMarker(false);
         setSingleLocation(location);
         enableMarker(true);
         setEditLocation(true);
@@ -145,7 +145,10 @@ function MapEditor(props) {
                 latitude: location.geoLocation.latitude,
                 longitude: location.geoLocation.longitude
             });
-        setShowMarker(true);
+        
+        setTimeout(() => {
+            setShowMarker(true);
+        }, 0);
     }
 
     function RenderCityMarker() {

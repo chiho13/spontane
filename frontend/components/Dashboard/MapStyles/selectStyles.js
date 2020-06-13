@@ -25,7 +25,7 @@ function ButtonRadio(props) {
             ...mapConfig,
             mapStyle,
             markerColor
-        })
+        });
     }
 
     return <button type="button" ref={radioButton} className={selected ? 'baseMap_wrapper baseMap_wrapper__selected' : 'baseMap_wrapper'} onClick={handleRadio}>

@@ -923,7 +923,7 @@ type Mutation {
   updateLocation(id: ID!, country: String, city: String, geoLocation: GeoLocationUpdateOneRequiredInput, markerType: MarkerUpdateOneRequiredInput, description: String): Location!
   createGeoLocation(latitude: Float, longitude: Float): GeoLocation!
   createProject(title: String!, locations: LocationCreateManyInput, mapBounds: String, mapStyle: String, markerColor: String): Project!
-  updateProject(id: ID!, title: String, locations: LocationUpdateManyInput, mapBounds: String, mapStyle: String): Project
+  updateProject(id: ID!, title: String, locations: LocationUpdateManyInput, mapBounds: String, mapStyle: String, markerColor: String): Project
   deleteLocation(id: ID!): Location
   deleteGeoLocation(id: ID!): GeoLocation
   signup(email: String!, password: String!, name: String!, confirmPassword: String!): User!
@@ -971,6 +971,7 @@ type Project implements Node {
   locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location!]
   mapBounds: String
   mapStyle: String
+  markerColor: String
   createdAt: DateTime!
   updatedAt: DateTime!
   user: User!
@@ -1114,6 +1115,126 @@ input ProjectWhereInput {
 
   """All values not ending with the given string."""
   title_not_ends_with: String
+  mapBounds: String
+
+  """All values that are not equal to given value."""
+  mapBounds_not: String
+
+  """All values that are contained in given list."""
+  mapBounds_in: [String!]
+
+  """All values that are not contained in given list."""
+  mapBounds_not_in: [String!]
+
+  """All values less than the given value."""
+  mapBounds_lt: String
+
+  """All values less than or equal the given value."""
+  mapBounds_lte: String
+
+  """All values greater than the given value."""
+  mapBounds_gt: String
+
+  """All values greater than or equal the given value."""
+  mapBounds_gte: String
+
+  """All values containing the given string."""
+  mapBounds_contains: String
+
+  """All values not containing the given string."""
+  mapBounds_not_contains: String
+
+  """All values starting with the given string."""
+  mapBounds_starts_with: String
+
+  """All values not starting with the given string."""
+  mapBounds_not_starts_with: String
+
+  """All values ending with the given string."""
+  mapBounds_ends_with: String
+
+  """All values not ending with the given string."""
+  mapBounds_not_ends_with: String
+  mapStyle: String
+
+  """All values that are not equal to given value."""
+  mapStyle_not: String
+
+  """All values that are contained in given list."""
+  mapStyle_in: [String!]
+
+  """All values that are not contained in given list."""
+  mapStyle_not_in: [String!]
+
+  """All values less than the given value."""
+  mapStyle_lt: String
+
+  """All values less than or equal the given value."""
+  mapStyle_lte: String
+
+  """All values greater than the given value."""
+  mapStyle_gt: String
+
+  """All values greater than or equal the given value."""
+  mapStyle_gte: String
+
+  """All values containing the given string."""
+  mapStyle_contains: String
+
+  """All values not containing the given string."""
+  mapStyle_not_contains: String
+
+  """All values starting with the given string."""
+  mapStyle_starts_with: String
+
+  """All values not starting with the given string."""
+  mapStyle_not_starts_with: String
+
+  """All values ending with the given string."""
+  mapStyle_ends_with: String
+
+  """All values not ending with the given string."""
+  mapStyle_not_ends_with: String
+  markerColor: String
+
+  """All values that are not equal to given value."""
+  markerColor_not: String
+
+  """All values that are contained in given list."""
+  markerColor_in: [String!]
+
+  """All values that are not contained in given list."""
+  markerColor_not_in: [String!]
+
+  """All values less than the given value."""
+  markerColor_lt: String
+
+  """All values less than or equal the given value."""
+  markerColor_lte: String
+
+  """All values greater than the given value."""
+  markerColor_gt: String
+
+  """All values greater than or equal the given value."""
+  markerColor_gte: String
+
+  """All values containing the given string."""
+  markerColor_contains: String
+
+  """All values not containing the given string."""
+  markerColor_not_contains: String
+
+  """All values starting with the given string."""
+  markerColor_starts_with: String
+
+  """All values not starting with the given string."""
+  markerColor_not_starts_with: String
+
+  """All values ending with the given string."""
+  markerColor_ends_with: String
+
+  """All values not ending with the given string."""
+  markerColor_not_ends_with: String
   createdAt: DateTime
 
   """All values that are not equal to given value."""
@@ -1161,6 +1282,7 @@ input ProjectWhereInput {
   locations_every: LocationWhereInput
   locations_some: LocationWhereInput
   locations_none: LocationWhereInput
+  user: UserWhereInput
 }
 
 input ProjectWhereUniqueInput {

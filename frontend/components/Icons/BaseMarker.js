@@ -11,6 +11,18 @@ import {ViewPortContext} from '../providers/MapProvider';
 const BaseMarkerStyle = styled.div`
 cursor: pointer;
 
+&:after {
+  content: '';
+  position: absolute;
+  width: 36px;
+  height: 42px;
+  left: 30px;
+  top: 0;
+  transform: translate(-48px,-35px);
+  border: 2px solid #dd0000;
+  border-radius: 4px;
+  display: ${props => props.selected ? 'block' : 'none'};
+}
 svg {
   transition: all 0.3s ease;
 }
@@ -23,11 +35,11 @@ export const Markers = {
 };
 
 function BaseMarker(props) {
-  const { size, pinColor, onClick, dropShadowColor, markerType } = props;
+  const { size, pinColor, onClick, dropShadowColor, markerType, selected} = props;
   const DynamicMarker = Markers[markerType];
 
   return (
-    <BaseMarkerStyle
+    <BaseMarkerStyle selected={selected}
       onClick={onClick}
     >
       <DynamicMarker size={size} markerColor={pinColor} dropShadowColor={dropShadowColor} />
@@ -37,6 +49,7 @@ function BaseMarker(props) {
 
 BaseMarker.defaultProps = {
   size: 30,
+  selected: false,
   dropShadowColor: '#ffffff',
   markerType: 'Default'
 }

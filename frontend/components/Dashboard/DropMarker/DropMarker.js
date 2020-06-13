@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import ShowMarker from './ShowMarker';
 import DynamicMarker from '../../Icons/BaseMarker';
 import {Marker} from 'react-map-gl';
@@ -12,17 +12,28 @@ function DropMarker(props) {
 
     const {form} = useContext(MapEditorContext);
 
-    return <ShowMarker isUpdate={editLocation}>
-        <Marker
+    const [state, setState] = useState({
+        markerType: form.markerType,
+        pinColor: form.pinColor
+    });
+
+
+    useEffect(() => {
+        setState({
+            markerType: form.markerType,
+            pinColor: form.pinColor
+        });
+    }, [editLocation, form]);
+
+    return  <Marker
             longitude={parseFloat(longitude)}
             latitude={parseFloat(latitude)}
             draggable
             onDragStart={onMarkerDragStart}
             onDrag={onMarkerDrag}
             onDragEnd={onMarkerDragEnd}>
-            <DynamicMarker  markerType={form.markerType} dropShadowColor="#ffffff" pinColor="#dd0000" />
+            <DynamicMarker  markerType={state.markerType} dropShadowColor="#ffffff" pinColor={state.pinColor} selected={true} />
         </Marker>
-    </ShowMarker>
 }
 
 

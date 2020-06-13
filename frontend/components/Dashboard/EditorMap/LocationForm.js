@@ -81,7 +81,7 @@ button {
     position: absolute;
     bottom: 0;
     right: 0;
-    padding: 32px;
+    padding: 24px;
     padding-top: 16px;
     width: 100%;
     background-color: #f1f1f1;
@@ -93,8 +93,8 @@ button {
 }
 
 .fieldset_wrapper {
-    padding: 32px;
-    height: calc(100vh - 360px);
+    padding: 24px;
+    height: calc(100vh - 352px);
     overflow-y: scroll;
 }
 `;
@@ -145,6 +145,27 @@ const SuggestionBoxStyle = styled.div`
         &:hover svg {
             fill: ${props => props.theme.brandColor};
         }
+    }
+`;
+
+const SelectMarkerContainer = styled.div`
+    display: block;
+    width: 100%;
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid #cccccc;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+
+    .current_marker {
+        font-size: 16px;
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    svg {
+            transform: none !important; 
     }
 `;
 
@@ -203,7 +224,9 @@ function LocationForm(props) {
     const EditMode = mode === 'EDIT';
     return <LocationFormStyle
         onSubmit={onSubmit}>
-        <CustomMarker form={defaultValue} setForm={setForm} dropMarker={dropMarker}/>
+        <SelectMarkerContainer>
+            <CustomMarker form={defaultValue} setForm={setForm} dropMarker={dropMarker}/>
+        </SelectMarkerContainer>
         <Error error={error} />
         <fieldset disabled={loading} hasgrid={"true"} aria-busy={loading}>
             <div className="fieldset_wrapper">

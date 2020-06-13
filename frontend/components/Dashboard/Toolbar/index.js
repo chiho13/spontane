@@ -32,7 +32,7 @@ const IconButtonContainer = styled.div`
         font-size: 14px;
         font-family: ${props => props.theme.fontFamily};
         right: 50%;
-        transition: right 0.5s ease, opacity 0.3s ease;
+        transition: right 0.5s ease, opacity 0.3s ease, background 0.3s ease;
         visibility: hidden;
         cursor: pointer;
 
@@ -41,7 +41,7 @@ const IconButtonContainer = styled.div`
         }
 
         &:hover {
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.5);
         }
         &.selected {
             right: 100%;
@@ -60,7 +60,7 @@ const IconButtonStyle = styled(IconButton)`
         border-radius: 10px;
 
         &:hover {
-            background-color: ${props => props.theme.lightgrey};
+            background-color: #f1f1f1;
         }
 
         &.layer-button, &.add-button {

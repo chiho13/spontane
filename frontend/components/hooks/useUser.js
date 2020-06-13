@@ -13,6 +13,7 @@ const CURRENT_USER_QUERY = gql `
                 title
                 mapBounds
                 mapStyle
+                markerColor
                 locations {
                     id
                 country
