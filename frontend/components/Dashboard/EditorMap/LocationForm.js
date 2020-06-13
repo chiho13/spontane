@@ -10,6 +10,7 @@ import styled, { keyframes } from 'styled-components';
 import { fadeInRight, fadeOutRight } from 'react-animations';
 import Cross from '../../Icons/Cross';
 import CustomMarker from './CustomMarker';
+import SelectMarkerColor from './SelectMarkerColor';
 
 const fadeInRightAnimation = keyframes`${fadeInRight}`;
 const fadeOutRightAnimation = keyframes`${fadeOutRight}`;
@@ -149,7 +150,8 @@ const SuggestionBoxStyle = styled.div`
 `;
 
 const SelectMarkerContainer = styled.div`
-    display: block;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     width: 100%;
     padding-left: 24px;
     padding-right: 24px;
@@ -226,6 +228,7 @@ function LocationForm(props) {
         onSubmit={onSubmit}>
         <SelectMarkerContainer>
             <CustomMarker form={defaultValue} setForm={setForm} dropMarker={dropMarker}/>
+            <SelectMarkerColor form={defaultValue} setForm={setForm} dropMarker={dropMarker} />
         </SelectMarkerContainer>
         <Error error={error} />
         <fieldset disabled={loading} hasgrid={"true"} aria-busy={loading}>

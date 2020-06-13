@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
 import UpdateLocationForm from './LocationForm';
 
+import { CURRENT_USER_QUERY } from '../../hooks/useUser';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { css } from 'glamor';
@@ -20,6 +21,8 @@ const UPDATE_LOCATION_MUTATION = gql `
         $latitude: Float
         $longitude: Float
         $description: String
+        $markerType: String
+        $pinColor: String
     ) {
         updateLocation(
             id: $id
@@ -29,6 +32,12 @@ const UPDATE_LOCATION_MUTATION = gql `
                 update: {
                     latitude: $latitude
                     longitude: $longitude
+                }
+            }
+            markerType: {
+                update: {
+                    type: $markerType
+                    pinColor:  $pinColor
                 }
             }
             description: $description
@@ -43,9 +52,11 @@ const UPDATE_LOCATION_MUTATION = gql `
 
 function UpdateLocation(props) {
     const router = useRouter();
-    const { user } = useContext(UserContext);
+    const { loading, refetch } = useContext(UserContext);
 
     const { form, setForm, handleChange, dropMarker, singleLocation, editLocation} = useContext(MapEditorContext);
+
+    const { enableMarker } = props;
 
     const notify = () => toast.info("Location updated successfully!", {
         position: toast.POSITION.BOTTOM_CENTER,
@@ -64,8 +75,13 @@ function UpdateLocation(props) {
         });
 
         if(res) {
-            console.log(res);
+            refetch();
             notify();
+            
+            setTimeout(() => {
+                enableMarker(false);
+            }, 1000);
+
         }
     }
 

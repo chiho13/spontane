@@ -152,6 +152,7 @@ function MapEditor(props) {
     }
 
     function RenderCityMarker() {
+
         return  mapConfig.loadedMap && filteredProject && filteredProject.locations.filter(loc => loc.id !== singleLocation.id).map(_location => {
            return  <Marker
                 key={`marker-${_location.id}`}
@@ -189,7 +190,7 @@ function MapEditor(props) {
                 </MapGL>
                 <Toolbar dropMarker={dropMarker} enableMarker={enableMarker} layerOpen={layerOpen} showLayerPanel={showLayerPanel} />
             </div>
-            <RightPanel layerOpen={layerOpen} updateLocation={updateLocation}>
+            <RightPanel layerOpen={layerOpen} updateLocation={updateLocation} enableMarker={enableMarker}>
             </RightPanel>
         </CreateLocationMapStyle>
     );

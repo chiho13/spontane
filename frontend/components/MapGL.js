@@ -63,7 +63,6 @@ const Maps = React.forwardRef((props, ref) => {
                 loadedMap: true
             });
 
-            console.log(projectData.markerColor);
         }
 
     }, [loading, mercator]);

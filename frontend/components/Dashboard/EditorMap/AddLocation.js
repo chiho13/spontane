@@ -60,6 +60,8 @@ function AddLocation(props) {
 
     const { form, handleChange} = useContext(MapEditorContext);
 
+    const { enableMarker } = props;
+
     const notify = () => toast.success("Location created!", {
         position: toast.POSITION.BOTTOM_CENTER,
         closeButton: false,
@@ -77,7 +79,11 @@ function AddLocation(props) {
                 ...form
             }
         });
-        notify();
+
+        if(res) {
+            notify();
+            enableMarker(false);
+        }
     }
 
     return <Mutation mutation={CREATE_LOCATION_MUTATION} variables={form} refetchQueries={[{ query: CURRENT_USER_QUERY }]}>

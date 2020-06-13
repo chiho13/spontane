@@ -128,7 +128,7 @@ function RightPanel(props) {
     useEffect(() => {
         setEdit(editLocation);
     }, [editLocation]);
-    const {layerOpen, updateLocation} = props;
+    const {layerOpen, updateLocation, enableMarker} = props;
         return <LayerStyle
                     className={layerOpen && 'expandIn'}>
                         {/* <h2>Layers</h2> */}
@@ -139,7 +139,7 @@ function RightPanel(props) {
                                 </StickyTabs>
                                  <ListView page={pageNum} updateLocation={updateLocation}/>
                                  <EditLocationStyle className={dropMarker && 'expandIn'}>
-                                    {edit ? <UpdateLocation /> : <AddLocation />}
+                                    {edit ? <UpdateLocation enableMarker={enableMarker} /> : <AddLocation enableMarker={enableMarker} />}
                                  </EditLocationStyle>
                              </div>
                             <div label="Map Settings" icon="settings">
