@@ -14,11 +14,11 @@ cursor: pointer;
 &:after {
   content: '';
   position: absolute;
-  width: 36px;
-  height: 42px;
+  width: 42px;
+  height: 47px;
   left: 30px;
   top: 0;
-  transform: translate(-48px,-35px);
+  transform: translate(-51px,-40px);
   border: 2px solid #dd0000;
   border-radius: 4px;
   display: ${props => props.selected ? 'block' : 'none'};
@@ -48,7 +48,7 @@ function BaseMarker(props) {
 }
 
 BaseMarker.defaultProps = {
-  size: 30,
+  size: 35,
   selected: false,
   dropShadowColor: '#ffffff',
   markerType: 'Default'
