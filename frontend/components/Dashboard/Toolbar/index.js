@@ -3,6 +3,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MaterialIcon from '@material/react-material-icon';
 import styled, {keyframes} from 'styled-components';
 import { fadeInRight, fadeOutRight} from 'react-animations';
+import AddLocationIcon from './addLocationIcon';
 
 const fadeInRightAnimation = keyframes`${fadeInRight}`;
 const fadeOutRightAnimation = keyframes`${fadeOutRight}`;
@@ -56,15 +57,22 @@ const IconButtonStyle = styled(IconButton)`
         background-color: ${props => props.theme.white};
         border: 1px solid ${props => props.theme.grey};
         color: ${props => props.theme.black};
-        padding: 10px;
+        padding: 8px;
+        height: 50px;
         border-radius: 10px;
 
         &:hover {
             background-color: #f1f1f1;
         }
 
-        &.layer-button, &.add-button {
+        &.layer-button {
             color: ${props => props.selected ? props.theme.brandColor : props.theme.black};
+        }
+
+        &.add-button {
+            svg {
+                fill: ${props => props.selected ? props.theme.brandColor : props.theme.black};
+            }
         }
     }
 `;
@@ -89,7 +97,9 @@ function Toolbar(props) {
             <IconButtonStyle onClick={() => {
                 enableMarker(true);
             }} className="add-button" selected={layerOpen && dropMarker}>
-                <MaterialIcon icon="add_location" />
+                {/* <MaterialIcon icon="add_location" /> */}
+
+                <AddLocationIcon />
             </IconButtonStyle>
         </IconButtonContainer>
     </ToolbarContainer>

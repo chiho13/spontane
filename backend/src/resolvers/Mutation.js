@@ -79,8 +79,11 @@ const Mutations = {
       },
       async updateProject(parent, args, ctx, info) {
 
-        if (!ctx.request.userId) {
-          throw new Error('You must be logged in to do that!');
+        const location = await ctx.db.query.location({ where }, `{ id, user, geoLocation {id}}`);
+        const ownLocation = location.user == ctx.request.userId;
+
+        if (!ownLocation) {
+          throw new Error("You don't have permission to do that!");
         }
         // first take a copy of the updates
         const updates = { ...args };

@@ -152,6 +152,7 @@ const SuggestionBoxStyle = styled.div`
 const SelectMarkerContainer = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
+    grid-gap: 16px;
     width: 100%;
     padding-left: 24px;
     padding-right: 24px;
@@ -230,7 +231,6 @@ function LocationForm(props) {
             <CustomMarker form={defaultValue} setForm={setForm} dropMarker={dropMarker}/>
             <SelectMarkerColor form={defaultValue} setForm={setForm} dropMarker={dropMarker} />
         </SelectMarkerContainer>
-        <Error error={error} />
         <fieldset disabled={loading} hasgrid={"true"} aria-busy={loading}>
             <div className="fieldset_wrapper">
                 <div className="wrapper">

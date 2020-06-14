@@ -68,6 +68,12 @@ function AddLocation(props) {
         className: css({ fontFamily: "nunito, sans-serif" })
     });
 
+    const notifyError = (error) => toast.error(error, {
+        position: toast.POSITION.BOTTOM_CENTER,
+        closeButton: false,
+        className: css({ fontFamily: "nunito, sans-serif" })
+    });
+
     console.log(form);
 
     async function onSubmit(e, updateProject) {
@@ -89,6 +95,7 @@ function AddLocation(props) {
     return <Mutation mutation={CREATE_LOCATION_MUTATION} variables={form} refetchQueries={[{ query: CURRENT_USER_QUERY }]}>
         {(createLocation, { loading, error }) => (<CreateLocationForm
             form={form}
+            notifyError={notifyError}
             defaultValue={form}
             mode="CREATE"
             handleChange={handleChange}

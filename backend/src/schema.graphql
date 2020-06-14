@@ -920,7 +920,7 @@ input MarkerUpsertNestedInput {
 
 type Mutation {
   createLocation(country: String, city: String, geoLocation: GeoLocationCreateOneInput, markerType: MarkerCreateInput, description: String, user: String): Location!
-  updateLocation(id: ID!, country: String, city: String, geoLocation: GeoLocationUpdateOneRequiredInput, markerType: MarkerUpdateOneRequiredInput, description: String): Location!
+  updateLocation(id: ID!, country: String, city: String, geoLocation: GeoLocationUpdateOneRequiredInput, markerType: MarkerUpdateOneRequiredInput, description: String, user: String): Location!
   createGeoLocation(latitude: Float, longitude: Float): GeoLocation!
   createProject(title: String!, locations: LocationCreateManyInput, mapBounds: String, mapStyle: String, markerColor: String): Project!
   updateProject(id: ID!, title: String, locations: LocationUpdateManyInput, mapBounds: String, mapStyle: String, markerColor: String): Project

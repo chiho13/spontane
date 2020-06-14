@@ -109,8 +109,6 @@ function SelectMarkerColor(props) {
         setPinColor(color.hex);
      }
 
-     console.log(form.pinColor);
-
     return <div>
         <label>
             Select Color

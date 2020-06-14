@@ -82,7 +82,6 @@ function CustomMarker(props) {
         });
     }, [dropMarker, mapConfig, editLocation]);
 
-    console.log(mapConfig.markerColor);
     function handleToggle() {
         setOpen(!open)
     }
@@ -115,7 +114,7 @@ function CustomMarker(props) {
         onClick={handleToggle}
         disableRipple
         width="170px">
-            <BaseMarker  markerType={markerType} pinColor="#444444" dropShadowColor="#ffffff" />
+            <BaseMarker  markerType={markerType} pinColor="#444444" dropShadowColor="#ffffff" size={32} />
                     <span className="current_marker">{markerType}</span>
         <MaterialIcon icon="arrow_drop_down" />
 
@@ -135,7 +134,7 @@ function CustomMarker(props) {
                         <MenuList>
                         {markerComponents.map((type, i) => {
                             return <MenuItem key={i} onClick={(e) => selectMarker(e, type)}>
-                                <BaseMarker  markerType={type} dropShadowColor="#ffffff" pinColor="#333333"/>
+                                <BaseMarker  markerType={type} dropShadowColor="#ffffff" pinColor="#333333" size={28}/>
                         <span className="marker_text">{type}</span>
                             </MenuItem>
                             })}

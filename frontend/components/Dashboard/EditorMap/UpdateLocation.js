@@ -23,6 +23,7 @@ const UPDATE_LOCATION_MUTATION = gql `
         $description: String
         $markerType: String
         $pinColor: String
+        $user: String
     ) {
         updateLocation(
             id: $id
@@ -41,6 +42,7 @@ const UPDATE_LOCATION_MUTATION = gql `
                 }
             }
             description: $description
+            user: $user
         ) {
             id
             country
@@ -52,6 +54,7 @@ const UPDATE_LOCATION_MUTATION = gql `
 
 function UpdateLocation(props) {
     const router = useRouter();
+    const { user } = useContext(UserContext);
     const { loading, refetch } = useContext(UserContext);
 
     const { form, setForm, handleChange, dropMarker, singleLocation, editLocation} = useContext(MapEditorContext);
@@ -70,6 +73,7 @@ function UpdateLocation(props) {
         const res = await updateLocationMutation({
             variables: {
                 id: singleLocation.id,
+                user: user.id,
                 ...form
             }
         });

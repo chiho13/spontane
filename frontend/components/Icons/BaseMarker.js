@@ -9,6 +9,7 @@ import AirportMarker from './MapMarkers/Airport';
 import {ViewPortContext} from '../providers/MapProvider';
 
 const BaseMarkerStyle = styled.div`
+display: flex;
 cursor: pointer;
 
 &:after {
