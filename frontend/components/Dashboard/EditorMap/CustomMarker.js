@@ -19,10 +19,11 @@ const SelectMarkerPaper = styled(Paper)`
         position: absolute;
         left: 0;
         padding: 0;
-        width: 170px;
+        width: 180px;
         z-index: 10;
         box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
-
+        max-height: 250px;
+        overflow: auto;
         .marker_text {
             margin-left: 8px;
         }
@@ -35,6 +36,11 @@ const SelectMarkerButton = styled(Button)`
         height: 60px;
         padding-left: 8px;
         padding-right: 8px;
+        
+        > span {
+            display: flex;
+            justify-content: space-evenly;
+        }
 
         &:hover {
             background: #ffffff;
@@ -112,8 +118,7 @@ function CustomMarker(props) {
             : undefined}
         aria-haspopup="true"
         onClick={handleToggle}
-        disableRipple
-        width="170px">
+        width="180px">
             <BaseMarker  markerType={markerType} pinColor="#444444" dropShadowColor="#ffffff" size={32} />
                     <span className="current_marker">{markerType}</span>
         <MaterialIcon icon="arrow_drop_down" />

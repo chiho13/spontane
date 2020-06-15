@@ -61,7 +61,7 @@ padding: 0;
 max-width: 100%;
 background-color: #f1f1f1;
 height: calc(100vh - 100px);
-overflow: hidden;
+overflow-y: auto;
 
 h2 {
     margin-top: 24px;
@@ -79,7 +79,7 @@ button {
 
 
 .button_wrapper {
-    position: absolute;
+    position: sticky;
     bottom: 0;
     right: 0;
     padding: 24px;
@@ -87,6 +87,10 @@ button {
     width: 100%;
     background-color: #f1f1f1;
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+
+    button[type="submit"] {
+        margin-top: 8px;
+    }
 }
 
 .form-input {
@@ -95,8 +99,6 @@ button {
 
 .fieldset_wrapper {
     padding: 24px;
-    height: calc(100vh - 352px);
-    overflow-y: scroll;
 }
 `;
 
@@ -150,6 +152,9 @@ const SuggestionBoxStyle = styled.div`
 `;
 
 const SelectMarkerContainer = styled.div`
+    position: sticky;
+    top: 0;
+    z-index: 10;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 16px;
@@ -160,15 +165,15 @@ const SelectMarkerContainer = styled.div`
     padding-bottom: 16px;
     border-bottom: 2px solid #cccccc;
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+    background-color: #f1f1f1;
 
     .current_marker {
         font-size: 16px;
-        padding-left: 16px;
-        padding-right: 16px;
+        padding-left: 8px;
     }
 
     svg {
-            transform: none !important; 
+        transform: none !important; 
     }
 `;
 
@@ -312,10 +317,10 @@ function LocationForm(props) {
             </div>
             <div className="button_wrapper">
                 <ThemeProvider theme={invertTheme}>
-                    {EditMode ? <Button width="auto" disableRipple type="submit">{loading
+                    {EditMode ? <Button width="auto" type="submit">{loading
                         ? 'Updating '
                         : 'Update '}
-                    </Button> : <Button width="auto" disableRipple type="submit">Save</Button>}
+                    </Button> : <Button width="auto" type="submit">Save</Button>}
                 </ThemeProvider>
             </div>
 

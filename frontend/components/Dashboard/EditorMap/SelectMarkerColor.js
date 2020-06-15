@@ -121,7 +121,6 @@ function SelectMarkerColor(props) {
                 ? 'menu-list-grow'
                 : undefined}
             aria-haspopup="true"
-            disableRipple
             onClick={handleToggle}
             width="auto">
 

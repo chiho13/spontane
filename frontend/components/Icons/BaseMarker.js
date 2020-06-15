@@ -5,8 +5,8 @@ import { darken } from 'polished';
 import OriginalMarker from './MapMarkers/Original';
 import CoffeeMarker from './MapMarkers/Coffee';
 import AirportMarker from './MapMarkers/Airport';
-
-import {ViewPortContext} from '../providers/MapProvider';
+import RestaurantMarker from './MapMarkers/Restaurant';
+import ATMMarker from './MapMarkers/ATM';
 
 const BaseMarkerStyle = styled.div`
 display: flex;
@@ -32,7 +32,9 @@ svg {
 export const Markers = {
   Default: OriginalMarker,
   Coffee: CoffeeMarker,
-  Airport: AirportMarker
+  Airport: AirportMarker,
+  Restaurant: RestaurantMarker,
+  ATM: ATMMarker
 };
 
 function BaseMarker(props) {
