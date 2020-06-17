@@ -74,11 +74,10 @@ function CustomMarker(props) {
             markerType
         });
 
-        if(!dropMarker) {
-                setMarkerType('Default');
-        }
+        // if(!dropMarker) {
+        //         setMarkerType('Default');
+        // }
     }, [markerType, dropMarker]);
-
 
     useEffect(() => {
         if(editLocation) return;

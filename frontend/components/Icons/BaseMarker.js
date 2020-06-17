@@ -3,10 +3,23 @@ import styled from 'styled-components';
 import { darken } from 'polished';
 
 import OriginalMarker from './MapMarkers/Original';
+import UniversityMarker from './MapMarkers/University';
 import CoffeeMarker from './MapMarkers/Coffee';
+import HostelMarker from './MapMarkers/Hostel';
 import AirportMarker from './MapMarkers/Airport';
 import RestaurantMarker from './MapMarkers/Restaurant';
 import ATMMarker from './MapMarkers/ATM';
+import LandmarkMarker from './MapMarkers/Landmark';
+import MetroMarker from './MapMarkers/Metro';
+import TrainMarker from './MapMarkers/TrainStation';
+
+import RestroomsMarker from './MapMarkers/Restrooms';
+import FillingStationMarker from './MapMarkers/FillingStation';
+import BusStopMarker from './MapMarkers/BusStop';
+import CoachStationMarker from './MapMarkers/CoachStation';
+import PoliceMarker from './MapMarkers/Police';
+import FirstAidMarker from './MapMarkers/FirstAid';
+import TargetMarker from './MapMarkers/Target';
 
 const BaseMarkerStyle = styled.div`
 display: flex;
@@ -30,11 +43,23 @@ svg {
 `;
 
 export const Markers = {
-  Default: OriginalMarker,
-  Coffee: CoffeeMarker,
-  Airport: AirportMarker,
-  Restaurant: RestaurantMarker,
-  ATM: ATMMarker
+  "Default": OriginalMarker,
+  "Café": CoffeeMarker,
+  "Food": RestaurantMarker,
+  "Hostel": HostelMarker,
+  "University": UniversityMarker,
+  "ATM": ATMMarker,
+  "Landmark": LandmarkMarker,
+  "Toilet": RestroomsMarker,
+  "Fuel Station": FillingStationMarker,
+  "Train Station": TrainMarker,
+  "Bus Stop": BusStopMarker,
+  "Coach Station": CoachStationMarker,
+  "Metro Station": MetroMarker,
+  "Airport": AirportMarker,
+  "Police": PoliceMarker,
+  "First Aid": FirstAidMarker,
+  "Target": TargetMarker
 };
 
 function BaseMarker(props) {
