@@ -62,6 +62,17 @@ const Mutations = {
         throw new Error('You must be logged in to do that!');
       }
 
+      const where = {id: args.id};
+      const location = await ctx.db.query.location({ where }, `{user}`);
+
+      const currentUser = location.user;
+
+      // console.log(location);
+      const ownLocation = currentUser == ctx.request.userId;
+
+      if (!ownLocation) {
+        throw new Error("You don't have permission to do that!");
+      }
         // first take a copy of the updates
         const updates = { ...args };
         // remove the ID from the updates
@@ -78,11 +89,13 @@ const Mutations = {
         );
       },
       async updateProject(parent, args, ctx, info) {
+        const where = {id: args.id}
+        const project = await ctx.db.query.project({ where }, `{user { id }}`);
 
-        const location = await ctx.db.query.location({ where }, `{ id, user, geoLocation {id}}`);
-        const ownLocation = location.user == ctx.request.userId;
+        // console.log(location);
+        const ownProject = project.user.id == ctx.request.userId;
 
-        if (!ownLocation) {
+        if (!ownProject) {
           throw new Error("You don't have permission to do that!");
         }
         // first take a copy of the updates
