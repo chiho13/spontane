@@ -11,7 +11,7 @@ const fadeOutRightAnimation = keyframes`${fadeOutRight}`;
 const ToolbarContainer = styled.div`
     display: block;
     position: absolute;
-    top: 32px;
+    top: 40px;
     right: 0; 
 `;
 
@@ -78,7 +78,7 @@ const IconButtonStyle = styled(IconButton)`
             border-top-left-radius: 4px;
             border-bottom-left-radius: 4px;
             z-index: 10;
-            
+
             .material-icons {
                 font-size: 32px;
             }
@@ -113,8 +113,6 @@ function Toolbar(props) {
                 <IconButtonStyle onClick={() => {
                     enableMarker(true);
                 }} className="add-button" selected={layerOpen && dropMarker}>
-                    {/* <MaterialIcon icon="add_location" /> */}
-
                     <AddLocationIcon />
                 </IconButtonStyle>
             </IconButtonContainer>

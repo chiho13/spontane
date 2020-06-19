@@ -174,6 +174,8 @@ const SelectMarkerContainer = styled.div`
 
     svg {
         transform: none !important; 
+        filter: none !important;
+        animation: none !important;
     }
 `;
 

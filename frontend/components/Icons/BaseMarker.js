@@ -20,6 +20,7 @@ import CoachStationMarker from './MapMarkers/CoachStation';
 import PoliceMarker from './MapMarkers/Police';
 import FirstAidMarker from './MapMarkers/FirstAid';
 import TargetMarker from './MapMarkers/Target';
+import Siren from './MapMarkers/Siren';
 
 const BaseMarkerStyle = styled.div`
 display: flex;
@@ -59,7 +60,8 @@ export const Markers = {
   "Airport": AirportMarker,
   "Police": PoliceMarker,
   "First Aid": FirstAidMarker,
-  "Target": TargetMarker
+  "Target": TargetMarker,
+  "Emergency": Siren
 };
 
 function BaseMarker(props) {

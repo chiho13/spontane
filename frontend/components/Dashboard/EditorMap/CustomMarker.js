@@ -72,6 +72,18 @@ function CustomMarker(props) {
             ...form,
             markerType  
         });
+
+        if(markerType === "Emergency") {
+            setForm({
+                ...form,
+                markerType,
+                pinColor: "#dd0000"
+            });
+        }
+
+        if(!dropMarker) {
+            setMarkerType('Default');
+        }
     }, [markerType, dropMarker]);
 
     useEffect(() => {
