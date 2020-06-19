@@ -77,7 +77,8 @@ const IconButtonStyle = styled(IconButton)`
             border-radius: 0;
             border-top-left-radius: 4px;
             border-bottom-left-radius: 4px;
-
+            z-index: 10;
+            
             .material-icons {
                 font-size: 32px;
             }

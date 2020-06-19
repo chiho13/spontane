@@ -8,7 +8,7 @@ import { CURRENT_USER_QUERY } from '../../hooks/useUser';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { css } from 'glamor';
-import { MapEditorContext } from '../../providers/MapEditorProvider';
+import { LocationEditorContext } from '../../providers/LocationEditorProvider';
 import { UserContext } from '../../Layout/DashboardLayout';
 
 toast.configure();
@@ -58,7 +58,7 @@ function AddLocation(props) {
     const router = useRouter();
     const { user } = useContext(UserContext);
 
-    const { form, handleChange} = useContext(MapEditorContext);
+    const { form, handleChange} = useContext(LocationEditorContext);
 
     const { enableMarker } = props;
 

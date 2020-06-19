@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 import TabsStyle from './TabsStyle';
 import Tab from './Tab';
 import Router from 'next/router';
-import { MapEditorContext } from '../../providers/MapEditorProvider';
+import { LocationEditorContext } from '../../providers/LocationEditorProvider';
 
 function Tabs(props) {
   const [activeTab, setActiveTab] = useState(props.children[0].props.label);
 
   const {children} = props;
-  const {dropMarker, editLocation} = useContext(MapEditorContext);
+  const {dropMarker, editLocation} = useContext(LocationEditorContext);
 
   useEffect(() => {
     setActiveTab('Locations')

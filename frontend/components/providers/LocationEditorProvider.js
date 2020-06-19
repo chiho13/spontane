@@ -4,9 +4,9 @@ import useForm from '../hooks/useForm';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { useRouter } from 'next/router';
 
-const MapEditorContext = React.createContext();
+const LocationEditorContext = React.createContext();
 
-function MapEditorProvider(props) {
+function LocationEditorProvider(props) {
   // new
   const router = useRouter();
 
@@ -33,7 +33,7 @@ function MapEditorProvider(props) {
     });
 
   return (
-    <MapEditorContext.Provider value={{form, setForm, handleChange, 
+    <LocationEditorContext.Provider value={{form, setForm, handleChange, 
     dropMarker, setDropMarker, 
     editLocation, 
     setEditLocation, 
@@ -41,7 +41,7 @@ function MapEditorProvider(props) {
     suggestions, setSuggestions
     }}>
       {props.children}
-    </MapEditorContext.Provider>
+    </LocationEditorContext.Provider>
   );
 }
-export { MapEditorContext, MapEditorProvider };
+export { LocationEditorContext, LocationEditorProvider };

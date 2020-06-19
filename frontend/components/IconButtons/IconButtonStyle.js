@@ -11,11 +11,12 @@ align-items: center;
 width: 32px;
 height: 32px;
 background: #fff;
-border: 1px solid #ccc;
+border: 1px solid #ddd;
 border-radius: 6px;
 color: ${props => props.theme.iconColor};
 transition: all 0.3s ease;
 cursor: pointer;
+box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
 
 &:hover {
   border-color: ${props => props.theme.iconColorHover};

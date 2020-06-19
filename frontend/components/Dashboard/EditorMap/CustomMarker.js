@@ -12,7 +12,7 @@ import BaseMarker from '../../Icons/BaseMarker';
 import MenuList from '@material-ui/core/MenuList';
 
 import {ViewPortContext} from '../../providers/MapProvider';
-import { MapEditorContext } from '../../providers/MapEditorProvider';
+import { LocationEditorContext } from '../../providers/LocationEditorProvider';
 
 const SelectMarkerPaper = styled(Paper)`
     && {
@@ -63,7 +63,7 @@ function CustomMarker(props) {
     const markerComponents = Object.keys(Markers);
 
     const {mapConfig} = useContext(ViewPortContext);
-    const {editLocation} = useContext(MapEditorContext)
+    const {editLocation} = useContext(LocationEditorContext)
     const [markerType, setMarkerType] = useState(form.markerType);
     const [pinColor, setPinColor] = useState(form.pinColor);
 

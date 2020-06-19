@@ -5,7 +5,7 @@ import Error from '../../ErrorMessage';
 import { ThemeProvider } from 'styled-components';
 import Button from '../../UIKIT/iButton';
 import { invertTheme } from '../../Login';
-import { MapEditorContext } from '../../providers/MapEditorProvider';
+import { LocationEditorContext } from '../../providers/LocationEditorProvider';
 import styled, { keyframes } from 'styled-components';
 import { fadeInRight, fadeOutRight } from 'react-animations';
 import Cross from '../../Icons/Cross';
@@ -192,7 +192,7 @@ function SuggestionBox(props) {
 }
 
 function LocationForm(props) {
-    const { suggestions, setSuggestions, form, setForm, dropMarker } = useContext(MapEditorContext);
+    const { suggestions, setSuggestions, form, setForm, dropMarker } = useContext(LocationEditorContext);
     const { mode, defaultValue, handleChange, loading, error, onSubmit } = props;
 
     function closeSuggestion(suggest) {

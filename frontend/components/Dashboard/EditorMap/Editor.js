@@ -9,7 +9,7 @@ import { Marker} from 'react-map-gl';
 import useMapMarker from '../../hooks/useMapMarker';
 
 import { ViewPortContext } from '../../providers/MapProvider';
-import { MapEditorContext } from '../../providers/MapEditorProvider';
+import { LocationEditorContext } from '../../providers/LocationEditorProvider';
 import {UserContext} from '../../Layout/DashboardLayout';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import Toolbar from '../Toolbar';
@@ -23,7 +23,7 @@ function MapEditor(props) {
     const { viewport, setViewport, mapConfig } = useContext(ViewPortContext);
 
     const {loading, projectData: filteredProject} = useContext(UserContext);
-    const {form, setForm, dropMarker, setDropMarker, setEditLocation, editLocation, setSingleLocation, singleLocation, setSuggestions} = useContext(MapEditorContext);
+    const {form, setForm, dropMarker, setDropMarker, setEditLocation, editLocation, setSingleLocation, singleLocation, setSuggestions} = useContext(LocationEditorContext);
     
     const [savedLayerOpen, setSavedLayerOpen] = useLocalStorage('layerOpened', true);
 

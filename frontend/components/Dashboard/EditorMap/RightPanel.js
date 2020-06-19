@@ -7,7 +7,7 @@ import Tabs from '../SegmentTabs/Tabs';
 import Pagination from '../Pagination/Pagination';
 import AddLocation from '../EditorMap/AddLocation';
 import UpdateLocation from '../EditorMap/UpdateLocation';
-import { MapEditorContext } from '../../providers/MapEditorProvider';
+import { LocationEditorContext } from '../../providers/LocationEditorProvider';
 import MapSettings from '../MapSettings';
 
 // const fadeInLeftAnimation = keyframes`${fadeInLeft}`;
@@ -121,7 +121,7 @@ function RightPanel(props) {
     const router = useRouter();
     const page = router.query.page
     const [pageNum, setPageNum] = useState(parseFloat(page) || 1);
-    const {dropMarker, editLocation} = useContext(MapEditorContext);
+    const {dropMarker, editLocation} = useContext(LocationEditorContext);
 
     const [edit, setEdit] = useState(editLocation);
 

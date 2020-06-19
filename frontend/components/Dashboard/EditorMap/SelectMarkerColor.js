@@ -14,7 +14,7 @@ import MenuList from '@material-ui/core/MenuList';
 import { SketchPicker } from 'react-color';
 
 import { ViewPortContext } from '../../providers/MapProvider';
-import { MapEditorContext } from '../../providers/MapEditorProvider';
+import { LocationEditorContext } from '../../providers/LocationEditorProvider';
 
 const SelectColorPaper = styled(Paper)`
     && {
@@ -67,7 +67,7 @@ function SelectMarkerColor(props) {
     const markerComponents = Object.keys(Markers);
 
     const { mapConfig } = useContext(ViewPortContext);
-    const { editLocation } = useContext(MapEditorContext)
+    const { editLocation } = useContext(LocationEditorContext)
     const [pinColor, setPinColor] = useState(form.pinColor);
 
 
