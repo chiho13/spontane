@@ -70,13 +70,14 @@ function CustomMarker(props) {
     useEffect(() => {
         setForm({
             ...form,
-            markerType
+            markerType  
         });
-
-        // if(!dropMarker) {
-        //         setMarkerType('Default');
-        // }
     }, [markerType, dropMarker]);
+
+    useEffect(() => {
+        if(editLocation) return;
+        setMarkerType('Default');
+    }, []);
 
     useEffect(() => {
         if(editLocation) return;

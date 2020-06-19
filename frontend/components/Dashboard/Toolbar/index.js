@@ -10,10 +10,9 @@ const fadeOutRightAnimation = keyframes`${fadeOutRight}`;
 
 const ToolbarContainer = styled.div`
     display: block;
-    padding:8px;
     position: absolute;
-    top: 8px;
-    right: 8px; 
+    top: 32px;
+    right: 0; 
 `;
 
 const IconButtonContainer = styled.div`
@@ -21,6 +20,8 @@ const IconButtonContainer = styled.div`
     display: flex;
     align-items: center;
     margin-bottom: 16px;
+    justify-content: flex-end;
+
     .cancel-button {
         position: absolute;
         display: flex;
@@ -52,6 +53,11 @@ const IconButtonContainer = styled.div`
     }
 `;
 
+const InsertContainer = styled.div`
+    margin-right: 12px;
+    margin-top: 64px;
+`;
+
 const IconButtonStyle = styled(IconButton)`
     && {
         background-color: ${props => props.theme.white};
@@ -59,7 +65,6 @@ const IconButtonStyle = styled(IconButton)`
         color: ${props => props.theme.black};
         padding: 8px;
         height: 50px;
-        width: 50px;
         border-radius: 10px;
 
         &:hover {
@@ -68,6 +73,10 @@ const IconButtonStyle = styled(IconButton)`
 
         &.layer-button {
             color: ${props => props.selected ? props.theme.brandColor : props.theme.black};
+            width: 30px;
+            border-radius: 0;
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
 
             .material-icons {
                 font-size: 32px;
@@ -94,18 +103,21 @@ function Toolbar(props) {
                 {layerOpen && <MaterialIcon icon="chevron_right" />}
             </IconButtonStyle>
         </IconButtonContainer>
-        <IconButtonContainer>
-            <button className={dropMarker ? 'cancel-button selected' : 'cancel-button'} onClick={() => {
-                enableMarker(false);
-            }}>Cancel</button>
-            <IconButtonStyle onClick={() => {
-                enableMarker(true);
-            }} className="add-button" selected={layerOpen && dropMarker}>
-                {/* <MaterialIcon icon="add_location" /> */}
 
-                <AddLocationIcon />
-            </IconButtonStyle>
-        </IconButtonContainer>
+        <InsertContainer>
+            <IconButtonContainer>
+                <button className={dropMarker ? 'cancel-button selected' : 'cancel-button'} onClick={() => {
+                    enableMarker(false);
+                }}>Cancel</button>
+                <IconButtonStyle onClick={() => {
+                    enableMarker(true);
+                }} className="add-button" selected={layerOpen && dropMarker}>
+                    {/* <MaterialIcon icon="add_location" /> */}
+
+                    <AddLocationIcon />
+                </IconButtonStyle>
+            </IconButtonContainer>
+        </InsertContainer>
     </ToolbarContainer>
 }
 
