@@ -59,6 +59,7 @@ const IconButtonStyle = styled(IconButton)`
         color: ${props => props.theme.black};
         padding: 8px;
         height: 50px;
+        width: 50px;
         border-radius: 10px;
 
         &:hover {
@@ -67,6 +68,10 @@ const IconButtonStyle = styled(IconButton)`
 
         &.layer-button {
             color: ${props => props.selected ? props.theme.brandColor : props.theme.black};
+
+            .material-icons {
+                font-size: 32px;
+            }
         }
 
         &.add-button {
@@ -86,7 +91,6 @@ function Toolbar(props) {
                 showLayerPanel();
             }} className="layer-button" selected={layerOpen}>
                   {!layerOpen && <MaterialIcon icon="chevron_left" />}
-                <MaterialIcon icon="layers" />
                 {layerOpen && <MaterialIcon icon="chevron_right" />}
             </IconButtonStyle>
         </IconButtonContainer>

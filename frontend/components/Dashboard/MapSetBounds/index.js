@@ -196,7 +196,7 @@ function handleClose(event) {
     }
 
     return <div>
-     <h3>Select map bounds</h3>
+     <h3>Select map area</h3>
     <div className="navButtons">
 
     <ThemeProvider theme={invertWhite}>

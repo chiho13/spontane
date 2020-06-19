@@ -43,6 +43,12 @@ const DEFAULT_STYLE = {
 
 export function featureStyle({ feature, state }) {
   const type = feature.properties.shape || feature.geometry.type;
+
+  // const hasStyle = feature.properties.hasOwnProperty("style");
+
+  // if(hasStyle) {
+  //   console.log(feature.properties.style)
+  // }
   let style = null;
 
   switch (state) {

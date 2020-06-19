@@ -46,6 +46,16 @@ height:100%;
     &:hover {
         background-color: #f9f9f9;
     }
+
+    span {
+        display: none;
+    }
+
+    @media (min-width: 1200px) {
+        span {
+            display: block;
+        }
+    }
   }
 
   .tab-list-active {

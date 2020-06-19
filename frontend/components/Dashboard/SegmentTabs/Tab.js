@@ -18,7 +18,10 @@ function Tab(props) {
 
   return (
     <button className={className} onClick={changeTabs}>
-      <MaterialIcon icon={icon} /> {label}
+      <MaterialIcon icon={icon} /> 
+      <span>
+        {label}
+      </span>
     </button>
   );
 }

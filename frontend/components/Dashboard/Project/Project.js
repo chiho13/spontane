@@ -114,7 +114,7 @@ const Project = () => {
             <AddProject onClick={handleClickOpen}>
                 <div className="add_new_wrapper">
                     <MaterialIcon icon="add_circle_outline" />
-                    <p>Create New Map</p>
+                    <p>New Project</p>
                 </div>
             </AddProject>
             {projectData && projectData.projects.map((project, i) => {

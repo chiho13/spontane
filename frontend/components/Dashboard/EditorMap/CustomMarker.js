@@ -67,7 +67,6 @@ function CustomMarker(props) {
     const [markerType, setMarkerType] = useState(form.markerType);
     const [pinColor, setPinColor] = useState(form.pinColor);
 
-
     useEffect(() => {
         setForm({
             ...form,
@@ -82,8 +81,7 @@ function CustomMarker(props) {
     useEffect(() => {
         if(editLocation) return;
         setForm({
-            ...form,
-            pinColor: mapConfig.markerColor
+            ...form
         });
     }, [dropMarker, mapConfig, editLocation]);
 
