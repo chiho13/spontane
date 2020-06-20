@@ -3,12 +3,21 @@ import {useState, useEffect} from 'react';
 function useFormValidate(callback, validate, values) {
     const [errors, setErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [success, setSuccess] = useState(false);
 
     useEffect(() => {
         if (Object.keys(errors).length === 0 && isSubmitting) {
-            callback();
+            callbackFunction() 
         }
     }, [errors]);
+
+    async function callbackFunction() {
+        const res = await callback();
+
+        if(res) {
+            setSuccess(true);
+        }
+    }
 
     const handleSubmit = (event) => {
          event.preventDefault();
@@ -16,7 +25,7 @@ function useFormValidate(callback, validate, values) {
         setIsSubmitting(true);
     };
 
-    return {handleSubmit, errors}
+    return {handleSubmit, errors, success}
 }
 
 export default useFormValidate;

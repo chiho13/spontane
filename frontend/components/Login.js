@@ -6,7 +6,6 @@ import Button from './UIKIT/iButton';
 import styled, {ThemeProvider} from 'styled-components';
 import Link from 'next/link';
 import Router from 'next/router';
-import {CURRENT_USER_QUERY} from './hooks/useUser';
 import useUser from './hooks/useUser';
 import validate from './helpers/AuthFormValidationsRules';
 import Head from 'next/head';
@@ -112,21 +111,20 @@ function Login(props) {
     ] = useMutation(LOGIN_MUTATION, {
         variables: {
             ...form
-        },
-        refetchQueries: [
-            {
-                query: CURRENT_USER_QUERY
-            }
-        ]
+        }
     });
 
-    const {handleSubmit, errors} = useFormValidation(login, validate, form);
+    const {handleSubmit, errors, success} = useFormValidation(login, validate, form);
     const {data: {
             me
-        }} = useUser();
+        }, refetch} = useUser();
 
     const [showLoading, setShowLoading] = useLoading(loading, error, false);
 
+
+    useEffect(() => {
+        refetch();
+    }, [success]);
 
     useEffect(() => {
         if(form.email.length && form.password.length) {

@@ -94,7 +94,8 @@ function CustomMarker(props) {
     useEffect(() => {
         if(editLocation) return;
         setForm({
-            ...form
+            ...form,
+            markerType
         });
     }, [dropMarker, mapConfig, editLocation]);
 
