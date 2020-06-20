@@ -106,7 +106,7 @@ function Login(props) {
     const [enableButton, setEnableButton] = useState(true);
 
     const {title, refetch} = props;
-    
+
     const [login, {
             loading, error
         }
@@ -121,7 +121,9 @@ function Login(props) {
     const [showLoading, setShowLoading] = useLoading(loading, error, false);
 
     useEffect(() => {
-        refetch();
+        if(success) {
+            refetch();
+        }
     }, [success]);
 
     useEffect(() => {
