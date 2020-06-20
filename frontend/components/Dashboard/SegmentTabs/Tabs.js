@@ -13,7 +13,7 @@ function Tabs(props) {
   const {dropMarker, editLocation} = useContext(LocationEditorContext);
 
   useEffect(() => {
-    setActiveTab('Locations')
+    setActiveTab('Locator')
   }, [dropMarker, editLocation]);
 
   function onClickTabItem(tab) {

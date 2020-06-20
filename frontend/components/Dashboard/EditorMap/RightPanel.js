@@ -133,7 +133,7 @@ function RightPanel(props) {
                     className={layerOpen && 'expandIn'}>
                         {/* <h2>Layers</h2> */}
                         <Tabs id={props.id}>
-                            <div label="Locations" icon="view_list">
+                            <div label="Locator" icon="view_list">
                                 <StickyTabs>
                                     <Pagination page={pageNum} setPageNum={setPageNum}/>
                                 </StickyTabs>
