@@ -29,7 +29,10 @@ export const brandTheme = ({white, black}) => ({black: white, white: 'linear-gra
 
 const LOGIN_MUTATION = gql `
     mutation LOGIN_MUTATION($email: String!, $password: String!) {
-        login(email: $email, password: $password) {
+        login(
+            email: $email
+            password: $password
+        ) {
             id
             email
         }
