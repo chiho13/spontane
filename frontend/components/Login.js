@@ -105,6 +105,8 @@ function Login(props) {
 
     const [enableButton, setEnableButton] = useState(true);
 
+    const {title, refetch} = props;
+    
     const [login, {
             loading, error
         }
@@ -115,12 +117,8 @@ function Login(props) {
     });
 
     const {handleSubmit, errors, success} = useFormValidation(login, validate, form);
-    const {data: {
-            me
-        }, refetch} = useUser();
 
     const [showLoading, setShowLoading] = useLoading(loading, error, false);
-
 
     useEffect(() => {
         refetch();
@@ -139,7 +137,7 @@ function Login(props) {
              <title>Login | Spontane</title>
             </Head>
         <div className="container">
-            <h2>{props.title}</h2>
+            <h2>{title}</h2>
             <Form top="0" right="0" method="post" onSubmit={handleSubmit} noValidate>
                 <fieldset>
                     <Error error={error}/>

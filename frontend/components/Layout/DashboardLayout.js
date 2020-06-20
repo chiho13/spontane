@@ -66,20 +66,22 @@ const DashboardLayout = props => {
         return el.id === router.query.id
     });
 
-    // useEffect(() => {
-    //     const isAuth = function (hasUser) {
-    //         if (hasUser) {
-    //             setAuth(true)
-    //         } else {
-    //             setAuth(false);
-    //         }
-    //         return true
-    //     }
+    useEffect(() => {
+        const isAuth = function (hasUser) {
+            if (hasUser) {
+                setAuth(true)
+            } else {
+                setAuth(false);
+            }
+            return true
+        }
 
-    //     if (isAuth && !loading) {
-    //         isAuth(user)
-    //     }
-    // }, [loading, user]);
+        if (isAuth && !loading) {
+            isAuth(user)
+        }
+    }, [loading, user]);
+
+    console.log(auth);
 
     useEffect(() => {
         setPageLoad(true);
@@ -87,7 +89,7 @@ const DashboardLayout = props => {
 
     if (!user && !loading) {
         return <AuthLayout>
-            <Login title="Please log in to continue" continue={false}/>
+            <Login title="Please log in to continue" continue={false} refetch={refetch}/>
         </AuthLayout>
     }
 
