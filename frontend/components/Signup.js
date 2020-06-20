@@ -138,7 +138,7 @@ function Signup() {
                         placeholder="email"
                         value={form.email}
                         onChange={handleChange}
-                        className={errors.email && 'is-danger'}
+                        className={errors.email ? 'form-input is-danger': 'form-input'}
                         required/> {errors.email && (
                         <p className="help is-danger">{errors.email}</p>
                     )}
@@ -153,7 +153,7 @@ function Signup() {
                         placeholder="name"
                         value={form.name}
                         onChange={handleChange}
-                        className={errors.name && 'is-danger'}
+                        className={errors.name ? 'form-input is-danger' : 'form-input'}
                         required/> {errors.name && (
                         <p className="help is-danger">{errors.name}</p>
                     )}
@@ -169,7 +169,7 @@ function Signup() {
                         value={form.password}
                         onChange={handleChange}
                         minLength="6"
-                        className={errors.password && 'is-danger'}
+                        className={errors.password ? 'form-input is-danger' : 'form-input'}
                         required/> {errors.password && (
                         <p className="help is-danger">{errors.password}</p>
                     )}
@@ -184,7 +184,7 @@ function Signup() {
                         placeholder="confirm password"
                         value={form.confirmPassword}
                         onChange={handleChange}
-                        className={errors.confirmPassword && 'is-danger'}
+                        className={errors.confirmPassword ? 'form-input is-danger' : 'form-input'}
                         minLength="6"
                         required/> {errors.confirmPassword && (
                         <p className="help is-danger">{errors.confirmPassword}</p>
