@@ -4,6 +4,9 @@ import MaterialIcon from '@material/react-material-icon';
 import styled, {keyframes} from 'styled-components';
 import { fadeInRight, fadeOutRight} from 'react-animations';
 import AddLocationIcon from './addLocationIcon';
+import SquareIcon from './squareIcon';
+import PolygonIcon from './polygonIcon';
+import LinesIcon from './linesIcon';
 
 const fadeInRightAnimation = keyframes`${fadeInRight}`;
 const fadeOutRightAnimation = keyframes`${fadeOutRight}`;
@@ -53,9 +56,36 @@ const IconButtonContainer = styled.div`
     }
 `;
 
-const InsertContainer = styled.div`
+const AddMarkerContainer = styled.div`
     margin-right: 12px;
     margin-top: 64px;
+`;
+
+
+const AddShapesContainer = styled.div`
+    display: block;
+    margin-right: 12px;
+    margin-top: 32px;
+`;
+
+const IconShape = styled(IconButtonContainer)`
+    display: block;
+    margin-bottom: 0;
+
+    &:first-child {
+        button {
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            border-bottom: 0;
+        }
+    }
+
+    &:last-child {
+        button {
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+    }
 `;
 
 const IconButtonStyle = styled(IconButton)`
@@ -92,7 +122,60 @@ const IconButtonStyle = styled(IconButton)`
     }
 `;
 
+const ShapeIconStyle = styled(IconButtonStyle)`
+   && { 
+       position: relative;
+        border-radius: 0;
+        width: 50px;
+
+        .tooltip {
+            font-family: ${props => props.theme.fontFamily};
+            position: absolute;
+            visibility: hidden;
+            opacity: 0;
+            font-size: 12px;
+            background: #f1f1f1;
+            border: 1px solid #aaaaaa;
+            right: 49px;
+            padding: 4px;
+            transition: opacity 0.4s ease;
+        }
+
+        &:hover .tooltip {
+            visibility: visible;
+            opacity: 1
+        }
+   }
+`;
+
+function SelectShape() {
+    const Shapes = [{
+        tooltip: "Draw Lines",
+        icon: LinesIcon
+    },  
+        {
+            tooltip: "Draw a Rectangle",
+            icon: SquareIcon
+        },{
+            tooltip: "Draw a Polygon",
+            icon: PolygonIcon
+        }
+    ];
+
+    return Shapes.map((el, i) => {
+        const DynamicIcon = el.icon;
+        return <IconShape key={i}>
+                <ShapeIconStyle >
+                    <DynamicIcon />
+    <span className="tooltip"> {el.tooltip}</span>
+                </ShapeIconStyle>
+             </IconShape>
+    })
+    
+}
+
 function Toolbar(props) {
+
     const {enableMarker, dropMarker, layerOpen, showLayerPanel} = props;
     return <ToolbarContainer>
 
@@ -105,7 +188,7 @@ function Toolbar(props) {
             </IconButtonStyle>
         </IconButtonContainer>
 
-        <InsertContainer>
+        <AddMarkerContainer>
             <IconButtonContainer>
                 <button className={dropMarker ? 'cancel-button selected' : 'cancel-button'} onClick={() => {
                     enableMarker(false);
@@ -116,7 +199,11 @@ function Toolbar(props) {
                     <AddLocationIcon />
                 </IconButtonStyle>
             </IconButtonContainer>
-        </InsertContainer>
+        </AddMarkerContainer>
+                
+        <AddShapesContainer>
+            <SelectShape />
+        </AddShapesContainer>
     </ToolbarContainer>
 }
 

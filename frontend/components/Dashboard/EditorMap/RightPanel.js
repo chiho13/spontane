@@ -142,6 +142,8 @@ function RightPanel(props) {
                                     {edit ? <UpdateLocation enableMarker={enableMarker} /> : <AddLocation enableMarker={enableMarker} />}
                                  </EditLocationStyle>
                              </div>
+                            <div label="Shapes" icon="layers">
+                            </div>
                             <div label="Map Settings" icon="settings">
                                 <MapSettings />
                             </div>
