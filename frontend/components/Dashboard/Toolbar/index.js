@@ -90,6 +90,7 @@ const IconShape = styled(IconButtonContainer)`
 
 const IconButtonStyle = styled(IconButton)`
     && {
+        position: relative;
         background-color: ${props => props.theme.white};
         border: 1px solid ${props => props.theme.grey};
         color: ${props => props.theme.black};
@@ -114,6 +115,31 @@ const IconButtonStyle = styled(IconButton)`
             }
         }
 
+        .tooltip {
+            display: flex;
+            align-items: center;
+            font-family: ${props => props.theme.boldFont};
+            position: absolute;
+            visibility: hidden;
+            opacity: 0;
+            font-size: 12px;
+            background: #f1f1f1;
+            border: 1px solid #aaaaaa;
+            left: 49px;
+            padding: 4px 8px;
+            white-space:nowrap;
+            min-width: 50px;
+            height: 30px;
+            transition: opacity 0.4s ease;
+            z-index: 100;
+            box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        &:hover .tooltip {
+            visibility: visible;
+            opacity: 1
+        }
+
         &.add-button {
             svg {
                 fill: ${props => props.selected ? props.theme.brandColor : props.theme.black};
@@ -124,27 +150,8 @@ const IconButtonStyle = styled(IconButton)`
 
 const ShapeIconStyle = styled(IconButtonStyle)`
    && { 
-       position: relative;
         border-radius: 0;
         width: 50px;
-
-        .tooltip {
-            font-family: ${props => props.theme.fontFamily};
-            position: absolute;
-            visibility: hidden;
-            opacity: 0;
-            font-size: 12px;
-            background: #f1f1f1;
-            border: 1px solid #aaaaaa;
-            right: 49px;
-            padding: 4px;
-            transition: opacity 0.4s ease;
-        }
-
-        &:hover .tooltip {
-            visibility: visible;
-            opacity: 1
-        }
    }
 `;
 
@@ -197,6 +204,7 @@ function Toolbar(props) {
                     enableMarker(true);
                 }} className="add-button" selected={layerOpen && dropMarker}>
                     <AddLocationIcon />
+                    <span className="tooltip"> Add a location marker</span>
                 </IconButtonStyle>
             </IconButtonContainer>
         </AddMarkerContainer>
