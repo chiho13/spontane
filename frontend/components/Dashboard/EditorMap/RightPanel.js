@@ -5,41 +5,12 @@ import styled, {keyframes} from 'styled-components';
 import ListView from '../LocationsListView';
 import Tabs from '../SegmentTabs/Tabs';
 import Pagination from '../Pagination/Pagination';
-import AddLocation from '../EditorMap/AddLocation';
-import UpdateLocation from '../EditorMap/UpdateLocation';
+import AddLocation from './AddLocation';
+import UpdateLocation from './UpdateLocation';
+import AddShape from './AddShape';
 import { LocationEditorContext } from '../../providers/LocationEditorProvider';
+import { ShapeEditorContext } from '../../providers/ShapeEditorProvider';
 import MapSettings from '../MapSettings';
-
-// const fadeInLeftAnimation = keyframes`${fadeInLeft}`;
-// const fadeOutRightAnimation = keyframes`${fadeOutRight}`;
-
-const expandIn = keyframes`
-    0% {
-        flex-basis: 0;
-        opacity: 0;
-    }
-
-    100% {
-        flex-basis: 35%;
-        opacity: 1;
-    }
-`;
-
-const expandOut = keyframes`
-
-0% { 
-    padding: 32px;
-    flex-basis: 35%;
-    opacity: 1;
-}
-
-100% {
-    padding: 0;
-    opacity: 0;
-    flex-basis: 0;
-}
-
-`;
 
 export const LayerStyle = styled.div`
     display: block;
@@ -92,7 +63,7 @@ const StickyTabs = styled.div`
   z-index: 10;
 `;
 
-const EditLocationStyle = styled.div`
+const SecondaryRightPanel = styled.div`
     position: absolute;
     top: 0;
     width: 100%;
@@ -122,7 +93,8 @@ function RightPanel(props) {
     const page = router.query.page
     const [pageNum, setPageNum] = useState(parseFloat(page) || 1);
     const {dropMarker, editLocation} = useContext(LocationEditorContext);
-
+    const {addShape} = useContext(ShapeEditorContext);
+    
     const [edit, setEdit] = useState(editLocation);
 
     useEffect(() => {
@@ -131,24 +103,25 @@ function RightPanel(props) {
     const {layerOpen, updateLocation, enableMarker} = props;
         return <LayerStyle
                     className={layerOpen && 'expandIn'}>
-                        {/* <h2>Layers</h2> */}
                         <Tabs id={props.id}>
                             <div label="Locator" icon="view_list">
                                 <StickyTabs>
                                     <Pagination page={pageNum} setPageNum={setPageNum}/>
                                 </StickyTabs>
                                  <ListView page={pageNum} updateLocation={updateLocation}/>
-                                 <EditLocationStyle className={dropMarker && 'expandIn'}>
+                                 <SecondaryRightPanel className={dropMarker && 'expandIn'}>
                                     {edit ? <UpdateLocation enableMarker={enableMarker} /> : <AddLocation enableMarker={enableMarker} />}
-                                 </EditLocationStyle>
+                                 </SecondaryRightPanel>
                              </div>
                             <div label="Shapes" icon="layers">
+                                <SecondaryRightPanel className={addShape && 'expandIn'}>
+                                    <AddShape />
+                                </SecondaryRightPanel>
                             </div>
                             <div label="Map Settings" icon="settings">
                                 <MapSettings />
                             </div>
                          </Tabs>
-                      
                 </LayerStyle>
 }
 

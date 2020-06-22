@@ -5,16 +5,26 @@ import TabsStyle from './TabsStyle';
 import Tab from './Tab';
 import Router from 'next/router';
 import { LocationEditorContext } from '../../providers/LocationEditorProvider';
+import { ShapeEditorContext } from '../../providers/ShapeEditorProvider';
 
 function Tabs(props) {
   const [activeTab, setActiveTab] = useState(props.children[0].props.label);
 
   const {children} = props;
   const {dropMarker, editLocation} = useContext(LocationEditorContext);
+  const {addShape} = useContext(ShapeEditorContext);
 
   useEffect(() => {
-    setActiveTab('Locator')
+    if(dropMarker) {
+      setActiveTab('Locator')
+    }
   }, [dropMarker, editLocation]);
+
+  useEffect(() => {
+    if(addShape) {
+      setActiveTab('Shapes');
+    }
+  }, [addShape]);
 
   function onClickTabItem(tab) {
     setActiveTab(tab);

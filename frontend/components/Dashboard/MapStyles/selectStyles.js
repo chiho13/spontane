@@ -12,8 +12,7 @@ function ButtonRadio(props) {
     const radioButton = useRef(null);
     const {mapConfig, setMapConfig} = useContext(ViewPortContext);
 
-  
-    
+
     function handleRadio(event, _mapStyle) {
 
         const mapStyle = mapStyleLists[val]["stylesURL"];

@@ -1,7 +1,8 @@
-import CreateLocation from '../../../../../components/Dashboard/EditorMap/Editor';
+import MapEditor from '../../../../../components/Dashboard/EditorMap/Editor';
 import DashboardLayout from '../../../../../components/Layout/DashboardLayout';
 import Head from 'next/head';
 import {LocationEditorProvider} from '../../../../../components/providers/LocationEditorProvider';
+import {ShapeEditorProvider} from '../../../../../components/providers/ShapeEditorProvider';
 
 const addLocation = (props) => {
 
@@ -10,7 +11,9 @@ const addLocation = (props) => {
             <title>Map Editor</title>
         </Head>
         <LocationEditorProvider>
-            <CreateLocation project={props.query.projectId}/>
+            <ShapeEditorProvider>
+                 <MapEditor project={props.query.projectId}/>
+            </ShapeEditorProvider>
         </LocationEditorProvider>
     </DashboardLayout>
 };

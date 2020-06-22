@@ -1,22 +1,19 @@
-import React from 'react';
+import React, {useState, useContext } from 'react';
 import IconButton from '@material-ui/core/IconButton';
-import MaterialIcon from '@material/react-material-icon';
-import styled, {keyframes} from 'styled-components';
-import { fadeInRight, fadeOutRight} from 'react-animations';
+import styled, { keyframes } from 'styled-components';
+import { fadeInRight, fadeOutRight } from 'react-animations';
 import AddLocationIcon from './addLocationIcon';
 import SquareIcon from './squareIcon';
 import PolygonIcon from './polygonIcon';
 import LinesIcon from './linesIcon';
 
+import { DrawLineStringMode, DrawRectangleMode, DrawPolygonMode} from '@nebula.gl/edit-modes';
+
+import { ShapeEditorContext } from '../../providers/ShapeEditorProvider';
+import { LocationEditorContext } from '../../providers/LocationEditorProvider';
+
 const fadeInRightAnimation = keyframes`${fadeInRight}`;
 const fadeOutRightAnimation = keyframes`${fadeOutRight}`;
-
-const ToolbarContainer = styled.div`
-    display: block;
-    position: absolute;
-    top: 40px;
-    right: 0; 
-`;
 
 const IconButtonContainer = styled.div`
     position: relative;
@@ -25,7 +22,7 @@ const IconButtonContainer = styled.div`
     margin-bottom: 16px;
     justify-content: flex-end;
 
-    .cancel-button {
+    .cancel-button.cancel-button {
         position: absolute;
         display: flex;
         align-items: center;
@@ -40,6 +37,8 @@ const IconButtonContainer = styled.div`
         transition: right 0.5s ease, opacity 0.3s ease, background 0.3s ease;
         visibility: hidden;
         cursor: pointer;
+        border-radius: 0;
+        border: 1px solid #ddd;
 
         &:focus {
             outline: none;
@@ -69,7 +68,6 @@ const AddShapesContainer = styled.div`
 `;
 
 const IconShape = styled(IconButtonContainer)`
-    display: block;
     margin-bottom: 0;
 
     &:first-child {
@@ -82,13 +80,14 @@ const IconShape = styled(IconButtonContainer)`
 
     &:last-child {
         button {
+            border-top: 0;
             border-bottom-left-radius: 10px;
             border-bottom-right-radius: 10px;
         }
     }
 `;
 
-const IconButtonStyle = styled(IconButton)`
+export const IconButtonStyle = styled(IconButton)`
     && {
         position: relative;
         background-color: ${props => props.theme.white};
@@ -103,11 +102,14 @@ const IconButtonStyle = styled(IconButton)`
         }
 
         &.layer-button {
+            display: flex;
             color: ${props => props.selected ? props.theme.brandColor : props.theme.black};
             width: 30px;
             border-radius: 0;
             border-top-left-radius: 4px;
             border-bottom-left-radius: 4px;
+            margin-right: 0;
+            margin-left: auto;
             z-index: 10;
 
             .material-icons {
@@ -152,49 +154,69 @@ const ShapeIconStyle = styled(IconButtonStyle)`
    && { 
         border-radius: 0;
         width: 50px;
+
+        &.add-shape {
+            svg {
+                fill: ${props => props.selected ? props.theme.brandColor : props.theme.black};
+            }
+        }
    }
 `;
 
-function SelectShape() {
+function SelectShape(props) {
+
+    const { setAddShape, addShape, setSelectedShape} = useContext(ShapeEditorContext);
+    const {setDropMarker} = useContext(LocationEditorContext);
+    const [currentShape, setCurrentShape] = useState(null);
     const Shapes = [{
+        type: 'Line',
+        mode: DrawLineStringMode,
         tooltip: "Draw Lines",
         icon: LinesIcon
-    },  
-        {
-            tooltip: "Draw a Rectangle",
-            icon: SquareIcon
-        },{
-            tooltip: "Draw a Polygon",
-            icon: PolygonIcon
-        }
+    },
+    {
+        type: 'Rectangle',
+        mode: DrawRectangleMode,
+        tooltip: "Draw a Rectangle",
+        icon: SquareIcon
+    },
+    {
+        type: 'Polygon',
+        mode: DrawPolygonMode,
+        tooltip: "Draw a Polygon",
+        icon: PolygonIcon
+    }
     ];
+
+    function enableShape(el) {
+        setAddShape(true);
+        setDropMarker(false);
+        setSelectedShape(el);
+        setCurrentShape(el.type);
+    }
 
     return Shapes.map((el, i) => {
         const DynamicIcon = el.icon;
+
+        const selected = currentShape == el.type;
         return <IconShape key={i}>
-                <ShapeIconStyle >
-                    <DynamicIcon />
-    <span className="tooltip"> {el.tooltip}</span>
-                </ShapeIconStyle>
-             </IconShape>
-    })
-    
+             <button className={selected && addShape ? 'cancel-button selected' : 'cancel-button'} onClick={() => {
+                    setAddShape(false);
+                    setCurrentShape(null);
+                }}>Cancel</button>
+            <ShapeIconStyle onClick={() => enableShape(el)} className="add-shape" selected={selected}>
+                <DynamicIcon />
+                <span className="tooltip"> {el.tooltip}</span>
+            </ShapeIconStyle>
+        </IconShape>
+    });
+
 }
 
 function Toolbar(props) {
 
-    const {enableMarker, dropMarker, layerOpen, showLayerPanel} = props;
-    return <ToolbarContainer>
-
-        <IconButtonContainer>
-            <IconButtonStyle onClick={() => {
-                showLayerPanel();
-            }} className="layer-button" selected={layerOpen}>
-                  {!layerOpen && <MaterialIcon icon="chevron_left" />}
-                {layerOpen && <MaterialIcon icon="chevron_right" />}
-            </IconButtonStyle>
-        </IconButtonContainer>
-
+    const { enableMarker, dropMarker, layerOpen } = props;
+    return <>
         <AddMarkerContainer>
             <IconButtonContainer>
                 <button className={dropMarker ? 'cancel-button selected' : 'cancel-button'} onClick={() => {
@@ -208,11 +230,11 @@ function Toolbar(props) {
                 </IconButtonStyle>
             </IconButtonContainer>
         </AddMarkerContainer>
-                
+
         <AddShapesContainer>
             <SelectShape />
         </AddShapesContainer>
-    </ToolbarContainer>
+    </>
 }
 
 export default Toolbar;

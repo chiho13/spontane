@@ -85,9 +85,7 @@ const LocationListView = (props) => {
         }
     }, [loading, page, locations]);
 
-    function listItemUpdate(location) {
 
-    }
 
     if(loading) {
         return <LocationsListViewStyle>
