@@ -322,7 +322,7 @@ function LocationForm(props) {
                     {EditMode ? <Button width="auto" type="submit">{loading
                         ? 'Updating '
                         : 'Update '}
-                    </Button> : <Button width="auto" type="submit">Save</Button>}
+                    </Button> : <Button width="auto" type="submit" disabled={form.latitude == 0}>Save</Button>}
                 </ThemeProvider>
             </div>
 

@@ -164,10 +164,9 @@ const ShapeIconStyle = styled(IconButtonStyle)`
 `;
 
 function SelectShape(props) {
-
-    const { setAddShape, addShape, setSelectedShape} = useContext(ShapeEditorContext);
+    const { setAddShape, addShape, selectedShape, setSelectedShape} = useContext(ShapeEditorContext);
     const {setDropMarker} = useContext(LocationEditorContext);
-    const [currentShape, setCurrentShape] = useState(null);
+    // const [currentShape, setCurrentShape] = useState(null);
     const Shapes = [{
         type: 'Line',
         mode: DrawLineStringMode,
@@ -192,17 +191,16 @@ function SelectShape(props) {
         setAddShape(true);
         setDropMarker(false);
         setSelectedShape(el);
-        setCurrentShape(el.type);
     }
 
     return Shapes.map((el, i) => {
         const DynamicIcon = el.icon;
+        const selected = selectedShape && (selectedShape.type == el.type);
 
-        const selected = currentShape == el.type;
         return <IconShape key={i}>
              <button className={selected && addShape ? 'cancel-button selected' : 'cancel-button'} onClick={() => {
                     setAddShape(false);
-                    setCurrentShape(null);
+                    setSelectedShape(null);
                 }}>Cancel</button>
             <ShapeIconStyle onClick={() => enableShape(el)} className="add-shape" selected={selected}>
                 <DynamicIcon />
@@ -210,7 +208,6 @@ function SelectShape(props) {
             </ShapeIconStyle>
         </IconShape>
     });
-
 }
 
 function Toolbar(props) {

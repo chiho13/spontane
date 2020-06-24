@@ -36,7 +36,7 @@ function MapEditor(props) {
     const { loading, projectData: filteredProject } = useContext(UserContext);
     const { form, setForm, dropMarker, setDropMarker, setEditLocation, editLocation, setSingleLocation, singleLocation, setSuggestions } = useContext(LocationEditorContext);
 
-    const {addShape, setAddShape} = useContext(ShapeEditorContext);
+    const {addShape, setAddShape, setSelectedShape} = useContext(ShapeEditorContext);
     const [savedLayerOpen, setSavedLayerOpen] = useLocalStorage('layerOpened', true);
 
     const [layerOpen, setLayerOpen] = useState(null);
@@ -121,6 +121,13 @@ function MapEditor(props) {
         setDropMarker(false);
         setAddShape(false);
         setShowMarker(false);
+        setSelectedShape(null);
+
+        setForm({
+            ...form,
+            latitude: 0
+        });
+        
         setSingleLocation({
             id: 'dsfsdf',
             country: '',
@@ -216,8 +223,7 @@ function MapEditor(props) {
                     <Toolbar dropMarker={dropMarker} enableMarker={enableMarker} layerOpen={layerOpen} showLayerPanel={showLayerPanel} />
                 </ToolbarContainer>
             </div>
-            <RightPanel layerOpen={layerOpen} updateLocation={updateLocation} enableMarker={enableMarker}>
-            </RightPanel>
+            <RightPanel layerOpen={layerOpen} updateLocation={updateLocation} enableMarker={enableMarker} />
         </CreateLocationMapStyle>
     );
 }

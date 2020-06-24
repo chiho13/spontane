@@ -64,7 +64,6 @@ function SelectMarkerColor(props) {
     const [open, setOpen] = useState(false);
 
     const { form, setForm, dropMarker } = props;
-    const markerComponents = Object.keys(Markers);
 
     const { mapConfig } = useContext(ViewPortContext);
     const { editLocation } = useContext(LocationEditorContext)
