@@ -22,6 +22,7 @@ import { debounce } from 'lodash';
 import styled from 'styled-components';
 import MaterialIcon from '@material/react-material-icon';
 import { IconButtonStyle } from '../Toolbar';
+import {TranslateMode} from '@nebula.gl/edit-modes';
 
 import { Editor, EditingMode} from 'react-map-gl-draw';
 
@@ -84,7 +85,7 @@ function MapEditor(props) {
         } else {
             setSelectedMode(null);
         }
-    }, [selectedShape, dropMarker]);
+    }, [selectedShape, dropMarker])
 
     useEffect(() => {
         setForm({
@@ -138,6 +139,13 @@ function MapEditor(props) {
         }
     }, [form.latitude]);
 
+    useEffect(() => {
+        if(mapRef.current) {
+            console.log(mapRef.current);
+        }
+
+    }, [mapRef.current])
+
     function enableMarker(bool) {
         setDropMarker(bool);
 
@@ -152,8 +160,27 @@ function MapEditor(props) {
 
     function deleteSquare() {
         editorRef.current.deleteFeatures(0);
+        setFeature(null);
     }
 
+
+    function getCursor() {
+        if(mapRef.current) {
+            if(mapRef.current.state.isDragging) {
+                return 'grabbing';
+            }
+        }
+
+        if(feature && feature.length) {
+            return 'move'
+        }
+
+        if(addShape) {
+            return 'crosshair';
+        } 
+
+        return 'grab';
+    }
     function resetLocation() {
         setDropMarker(false);
         setAddShape(false);
@@ -228,13 +255,14 @@ function MapEditor(props) {
                 />
             </Marker>
         }
-        )
+        );
     }
 
     return (
         <CreateLocationMapStyle>
             <div className="map_container">
                 <MapGL ref={mapRef}
+                    getCursor={getCursor}
                     onNativeClick={(e) => {
                         e.stopPropagation();
                         if (!dropMarker) return;
@@ -246,13 +274,8 @@ function MapEditor(props) {
           clickRadius={12}
           onSelect={(selected) => {
             selected && setSelectedFeatureIndexes(selected.selectedFeatureIndex);
-           
-            // if(selected.selectedFeatureIndex !== null) {
-            //     setResetButton(true)
-            // } else {
-            //     setResetButton(false)
-            // }
 
+            console.log(editorRef.current);
             if(selected.mapCoords === undefined) {
                 switchMode(EditingMode);
             } 
@@ -261,6 +284,7 @@ function MapEditor(props) {
               setFeature(JSON.stringify(feature.data[0]));
               console.log(JSON.stringify(feature.data[0]));
           }}
+         
           mode={selectedMode}
         />
                     {RenderCityMarker()}

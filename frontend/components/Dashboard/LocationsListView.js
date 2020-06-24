@@ -73,21 +73,9 @@ const LocationListView = (props) => {
 
     const [locations, setLocations] = useState(null);
 
-    // useEffect(() => {
-    //     if(loading) return;
-
-    //     let reversed =  filteredProject.locations.reverse();
-    //     const locations = reversed.slice((page - 1) * perPage, page * perPage);
-    //     setLocations(locations);
-
-    //     return () => {
-    //         reversed =  filteredProject.locations.reverse();
-    //     }
-    // }, [loading, page, locations]);
 
     const MemoiseLocations = useMemo(() => {
         if(loading) return;
-
         const reversed =  [...filteredProject.locations].reverse();
         const locations = reversed.slice((page - 1) * perPage, page * perPage);
         return locations;
