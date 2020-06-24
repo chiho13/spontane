@@ -31,7 +31,7 @@ function ViewPortProvider(props) {
   const [viewport, setViewport] = useState({
     latitude: 55,
     longitude: 0,
-    zoom: 0
+    zoom: 0,
   }) ;
 
   const [mapConfig, setMapConfig] = useState({

@@ -1,4 +1,4 @@
-import React, {useState, useContext } from 'react';
+import React, {useState, useEffect, useContext } from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import styled, { keyframes } from 'styled-components';
 import { fadeInRight, fadeOutRight } from 'react-animations';
@@ -165,7 +165,7 @@ const ShapeIconStyle = styled(IconButtonStyle)`
 
 function SelectShape(props) {
     const { setAddShape, addShape, selectedShape, setSelectedShape} = useContext(ShapeEditorContext);
-    const {setDropMarker} = useContext(LocationEditorContext);
+    const {dropMarker, setDropMarker} = useContext(LocationEditorContext);
     // const [currentShape, setCurrentShape] = useState(null);
     const Shapes = [{
         type: 'Line',
@@ -192,6 +192,10 @@ function SelectShape(props) {
         setDropMarker(false);
         setSelectedShape(el);
     }
+
+    useEffect(() => {
+        setSelectedShape(null);
+    }, [dropMarker]);
 
     return Shapes.map((el, i) => {
         const DynamicIcon = el.icon;

@@ -1,4 +1,4 @@
-import React, {useEffect, useContext, useState} from 'react';
+import React, {useEffect, useContext, useState, useMemo} from 'react';
 import styled from 'styled-components';
 import Location from './LocationListViewItem/LocationListViewItem';
 import Pagination from './Pagination/Pagination';
@@ -73,19 +73,25 @@ const LocationListView = (props) => {
 
     const [locations, setLocations] = useState(null);
 
-    useEffect(() => {
+    // useEffect(() => {
+    //     if(loading) return;
+
+    //     let reversed =  filteredProject.locations.reverse();
+    //     const locations = reversed.slice((page - 1) * perPage, page * perPage);
+    //     setLocations(locations);
+
+    //     return () => {
+    //         reversed =  filteredProject.locations.reverse();
+    //     }
+    // }, [loading, page, locations]);
+
+    const MemoiseLocations = useMemo(() => {
         if(loading) return;
 
-        let reversed =  filteredProject.locations.reverse();
+        const reversed =  [...filteredProject.locations].reverse();
         const locations = reversed.slice((page - 1) * perPage, page * perPage);
-        setLocations(locations);
-
-        return () => {
-            reversed =  filteredProject.locations.reverse();
-        }
-    }, [loading, page, locations]);
-
-
+        return locations;
+    }, [filteredProject, loading, page]);
 
     if(loading) {
         return <LocationsListViewStyle>
@@ -94,7 +100,7 @@ const LocationListView = (props) => {
     }
     return (
         <LocationsListViewStyle>
-            { locations && locations.map((location) => <li key={location.id} onClick={() => updateLocation(location)}><Location location={location} /></li>)
+            { MemoiseLocations.map((location) => <li key={location.id} onClick={() => updateLocation(location)}><Location location={location} /></li>)
             }
         </LocationsListViewStyle>
     );

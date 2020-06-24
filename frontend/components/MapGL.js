@@ -77,6 +77,7 @@ const Maps = React.forwardRef((props, ref) => {
     return (
         <MapGL ref={ref} {...props} {...viewport} minZoom={mapConfig.minZoom} id="mapGL" width="100%" height="100%" mapStyle={mapConfig.mapStyle} mapboxApiAccessToken={TOKEN} onViewportChange={onViewportChange}
             attributionControl={false}
+            doubleClickZoom={false}
         >
             {props.children}
 

@@ -114,7 +114,6 @@ function MapSetBounds(props) {
     setFeature(defaultBoundary);
   }
 
-
   const mapRef = useRef();
 
 //   const handleGeocoderViewportChange = (viewport) => {

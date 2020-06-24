@@ -19,14 +19,14 @@ function ShapeEditorProvider(props) {
   const [addShape, setAddShape] = useState(false);
   const [editShape, setEditShape] = useState(false);
   const [selectedShape, setSelectedShape] = useState(null);
-  const [singleLocation, setSingleLocation] = useState({ ...form, id: 'dsd' });
+  const [singleFeature, setSingleFeature] = useState(null);
 
   return <ShapeEditorContext.Provider value={{
       form, setForm, handleChange,
       addShape, setAddShape,
       editShape, setEditShape,
       selectedShape, setSelectedShape,
-      singleLocation, setSingleLocation
+      singleFeature, setSingleFeature
     }}>
       {props.children}
     </ShapeEditorContext.Provider>

@@ -23,6 +23,9 @@ import styled from 'styled-components';
 import MaterialIcon from '@material/react-material-icon';
 import { IconButtonStyle } from '../Toolbar';
 
+import { Editor, EditingMode} from 'react-map-gl-draw';
+
+
 const ToolbarContainer = styled.div`
     display: block;
     position: absolute;
@@ -31,16 +34,22 @@ const ToolbarContainer = styled.div`
 `;
 
 function MapEditor(props) {
+    const [selectedMode, setSelectedMode] = useState(null);
+    const [feature, setFeature] = useState(null);
+    const [selectedFeatureIndex, setSelectedFeatureIndexes] = useState(null);
+
     const { viewport, setViewport, mapConfig } = useContext(ViewPortContext);
 
     const { loading, projectData: filteredProject } = useContext(UserContext);
     const { form, setForm, dropMarker, setDropMarker, setEditLocation, editLocation, setSingleLocation, singleLocation, setSuggestions } = useContext(LocationEditorContext);
 
-    const {addShape, setAddShape, setSelectedShape} = useContext(ShapeEditorContext);
+    const {addShape, setAddShape, setSelectedShape, selectedShape, setSingleFeature} = useContext(ShapeEditorContext);
     const [savedLayerOpen, setSavedLayerOpen] = useLocalStorage('layerOpened', true);
 
     const [layerOpen, setLayerOpen] = useState(null);
-
+    const mapRef = useRef(null);
+    const editorRef = useRef(null);
+    
     const {
         marker,
         setMarker,
@@ -55,7 +64,27 @@ function MapEditor(props) {
 
     useEffect(() => {
         setLayerOpen(savedLayerOpen);
-    }, [])
+    }, []);
+
+    // const switchMode = useMemo(() => {
+    //     editorRef.current && deleteSquare();
+    //     if(selectedShape) {
+    //         const HandlerClass = selectedShape.mode;
+    //         const modeHandler = new HandlerClass();
+    //         return modeHandler
+    //     } else {
+    //         return null;
+    //     }
+    // }, [selectedShape, dropMarker]);
+
+    useEffect(() => {
+        editorRef.current && deleteSquare();
+        if(selectedShape) {
+            switchMode(selectedShape.mode);
+        } else {
+            setSelectedMode(null);
+        }
+    }, [selectedShape, dropMarker]);
 
     useEffect(() => {
         setForm({
@@ -64,6 +93,12 @@ function MapEditor(props) {
             longitude: marker.longitude
         });
     }, [marker]);
+
+    function switchMode(_mode) {
+        const HandlerClass = _mode;
+        const modeHandler = new HandlerClass();
+        setSelectedMode(modeHandler);
+    }
 
     useEffect(() => {
         if (!singleLocation) return;
@@ -103,8 +138,6 @@ function MapEditor(props) {
         }
     }, [form.latitude]);
 
-    const mapRef = useRef(null);
-
     function enableMarker(bool) {
         setDropMarker(bool);
 
@@ -117,6 +150,10 @@ function MapEditor(props) {
         } 
     }
 
+    function deleteSquare() {
+        editorRef.current.deleteFeatures(0);
+    }
+
     function resetLocation() {
         setDropMarker(false);
         setAddShape(false);
@@ -127,7 +164,7 @@ function MapEditor(props) {
             ...form,
             latitude: 0
         });
-        
+
         setSingleLocation({
             id: 'dsfsdf',
             country: '',
@@ -204,6 +241,28 @@ function MapEditor(props) {
                         addMarker(e);
                     }}
                 >
+                    <Editor 
+              ref={el => editorRef.current = el}
+          clickRadius={12}
+          onSelect={(selected) => {
+            selected && setSelectedFeatureIndexes(selected.selectedFeatureIndex);
+           
+            // if(selected.selectedFeatureIndex !== null) {
+            //     setResetButton(true)
+            // } else {
+            //     setResetButton(false)
+            // }
+
+            if(selected.mapCoords === undefined) {
+                switchMode(EditingMode);
+            } 
+          }}
+          onUpdate={(feature) => {
+              setFeature(JSON.stringify(feature.data[0]));
+              console.log(JSON.stringify(feature.data[0]));
+          }}
+          mode={selectedMode}
+        />
                     {RenderCityMarker()}
                     {showMarker && <DropMarker
                         editLocation={editLocation}
