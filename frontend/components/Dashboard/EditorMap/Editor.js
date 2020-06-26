@@ -22,10 +22,10 @@ import { debounce } from 'lodash';
 import styled from 'styled-components';
 import MaterialIcon from '@material/react-material-icon';
 import { IconButtonStyle } from '../Toolbar';
-import {TranslateMode} from '@nebula.gl/edit-modes';
+
+import {featureStyle, editHandleStyle} from '../../helpers/shapeStyle';
 
 import { Editor, EditingMode} from 'react-map-gl-draw';
-
 
 const ToolbarContainer = styled.div`
     display: block;
@@ -44,7 +44,7 @@ function MapEditor(props) {
     const { loading, projectData: filteredProject } = useContext(UserContext);
     const { form, setForm, dropMarker, setDropMarker, setEditLocation, editLocation, setSingleLocation, singleLocation, setSuggestions } = useContext(LocationEditorContext);
 
-    const {addShape, setAddShape, setSelectedShape, selectedShape, setSingleFeature} = useContext(ShapeEditorContext);
+    const {form: shapeForm, addShape, setAddShape, setSelectedShape, selectedShape, singleFeature, setSingleFeature} = useContext(ShapeEditorContext);
     const [savedLayerOpen, setSavedLayerOpen] = useLocalStorage('layerOpened', true);
 
     const [layerOpen, setLayerOpen] = useState(null);
@@ -67,16 +67,7 @@ function MapEditor(props) {
         setLayerOpen(savedLayerOpen);
     }, []);
 
-    // const switchMode = useMemo(() => {
-    //     editorRef.current && deleteSquare();
-    //     if(selectedShape) {
-    //         const HandlerClass = selectedShape.mode;
-    //         const modeHandler = new HandlerClass();
-    //         return modeHandler
-    //     } else {
-    //         return null;
-    //     }
-    // }, [selectedShape, dropMarker]);
+
 
     useEffect(() => {
         editorRef.current && deleteSquare();
@@ -140,18 +131,36 @@ function MapEditor(props) {
     }, [form.latitude]);
 
     useEffect(() => {
-        if(mapRef.current) {
-            console.log(mapRef.current);
-        }
+       if(addShape) {
+            enableMarker(false);
+       }
 
-    }, [mapRef.current])
+    }, [addShape]);
+
+    // useEffect(() => {
+    //     if(singleFeature) {
+            
+    //         const cloneFeature = {...singleFeature};
+    //         cloneFeature.properties.style = {
+    //             stroke: shapeForm.lineColor,
+    //             fill: shapeForm.fillColor,
+    //             strokeWidth: 2,
+    //             fillOpacity: 0.5
+    //         }
+
+    //         const stringifyFeature = JSON.stringify(cloneFeature);
+    //         setShapeForm({
+    //             ...shapeForm,
+    //             shape: stringifyFeature
+    //         });
+    //     }
+    // }, [shapeForm, singleFeature]);
 
     function enableMarker(bool) {
         setDropMarker(bool);
 
         setLayerOpen(true);
         setEditLocation(false);
-        setAddShape(false);
 
         if (bool == false) {
             resetLocation()
@@ -160,7 +169,7 @@ function MapEditor(props) {
 
     function deleteSquare() {
         editorRef.current.deleteFeatures(0);
-        setFeature(null);
+        setSingleFeature(null);
     }
 
 
@@ -171,9 +180,10 @@ function MapEditor(props) {
             }
         }
 
-        if(feature && feature.length) {
-            return 'move'
+        if(singleFeature || dropMarker) {
+            return 'pointer'
         }
+
 
         if(addShape) {
             return 'crosshair';
@@ -183,9 +193,7 @@ function MapEditor(props) {
     }
     function resetLocation() {
         setDropMarker(false);
-        setAddShape(false);
         setShowMarker(false);
-        setSelectedShape(null);
 
         setForm({
             ...form,
@@ -247,16 +255,54 @@ function MapEditor(props) {
                 longitude={_location.geoLocation.longitude}
                 latitude={_location.geoLocation.latitude}>
 
-                <CityPin onClick={(e) => {
+                <CityPin onClick={ addShape ? null : (e) => {
                     e.stopPropagation();
                     updateLocation(_location);
-                }} pinColor={_location.markerType.pinColor}
+                } } pinColor={_location.markerType.pinColor}
                     markerType={_location.markerType.type}
+
                 />
             </Marker>
         }
         );
     }
+
+    function updateFeature(feature) {
+            const _singleFeature = feature.data.length && feature.data[0];
+
+            if(!_singleFeature) return;
+
+            _singleFeature.properties.style = {
+                stroke: shapeForm.fillColor,
+                fill: shapeForm.fillColor,
+                strokeWidth: 2,
+                fillOpacity: 0.5
+            }
+            
+            _singleFeature.properties.details = shapeForm.details;
+
+            setSingleFeature(_singleFeature);
+    } 
+
+    useEffect(() => {
+        if(editorRef.current && singleFeature) {
+
+            const clonedFeature = {...singleFeature};
+
+            clonedFeature.properties.style = {
+                stroke: shapeForm.fillColor,
+                fill: shapeForm.fillColor,
+                strokeWidth: 2,
+                fillOpacity: 0.5
+            }
+
+            clonedFeature.properties.details = shapeForm.details;
+            
+            setSingleFeature(clonedFeature);
+
+            console.log(clonedFeature);
+        }
+    }, [shapeForm]);
 
     return (
         <CreateLocationMapStyle>
@@ -273,17 +319,16 @@ function MapEditor(props) {
               ref={el => editorRef.current = el}
           clickRadius={12}
           onSelect={(selected) => {
-            selected && setSelectedFeatureIndexes(selected.selectedFeatureIndex);
-
-            console.log(editorRef.current);
+            setSelectedFeatureIndexes(selected);
+        
             if(selected.mapCoords === undefined) {
                 switchMode(EditingMode);
             } 
           }}
-          onUpdate={(feature) => {
-              setFeature(JSON.stringify(feature.data[0]));
-              console.log(JSON.stringify(feature.data[0]));
-          }}
+
+          featureStyle={featureStyle}
+          editHandleStyle={editHandleStyle}
+          onUpdate={updateFeature}
          
           mode={selectedMode}
         />

@@ -4,8 +4,11 @@ import React, { useState, useEffect, useContext } from 'react';
 import { ShapeEditorContext } from '../../providers/ShapeEditorProvider';
 
 import { LocationFormStyle } from './LocationForm';
-
-import styled from 'styled-components';
+import { invertTheme } from '../../Login';
+import styled, { ThemeProvider } from 'styled-components';
+import Button from '../../UIKIT/iButton';
+import SelectColor from './SelectColor';
+import { ViewPortContext } from '../../providers/MapProvider';
 
 const AddShapeStyle = styled.div`
     position: absolute;
@@ -26,14 +29,54 @@ const AddShapeStyle = styled.div`
     overflow-y: auto;
 
     .wrapper {
-        padding: 16px;
+        padding: 24px;
     }
 `;
 
+const SelectColorsContainer = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 16px;
+    width: 100%;
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+`;
+
 function AddShape() {
-    const { form, handleChange, selectedShape } = useContext(ShapeEditorContext);
+    const { form, setForm, handleChange, addShape, singleFeature, selectedShape} = useContext(ShapeEditorContext);
+
+    const { mapConfig } = useContext(ViewPortContext);
+    const [fillColor, setFillColor] = useState(mapConfig.markerColor);
+
+    const [label, setLabel] = useState('Fill Color');
+
+    useEffect(() => {
+        setForm({
+            ...form,
+            fillColor
+        });
+
+    }, [addShape, fillColor]);
+
+    useEffect(() => {
+        setForm({
+            ...form,
+            fillColor: mapConfig.markerColor
+        });
+    }, [addShape, mapConfig]);
+
     return <AddShapeStyle>
         <LocationFormStyle>
+            <SelectColorsContainer>
+                <div>
+                    <label>
+                        Color
+                    </label>
+                    <SelectColor setColor={setFillColor} color={fillColor} />
+                </div>
+            </SelectColorsContainer>
             <div className="wrapper">
                 <label htmlFor="details">
                     More Info
@@ -47,7 +90,14 @@ function AddShape() {
                     autoComplete="off"
                     onChange={handleChange} />
             </div>
+
+            <div className="button_wrapper">
+                <ThemeProvider theme={invertTheme}>
+                    <Button width="auto" type="submit" disabled={singleFeature ? false : true}>Save</Button>
+                </ThemeProvider>
+            </div>
         </LocationFormStyle>
+
     </AddShapeStyle>
 }
 

@@ -11,6 +11,7 @@ function ShapeEditorProvider(props) {
   const [form,
     setForm,
     handleChange] = useForm({
+      shape: null,
       lineColor: '#333333',
       fillColor: '#aaaaaa',
       details: ''

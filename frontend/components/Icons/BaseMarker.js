@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { darken } from 'polished';
+import { ShapeEditorContext } from '../providers/ShapeEditorProvider';
 
 import OriginalMarker from './MapMarkers/Original';
 import UniversityMarker from './MapMarkers/University';
@@ -25,6 +26,7 @@ import Siren from './MapMarkers/Siren';
 const BaseMarkerStyle = styled.div`
 display: flex;
 cursor: pointer;
+pointer-events: ${props => props.disableClick ? 'none' : 'all'};
 
 &:after {
   content: '';
@@ -66,10 +68,12 @@ export const Markers = {
 
 function BaseMarker(props) {
   const { size, pinColor, onClick, dropShadowColor, markerType, selected} = props;
+  const {addShape} = useContext(ShapeEditorContext);
   const DynamicMarker = Markers[markerType];
 
   return (
     <BaseMarkerStyle selected={selected}
+    disableClick={addShape}
       onClick={onClick}
     >
       <DynamicMarker size={size} markerColor={pinColor} dropShadowColor={dropShadowColor} />

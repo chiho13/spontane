@@ -79,7 +79,7 @@ button {
 
 
 .button_wrapper {
-    position: sticky;
+    position: absolute;
     bottom: 0;
     right: 0;
     padding: 24px;

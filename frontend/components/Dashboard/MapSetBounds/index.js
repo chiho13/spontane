@@ -2,7 +2,7 @@ import React, {useState, useEffect, useRef, useContext} from 'react';
 import styled from 'styled-components';
 import MapGL, {TOKEN} from '../../MapGL';
 import { Editor, EditingMode} from 'react-map-gl-draw';
-import {featureStyle, editHandleStyle} from './areastyle';
+import {featureStyle, editHandleStyle} from '../../helpers/shapeStyle';
 import Button from '../../UIKIT/iButton';
 import { DrawRectangleMode } from '@nebula.gl/edit-modes';
 import {ThemeProvider} from 'styled-components';
@@ -65,6 +65,10 @@ const Mapstyle = styled.div`
       .mapboxgl-ctrl {
           display: block !important;
       }
+
+      [data-type="fill"] {
+        cursor: move;
+      }
 `;
 
 const MenuListUL = styled.div`
@@ -85,6 +89,7 @@ function MapSetBounds(props) {
 
     const [disableButton, setDisableButton] = useState(true);
 
+    const [localFeature, setLocalFeature] = useState(null);
     const {setFeature, defaultBoundary, submitForm} = props;
     const editorRef = useRef(null);
 
@@ -167,6 +172,7 @@ function handleClose(event) {
     
     function drawArea() {
         editorRef.current.deleteFeatures(0);
+        setLocalFeature(null);
         setDrawSelected(!drawSelected);
     }
 
@@ -191,7 +197,16 @@ function handleClose(event) {
             }
         }
 
-        return drawSelected ? 'crosshair' : 'grab';
+        if(localFeature) {
+            return 'pointer';
+        }
+
+        if(drawSelected) {
+            return 'crosshair'
+        }
+
+
+        return 'grab';
     }
 
     return <div>
@@ -230,6 +245,7 @@ function handleClose(event) {
           }}
           onUpdate={(feature) => {
               setFeature(JSON.stringify(feature.data[0]));
+              setLocalFeature(feature);
               setDisableButton(false);
               console.log(JSON.stringify(feature.data[0]));
           }}

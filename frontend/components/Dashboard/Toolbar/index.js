@@ -194,7 +194,10 @@ function SelectShape(props) {
     }
 
     useEffect(() => {
-        setSelectedShape(null);
+        if(dropMarker) {
+            setSelectedShape(null);
+            setAddShape(false);
+        }
     }, [dropMarker]);
 
     return Shapes.map((el, i) => {

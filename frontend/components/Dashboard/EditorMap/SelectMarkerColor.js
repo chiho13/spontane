@@ -6,10 +6,7 @@ import Paper from '../../UIKIT/ProfilePaperDropdown';
 import MaterialIcon from '@material/react-material-icon';
 import styled from 'styled-components';
 import Button from '../../UIKIT/iButton';
-import MenuItem from '../../UIKIT/MenuItem';
-import { Markers } from '../../Icons/BaseMarker';
-import BaseMarker from '../../Icons/BaseMarker';
-import MenuList from '@material-ui/core/MenuList';
+import SelectColor from './SelectColor';
 
 import { SketchPicker } from 'react-color';
 
@@ -57,18 +54,10 @@ const SelectColorButton = styled(Button)`
     }
 `;
 
-function SelectMarkerColor(props) {
-
-    let anchorEl;
-
-    const [open, setOpen] = useState(false);
-
-    const { form, setForm, dropMarker } = props;
-
+function SelectMarkerColor() {
     const { mapConfig } = useContext(ViewPortContext);
-    const { editLocation } = useContext(LocationEditorContext)
+    const { form, setForm, dropMarker, editLocation } = useContext(LocationEditorContext)
     const [pinColor, setPinColor] = useState(form.pinColor);
-
 
     useEffect(() => {
         setForm({
@@ -87,63 +76,11 @@ function SelectMarkerColor(props) {
     }, [dropMarker, mapConfig, editLocation]);
 
 
-    function handleToggle() {
-        setOpen(!open)
-    }
-
-    function handleClose(event) {
-        if (anchorEl.contains(event.target)) {
-            return;
-        }
-
-        setOpen(false);
-    }
-
-     function handleChangeComplete(color) {
-        setPinColor(color.hex);
-     }
-
     return <div>
         <label>
             Select Color
             </label>
-        <SelectColorButton
-            buttonRef={node => {
-                anchorEl = node;
-            }}
-            aria-owns={open
-                ? 'menu-list-grow'
-                : undefined}
-            aria-haspopup="true"
-            onClick={handleToggle}
-            width="auto">
-
-            <span className="buttonSpan_container">
-                <div className="selectColor_swatch" style={
-                    { backgroundColor: form.pinColor }
-                }>
-                </div>
-                <MaterialIcon icon="arrow_drop_down" />
-            </span>
-        </SelectColorButton>
-        <Popper open={open} anchorEl={anchorEl} transition disablePortal>
-        {({ TransitionProps, placement }) => (
-            <Grow
-                {...TransitionProps}
-                id="menu-list-grow"
-                style={{
-                    transformOrigin: placement === 'bottom'
-                        ? 'center top'
-                        : 'center bottom'
-                }}>
-                <SelectColorPaper>
-                    <ClickAwayListener onClickAway={handleClose}>
-                        <SketchPicker color={form.pinColor} onChangeComplete={handleChangeComplete} />
-                    </ClickAwayListener>
-                </SelectColorPaper>
-            </Grow>
-        )}
-    </Popper>
+        <SelectColor setColor={setPinColor} color={form.pinColor}/>
     </div>
 }
 

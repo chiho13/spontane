@@ -205,7 +205,7 @@ function NewProject(props) {
 
                     <StepOne handleChange={handleChange} form={form} onClose={handleClose}/>
                     <SetMapStyle />
-                    <MapSetBounds setFeature={setFeature} defaultBoundary={worldBoundary} submitForm={e => {
+                    <MapSetBounds feature={feature} setFeature={setFeature} defaultBoundary={worldBoundary} submitForm={e => {
                         submitProject(e, createProject)
                     }}/>
                     </StepWizard>
