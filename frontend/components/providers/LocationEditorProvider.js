@@ -6,22 +6,26 @@ import { useRouter } from 'next/router';
 
 const LocationEditorContext = React.createContext();
 
+
+
 function LocationEditorProvider(props) {
   // new
   const router = useRouter();
 
+  const initialForm = {
+    country: '',
+    city: '',
+    description: '',
+    latitude: 0,
+    longitude: 0,
+    markerType: 'Default',
+    pinColor: '#dd0000',
+    dropShadow: '#f1f1f1'
+  };
+
   const [form,
     setForm,
-    handleChange] = useForm({
-        country: '',
-        city: '',
-        description: '',
-        latitude: 0,
-        longitude: 0,
-        markerType: 'Default',
-        pinColor: '#dd0000',
-        dropShadow: '#f1f1f1'
-    });
+    handleChange] = useForm(initialForm);
 
     const [dropMarker, setDropMarker] = useState(false);
     const [editLocation, setEditLocation] = useState(false);
@@ -33,7 +37,7 @@ function LocationEditorProvider(props) {
     });
 
   return (
-    <LocationEditorContext.Provider value={{form, setForm, handleChange, 
+    <LocationEditorContext.Provider value={{form, setForm, handleChange, initialForm,
     dropMarker, setDropMarker, 
     editLocation, 
     setEditLocation, 

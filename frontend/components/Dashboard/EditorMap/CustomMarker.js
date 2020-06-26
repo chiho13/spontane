@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useMemo} from 'react';
 import Popper from '@material-ui/core/Popper';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
@@ -59,45 +59,20 @@ function CustomMarker(props) {
 
     const [open, setOpen] = useState(false);
 
-    const {form, setForm, dropMarker} = props;
+    const {form, setForm, dropMarker } = useContext(LocationEditorContext);
     const markerComponents = Object.keys(Markers);
 
     const {mapConfig} = useContext(ViewPortContext);
     const {editLocation} = useContext(LocationEditorContext)
     const [markerType, setMarkerType] = useState(form.markerType);
-    const [pinColor, setPinColor] = useState(form.pinColor);
 
     useEffect(() => {
-        setForm({
-            ...form,
-            markerType  
-        });
-
-        if(markerType === "Emergency") {
-            setForm({
-                ...form,
-                markerType,
-                pinColor: "#dd0000"
-            });
-        }
-
-        if(!dropMarker) {
-            setMarkerType('Default');
-        }
-    }, [markerType, dropMarker]);
-
-    useEffect(() => {
-        if(editLocation) return;
-        setMarkerType('Default');
-    }, []);
-
-    useEffect(() => {
-        if(editLocation) return;
         setForm({
             ...form,
             markerType
         });
-    }, [dropMarker, mapConfig, editLocation]);
+
+    }, [markerType, editLocation]);
 
     function handleToggle() {
         setOpen(!open)
@@ -115,6 +90,8 @@ function CustomMarker(props) {
 
         setOpen(false);
     }
+
+    console.log(form);
 
     return  <div>
               <label>

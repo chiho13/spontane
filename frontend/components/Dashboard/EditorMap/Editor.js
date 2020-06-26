@@ -42,7 +42,7 @@ function MapEditor(props) {
     const { viewport, setViewport, mapConfig } = useContext(ViewPortContext);
 
     const { loading, projectData: filteredProject } = useContext(UserContext);
-    const { form, setForm, dropMarker, setDropMarker, setEditLocation, editLocation, setSingleLocation, singleLocation, setSuggestions } = useContext(LocationEditorContext);
+    const { form, setForm, initialForm, dropMarker, setDropMarker, setEditLocation, editLocation, setSingleLocation, singleLocation, setSuggestions } = useContext(LocationEditorContext);
 
     const {form: shapeForm, addShape, setAddShape, setSelectedShape, selectedShape, singleFeature, setSingleFeature} = useContext(ShapeEditorContext);
     const [savedLayerOpen, setSavedLayerOpen] = useLocalStorage('layerOpened', true);
@@ -93,7 +93,7 @@ function MapEditor(props) {
     }
 
     useEffect(() => {
-        if (!singleLocation) return;
+        if (!editLocation) return;
         setForm({
             city: singleLocation.city,
             country: singleLocation.country,
@@ -103,7 +103,7 @@ function MapEditor(props) {
             markerType: singleLocation.markerType.type,
             pinColor: singleLocation.markerType.pinColor
         });
-    }, [singleLocation]);
+    }, [singleLocation, editLocation]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -195,10 +195,7 @@ function MapEditor(props) {
         setDropMarker(false);
         setShowMarker(false);
 
-        setForm({
-            ...form,
-            latitude: 0
-        });
+        setForm(initialForm);
 
         setSingleLocation({
             id: 'dsfsdf',

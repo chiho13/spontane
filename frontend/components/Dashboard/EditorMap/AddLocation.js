@@ -74,6 +74,8 @@ function AddLocation(props) {
         className: css({ fontFamily: "nunito, sans-serif" })
     });
 
+    console.log(form);
+
     async function onSubmit(e, updateProject) {
         e.preventDefault();
         const res = await updateProject({
