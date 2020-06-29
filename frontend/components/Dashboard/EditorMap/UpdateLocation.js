@@ -89,7 +89,7 @@ function UpdateLocation(props) {
         }
     }
 
-    return   <Mutation mutation={UPDATE_LOCATION_MUTATION} variables={form}>
+    return   <Mutation mutation={UPDATE_LOCATION_MUTATION}>
     {(updateLocation, {loading, error}) => (<><UpdateLocationForm
         defaultValue={form}
         handleChange={handleChange}

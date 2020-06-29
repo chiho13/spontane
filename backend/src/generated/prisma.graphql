@@ -1,5 +1,5 @@
 # source: https://eu1.prisma.sh/anthony-ho-b91ea0/spontane/dev
-# timestamp: Thu Jun 11 2020 14:51:51 GMT+0100 (British Summer Time)
+# timestamp: Sun Jun 28 2020 13:40:39 GMT+0100 (British Summer Time)
 
 type AggregateGeoLocation {
   count: Int!
@@ -14,6 +14,10 @@ type AggregateMarker {
 }
 
 type AggregateProject {
+  count: Int!
+}
+
+type AggregateShape {
   count: Int!
 }
 
@@ -1245,34 +1249,40 @@ input MarkerWhereUniqueInput {
 type Mutation {
   createUser(data: UserCreateInput!): User!
   createProject(data: ProjectCreateInput!): Project!
-  createGeoLocation(data: GeoLocationCreateInput!): GeoLocation!
-  createLocation(data: LocationCreateInput!): Location!
   createMarker(data: MarkerCreateInput!): Marker!
+  createShape(data: ShapeCreateInput!): Shape!
+  createLocation(data: LocationCreateInput!): Location!
+  createGeoLocation(data: GeoLocationCreateInput!): GeoLocation!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateProject(data: ProjectUpdateInput!, where: ProjectWhereUniqueInput!): Project
-  updateGeoLocation(data: GeoLocationUpdateInput!, where: GeoLocationWhereUniqueInput!): GeoLocation
-  updateLocation(data: LocationUpdateInput!, where: LocationWhereUniqueInput!): Location
   updateMarker(data: MarkerUpdateInput!, where: MarkerWhereUniqueInput!): Marker
+  updateShape(data: ShapeUpdateInput!, where: ShapeWhereUniqueInput!): Shape
+  updateLocation(data: LocationUpdateInput!, where: LocationWhereUniqueInput!): Location
+  updateGeoLocation(data: GeoLocationUpdateInput!, where: GeoLocationWhereUniqueInput!): GeoLocation
   deleteUser(where: UserWhereUniqueInput!): User
   deleteProject(where: ProjectWhereUniqueInput!): Project
-  deleteGeoLocation(where: GeoLocationWhereUniqueInput!): GeoLocation
-  deleteLocation(where: LocationWhereUniqueInput!): Location
   deleteMarker(where: MarkerWhereUniqueInput!): Marker
+  deleteShape(where: ShapeWhereUniqueInput!): Shape
+  deleteLocation(where: LocationWhereUniqueInput!): Location
+  deleteGeoLocation(where: GeoLocationWhereUniqueInput!): GeoLocation
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertProject(where: ProjectWhereUniqueInput!, create: ProjectCreateInput!, update: ProjectUpdateInput!): Project!
-  upsertGeoLocation(where: GeoLocationWhereUniqueInput!, create: GeoLocationCreateInput!, update: GeoLocationUpdateInput!): GeoLocation!
-  upsertLocation(where: LocationWhereUniqueInput!, create: LocationCreateInput!, update: LocationUpdateInput!): Location!
   upsertMarker(where: MarkerWhereUniqueInput!, create: MarkerCreateInput!, update: MarkerUpdateInput!): Marker!
+  upsertShape(where: ShapeWhereUniqueInput!, create: ShapeCreateInput!, update: ShapeUpdateInput!): Shape!
+  upsertLocation(where: LocationWhereUniqueInput!, create: LocationCreateInput!, update: LocationUpdateInput!): Location!
+  upsertGeoLocation(where: GeoLocationWhereUniqueInput!, create: GeoLocationCreateInput!, update: GeoLocationUpdateInput!): GeoLocation!
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   updateManyProjects(data: ProjectUpdateManyMutationInput!, where: ProjectWhereInput): BatchPayload!
-  updateManyGeoLocations(data: GeoLocationUpdateManyMutationInput!, where: GeoLocationWhereInput): BatchPayload!
-  updateManyLocations(data: LocationUpdateManyMutationInput!, where: LocationWhereInput): BatchPayload!
   updateManyMarkers(data: MarkerUpdateManyMutationInput!, where: MarkerWhereInput): BatchPayload!
+  updateManyShapes(data: ShapeUpdateManyMutationInput!, where: ShapeWhereInput): BatchPayload!
+  updateManyLocations(data: LocationUpdateManyMutationInput!, where: LocationWhereInput): BatchPayload!
+  updateManyGeoLocations(data: GeoLocationUpdateManyMutationInput!, where: GeoLocationWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManyProjects(where: ProjectWhereInput): BatchPayload!
-  deleteManyGeoLocations(where: GeoLocationWhereInput): BatchPayload!
-  deleteManyLocations(where: LocationWhereInput): BatchPayload!
   deleteManyMarkers(where: MarkerWhereInput): BatchPayload!
+  deleteManyShapes(where: ShapeWhereInput): BatchPayload!
+  deleteManyLocations(where: LocationWhereInput): BatchPayload!
+  deleteManyGeoLocations(where: GeoLocationWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -1315,6 +1325,7 @@ type Project implements Node {
   id: ID!
   title: String!
   locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location!]
+  shapes(where: ShapeWhereInput, orderBy: ShapeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Shape!]
   mapBounds: String
   mapStyle: String
   markerColor: String
@@ -1340,6 +1351,7 @@ input ProjectCreateInput {
   mapStyle: String
   markerColor: String
   locations: LocationCreateManyInput
+  shapes: ShapeCreateManyInput
   user: UserCreateOneWithoutProjectsInput!
 }
 
@@ -1355,6 +1367,7 @@ input ProjectCreateWithoutUserInput {
   mapStyle: String
   markerColor: String
   locations: LocationCreateManyInput
+  shapes: ShapeCreateManyInput
 }
 
 """An edge in a connection."""
@@ -1693,6 +1706,7 @@ input ProjectUpdateInput {
   mapStyle: String
   markerColor: String
   locations: LocationUpdateManyInput
+  shapes: ShapeUpdateManyInput
   user: UserUpdateOneRequiredWithoutProjectsInput
 }
 
@@ -1733,6 +1747,7 @@ input ProjectUpdateWithoutUserDataInput {
   mapStyle: String
   markerColor: String
   locations: LocationUpdateManyInput
+  shapes: ShapeUpdateManyInput
 }
 
 input ProjectUpdateWithWhereUniqueWithoutUserInput {
@@ -2002,6 +2017,9 @@ input ProjectWhereInput {
   locations_every: LocationWhereInput
   locations_some: LocationWhereInput
   locations_none: LocationWhereInput
+  shapes_every: ShapeWhereInput
+  shapes_some: ShapeWhereInput
+  shapes_none: ShapeWhereInput
   user: UserWhereInput
 }
 
@@ -2012,19 +2030,22 @@ input ProjectWhereUniqueInput {
 type Query {
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   projects(where: ProjectWhereInput, orderBy: ProjectOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Project]!
-  geoLocations(where: GeoLocationWhereInput, orderBy: GeoLocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [GeoLocation]!
-  locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location]!
   markers(where: MarkerWhereInput, orderBy: MarkerOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Marker]!
+  shapes(where: ShapeWhereInput, orderBy: ShapeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Shape]!
+  locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location]!
+  geoLocations(where: GeoLocationWhereInput, orderBy: GeoLocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [GeoLocation]!
   user(where: UserWhereUniqueInput!): User
   project(where: ProjectWhereUniqueInput!): Project
-  geoLocation(where: GeoLocationWhereUniqueInput!): GeoLocation
-  location(where: LocationWhereUniqueInput!): Location
   marker(where: MarkerWhereUniqueInput!): Marker
+  shape(where: ShapeWhereUniqueInput!): Shape
+  location(where: LocationWhereUniqueInput!): Location
+  geoLocation(where: GeoLocationWhereUniqueInput!): GeoLocation
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   projectsConnection(where: ProjectWhereInput, orderBy: ProjectOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProjectConnection!
-  geoLocationsConnection(where: GeoLocationWhereInput, orderBy: GeoLocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): GeoLocationConnection!
-  locationsConnection(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LocationConnection!
   markersConnection(where: MarkerWhereInput, orderBy: MarkerOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): MarkerConnection!
+  shapesConnection(where: ShapeWhereInput, orderBy: ShapeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ShapeConnection!
+  locationsConnection(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LocationConnection!
+  geoLocationsConnection(where: GeoLocationWhereInput, orderBy: GeoLocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): GeoLocationConnection!
 
   """Fetches an object given its ID"""
   node(
@@ -2033,12 +2054,417 @@ type Query {
   ): Node
 }
 
+type Shape implements Node {
+  id: ID!
+  geojson: String!
+  user: String
+}
+
+"""A connection to a list of items."""
+type ShapeConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [ShapeEdge]!
+  aggregate: AggregateShape!
+}
+
+input ShapeCreateInput {
+  id: ID
+  geojson: String!
+  user: String
+}
+
+input ShapeCreateManyInput {
+  create: [ShapeCreateInput!]
+  connect: [ShapeWhereUniqueInput!]
+}
+
+"""An edge in a connection."""
+type ShapeEdge {
+  """The item at the end of the edge."""
+  node: Shape!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum ShapeOrderByInput {
+  id_ASC
+  id_DESC
+  geojson_ASC
+  geojson_DESC
+  user_ASC
+  user_DESC
+}
+
+type ShapePreviousValues {
+  id: ID!
+  geojson: String!
+  user: String
+}
+
+input ShapeScalarWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ShapeScalarWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ShapeScalarWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ShapeScalarWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  geojson: String
+
+  """All values that are not equal to given value."""
+  geojson_not: String
+
+  """All values that are contained in given list."""
+  geojson_in: [String!]
+
+  """All values that are not contained in given list."""
+  geojson_not_in: [String!]
+
+  """All values less than the given value."""
+  geojson_lt: String
+
+  """All values less than or equal the given value."""
+  geojson_lte: String
+
+  """All values greater than the given value."""
+  geojson_gt: String
+
+  """All values greater than or equal the given value."""
+  geojson_gte: String
+
+  """All values containing the given string."""
+  geojson_contains: String
+
+  """All values not containing the given string."""
+  geojson_not_contains: String
+
+  """All values starting with the given string."""
+  geojson_starts_with: String
+
+  """All values not starting with the given string."""
+  geojson_not_starts_with: String
+
+  """All values ending with the given string."""
+  geojson_ends_with: String
+
+  """All values not ending with the given string."""
+  geojson_not_ends_with: String
+  user: String
+
+  """All values that are not equal to given value."""
+  user_not: String
+
+  """All values that are contained in given list."""
+  user_in: [String!]
+
+  """All values that are not contained in given list."""
+  user_not_in: [String!]
+
+  """All values less than the given value."""
+  user_lt: String
+
+  """All values less than or equal the given value."""
+  user_lte: String
+
+  """All values greater than the given value."""
+  user_gt: String
+
+  """All values greater than or equal the given value."""
+  user_gte: String
+
+  """All values containing the given string."""
+  user_contains: String
+
+  """All values not containing the given string."""
+  user_not_contains: String
+
+  """All values starting with the given string."""
+  user_starts_with: String
+
+  """All values not starting with the given string."""
+  user_not_starts_with: String
+
+  """All values ending with the given string."""
+  user_ends_with: String
+
+  """All values not ending with the given string."""
+  user_not_ends_with: String
+}
+
+type ShapeSubscriptionPayload {
+  mutation: MutationType!
+  node: Shape
+  updatedFields: [String!]
+  previousValues: ShapePreviousValues
+}
+
+input ShapeSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ShapeSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ShapeSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ShapeSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: ShapeWhereInput
+}
+
+input ShapeUpdateDataInput {
+  geojson: String
+  user: String
+}
+
+input ShapeUpdateInput {
+  geojson: String
+  user: String
+}
+
+input ShapeUpdateManyDataInput {
+  geojson: String
+  user: String
+}
+
+input ShapeUpdateManyInput {
+  create: [ShapeCreateInput!]
+  connect: [ShapeWhereUniqueInput!]
+  set: [ShapeWhereUniqueInput!]
+  disconnect: [ShapeWhereUniqueInput!]
+  delete: [ShapeWhereUniqueInput!]
+  update: [ShapeUpdateWithWhereUniqueNestedInput!]
+  updateMany: [ShapeUpdateManyWithWhereNestedInput!]
+  deleteMany: [ShapeScalarWhereInput!]
+  upsert: [ShapeUpsertWithWhereUniqueNestedInput!]
+}
+
+input ShapeUpdateManyMutationInput {
+  geojson: String
+  user: String
+}
+
+input ShapeUpdateManyWithWhereNestedInput {
+  where: ShapeScalarWhereInput!
+  data: ShapeUpdateManyDataInput!
+}
+
+input ShapeUpdateWithWhereUniqueNestedInput {
+  where: ShapeWhereUniqueInput!
+  data: ShapeUpdateDataInput!
+}
+
+input ShapeUpsertWithWhereUniqueNestedInput {
+  where: ShapeWhereUniqueInput!
+  update: ShapeUpdateDataInput!
+  create: ShapeCreateInput!
+}
+
+input ShapeWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ShapeWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ShapeWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ShapeWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  geojson: String
+
+  """All values that are not equal to given value."""
+  geojson_not: String
+
+  """All values that are contained in given list."""
+  geojson_in: [String!]
+
+  """All values that are not contained in given list."""
+  geojson_not_in: [String!]
+
+  """All values less than the given value."""
+  geojson_lt: String
+
+  """All values less than or equal the given value."""
+  geojson_lte: String
+
+  """All values greater than the given value."""
+  geojson_gt: String
+
+  """All values greater than or equal the given value."""
+  geojson_gte: String
+
+  """All values containing the given string."""
+  geojson_contains: String
+
+  """All values not containing the given string."""
+  geojson_not_contains: String
+
+  """All values starting with the given string."""
+  geojson_starts_with: String
+
+  """All values not starting with the given string."""
+  geojson_not_starts_with: String
+
+  """All values ending with the given string."""
+  geojson_ends_with: String
+
+  """All values not ending with the given string."""
+  geojson_not_ends_with: String
+  user: String
+
+  """All values that are not equal to given value."""
+  user_not: String
+
+  """All values that are contained in given list."""
+  user_in: [String!]
+
+  """All values that are not contained in given list."""
+  user_not_in: [String!]
+
+  """All values less than the given value."""
+  user_lt: String
+
+  """All values less than or equal the given value."""
+  user_lte: String
+
+  """All values greater than the given value."""
+  user_gt: String
+
+  """All values greater than or equal the given value."""
+  user_gte: String
+
+  """All values containing the given string."""
+  user_contains: String
+
+  """All values not containing the given string."""
+  user_not_contains: String
+
+  """All values starting with the given string."""
+  user_starts_with: String
+
+  """All values not starting with the given string."""
+  user_not_starts_with: String
+
+  """All values ending with the given string."""
+  user_ends_with: String
+
+  """All values not ending with the given string."""
+  user_not_ends_with: String
+}
+
+input ShapeWhereUniqueInput {
+  id: ID
+}
+
 type Subscription {
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   project(where: ProjectSubscriptionWhereInput): ProjectSubscriptionPayload
-  geoLocation(where: GeoLocationSubscriptionWhereInput): GeoLocationSubscriptionPayload
-  location(where: LocationSubscriptionWhereInput): LocationSubscriptionPayload
   marker(where: MarkerSubscriptionWhereInput): MarkerSubscriptionPayload
+  shape(where: ShapeSubscriptionWhereInput): ShapeSubscriptionPayload
+  location(where: LocationSubscriptionWhereInput): LocationSubscriptionPayload
+  geoLocation(where: GeoLocationSubscriptionWhereInput): GeoLocationSubscriptionPayload
 }
 
 type User implements Node {

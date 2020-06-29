@@ -44,10 +44,17 @@ type Location {
   updatedAt: DateTime! @updatedAt
 }
 
+type Shape {
+  id: ID! @id
+  geojson: String!
+  user: String
+}
+
 type Project {
   id: ID! @id
   title: String!
-  locations: [Location] 
+  locations: [Location]
+  shapes: [Shape]
   mapBounds: String
   mapStyle: String
   markerColor: String

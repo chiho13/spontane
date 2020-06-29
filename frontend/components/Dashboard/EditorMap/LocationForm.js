@@ -77,6 +77,9 @@ button {
     padding: 0;
 }
 
+fieldset {
+    position: relative;
+}
 
 .button_wrapper {
     position: sticky;
@@ -92,6 +95,7 @@ button {
         margin-top: 8px;
     }
 }
+
 
 .form-input {
     width: 90%;

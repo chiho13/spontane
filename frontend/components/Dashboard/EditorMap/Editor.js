@@ -265,15 +265,18 @@ function MapEditor(props) {
     }
 
     function updateFeature(feature) {
+
             const _singleFeature = feature.data.length && feature.data[0];
 
             if(!_singleFeature) return;
 
             _singleFeature.properties.style = {
-                stroke: shapeForm.fillColor,
+                stroke: shapeForm.strokeColor,
                 fill: shapeForm.fillColor,
                 strokeWidth: 2,
-                fillOpacity: 0.5
+                fillOpacity: shapeForm.fillOpacity,
+                strokeDasharray: shapeForm.strokeDasharray,
+                strokeWidth: shapeForm.strokeWidth
             }
             
             _singleFeature.properties.details = shapeForm.details;
@@ -287,10 +290,12 @@ function MapEditor(props) {
             const clonedFeature = {...singleFeature};
 
             clonedFeature.properties.style = {
-                stroke: shapeForm.fillColor,
+                stroke: shapeForm.strokeColor,
                 fill: shapeForm.fillColor,
                 strokeWidth: 2,
-                fillOpacity: 0.5
+                fillOpacity: shapeForm.fillOpacity,
+                strokeDasharray: shapeForm.strokeDasharray,
+                strokeWidth: shapeForm.strokeWidth
             }
 
             clonedFeature.properties.details = shapeForm.details;
@@ -348,7 +353,7 @@ function MapEditor(props) {
                     <Toolbar dropMarker={dropMarker} enableMarker={enableMarker} layerOpen={layerOpen} showLayerPanel={showLayerPanel} />
                 </ToolbarContainer>
             </div>
-            <RightPanel layerOpen={layerOpen} updateLocation={updateLocation} enableMarker={enableMarker} />
+            <RightPanel layerOpen={layerOpen} updateLocation={updateLocation} enableMarker={enableMarker} showMarker={showMarker}/>
         </CreateLocationMapStyle>
     );
 }

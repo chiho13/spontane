@@ -7,7 +7,6 @@ import { useRouter } from 'next/router';
 const LocationEditorContext = React.createContext();
 
 
-
 function LocationEditorProvider(props) {
   // new
   const router = useRouter();

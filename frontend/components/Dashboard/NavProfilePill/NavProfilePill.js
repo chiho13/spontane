@@ -33,51 +33,38 @@ const NavPaper = styled(Paper)`
 
 function NavProfilePill(props) {
 
-    let anchorEl;
-
-    const [open,
-        setOpen] = useState(false);
-
     const { user } = useContext(UserContext);
 
-    function handleToggle() {
-        setOpen(!open)
-    }
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const handleClick = (event) => {
+      setAnchorEl(anchorEl ? null : event.currentTarget);
+    };
+  
+    const open = Boolean(anchorEl);
+    const id = open ? 'simple-popper' : undefined;
 
     function handleClose(event) {
-        if (anchorEl.contains(event.target)) {
-            return;
-        }
-
-        setOpen(false);
+        setAnchorEl(null)
     }
 
     return (
         <div>
             <NavButton
-                buttonRef={node => {
-                    anchorEl = node;
-                }}
-                aria-owns={open
-                    ? 'menu-list-grow'
-                    : undefined}
-                aria-haspopup="true"
-                onClick={handleToggle}
+                aria-describedby={id} 
+                onClick={handleClick}
                 disableRipple
                 width="150px">
                 {user && user.name}
                 <MaterialIcon icon="keyboard_arrow_right" />
 
             </NavButton>
-            <Popper open={open} anchorEl={anchorEl} transition disablePortal>
-                {({ TransitionProps, placement }) => (
+            <Popper id={id} open={open} anchorEl={anchorEl} transition placement="bottom-start">
+                {({ TransitionProps }) => (
                     <Grow
                         {...TransitionProps}
-                        id="menu-list-grow"
                         style={{
-                            transformOrigin: placement === 'bottom'
-                                ? 'center top'
-                                : 'center bottom'
+                            transformOrigin: 'center top'
                         }}>
                         <NavPaper>
                             <ClickAwayListener onClickAway={handleClose}>

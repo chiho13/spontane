@@ -25,7 +25,6 @@ const Form = styled.form`
   bottom: 0;
   left: 0;
   width: 100%;
-  z-index: 20;
 }
 
   @media (min-width: 700px) {
@@ -110,7 +109,8 @@ const Form = styled.form`
     width: 100%;
     padding: 10px;
     font-size: 16px;
-    border: 1px solid #999;
+    border: 1px solid #ccc;
+    box-shadow: inset 0px 1px 3px rgba(0,0,0,0.2);
     border-radius: 8px;
     transition: all 0.3s ease;
     &:focus {
@@ -122,6 +122,11 @@ const Form = styled.form`
     @media (min-width: 700px) {
       font-size: 14px;
     }
+  }
+
+  [readonly].form-input {
+    border: 0;
+    box-shadow: none;
   }
 
   input.is-danger {

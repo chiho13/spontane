@@ -60,7 +60,6 @@ const StickyTabs = styled.div`
   position: sticky;
   top: 0;
   display: block;
-  z-index: 10;
 `;
 
 const SecondaryRightPanel = styled.div`
@@ -71,7 +70,6 @@ const SecondaryRightPanel = styled.div`
     right: -100%;
     visibility: hidden;
     opacity: 0;
-    z-index: 10;
     will-change, visibility, opacity, right;
     transition: visibility 0.2s ease, opacity 0.2s ease, right 0.3s ease;
 
@@ -93,14 +91,14 @@ function RightPanel(props) {
     const page = router.query.page
     const [pageNum, setPageNum] = useState(parseFloat(page) || 1);
     const {dropMarker, editLocation} = useContext(LocationEditorContext);
-    const {addShape} = useContext(ShapeEditorContext);
+    const {addShape, singleFeature} = useContext(ShapeEditorContext);
     
     const [edit, setEdit] = useState(editLocation);
 
     useEffect(() => {
         setEdit(editLocation);
     }, [editLocation]);
-    const {layerOpen, updateLocation, enableMarker} = props;
+    const {layerOpen, updateLocation, enableMarker, showMarker} = props;
         return <LayerStyle
                     className={layerOpen && 'expandIn'}>
                         <Tabs id={props.id}>
@@ -109,12 +107,12 @@ function RightPanel(props) {
                                     <Pagination page={pageNum} setPageNum={setPageNum}/>
                                 </StickyTabs>
                                  <ListView page={pageNum} updateLocation={updateLocation}/>
-                                 <SecondaryRightPanel className={dropMarker && 'expandIn'}>
+                                 <SecondaryRightPanel className={showMarker && 'expandIn'}>
                                     {edit ? <UpdateLocation enableMarker={enableMarker} /> : <AddLocation enableMarker={enableMarker} />}
                                  </SecondaryRightPanel>
                              </div>
                             <div label="Shapes" icon="layers">
-                                <SecondaryRightPanel className={addShape && 'expandIn'}>
+                                <SecondaryRightPanel className={singleFeature && 'expandIn'}>
                                     <AddShape />
                                 </SecondaryRightPanel>
                             </div>

@@ -10,8 +10,6 @@ import Button from '../../UIKIT/iButton';
 
 import { SketchPicker } from 'react-color';
 
-import { ViewPortContext } from '../../providers/MapProvider';
-import { LocationEditorContext } from '../../providers/LocationEditorProvider';
 
 const SelectColorPaper = styled(Paper)`
     && {
@@ -56,25 +54,19 @@ const SelectColorButton = styled(Button)`
 
 function SelectColor(props) {
 
-    let anchorEl;
-
-    const [open, setOpen] = useState(false);
-
     const { color, setColor} = props;
 
-    const { mapConfig } = useContext(ViewPortContext);
-    const { editLocation } = useContext(LocationEditorContext)
+    const [anchorEl, setAnchorEl] = React.useState(null);
 
-    function handleToggle() {
-        setOpen(!open)
-    }
+    const handleClick = (event) => {
+      setAnchorEl(anchorEl ? null : event.currentTarget);
+    };
+  
+    const open = Boolean(anchorEl);
+    const id = open ? 'simple-popper' : undefined;
 
     function handleClose(event) {
-        if (anchorEl.contains(event.target)) {
-            return;
-        }
-
-        setOpen(false);
+        setAnchorEl(null)
     }
 
      function handleChangeComplete(color) {
@@ -83,14 +75,7 @@ function SelectColor(props) {
 
     return <>
         <SelectColorButton
-            buttonRef={node => {
-                anchorEl = node;
-            }}
-            aria-owns={open
-                ? 'menu-list-grow'
-                : undefined}
-            aria-haspopup="true"
-            onClick={handleToggle}
+            aria-describedby={id} type="button" onClick={handleClick}
             width="auto">
 
             <span className="buttonSpan_container">
@@ -101,16 +86,14 @@ function SelectColor(props) {
                 <MaterialIcon icon="arrow_drop_down" />
             </span>
         </SelectColorButton>
-        <Popper open={open} anchorEl={anchorEl} transition disablePortal>
-        {({ TransitionProps, placement }) => (
+        <Popper id={id} open={open} anchorEl={anchorEl} transition placement="bottom-start">
+        {({ TransitionProps }) => (
             <Grow
                 {...TransitionProps}
-                id="menu-list-grow"
                 style={{
-                    transformOrigin: placement === 'bottom'
-                        ? 'center top'
-                        : 'center bottom'
-                }}>
+                    transformOrigin: 'center top'
+                }}
+            >
                 <SelectColorPaper>
                     <ClickAwayListener onClickAway={handleClose}>
                         <SketchPicker color={color} onChangeComplete={handleChangeComplete} />
@@ -118,6 +101,7 @@ function SelectColor(props) {
                 </SelectColorPaper>
             </Grow>
         )}
+
     </Popper>
     </>
 }

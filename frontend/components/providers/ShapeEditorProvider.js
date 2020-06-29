@@ -14,6 +14,8 @@ function ShapeEditorProvider(props) {
       shape: null,
       lineColor: '#333333',
       fillColor: '#aaaaaa',
+      strokeDasharray: 'none',
+      strokeWidth: 2,
       details: ''
     });
 

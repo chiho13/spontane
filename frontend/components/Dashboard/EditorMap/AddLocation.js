@@ -56,7 +56,7 @@ const CREATE_LOCATION_MUTATION = gql`
 
 function AddLocation(props) {
     const router = useRouter();
-    const { user } = useContext(UserContext);
+    const { user, refetch } = useContext(UserContext);
 
     const { form, handleChange} = useContext(LocationEditorContext);
 
@@ -74,8 +74,6 @@ function AddLocation(props) {
         className: css({ fontFamily: "nunito, sans-serif" })
     });
 
-    console.log(form);
-
     async function onSubmit(e, updateProject) {
         e.preventDefault();
         const res = await updateProject({
@@ -88,11 +86,12 @@ function AddLocation(props) {
 
         if(res) {
             notify();
+            refetch();
             enableMarker(false);
         }
     }
 
-    return <Mutation mutation={CREATE_LOCATION_MUTATION} variables={form} refetchQueries={[{ query: CURRENT_USER_QUERY }]}>
+    return <Mutation mutation={CREATE_LOCATION_MUTATION} variables={form}>
         {(createLocation, { loading, error }) => (<CreateLocationForm
             form={form}
             notifyError={notifyError}

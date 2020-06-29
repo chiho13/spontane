@@ -54,8 +54,7 @@ export function featureStyle({ feature, state }) {
 
       if(hasStyle) {
         style = {
-            ...SELECTED_STYLE,
-            fill: feature.properties.style.fill
+          ...feature.properties.style
         }
       }
       break;
@@ -66,7 +65,7 @@ export function featureStyle({ feature, state }) {
       if(hasStyle) {
         style = {
             ...HOVERED_STYLE,
-            fill: feature.properties.style.fill
+            fill: feature.properties.style.fill,
           }
       }
       break;

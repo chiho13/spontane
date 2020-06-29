@@ -2,13 +2,43 @@
 import React, { useState, useEffect, useContext } from 'react';
 
 import { ShapeEditorContext } from '../../providers/ShapeEditorProvider';
-
+import { Mutation } from 'react-apollo';
 import { LocationFormStyle } from './LocationForm';
 import { invertTheme } from '../../Login';
 import styled, { ThemeProvider } from 'styled-components';
 import Button from '../../UIKIT/iButton';
 import SelectColor from './SelectColor';
+import SelectOpacity from './Opacity';
+import LineStyle from './LineStyle';
+import LineThickness from './LineThickness';
+import {toast } from 'react-toastify';
 import { ViewPortContext } from '../../providers/MapProvider';
+import gql from 'graphql-tag';
+import { UserContext } from '../../Layout/DashboardLayout';
+import { useRouter } from 'next/router';
+import { css } from 'glamor';
+
+toast.configure();
+
+const CREATE_SHAPE_MUTATION = gql`
+    mutation CREATE_LOCATION_MUTATION(
+        $id: ID!
+        $geojson: String!
+        $user: String
+    ) {
+        updateProject(
+            id: $id
+            shapes: {
+                create: [{
+            geojson: $geojson
+            user: $user
+            }]
+            }
+        ) {
+            id
+        }
+    }
+`;
 
 const AddShapeStyle = styled.div`
     position: absolute;
@@ -30,7 +60,17 @@ const AddShapeStyle = styled.div`
 
     .wrapper {
         padding: 24px;
+        padding-bottom: 32px;
     }
+`;
+
+const ShapeProperties = styled.fieldset`
+margin: 0;
+h4 {
+    font-family: ${props => props.theme.boldFont};
+    font-size: 18px;
+    padding-left: 24px;
+}
 `;
 
 const SelectColorsContainer = styled.div`
@@ -40,63 +80,164 @@ const SelectColorsContainer = styled.div`
     width: 100%;
     padding-left: 24px;
     padding-right: 24px;
-    padding-top: 16px;
     padding-bottom: 16px;
+
+    label {
+        margin-top: 0;
+    }
+
+    border-bottom: 1px solid #aaaaaa;
+
+    @media (min-width: 1408px) {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+ 
 `;
 
 function AddShape() {
-    const { form, setForm, handleChange, addShape, singleFeature, selectedShape} = useContext(ShapeEditorContext);
+    const router = useRouter();
+    const { user, refetch } = useContext(UserContext);
+    const { form, setForm, handleChange, addShape, singleFeature, setSingleFeature } = useContext(ShapeEditorContext);
 
     const { mapConfig } = useContext(ViewPortContext);
     const [fillColor, setFillColor] = useState(mapConfig.markerColor);
+    const [strokeColor, setStrokeColor] = useState(mapConfig.markerColor);
+    const [fillOpacityDec, setFillOpacityDec] = useState(0.5);
 
-    const [label, setLabel] = useState('Fill Color');
+    const [lineDash, setLineDash] = useState("none");
+    const [lineThickness, setLineThickness] = useState(2);
+    const [localFeature, setLocalFeature] = useState(null);
 
     useEffect(() => {
         setForm({
             ...form,
-            fillColor
+            fillColor,
+            strokeColor,
+            fillOpacity: fillOpacityDec,
+            strokeDasharray: lineDash,
+            strokeWidth: lineThickness
         });
 
-    }, [addShape, fillColor]);
+    }, [addShape, fillColor, strokeColor, fillOpacityDec, lineDash, lineThickness]);
 
     useEffect(() => {
         setForm({
             ...form,
-            fillColor: mapConfig.markerColor
+            fillColor: mapConfig.markerColor,
+            strokeColor: mapConfig.markerColor,
+            fillOpacity: fillOpacityDec,
+            strokeDasharray: lineDash
         });
     }, [addShape, mapConfig]);
 
-    return <AddShapeStyle>
-        <LocationFormStyle>
-            <SelectColorsContainer>
-                <div>
-                    <label>
-                        Color
-                    </label>
-                    <SelectColor setColor={setFillColor} color={fillColor} />
-                </div>
-            </SelectColorsContainer>
-            <div className="wrapper">
-                <label htmlFor="details">
-                    More Info
-                    </label>
-                <input className="form-input"
-                    type="text"
-                    id="details"
-                    name="details"
-                    placeholder="More info about this shape"
-                    value={form.details}
-                    autoComplete="off"
-                    onChange={handleChange} />
-            </div>
+    console.log(form);
 
-            <div className="button_wrapper">
-                <ThemeProvider theme={invertTheme}>
-                    <Button width="auto" type="submit" disabled={singleFeature ? false : true}>Save</Button>
-                </ThemeProvider>
-            </div>
-        </LocationFormStyle>
+
+    useEffect(() => {
+        if (singleFeature) {
+            const stringifySingleFeature = JSON.stringify(singleFeature);
+            setLocalFeature(stringifySingleFeature);
+        }
+
+    }, [singleFeature]);
+
+    const notify = () => toast.success("Shape created!", {
+        position: toast.POSITION.BOTTOM_CENTER,
+        closeButton: false,
+        className: css({ fontFamily: "nunito, sans-serif" })
+    });
+
+    async function onSubmit(e, updateProject) {
+        e.preventDefault();
+        const res = await updateProject({
+            variables: {
+                id: router.query.id,
+                user: user.id,
+                geojson: localFeature
+            }
+        });
+
+        if (res) {
+            notify();
+            refetch();
+            setSingleFeature(null);
+        }
+    }
+
+    return <AddShapeStyle>
+        <Mutation mutation={CREATE_SHAPE_MUTATION}>
+            {(createShape, { loading, error }) => (<LocationFormStyle onSubmit={e => onSubmit(e, createShape)}>
+
+                <ShapeProperties>
+                    <h4>
+                        Shape
+                    </h4>
+                    <SelectColorsContainer>
+                        <div>
+                            <label>
+                                Fill:
+                    </label>
+                            <SelectColor setColor={setFillColor} color={fillColor} />
+                        </div>
+
+                        <div>
+                            <label>
+                                Opacity:
+                    </label>
+                            <SelectOpacity setOpacityDec={setFillOpacityDec} opacityDec={fillOpacityDec} />
+                        </div>
+                    </SelectColorsContainer>
+                </ShapeProperties>
+
+                <ShapeProperties>
+                    <h4>
+                        Line
+                    </h4>
+                    <SelectColorsContainer>
+                        <div>
+                            <label>
+                                Color:
+                    </label>
+                            <SelectColor setColor={setStrokeColor} color={strokeColor} />
+                        </div>
+
+                        <div>
+                            <label>
+                                Style:
+                    </label>
+                            <LineStyle setLineDash={setLineDash} lineDash={lineDash} />
+                        </div>
+
+                        <div>
+                            <label>
+                                Thickness:
+                            </label>
+                            <LineThickness setLineThickness={setLineThickness} lineThickness={lineThickness} />
+                        </div>
+                    </SelectColorsContainer>
+                </ShapeProperties>
+
+                <div className="wrapper">
+                    <label htmlFor="details">
+                        More Info
+                    </label>
+                    <input className="form-input"
+                        type="text"
+                        id="details"
+                        name="details"
+                        placeholder="More info about this shape"
+                        value={form.details}
+                        autoComplete="off"
+                        onChange={handleChange} />
+                </div>
+
+                <div className="button_wrapper abs">
+                    <ThemeProvider theme={invertTheme}>
+                        <Button width="auto" type="submit" disabled={localFeature ? false : true}>Save</Button>
+                    </ThemeProvider>
+                </div>
+            </LocationFormStyle>)}
+        </Mutation>
 
     </AddShapeStyle>
 }
