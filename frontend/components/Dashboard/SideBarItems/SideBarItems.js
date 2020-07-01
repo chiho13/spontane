@@ -19,18 +19,6 @@ function SideBarItems() {
     const projectID = router.query.id;
 
     const sidebaritems =  [   
-    //     {
-    //     title: "Project Dashboard",
-    //     icon: "dashboard",
-    //     link: "/admin/project/[id]",
-    //     as: `/admin/project/${projectID}`
-    // },
-    // {
-    //     title: "List of Locations",
-    //     icon: "list",
-    //     link: `/admin/project/locations/list/[id]]`,
-    //     as: `/admin/project/locations/list/${projectID}`
-    // },
     {
         title: "Map Editor",
         icon: "map",
@@ -42,10 +30,7 @@ function SideBarItems() {
         icon: "remove_red_eye",
         link: `/admin/project/map/preview/[id]`,
         as: `/admin/project/map/preview/${projectID}`
-    },
-      
-
-    ]
+    }];
 
     return (
         <SideBarItemsStyle>

@@ -33,7 +33,7 @@ function Siren(props) {
       height={size}
       viewBox="0 0 100 100"
       style={{
-        transform: `translate(${-size / 2}px,${-size}px)`,
+        
         fill: markerColor,
         stroke: 'none'
       }}

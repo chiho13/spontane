@@ -22,10 +22,11 @@ import { debounce } from 'lodash';
 import styled from 'styled-components';
 import MaterialIcon from '@material/react-material-icon';
 import { IconButtonStyle } from '../Toolbar';
+import { Source, Layer } from 'react-map-gl';
 
-import {featureStyle, editHandleStyle} from '../../helpers/shapeStyle';
+import { featureStyle, editHandleStyle } from '../../helpers/shapeStyle';
 
-import { Editor, EditingMode} from 'react-map-gl-draw';
+import { Editor, EditingMode } from 'react-map-gl-draw';
 
 const ToolbarContainer = styled.div`
     display: block;
@@ -36,21 +37,24 @@ const ToolbarContainer = styled.div`
 
 function MapEditor(props) {
     const [selectedMode, setSelectedMode] = useState(null);
-    const [feature, setFeature] = useState(null);
     const [selectedFeatureIndex, setSelectedFeatureIndexes] = useState(null);
-
     const { viewport, setViewport, mapConfig } = useContext(ViewPortContext);
 
     const { loading, projectData: filteredProject } = useContext(UserContext);
     const { form, setForm, initialForm, dropMarker, setDropMarker, setEditLocation, editLocation, setSingleLocation, singleLocation, setSuggestions } = useContext(LocationEditorContext);
 
-    const {form: shapeForm, addShape, setAddShape, setSelectedShape, selectedShape, singleFeature, setSingleFeature} = useContext(ShapeEditorContext);
+    const { form: shapeForm, setForm: setShapeForm, addShape, setAddShape, selectedShape, singleFeature, setSingleFeature, editShape, setEditShape, shapeUpdateFeature, setShapeUpdateFeature } = useContext(ShapeEditorContext);
     const [savedLayerOpen, setSavedLayerOpen] = useLocalStorage('layerOpened', true);
 
     const [layerOpen, setLayerOpen] = useState(null);
+
+    const [hoverID, setHoverID] = useState('dfdsf');
+
     const mapRef = useRef(null);
     const editorRef = useRef(null);
-    
+
+   let layerIds = [];
+
     const {
         marker,
         setMarker,
@@ -62,21 +66,25 @@ function MapEditor(props) {
         onMarkerDragEnd
     } = useMapMarker({ latitude: 0, longitude: 0 });
 
-
     useEffect(() => {
         setLayerOpen(savedLayerOpen);
     }, []);
 
-
-
     useEffect(() => {
         editorRef.current && deleteSquare();
-        if(selectedShape) {
+        if (selectedShape) {
             switchMode(selectedShape.mode);
         } else {
             setSelectedMode(null);
         }
     }, [selectedShape, dropMarker])
+
+    useEffect(() => {
+        if(singleFeature == null) {
+            editorRef.current && deleteSquare();
+            setSelectedMode(null);
+        }
+    }, [singleFeature]);
 
     useEffect(() => {
         setForm({
@@ -92,18 +100,18 @@ function MapEditor(props) {
         setSelectedMode(modeHandler);
     }
 
-    useEffect(() => {
-        if (!editLocation) return;
-        setForm({
-            city: singleLocation.city,
-            country: singleLocation.country,
-            description: singleLocation.description,
-            latitude: marker.latitude,
-            longitude: marker.longitude,
-            markerType: singleLocation.markerType.type,
-            pinColor: singleLocation.markerType.pinColor
-        });
-    }, [singleLocation, editLocation]);
+    // useEffect(() => {
+    //     if (!editLocation) return;
+    //     setForm({
+    //         city: singleLocation.city,
+    //         country: singleLocation.country,
+    //         description: singleLocation.description,
+    //         latitude: marker.latitude,
+    //         longitude: marker.longitude,
+    //         markerType: singleLocation.markerType.type,
+    //         pinColor: singleLocation.markerType.pinColor
+    //     });
+    // }, [singleLocation, editLocation]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -131,30 +139,11 @@ function MapEditor(props) {
     }, [form.latitude]);
 
     useEffect(() => {
-       if(addShape) {
+        if (addShape) {
             enableMarker(false);
-       }
+        }
 
     }, [addShape]);
-
-    // useEffect(() => {
-    //     if(singleFeature) {
-            
-    //         const cloneFeature = {...singleFeature};
-    //         cloneFeature.properties.style = {
-    //             stroke: shapeForm.lineColor,
-    //             fill: shapeForm.fillColor,
-    //             strokeWidth: 2,
-    //             fillOpacity: 0.5
-    //         }
-
-    //         const stringifyFeature = JSON.stringify(cloneFeature);
-    //         setShapeForm({
-    //             ...shapeForm,
-    //             shape: stringifyFeature
-    //         });
-    //     }
-    // }, [shapeForm, singleFeature]);
 
     function enableMarker(bool) {
         setDropMarker(bool);
@@ -164,30 +153,27 @@ function MapEditor(props) {
 
         if (bool == false) {
             resetLocation()
-        } 
+        }
     }
 
     function deleteSquare() {
         editorRef.current.deleteFeatures(0);
-        setSingleFeature(null);
     }
 
-
     function getCursor() {
-        if(mapRef.current) {
-            if(mapRef.current.state.isDragging) {
+        if (mapRef.current) {
+            if (mapRef.current.state.isDragging) {
                 return 'grabbing';
             }
         }
 
-        if(singleFeature || dropMarker) {
+        if (singleFeature || dropMarker) {
             return 'pointer'
         }
 
-
-        if(addShape) {
+        if (addShape) {
             return 'crosshair';
-        } 
+        }
 
         return 'grab';
     }
@@ -210,7 +196,6 @@ function MapEditor(props) {
                 type: 'Default',
                 pinColor: '#333333'
             }
-
         });
 
         setSuggestions({
@@ -227,6 +212,29 @@ function MapEditor(props) {
         }
     }
 
+    function updateShape(shape) {
+
+        const shapeStyle = shape.geojson.properties.style;
+        setEditShape(true);
+
+        setShapeForm({
+            details: shape.geojson.properties.details,
+            fillColor: shapeStyle.fill,
+            strokeColor: shapeStyle.stroke,
+            fillOpacity: shapeStyle.fillOpacity,
+            strokeDasharray: shapeStyle.strokeDasharray,
+            strokeWidth: shapeStyle.strokeWidth
+        });
+
+        setShapeUpdateFeature(shape);
+        editorRef.current.addFeatures(shape.geojson);
+
+        setAddShape(true);
+        setSingleFeature(shape.geojson);
+        switchMode(EditingMode);
+
+    }
+
     function updateLocation(location) {
         setShowMarker(false);
         setSingleLocation(location);
@@ -237,6 +245,16 @@ function MapEditor(props) {
             longitude: location.geoLocation.longitude
         });
 
+        setForm({
+            city: location.city,
+            country: location.country,
+            description: location.description,
+            latitude: marker.latitude,
+            longitude: marker.longitude,
+            markerType: location.markerType.type,
+            pinColor: location.markerType.pinColor
+        });
+
         setTimeout(() => {
             setShowMarker(true);
         }, 0);
@@ -245,66 +263,104 @@ function MapEditor(props) {
     const memoiseFilteredProject = useMemo(() => filteredProject && filteredProject.locations.filter(loc => loc.id !== singleLocation.id), [filteredProject, singleLocation]);
 
     function RenderCityMarker() {
-
         return mapConfig.loadedMap && memoiseFilteredProject.map(_location => {
             return <Marker
                 key={`marker-${_location.id}`}
                 longitude={_location.geoLocation.longitude}
                 latitude={_location.geoLocation.latitude}>
 
-                <CityPin onClick={ addShape ? null : (e) => {
+                <CityPin onClick={addShape ? null : (e) => {
                     e.stopPropagation();
                     updateLocation(_location);
-                } } pinColor={_location.markerType.pinColor}
+                }} pinColor={_location.markerType.pinColor}
                     markerType={_location.markerType.type}
-
                 />
             </Marker>
         }
         );
     }
 
-    function updateFeature(feature) {
+    function RenderGeoJsonShapes() {
+        return filteredProject && filteredProject.shapes.map(_shape => {
+            const geojson = JSON.parse(_shape.geojson);
+            const isLineString = geojson.geometry.type == "LineString";
 
-            const _singleFeature = feature.data.length && feature.data[0];
+            const dashArray = geojson.properties.style.strokeDasharray;
+            const splitDashArray = geojson.properties.style.strokeDasharray.split(" ").map(x => (+x / 4));
+            const hasDashArray = dashArray == "none" ? [1] : splitDashArray; 
 
-            if(!_singleFeature) return;
+            const shapeIdLine = !isLineString ? `${_shape.id}2` : _shape.id;
+            const obj = {};
+            obj["realId"] = _shape.id;
+            obj["layerId"] = shapeIdLine;
+            obj["geojson"] = geojson;
+            layerIds.push(obj);
 
-            _singleFeature.properties.style = {
-                stroke: shapeForm.strokeColor,
-                fill: shapeForm.fillColor,
-                strokeWidth: 2,
-                fillOpacity: shapeForm.fillOpacity,
-                strokeDasharray: shapeForm.strokeDasharray,
-                strokeWidth: shapeForm.strokeWidth
+            const hovering = hoverID == _shape.id;
+            let fillOpac = geojson.properties.style.fillOpacity;
+
+            if(hovering) {
+                if(fillOpac > 0.7) {
+                    fillOpac = fillOpac - 0.2;
+                } else {
+                    fillOpac = fillOpac + 0.2;
+                }
             }
             
-            _singleFeature.properties.details = shapeForm.details;
+            return <React.Fragment key={_shape.id}>
+                <Source id={_shape.id} type="geojson" data={geojson}>
+                    <Layer
+                        id={_shape.id}
+                        type='line'
+                        source={_shape.id}
+                        paint={{
+                            'line-color': geojson.properties.style.stroke,
+                            'line-width': geojson.properties.style.strokeWidth,
+                            'line-dasharray': hasDashArray
+                        }}
+                    />
+                   {!isLineString ? <Layer
+                        id={`${_shape.id}2`}
+                        type='fill'
+                        source={_shape.id}
+                        paint={{
+                            'fill-color': geojson.properties.style.fill,
+                            'fill-opacity': fillOpac
+                        }}
+                    /> : <div></div>} 
+                </Source>
+            </React.Fragment>
+        })
+    }
 
-            setSingleFeature(_singleFeature);
-    } 
+    console.log(layerIds);
 
     useEffect(() => {
-        if(editorRef.current && singleFeature) {
+        filteredProject && filteredProject.shapes.map(_shape => {
+            const geojson = JSON.parse(_shape.geojson);
+            console.log(geojson);
+        })
+    }, [filteredProject])
 
-            const clonedFeature = {...singleFeature};
+    function updateFeature(feature) {
 
-            clonedFeature.properties.style = {
-                stroke: shapeForm.strokeColor,
-                fill: shapeForm.fillColor,
-                strokeWidth: 2,
-                fillOpacity: shapeForm.fillOpacity,
-                strokeDasharray: shapeForm.strokeDasharray,
-                strokeWidth: shapeForm.strokeWidth
-            }
+        const _singleFeature = feature.data.length && feature.data[0];
 
-            clonedFeature.properties.details = shapeForm.details;
-            
-            setSingleFeature(clonedFeature);
-
-            console.log(clonedFeature);
+        if (!_singleFeature) return;
+        
+        _singleFeature.properties.style = {
+            stroke: shapeForm.strokeColor,
+            fill: shapeForm.fillColor,
+            strokeWidth: 2,
+            fillOpacity: shapeForm.fillOpacity,
+            strokeDasharray: shapeForm.strokeDasharray,
+            strokeWidth: shapeForm.strokeWidth
         }
-    }, [shapeForm]);
+
+        _singleFeature.properties.details = shapeForm.details;
+
+        setSingleFeature(_singleFeature);
+    }
 
     return (
         <CreateLocationMapStyle>
@@ -316,25 +372,59 @@ function MapEditor(props) {
                         if (!dropMarker) return;
                         addMarker(e);
                     }}
-                >
-                    <Editor 
-              ref={el => editorRef.current = el}
-          clickRadius={12}
-          onSelect={(selected) => {
-            setSelectedFeatureIndexes(selected);
-        
-            if(selected.mapCoords === undefined) {
-                switchMode(EditingMode);
-            } 
-          }}
+                    onClick={(e) => {
+                        const hasFeature = e.features.length;
 
-          featureStyle={featureStyle}
-          editHandleStyle={editHandleStyle}
-          onUpdate={updateFeature}
-         
-          mode={selectedMode}
-        />
+                        if(!hasFeature) return;
+
+                        const feature = e.features[0].layer.id;
+                        const matchedId = layerIds.find(x => x.layerId == feature);
+                        const hasMatch = Boolean(matchedId);
+
+                        if(hasMatch) {
+                            updateShape(matchedId);
+                        }
+
+                    }}
+
+                    onHover={(e) => {
+                        if(!mapConfig.loadedMap) return;
+                        const hasFeatureProp = e.hasOwnProperty("features");
+                        if(!hasFeatureProp) return;
+                        const hasFeature = Boolean(e.features);
+                        if(!hasFeature) return;
+                        
+                        if(!e.features.length) return;
+                        const feature = e.features[0].layer.id;
+                        const matchedId = layerIds.find(x => x.layerId == feature);
+                        const hasMatch = Boolean(matchedId);
+
+                        if(hasMatch) {
+                            setHoverID(matchedId.realId);
+                        } else {
+                            setHoverID('sdfsdsf');
+                        }
+
+                    }}
+                >
+                    <Editor
+                        ref={el => editorRef.current = el}
+                        clickRadius={4}
+                        onSelect={(selected) => {
+                            setSelectedFeatureIndexes(selected);
+
+                            if (selected.mapCoords === undefined) {
+                                switchMode(EditingMode);
+                            }
+                        }}
+
+                        featureStyle={featureStyle}
+                        editHandleStyle={editHandleStyle}
+                        onUpdate={updateFeature}
+                        mode={selectedMode}
+                    />
                     {RenderCityMarker()}
+                    {RenderGeoJsonShapes()}
                     {showMarker && <DropMarker
                         editLocation={editLocation}
                         marker={marker}
@@ -353,7 +443,7 @@ function MapEditor(props) {
                     <Toolbar dropMarker={dropMarker} enableMarker={enableMarker} layerOpen={layerOpen} showLayerPanel={showLayerPanel} />
                 </ToolbarContainer>
             </div>
-            <RightPanel layerOpen={layerOpen} updateLocation={updateLocation} enableMarker={enableMarker} showMarker={showMarker}/>
+            <RightPanel layerOpen={layerOpen} updateLocation={updateLocation} enableMarker={enableMarker} showMarker={showMarker} />
         </CreateLocationMapStyle>
     );
 }

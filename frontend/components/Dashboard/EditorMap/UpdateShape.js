@@ -20,27 +20,24 @@ import { css } from 'glamor';
 
 toast.configure();
 
-const CREATE_SHAPE_MUTATION = gql`
-    mutation CREATE_SHAPE_MUTATION(
+
+const UPDATE_SHAPE_MUTATION = gql `
+    mutation UPDATE_SHAPE_MUTATION(
         $id: ID!
         $geojson: String!
         $user: String
     ) {
-        updateProject(
+        updateShape(
             id: $id
-            shapes: {
-                create: [{
             geojson: $geojson
             user: $user
-            }]
-            }
         ) {
             id
         }
     }
 `;
 
-const AddShapeStyle = styled.div`
+const UpdateShapeStyle = styled.div`
     position: absolute;
     display: block;
     border: 0;
@@ -60,6 +57,21 @@ const AddShapeStyle = styled.div`
 
     .wrapper {
         padding: 24px;
+    }
+
+    .cancel_update {
+        border: 0;
+        background: none;
+        color: ${props => props.theme.brandColor};
+        font-family: ${props => props.theme.fontFamily};
+        font-size: 16px;
+        margin-left: 40px;
+        margin-top: 8px;
+        cursor: pointer;
+
+        &:hover {
+            text-decoration: underline;
+        }
     }
 `;
 
@@ -100,27 +112,18 @@ const SelectColorsContainer = styled.div`
 function AddShape() {
     const router = useRouter();
     const { user, refetch } = useContext(UserContext);
-    const { form, setForm, initialShapeForm, handleChange, addShape, setAddShape, singleFeature, selectedShape, setSelectedShape, setSingleFeature } = useContext(ShapeEditorContext);
+    const { form, setForm, handleChange, addShape, setAddShape, singleFeature, selectedShape, setSelectedShape, setSingleFeature, editShape, shapeUpdateFeature } = useContext(ShapeEditorContext);
 
     const { mapConfig } = useContext(ViewPortContext);
-    const [fillColor, setFillColor] = useState(mapConfig.markerColor);
-    const [strokeColor, setStrokeColor] = useState(mapConfig.markerColor);
-    const [fillOpacityDec, setFillOpacityDec] = useState(0.5);
+    const [fillColor, setFillColor] = useState(form.fillColor);
+    const [strokeColor, setStrokeColor] = useState(form.strokeColor);
+    const [fillOpacityDec, setFillOpacityDec] = useState(form.fillOpacity);
 
     const [lineDash, setLineDash] = useState("none");
     const [lineThickness, setLineThickness] = useState(2);
     const [localFeature, setLocalFeature] = useState(null);
 
     useEffect(() => {
-        // setForm({
-        //     ...form,
-        //     fillColor,
-        //     strokeColor,
-        //     fillOpacity: fillOpacityDec,
-        //     strokeDasharray: lineDash,
-        //     strokeWidth: lineThickness
-        // });
-
         const clonedFeature = { ...singleFeature };
 
         clonedFeature.properties.style = {
@@ -137,15 +140,6 @@ function AddShape() {
 
     }, [addShape, fillColor, strokeColor, fillOpacityDec, lineDash, lineThickness, selectedShape]);
 
-    useEffect(() => {
-        setForm({
-            ...form,
-            fillColor: mapConfig.markerColor,
-            strokeColor: mapConfig.markerColor,
-            fillOpacity: fillOpacityDec,
-            strokeDasharray: lineDash
-        });
-    }, [addShape, mapConfig]);
 
     useEffect(() => {
         if (singleFeature) {
@@ -180,9 +174,9 @@ function AddShape() {
         }
     }
 
-    return <AddShapeStyle>
-        <Mutation mutation={CREATE_SHAPE_MUTATION}>
-            {(createShape, { loading, error }) => (<LocationFormStyle onSubmit={e => onSubmit(e, createShape)}>
+    return <UpdateShapeStyle>
+        <Mutation mutation={UPDATE_SHAPE_MUTATION}>
+            {(updateShape, { loading, error }) => (<LocationFormStyle onSubmit={e => onSubmit(e, updateShape)}>
                 <div className="wrapper">
                     <label htmlFor="details">
                         Title
@@ -249,13 +243,19 @@ function AddShape() {
                 </ShapeContainer>
                 <div className="button_wrapper abs">
                     <ThemeProvider theme={invertTheme}>
-                        <Button width="auto" type="submit" disabled={localFeature ? false : true}>Save</Button>
+                        <Button width="auto" type="submit" disabled={localFeature ? false : true}>Update</Button>
                     </ThemeProvider>
+
+                    <button type="button" className="cancel_update" onClick={() => {
+                           setAddShape(false);
+                           setSelectedShape(null);
+                           setSingleFeature(null);
+                    }}>Cancel</button>
                 </div>
             </LocationFormStyle>)}
         </Mutation>
 
-    </AddShapeStyle>
+    </UpdateShapeStyle>
 }
 
 export default AddShape;

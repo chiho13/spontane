@@ -70,7 +70,7 @@ LineSVG.defaultProps = {
     width: 80
 }
 
-const linestyles = ["none", "2 2", "1 4", "4 4", "5 5", "5 8", "6 2 2 2",  "6 6 2 6", "7 9", "10"
+const linestyles = ["none", "2 2", "1 4", "4 4", "5 5", "5 8", "6 2 2 2",  "6 6 2 6", "7 9", "10 10"
 ]
 
 function SelectLineStyle(props) {

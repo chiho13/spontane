@@ -5,7 +5,6 @@ import DeleteButton from '../../IconButtons/DeleteButton';
 import {useRouter} from 'next/router';
 
 const LocationListViewItem = (props) => {
-    const router = useRouter();
     const {location} = props;
     return (
         <LocationItemStyles>

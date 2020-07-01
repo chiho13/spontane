@@ -55,6 +55,7 @@ body {
     font-size: 16px;
     line-height: 2;
     background: #f7f7f7;
+    overflow: hidden;
 }
 
 ul, li, h1, h2, h3, p, a {

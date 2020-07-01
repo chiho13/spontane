@@ -164,7 +164,7 @@ const ShapeIconStyle = styled(IconButtonStyle)`
 `;
 
 function SelectShape(props) {
-    const { setAddShape, addShape, selectedShape, setSelectedShape} = useContext(ShapeEditorContext);
+    const { setAddShape, addShape, selectedShape, setSelectedShape, setSingleFeature, setEditShape} = useContext(ShapeEditorContext);
     const {dropMarker, setDropMarker} = useContext(LocationEditorContext);
     // const [currentShape, setCurrentShape] = useState(null);
     const Shapes = [{
@@ -190,6 +190,7 @@ function SelectShape(props) {
     function enableShape(el) {
         setAddShape(true);
         setDropMarker(false);
+        setEditShape(false);
         setSelectedShape(el);
     }
 
@@ -208,6 +209,7 @@ function SelectShape(props) {
              <button className={selected && addShape ? 'cancel-button selected' : 'cancel-button'} onClick={() => {
                     setAddShape(false);
                     setSelectedShape(null);
+                    setSingleFeature(null);
                 }}>Cancel</button>
             <ShapeIconStyle onClick={() => enableShape(el)} className="add-shape" selected={selected}>
                 <DynamicIcon />

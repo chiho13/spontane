@@ -29,6 +29,10 @@ const CURRENT_USER_QUERY = gql `
                 }
                  description
                 }
+                shapes {
+                    id
+                    geojson
+                }
             }
         }
     }

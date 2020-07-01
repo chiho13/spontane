@@ -935,6 +935,7 @@ type Mutation {
   createGeoLocation(latitude: Float, longitude: Float): GeoLocation!
   createProject(title: String!, locations: LocationCreateManyInput, shapes: ShapeCreateManyInput, mapBounds: String, mapStyle: String, markerColor: String): Project!
   updateProject(id: ID!, title: String, locations: LocationUpdateManyInput, shapes: ShapeUpdateManyInput, mapBounds: String, mapStyle: String, markerColor: String): Project
+  updateShape(id: ID!, geojson: String!, user: String): Shape
   createShape(data: ShapeCreateInput!): Shape!
   deleteLocation(id: ID!): Location
   deleteGeoLocation(id: ID!): GeoLocation

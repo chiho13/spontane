@@ -83,6 +83,7 @@ fieldset {
 
 .button_wrapper {
     position: sticky;
+    display: flex;
     bottom: 0;
     right: 0;
     padding: 24px;

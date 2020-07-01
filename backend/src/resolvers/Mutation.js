@@ -88,6 +88,38 @@ const Mutations = {
           info
         );
       },
+      async updateShape(parent, args, ctx, info) {
+
+        if (!ctx.request.userId) {
+          throw new Error('You must be logged in to do that!');
+        }
+  
+        const where = {id: args.id};
+        const shape = await ctx.db.query.shape({ where }, `{user}`);
+  
+        const currentUser = shape.user;
+  
+        // console.log(location);
+        const ownShape = currentUser == ctx.request.userId;
+  
+        if (!ownShape) {
+          throw new Error("You don't have permission to do that!");
+        }
+          // first take a copy of the updates
+          const updates = { ...args };
+          // remove the ID from the updates
+          delete updates.id;
+          // run the update method
+          return ctx.db.mutation.updateShape(
+            {
+              data: updates,
+              where: {
+                id: args.id,
+              },
+            },
+            info
+          );
+        },
       async updateProject(parent, args, ctx, info) {
         const where = {id: args.id}
         const project = await ctx.db.query.project({ where }, `{user { id }}`);

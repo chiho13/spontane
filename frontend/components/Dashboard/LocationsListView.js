@@ -17,25 +17,6 @@ import { useRouter } from 'next/router';
 
 import Skeleton from './Skeleton';
 
-export const ALL_LOCATIONS_QUERY = gql `
-        query ALL_LOCATIONS_QUERY($skip: Int = 0, $first: Int = ${perPage}, $userId: ID) {
-            locations(where: { user: {
-              id: $userId
-          }}, first: $first, skip: $skip, orderBy: createdAt_DESC) {
-            id
-            country
-            city
-            geoLocation {
-                latitude
-                longitude
-            }
-            description
-            user
-          }
-        }
-`;
-
-
 
 const LoadingContainer = styled.div`
 display: flex;

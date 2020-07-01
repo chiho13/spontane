@@ -62,7 +62,7 @@ function LineSVG(props) {
     const { strokeWidth } = props;
     const {form} = useContext(ShapeEditorContext);
     return <svg viewBox="0 0 80 4" height={30} width="100%">
-        <line x1="0" y1="2" x2="80" y2="2" stroke="black" strokeDasharray={form.strokeDasharray} stroke-width={strokeWidth}/>
+        <line x1="0" y1="2" x2="80" y2="2" stroke="black" strokeDasharray={form.strokeDasharray} strokeWidth={strokeWidth}/>
     </svg>
 }
 
@@ -114,7 +114,7 @@ function SelectLineThickness(props) {
                 >
                     <SelectLineThicknessPaper>
                         <ClickAwayListener onClickAway={handleClose}>
-                            <MenuList>
+                            <MenuList aria-labelledby={id}>
                                 {LineThickness.map((el, i) => {
                                     return <SelectLineThicknessMenuItem key={i} onClick={() => handleLineSelection(el)}>
                                         <LineSVG strokeWidth={el} />

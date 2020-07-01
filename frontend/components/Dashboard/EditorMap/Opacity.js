@@ -159,9 +159,7 @@ function Opacity(props) {
                     {...TransitionProps}
                     id="menu-list-grow"
                     style={{
-                        transformOrigin: placement === 'bottom'
-                            ? 'center top'
-                            : 'center bottom'
+                        transformOrigin:'center top'
                     }}>
                     <OpacityPaper>
                         <ClickAwayListener onClickAway={handleClose}>

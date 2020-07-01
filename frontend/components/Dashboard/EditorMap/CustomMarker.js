@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, useMemo} from 'react';
+import React, { useEffect, useState, useContext, useRef} from 'react';
 import Popper from '@material-ui/core/Popper';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
@@ -55,10 +55,6 @@ const SelectMarkerButton = styled(Button)`
 
 function CustomMarker(props) {
 
-    let anchorEl;
-
-    const [open, setOpen] = useState(false);
-
     const {form, setForm, dropMarker } = useContext(LocationEditorContext);
     const markerComponents = Object.keys(Markers);
 
@@ -74,9 +70,15 @@ function CustomMarker(props) {
 
     }, [markerType, editLocation]);
 
-    function handleToggle() {
-        setOpen(!open)
-    }
+    const buttonRef= useRef();
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const handleClick = (event) => {
+      setAnchorEl(anchorEl ? null : event.currentTarget);
+    };
+  
+    const open = Boolean(anchorEl);
+    const id = open ? 'simple-popper' : undefined;
 
     function selectMarker(event, markerType) {
         setMarkerType(markerType);
@@ -91,40 +93,31 @@ function CustomMarker(props) {
         setOpen(false);
     }
 
-    console.log(form);
-
     return  <div>
               <label>
                 Choose Marker
             </label>
     <SelectMarkerButton
-        buttonRef={node => {
-            anchorEl = node;
-        }}
-        aria-owns={open
-            ? 'menu-list-grow'
-            : undefined}
-        aria-haspopup="true"
-        onClick={handleToggle}
+         id="marker-slider"
+         aria-describedby={id} type="button" onClick={handleClick}
+         ref={buttonRef}
         width="180px">
             <BaseMarker  markerType={markerType} pinColor="#444444" dropShadowColor="#ffffff" size={32} />
                     <span className="current_marker">{markerType}</span>
         <MaterialIcon icon="arrow_drop_down" />
 
     </SelectMarkerButton>
-    <Popper open={open} anchorEl={anchorEl} transition disablePortal>
-        {({ TransitionProps, placement }) => (
+    <Popper id={id} open={open} anchorEl={anchorEl} transition placement="bottom-start">
+        {({ TransitionProps }) => (
             <Grow
                 {...TransitionProps}
                 id="menu-list-grow"
                 style={{
-                    transformOrigin: placement === 'bottom'
-                        ? 'center top'
-                        : 'center bottom'
+                    transformOrigin: 'center top'
                 }}>
                 <SelectMarkerPaper>
                     <ClickAwayListener onClickAway={handleClose}>
-                        <MenuList>
+                        <MenuList aria-labelledby="marker-slider">
                         {markerComponents.map((type, i) => {
                             return <MenuItem key={i} onClick={(e) => selectMarker(e, type)}>
                                 <BaseMarker  markerType={type} dropShadowColor="#ffffff" pinColor="#333333" size={28}/>

@@ -5,7 +5,7 @@ function LandmarkMarker(props) {
       height={size}
       viewBox="0 0 100 100"
       style={{
-        transform: `translate(${-size / 2}px,${-size}px)`,
+        
         filter: `drop-shadow(0 0 4px ${dropShadowColor}`,
         fill: markerColor,
         stroke: 'none'

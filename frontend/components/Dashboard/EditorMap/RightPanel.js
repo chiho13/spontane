@@ -1,13 +1,15 @@
-import React, {useState, useEffect, useContext} from 'react';
-import {useRouter} from 'next/router';
-import {ThemeProvider} from 'styled-components';
-import styled, {keyframes} from 'styled-components';
+import React, { useState, useEffect, useContext } from 'react';
+import { useRouter } from 'next/router';
+import { ThemeProvider } from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import ListView from '../LocationsListView';
+import ShapeListView from '../ShapesListView';
 import Tabs from '../SegmentTabs/Tabs';
 import Pagination from '../Pagination/Pagination';
 import AddLocation from './AddLocation';
 import UpdateLocation from './UpdateLocation';
 import AddShape from './AddShape';
+import UpdateShape from './UpdateShape';
 import { LocationEditorContext } from '../../providers/LocationEditorProvider';
 import { ShapeEditorContext } from '../../providers/ShapeEditorProvider';
 import MapSettings from '../MapSettings';
@@ -90,37 +92,45 @@ function RightPanel(props) {
     const router = useRouter();
     const page = router.query.page
     const [pageNum, setPageNum] = useState(parseFloat(page) || 1);
-    const {dropMarker, editLocation} = useContext(LocationEditorContext);
-    const {addShape, singleFeature} = useContext(ShapeEditorContext);
-    
-    const [edit, setEdit] = useState(editLocation);
+    const { dropMarker, editLocation } = useContext(LocationEditorContext);
+    const { addShape, singleFeature, editShape } = useContext(ShapeEditorContext);
+
+    const [editLoc, setEditLoc] = useState(editLocation);
+    const [editShp, setEditShp] = useState(editShape);
 
     useEffect(() => {
-        setEdit(editLocation);
+        setEditLoc(editLocation);
     }, [editLocation]);
-    const {layerOpen, updateLocation, enableMarker, showMarker} = props;
-        return <LayerStyle
-                    className={layerOpen && 'expandIn'}>
-                        <Tabs id={props.id}>
-                            <div label="Locator" icon="view_list">
-                                <StickyTabs>
-                                    <Pagination page={pageNum} setPageNum={setPageNum}/>
-                                </StickyTabs>
-                                 <ListView page={pageNum} updateLocation={updateLocation}/>
-                                 <SecondaryRightPanel className={showMarker && 'expandIn'}>
-                                    {edit ? <UpdateLocation enableMarker={enableMarker} /> : <AddLocation enableMarker={enableMarker} />}
-                                 </SecondaryRightPanel>
-                             </div>
-                            <div label="Shapes" icon="layers">
-                                <SecondaryRightPanel className={singleFeature && 'expandIn'}>
-                                    <AddShape />
-                                </SecondaryRightPanel>
-                            </div>
-                            <div label="Map Settings" icon="settings">
-                                <MapSettings />
-                            </div>
-                         </Tabs>
-                </LayerStyle>
+
+    useEffect(() => {
+        setEditShp(editShape);
+    }, [editShape]);
+
+
+    const { layerOpen, updateLocation, enableMarker, showMarker } = props;
+    return <LayerStyle
+        className={layerOpen && 'expandIn'}>
+        <Tabs id={props.id}>
+            <div label="Locator" icon="view_list">
+                <StickyTabs>
+                    <Pagination page={pageNum} setPageNum={setPageNum} />
+                </StickyTabs>
+                <ListView page={pageNum} updateLocation={updateLocation} />
+                {showMarker && <SecondaryRightPanel className={'expandIn'}>
+                    {editLoc ? <UpdateLocation enableMarker={enableMarker} /> : <AddLocation enableMarker={enableMarker} />}
+                </SecondaryRightPanel>}
+            </div>
+            <div label="Shapes" icon="layers">
+                <ShapeListView page={pageNum} />
+                {singleFeature && <SecondaryRightPanel className={'expandIn'}>
+                    {editShp ? <UpdateShape /> : <AddShape />}
+                </SecondaryRightPanel>}
+            </div>
+            <div label="Map Settings" icon="settings">
+                <MapSettings />
+            </div>
+        </Tabs>
+    </LayerStyle>
 }
 
 export default RightPanel;

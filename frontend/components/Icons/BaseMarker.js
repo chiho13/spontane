@@ -25,8 +25,7 @@ import Siren from './MapMarkers/Siren';
 
 const BaseMarkerStyle = styled.div`
 display: flex;
-cursor: pointer;
-pointer-events: ${props => props.disableClick ? 'none' : 'all'};
+
 
 &:after {
   content: '';
@@ -40,6 +39,12 @@ pointer-events: ${props => props.disableClick ? 'none' : 'all'};
   border-radius: 4px;
   display: ${props => props.selected ? 'block' : 'none'};
 }
+
+span {
+  cursor: pointer;
+  pointer-events: ${props => props.disableClick ? 'none' : 'all'};
+}
+
 svg {
   transition: all 0.3s ease;
 }
@@ -74,9 +79,12 @@ function BaseMarker(props) {
   return (
     <BaseMarkerStyle selected={selected}
     disableClick={addShape}
-      onClick={onClick}
     >
-      <DynamicMarker size={size} markerColor={pinColor} dropShadowColor={dropShadowColor} />
+      <span onClick={onClick} style={{
+          transform: `translate(${-size / 2}px,${-size}px)`
+      }}>
+        <DynamicMarker size={size} markerColor={pinColor} dropShadowColor={dropShadowColor}   />
+      </span>
     </BaseMarkerStyle>
   );
 }

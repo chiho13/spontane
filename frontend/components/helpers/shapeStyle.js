@@ -63,10 +63,18 @@ export function featureStyle({ feature, state }) {
       style = { ...HOVERED_STYLE };
 
       if(hasStyle) {
+        let fillOpac = feature.properties.style.fillOpacity;
+
+            if(fillOpac > 0.7) {
+                fillOpac = fillOpac - 0.1;
+            } else {
+                fillOpac = fillOpac + 0.1;
+            }
+        
         style = {
-            ...HOVERED_STYLE,
-            fill: feature.properties.style.fill,
-          }
+            ...feature.properties.style,
+            fillOpacity: fillOpac
+        }
       }
       break;
 
