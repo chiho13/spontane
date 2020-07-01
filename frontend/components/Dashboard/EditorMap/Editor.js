@@ -83,6 +83,7 @@ function MapEditor(props) {
         if(singleFeature == null) {
             editorRef.current && deleteSquare();
             setSelectedMode(null);
+            setShapeUpdateFeature({})
         }
     }, [singleFeature]);
 
@@ -216,7 +217,7 @@ function MapEditor(props) {
 
         const shapeStyle = shape.geojson.properties.style;
         setEditShape(true);
-
+        console.log(shapeStyle);
         setShapeForm({
             details: shape.geojson.properties.details,
             fillColor: shapeStyle.fill,
@@ -260,10 +261,10 @@ function MapEditor(props) {
         }, 0);
     }
 
-    const memoiseFilteredProject = useMemo(() => filteredProject && filteredProject.locations.filter(loc => loc.id !== singleLocation.id), [filteredProject, singleLocation]);
+    const memoiseFilteredLocations = useMemo(() => filteredProject && filteredProject.locations.filter(loc => loc.id !== singleLocation.id), [filteredProject, singleLocation]);
 
     function RenderCityMarker() {
-        return mapConfig.loadedMap && memoiseFilteredProject.map(_location => {
+        return mapConfig.loadedMap && memoiseFilteredLocations.map(_location => {
             return <Marker
                 key={`marker-${_location.id}`}
                 longitude={_location.geoLocation.longitude}
@@ -280,8 +281,10 @@ function MapEditor(props) {
         );
     }
 
+    const memoiseFilteredShapes = useMemo(() => filteredProject && filteredProject.shapes.filter(loc => loc.id !== shapeUpdateFeature.id), [filteredProject, shapeUpdateFeature]);
+
     function RenderGeoJsonShapes() {
-        return filteredProject && filteredProject.shapes.map(_shape => {
+        return mapConfig.loadedMap && memoiseFilteredShapes.map(_shape => {
             const geojson = JSON.parse(_shape.geojson);
             const isLineString = geojson.geometry.type == "LineString";
 
@@ -291,7 +294,7 @@ function MapEditor(props) {
 
             const shapeIdLine = !isLineString ? `${_shape.id}2` : _shape.id;
             const obj = {};
-            obj["realId"] = _shape.id;
+            obj["id"] = _shape.id;
             obj["layerId"] = shapeIdLine;
             obj["geojson"] = geojson;
             layerIds.push(obj);
@@ -332,8 +335,6 @@ function MapEditor(props) {
             </React.Fragment>
         })
     }
-
-    console.log(layerIds);
 
     useEffect(() => {
         filteredProject && filteredProject.shapes.map(_shape => {
@@ -400,7 +401,7 @@ function MapEditor(props) {
                         const hasMatch = Boolean(matchedId);
 
                         if(hasMatch) {
-                            setHoverID(matchedId.realId);
+                            setHoverID(matchedId.id);
                         } else {
                             setHoverID('sdfsdsf');
                         }

@@ -114,13 +114,12 @@ function AddShape() {
     const { user, refetch } = useContext(UserContext);
     const { form, setForm, handleChange, addShape, setAddShape, singleFeature, selectedShape, setSelectedShape, setSingleFeature, editShape, shapeUpdateFeature } = useContext(ShapeEditorContext);
 
-    const { mapConfig } = useContext(ViewPortContext);
     const [fillColor, setFillColor] = useState(form.fillColor);
     const [strokeColor, setStrokeColor] = useState(form.strokeColor);
     const [fillOpacityDec, setFillOpacityDec] = useState(form.fillOpacity);
 
-    const [lineDash, setLineDash] = useState("none");
-    const [lineThickness, setLineThickness] = useState(2);
+    const [lineDash, setLineDash] = useState(form.strokeDasharray);
+    const [lineThickness, setLineThickness] = useState(form.strokeWidth);
     const [localFeature, setLocalFeature] = useState(null);
 
     useEffect(() => {
@@ -140,7 +139,6 @@ function AddShape() {
 
     }, [addShape, fillColor, strokeColor, fillOpacityDec, lineDash, lineThickness, selectedShape]);
 
-
     useEffect(() => {
         if (singleFeature) {
             const stringifySingleFeature = JSON.stringify(singleFeature);
@@ -155,9 +153,9 @@ function AddShape() {
         className: css({ fontFamily: "nunito, sans-serif" })
     });
 
-    async function onSubmit(e, updateProject) {
+    async function onSubmit(e, updateShape) {
         e.preventDefault();
-        const res = await updateProject({
+        const res = await updateShape({
             variables: {
                 id: router.query.id,
                 user: user.id,
