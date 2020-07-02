@@ -25,12 +25,10 @@ const UPDATE_SHAPE_MUTATION = gql `
     mutation UPDATE_SHAPE_MUTATION(
         $id: ID!
         $geojson: String!
-        $user: String
     ) {
         updateShape(
             id: $id
             geojson: $geojson
-            user: $user
         ) {
             id
         }
@@ -109,10 +107,10 @@ const SelectColorsContainer = styled.div`
  
 `;
 
-function AddShape() {
+function UpdateShape() {
     const router = useRouter();
     const { user, refetch } = useContext(UserContext);
-    const { form, setForm, handleChange, addShape, setAddShape, singleFeature, selectedShape, setSelectedShape, setSingleFeature, editShape, shapeUpdateFeature } = useContext(ShapeEditorContext);
+    const { form, setForm, handleChange, addShape, setAddShape, singleFeature, selectedShape, setSelectedShape, setSingleFeature, editShape, shapeUpdateFeature, setShapeUpdateFeature } = useContext(ShapeEditorContext);
 
     const [fillColor, setFillColor] = useState(form.fillColor);
     const [strokeColor, setStrokeColor] = useState(form.strokeColor);
@@ -137,17 +135,17 @@ function AddShape() {
 
         setSingleFeature(clonedFeature);
 
-    }, [addShape, fillColor, strokeColor, fillOpacityDec, lineDash, lineThickness, selectedShape]);
+    }, [addShape, fillColor, strokeColor, fillOpacityDec, lineDash, lineThickness, selectedShape, form]);
+
 
     useEffect(() => {
-        if (singleFeature) {
+        if(singleFeature) {
             const stringifySingleFeature = JSON.stringify(singleFeature);
             setLocalFeature(stringifySingleFeature);
         }
+    }, [singleFeature])
 
-    }, [singleFeature]);
-
-    const notify = () => toast.success("Shape created!", {
+    const notify = () => toast.info("Shape Updated!", {
         position: toast.POSITION.BOTTOM_CENTER,
         closeButton: false,
         className: css({ fontFamily: "nunito, sans-serif" })
@@ -157,8 +155,7 @@ function AddShape() {
         e.preventDefault();
         const res = await updateShape({
             variables: {
-                id: router.query.id,
-                user: user.id,
+                id: shapeUpdateFeature.id,
                 geojson: localFeature
             }
         });
@@ -166,9 +163,13 @@ function AddShape() {
         if (res) {
             notify();
             refetch();
-            setAddShape(false);
-            setSelectedShape(null);
-            setSingleFeature(null);
+
+            setTimeout(() => {
+                setAddShape(false);
+                setSelectedShape(null);
+                setShapeUpdateFeature({id: 'sfsd'});
+                setSingleFeature(null);
+            }, 1000);
         }
     }
 
@@ -190,7 +191,7 @@ function AddShape() {
                         onChange={handleChange} />
                 </div>
                 <ShapeContainer>
-                    <ShapeProperties>
+                    {shapeUpdateFeature && shapeUpdateFeature.geojson.geometry.type !== "LineString" &&  <ShapeProperties>
                         <h4>
                             Shape
                     </h4>
@@ -209,7 +210,7 @@ function AddShape() {
                                 <SelectOpacity setOpacityDec={setFillOpacityDec} opacityDec={fillOpacityDec} />
                             </div>
                         </SelectColorsContainer>
-                    </ShapeProperties>
+                    </ShapeProperties>}
 
                     <ShapeProperties>
                         <h4>
@@ -256,4 +257,4 @@ function AddShape() {
     </UpdateShapeStyle>
 }
 
-export default AddShape;
+export default UpdateShape;

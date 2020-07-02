@@ -1,4 +1,4 @@
-import React, {useContext, useState, useEffect} from 'react';
+import React, {useContext, useState, useEffect, useMemo} from 'react';
 import ShowMarker from './ShowMarker';
 import DynamicMarker from '../../Icons/BaseMarker';
 import {Marker} from 'react-map-gl';
@@ -12,11 +12,11 @@ function DropMarker(props) {
     }, onMarkerDragStart, onMarkerDrag, onMarkerDragEnd, editLocation} = props;
 
     const {mapConfig} = useContext(ViewPortContext);
-    const {form} = useContext(LocationEditorContext);
+    const {form, dropMarker} = useContext(LocationEditorContext);
 
     const [state, setState] = useState({
         markerType: form.markerType,
-        pinColor: form.pinColor
+        pinColor: mapConfig.markerColor
     });
 
 
@@ -27,6 +27,28 @@ function DropMarker(props) {
         });
     }, [editLocation, form]);
 
+    // useEffect(() => {
+    //     setState({
+    //         markerType: form.markerType,
+    //         pinColor: form.pinColor
+    //     });
+
+    // });
+
+    // useEffect(() => {
+    //     if (editLocation) {
+    //         setState({
+    //             markerType: form.markerType,
+    //             pinColor: form.pinColor
+    //         });
+    //     } else {
+    //         setState({
+    //             markerType: form.markerType,
+    //             pinColor: mapConfig.markerColor
+    //         });
+    //     }
+    // }, [mapConfig, editLocation]);
+
 
     return  <Marker
             longitude={parseFloat(longitude)}
@@ -35,7 +57,7 @@ function DropMarker(props) {
             onDragStart={onMarkerDragStart}
             onDrag={onMarkerDrag}
             onDragEnd={onMarkerDragEnd}>
-            <DynamicMarker  markerType={state.markerType} dropShadowColor="#ffffff" pinColor={state.pinColor} selected={true} />
+            <DynamicMarker  markerType={form.markerType} dropShadowColor="#ffffff" pinColor={form.pinColor} selected={true} />
         </Marker>
 }
 

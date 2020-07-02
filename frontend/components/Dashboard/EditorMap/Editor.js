@@ -83,7 +83,8 @@ function MapEditor(props) {
         if(singleFeature == null) {
             editorRef.current && deleteSquare();
             setSelectedMode(null);
-            setShapeUpdateFeature({})
+            setShapeUpdateFeature({id: 'sfsd'});
+            setEditShape(false);
         }
     }, [singleFeature]);
 
@@ -232,7 +233,6 @@ function MapEditor(props) {
 
         setAddShape(true);
         setSingleFeature(shape.geojson);
-        switchMode(EditingMode);
 
     }
 
@@ -289,7 +289,7 @@ function MapEditor(props) {
             const isLineString = geojson.geometry.type == "LineString";
 
             const dashArray = geojson.properties.style.strokeDasharray;
-            const splitDashArray = geojson.properties.style.strokeDasharray.split(" ").map(x => (+x / 4));
+            const splitDashArray = geojson.properties.style.strokeDasharray.split(" ").map(x => (+x / 5));
             const hasDashArray = dashArray == "none" ? [1] : splitDashArray; 
 
             const shapeIdLine = !isLineString ? `${_shape.id}2` : _shape.id;
@@ -299,8 +299,14 @@ function MapEditor(props) {
             obj["geojson"] = geojson;
             layerIds.push(obj);
 
-            const hovering = hoverID == _shape.id;
+            const hovering = (hoverID == _shape.id) && !editShape;
             let fillOpac = geojson.properties.style.fillOpacity;
+            let lineColor = geojson.properties.style.stroke;
+            if(isLineString) {
+                if(hovering) {
+                    lineColor = "#7AC943";
+                }
+            }
 
             if(hovering) {
                 if(fillOpac > 0.7) {
@@ -317,7 +323,7 @@ function MapEditor(props) {
                         type='line'
                         source={_shape.id}
                         paint={{
-                            'line-color': geojson.properties.style.stroke,
+                            'line-color': lineColor,
                             'line-width': geojson.properties.style.strokeWidth,
                             'line-dasharray': hasDashArray
                         }}
@@ -374,6 +380,7 @@ function MapEditor(props) {
                         addMarker(e);
                     }}
                     onClick={(e) => {
+                        console.log("hi")
                         const hasFeature = e.features.length;
 
                         if(!hasFeature) return;
@@ -383,7 +390,10 @@ function MapEditor(props) {
                         const hasMatch = Boolean(matchedId);
 
                         if(hasMatch) {
+                            switchMode(EditingMode);
+                            console.log(editorRef.current);
                             updateShape(matchedId);
+                            
                         }
 
                     }}
@@ -413,7 +423,6 @@ function MapEditor(props) {
                         clickRadius={4}
                         onSelect={(selected) => {
                             setSelectedFeatureIndexes(selected);
-
                             if (selected.mapCoords === undefined) {
                                 switchMode(EditingMode);
                             }

@@ -135,7 +135,7 @@ function AddShape() {
 
         setSingleFeature(clonedFeature);
 
-    }, [addShape, fillColor, strokeColor, fillOpacityDec, lineDash, lineThickness, selectedShape]);
+    }, [addShape, fillColor, strokeColor, fillOpacityDec, lineDash, lineThickness, selectedShape, form]);
 
     useEffect(() => {
         setForm({
@@ -154,6 +154,8 @@ function AddShape() {
         }
 
     }, [singleFeature]);
+
+    console.log(localFeature);
 
     const notify = () => toast.success("Shape created!", {
         position: toast.POSITION.BOTTOM_CENTER,
@@ -198,7 +200,7 @@ function AddShape() {
                         onChange={handleChange} />
                 </div>
                 <ShapeContainer>
-                    <ShapeProperties>
+                    {selectedShape && selectedShape.type !== "Line" && <ShapeProperties>
                         <h4>
                             Shape
                     </h4>
@@ -217,7 +219,7 @@ function AddShape() {
                                 <SelectOpacity setOpacityDec={setFillOpacityDec} opacityDec={fillOpacityDec} />
                             </div>
                         </SelectColorsContainer>
-                    </ShapeProperties>
+                    </ShapeProperties>}
 
                     <ShapeProperties>
                         <h4>
@@ -249,7 +251,7 @@ function AddShape() {
                 </ShapeContainer>
                 <div className="button_wrapper abs">
                     <ThemeProvider theme={invertTheme}>
-                        <Button width="auto" type="submit" disabled={localFeature ? false : true}>Save</Button>
+                        <Button width="auto" type="submit" disabled={(localFeature && form.details.length) ? false : true}>Save</Button>
                     </ThemeProvider>
                 </div>
             </LocationFormStyle>)}

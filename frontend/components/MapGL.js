@@ -6,6 +6,7 @@ import { useQuery } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
 import Router, { useRouter } from 'next/router';
 import { UserContext } from './Layout/DashboardLayout';
+import {LocationEditorContext} from './providers/LocationEditorProvider';
 
 export const TOKEN = 'pk.eyJ1IjoiYW50aG9ueWhvZGVzdSIsImEiOiJjanI2aWdmMmYxNXB2NDN0ZzJnd3FsMHg3In0.SejE2ZJApZ0Rg5UTsK7kPw';
 const SINGLE_PROJECT_QUERY = gql`
@@ -21,7 +22,7 @@ const SINGLE_PROJECT_QUERY = gql`
 const Maps = React.forwardRef((props, ref) => {
     const {loading, projectData, } = useContext(UserContext);
     const { viewport, setViewport, onViewportChange, mapConfig, setMapConfig } = useContext(ViewPortContext);
-
+    const { form, setForm} = useContext(LocationEditorContext);
     const router = useRouter();
     const projectID = router.query.id;
 
@@ -61,6 +62,11 @@ const Maps = React.forwardRef((props, ref) => {
                 markerColor: projectData.markerColor,
                 title: projectData.title,
                 loadedMap: true
+            });
+
+            setForm({
+                ...form,
+                pinColor: projectData.markerColor
             });
 
         }

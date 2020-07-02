@@ -58,6 +58,10 @@ body {
     overflow: hidden;
 }
 
+#simple-popper {
+    z-index: 5;
+}
+
 ul, li, h1, h2, h3, p, a {
     padding: 0;
     margin: 0;

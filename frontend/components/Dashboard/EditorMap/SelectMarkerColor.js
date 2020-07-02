@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import Popper from '@material-ui/core/Popper';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
@@ -8,10 +8,10 @@ import styled from 'styled-components';
 import Button from '../../UIKIT/iButton';
 import SelectColor from './SelectColor';
 
-import { SketchPicker } from 'react-color';
+import {SketchPicker} from 'react-color';
 
-import { ViewPortContext } from '../../providers/MapProvider';
-import { LocationEditorContext } from '../../providers/LocationEditorProvider';
+import {ViewPortContext} from '../../providers/MapProvider';
+import {LocationEditorContext} from '../../providers/LocationEditorProvider';
 
 const SelectColorPaper = styled(Paper)`
     && {
@@ -27,7 +27,6 @@ const SelectColorPaper = styled(Paper)`
         }
     }
 `;
-
 
 const SelectColorButton = styled(Button)`
     && {
@@ -55,9 +54,10 @@ const SelectColorButton = styled(Button)`
 `;
 
 function SelectMarkerColor() {
-    const { mapConfig } = useContext(ViewPortContext);
-    const { form, setForm, dropMarker, editLocation } = useContext(LocationEditorContext)
-    const [pinColor, setPinColor] = useState(mapConfig.markerColor);
+    const {mapConfig} = useContext(ViewPortContext);
+    const {form, setForm, dropMarker, editLocation} = useContext(LocationEditorContext)
+    const [pinColor,
+        setPinColor] = useState(form.pinColor);
 
     useEffect(() => {
         setForm({
@@ -70,16 +70,13 @@ function SelectMarkerColor() {
     useEffect(() => {
         if (editLocation) {
             setPinColor(form.pinColor);
-        } else {
-            setPinColor(mapConfig.markerColor);
-        }
-    }, [mapConfig, editLocation]);
-
+        } 
+    }, [editLocation]);
 
     return <div>
         <label>
             Select Color
-            </label>
+        </label>
         <SelectColor setColor={setPinColor} color={pinColor}/>
     </div>
 }

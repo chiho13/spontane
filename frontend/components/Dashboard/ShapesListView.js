@@ -27,9 +27,6 @@ const ShapeListViewItem = (props) => {
         <LocationItemStyles>
             <div className="location_content">
                 <h3>{shape.properties.details}</h3>
-                <p>
-                    {shape.geometry.type}
-                </p>
             </div>
             <div className="buttonList">
                 {/* <DeleteButton locationID={shap.id} showButton={true}/> */}
