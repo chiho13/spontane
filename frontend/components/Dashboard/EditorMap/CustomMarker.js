@@ -27,6 +27,10 @@ const SelectMarkerPaper = styled(Paper)`
         .marker_text {
             margin-left: 8px;
         }
+
+        span.dynamic-marker {
+            transform: none !important; 
+        }
     }
 `;
 
@@ -85,12 +89,8 @@ function CustomMarker(props) {
         handleClose(event);
     }
 
-    function handleClose(event) {
-        if (anchorEl.contains(event.target)) {
-            return;
-        }
-
-        setOpen(false);
+    function handleClose() {
+        setAnchorEl(null);
     }
 
     return  <div>
@@ -120,7 +120,7 @@ function CustomMarker(props) {
                         <MenuList aria-labelledby="marker-slider">
                         {markerComponents.map((type, i) => {
                             return <MenuItem key={i} onClick={(e) => selectMarker(e, type)}>
-                                <BaseMarker  markerType={type} dropShadowColor="#ffffff" pinColor="#333333" size={28}/>
+                                <BaseMarker  markerType={type} dropShadowColor="#ffffff" pinColor="#333333" size={28} disableTransform={true}/>
                         <span className="marker_text">{type}</span>
                             </MenuItem>
                             })}

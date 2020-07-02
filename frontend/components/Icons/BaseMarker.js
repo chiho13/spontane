@@ -40,7 +40,7 @@ display: flex;
   display: ${props => props.selected ? 'block' : 'none'};
 }
 
-span {
+span.dynamic_marker {
   cursor: pointer;
   pointer-events: ${props => props.disableClick ? 'none' : 'all'};
 }
@@ -72,7 +72,7 @@ export const Markers = {
 };
 
 function BaseMarker(props) {
-  const { size, pinColor, onClick, dropShadowColor, markerType, selected} = props;
+  const { size, pinColor, onClick, dropShadowColor, markerType, selected, disableTransform} = props;
   const {addShape} = useContext(ShapeEditorContext);
   const DynamicMarker = Markers[markerType];
 
@@ -80,7 +80,7 @@ function BaseMarker(props) {
     <BaseMarkerStyle selected={selected}
     disableClick={addShape}
     >
-      <span onClick={onClick} style={{
+      <span className="dynamic_marker" onClick={onClick} style={disableTransform ? null : {
           transform: `translate(${-size / 2}px,${-size}px)`
       }}>
         <DynamicMarker size={size} markerColor={pinColor} dropShadowColor={dropShadowColor}   />
@@ -93,7 +93,8 @@ BaseMarker.defaultProps = {
   size: 35,
   selected: false,
   dropShadowColor: '#ffffff',
-  markerType: 'Default'
+  markerType: 'Default',
+  disableTransform: false
 }
 
 export default BaseMarker;

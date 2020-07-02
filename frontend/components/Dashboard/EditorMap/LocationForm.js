@@ -159,7 +159,6 @@ const SuggestionBoxStyle = styled.div`
 const SelectMarkerContainer = styled.div`
     position: sticky;
     top: 0;
-    z-index: 10;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 16px;
@@ -177,8 +176,11 @@ const SelectMarkerContainer = styled.div`
         padding-left: 8px;
     }
 
-    svg {
+    span.dynamic_marker {
         transform: none !important; 
+    }
+
+    svg {
         filter: none !important;
         animation: none !important;
     }
@@ -240,8 +242,8 @@ function LocationForm(props) {
     return <LocationFormStyle
         onSubmit={onSubmit}>
         <SelectMarkerContainer>
-            <CustomMarker form={defaultValue} setForm={setForm} dropMarker={dropMarker}/>
             <SelectMarkerColor form={defaultValue} setForm={setForm} dropMarker={dropMarker} />
+            <CustomMarker form={defaultValue} setForm={setForm} dropMarker={dropMarker}/>
         </SelectMarkerContainer>
         <fieldset disabled={loading} hasgrid={"true"} aria-busy={loading}>
             <div className="fieldset_wrapper">

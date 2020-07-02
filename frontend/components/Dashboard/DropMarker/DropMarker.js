@@ -4,12 +4,14 @@ import DynamicMarker from '../../Icons/BaseMarker';
 import {Marker} from 'react-map-gl';
 import { LocationEditorContext } from '../../providers/LocationEditorProvider';
 
+import {ViewPortContext} from '../../providers/MapProvider';
 
 function DropMarker(props) {
     const {marker: {
         latitude, longitude
     }, onMarkerDragStart, onMarkerDrag, onMarkerDragEnd, editLocation} = props;
 
+    const {mapConfig} = useContext(ViewPortContext);
     const {form} = useContext(LocationEditorContext);
 
     const [state, setState] = useState({
@@ -24,6 +26,7 @@ function DropMarker(props) {
             pinColor: form.pinColor
         });
     }, [editLocation, form]);
+
 
     return  <Marker
             longitude={parseFloat(longitude)}
