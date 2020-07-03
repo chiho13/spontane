@@ -110,14 +110,17 @@ function Opacity(props) {
 
     function handleChange(event) {
         const {value} = event.target;
-        
+        const decVal = value / 100;
         setPercent(event.target.value);
+        setOpacityDec(decVal)
         if(value > 100) {
             setPercent(100);
+            setOpacityDec(1);
         }
 
         if(value < 0) {
             setPercent(0);
+            setOpacityDec(0);
         }
         
     }

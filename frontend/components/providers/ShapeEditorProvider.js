@@ -26,6 +26,7 @@ function ShapeEditorProvider(props) {
   const [selectedShape, setSelectedShape] = useState(null);
   const [singleFeature, setSingleFeature] = useState(null);
   const [shapeUpdateFeature, setShapeUpdateFeature] = useState({id: 'dfsdf'});
+  const [hoverShape, setHoverShape] = useState('');
 
   return <ShapeEditorContext.Provider value={{
       form, setForm, handleChange, initialShapeForm,
@@ -33,7 +34,8 @@ function ShapeEditorProvider(props) {
       editShape, setEditShape,
       selectedShape, setSelectedShape,
       singleFeature, setSingleFeature,
-      shapeUpdateFeature, setShapeUpdateFeature
+      shapeUpdateFeature, setShapeUpdateFeature,
+      hoverShape, setHoverShape
     }}>
       {props.children}
     </ShapeEditorContext.Provider>

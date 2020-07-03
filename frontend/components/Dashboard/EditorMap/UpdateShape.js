@@ -191,7 +191,7 @@ function UpdateShape() {
                         onChange={handleChange} />
                 </div>
                 <ShapeContainer>
-                    {shapeUpdateFeature && shapeUpdateFeature.geojson.geometry.type !== "LineString" &&  <ShapeProperties>
+                    {shapeUpdateFeature.hasOwnProperty("geojson") && shapeUpdateFeature.geojson.geometry.type !== "LineString" &&  <ShapeProperties>
                         <h4>
                             Shape
                     </h4>

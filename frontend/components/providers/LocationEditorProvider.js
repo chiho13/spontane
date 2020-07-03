@@ -30,6 +30,8 @@ function LocationEditorProvider(props) {
     const [editLocation, setEditLocation] = useState(false);
     const [singleLocation, setSingleLocation] = useState({...form, id: 'dsd'});
 
+    const [hoverLocation, setHoverLocation] = useState('');
+
     const [suggestions, setSuggestions] = useState({
       place: null,
       address: null
@@ -40,7 +42,8 @@ function LocationEditorProvider(props) {
     dropMarker, setDropMarker, 
     editLocation, 
     setEditLocation, 
-    singleLocation, setSingleLocation, 
+    singleLocation, setSingleLocation,
+    hoverLocation, setHoverLocation,
     suggestions, setSuggestions
     }}>
       {props.children}

@@ -5,8 +5,7 @@ import {perPage} from '../../config';
 import {UserContext} from '../Layout/DashboardLayout';
 import LocationItemStyles from './LocationListViewItem/LocationListViewItemStyle';
 import DeleteButton from '../IconButtons/DeleteButton';
-
-
+import { ShapeEditorContext } from '../providers/ShapeEditorProvider';
 import Skeleton from './Skeleton';
 
 
@@ -23,10 +22,18 @@ const ShapesListViewStyle = styled.ol`
 
 const ShapeListViewItem = (props) => {
     const {shape} = props;
+    const geojson = JSON.parse(shape.geojson);
+    const {setHoverShape} = useContext(ShapeEditorContext);
     return (
-        <LocationItemStyles>
+        <LocationItemStyles onMouseEnter={() => {
+            setHoverShape(shape.id);
+        }}
+        onMouseLeave={() => {
+            setHoverShape('');
+        }}
+        >
             <div className="location_content">
-                <h3>{shape.properties.details}</h3>
+                <h3>{geojson.properties.details}</h3>
             </div>
             <div className="buttonList">
                 {/* <DeleteButton locationID={shap.id} showButton={true}/> */}
@@ -55,10 +62,9 @@ const ShapesListView = (props) => {
     return (
         <ShapesListViewStyle>
             { MemoiseShapes.map((_shape) => {
-                const parseJSON = JSON.parse(_shape.geojson);
 
                 return <li key={_shape.id}>
-                    <ShapeListViewItem shape={parseJSON} />
+                    <ShapeListViewItem shape={_shape} />
                 </li>
             })
             }

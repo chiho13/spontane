@@ -91,7 +91,8 @@ const SecondaryRightPanel = styled.div`
 function RightPanel(props) {
     const router = useRouter();
     const page = router.query.page
-    const [pageNum, setPageNum] = useState(parseFloat(page) || 1);
+    const [locPageNum, setLocPageNum] = useState(parseFloat(page) || 1);
+    const [shapePageNum, setShapePageNum] = useState(parseFloat(page) || 1);
     const { dropMarker, editLocation } = useContext(LocationEditorContext);
     const { addShape, singleFeature, editShape } = useContext(ShapeEditorContext);
 
@@ -113,15 +114,15 @@ function RightPanel(props) {
         <Tabs id={props.id}>
             <div label="Locator" icon="view_list">
                 <StickyTabs>
-                    <Pagination page={pageNum} setPageNum={setPageNum} />
+                    <Pagination page={locPageNum} setPageNum={setLocPageNum} />
                 </StickyTabs>
-                <ListView page={pageNum} updateLocation={updateLocation} />
+                <ListView page={locPageNum} updateLocation={updateLocation} />
                 {showMarker && <SecondaryRightPanel className={'expandIn'}>
                     {editLoc ? <UpdateLocation enableMarker={enableMarker} /> : <AddLocation enableMarker={enableMarker} />}
                 </SecondaryRightPanel>}
             </div>
             <div label="Shapes" icon="layers">
-                <ShapeListView page={pageNum} />
+                <ShapeListView page={shapePageNum} />
                 {singleFeature && <SecondaryRightPanel className={'expandIn'}>
                     {editShp ? <UpdateShape /> : <AddShape />}
                 </SecondaryRightPanel>}

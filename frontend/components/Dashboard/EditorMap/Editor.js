@@ -41,14 +41,14 @@ function MapEditor(props) {
     const { viewport, setViewport, mapConfig } = useContext(ViewPortContext);
 
     const { loading, projectData: filteredProject } = useContext(UserContext);
-    const { form, setForm, initialForm, dropMarker, setDropMarker, setEditLocation, editLocation, setSingleLocation, singleLocation, setSuggestions } = useContext(LocationEditorContext);
+    const { form, setForm, initialForm, dropMarker, setDropMarker, setEditLocation, editLocation, setSingleLocation, singleLocation, setSuggestions, hoverLocation } = useContext(LocationEditorContext);
 
-    const { form: shapeForm, setForm: setShapeForm, addShape, setAddShape, selectedShape, singleFeature, setSingleFeature, editShape, setEditShape, shapeUpdateFeature, setShapeUpdateFeature } = useContext(ShapeEditorContext);
+    const { form: shapeForm, setForm: setShapeForm, addShape, setAddShape, selectedShape, singleFeature, setSingleFeature, editShape, setEditShape, shapeUpdateFeature, setShapeUpdateFeature, hoverShape, setHoverShape } = useContext(ShapeEditorContext);
     const [savedLayerOpen, setSavedLayerOpen] = useLocalStorage('layerOpened', true);
 
     const [layerOpen, setLayerOpen] = useState(null);
 
-    const [hoverID, setHoverID] = useState('dfdsf');
+    // const [hoverID, setHoverID] = useState('dfdsf');
 
     const mapRef = useRef(null);
     const editorRef = useRef(null);
@@ -72,6 +72,7 @@ function MapEditor(props) {
 
     useEffect(() => {
         editorRef.current && deleteSquare();
+        setShapeUpdateFeature({id: 'sfsd'});
         if (selectedShape) {
             switchMode(selectedShape.mode);
         } else {
@@ -233,7 +234,6 @@ function MapEditor(props) {
 
         setAddShape(true);
         setSingleFeature(shape.geojson);
-
     }
 
     function updateLocation(location) {
@@ -275,6 +275,7 @@ function MapEditor(props) {
                     updateLocation(_location);
                 }} pinColor={_location.markerType.pinColor}
                     markerType={_location.markerType.type}
+                    selected={hoverLocation == _location.id}
                 />
             </Marker>
         }
@@ -290,7 +291,7 @@ function MapEditor(props) {
 
             const dashArray = geojson.properties.style.strokeDasharray;
             const splitDashArray = geojson.properties.style.strokeDasharray.split(" ").map(x => (+x / 5));
-            const hasDashArray = dashArray == "none" ? [1] : splitDashArray; 
+            let hasDashArray = dashArray == "none" ? [1] : splitDashArray; 
 
             const shapeIdLine = !isLineString ? `${_shape.id}2` : _shape.id;
             const obj = {};
@@ -299,14 +300,19 @@ function MapEditor(props) {
             obj["geojson"] = geojson;
             layerIds.push(obj);
 
-            const hovering = (hoverID == _shape.id) && !editShape;
+            console.log(hoverShape);
+            const hovering = (hoverShape == _shape.id) && !editShape;
+            let fillColor = geojson.properties.style.fill;
             let fillOpac = geojson.properties.style.fillOpacity;
             let lineColor = geojson.properties.style.stroke;
-            if(isLineString) {
+            let lineWidth = geojson.properties.style.strokeWidth;
+            // if(isLineString) {
                 if(hovering) {
                     lineColor = "#7AC943";
+                    lineWidth = 4;
+                    fillColor = "#7AC943"
                 }
-            }
+            // }
 
             if(hovering) {
                 if(fillOpac > 0.7) {
@@ -324,7 +330,7 @@ function MapEditor(props) {
                         source={_shape.id}
                         paint={{
                             'line-color': lineColor,
-                            'line-width': geojson.properties.style.strokeWidth,
+                            'line-width': lineWidth,
                             'line-dasharray': hasDashArray
                         }}
                     />
@@ -333,7 +339,7 @@ function MapEditor(props) {
                         type='fill'
                         source={_shape.id}
                         paint={{
-                            'fill-color': geojson.properties.style.fill,
+                            'fill-color': fillColor,
                             'fill-opacity': fillOpac
                         }}
                     /> : <div></div>} 
@@ -380,7 +386,6 @@ function MapEditor(props) {
                         addMarker(e);
                     }}
                     onClick={(e) => {
-                        console.log("hi")
                         const hasFeature = e.features.length;
 
                         if(!hasFeature) return;
@@ -393,7 +398,7 @@ function MapEditor(props) {
                             switchMode(EditingMode);
                             console.log(editorRef.current);
                             updateShape(matchedId);
-                            
+                            click(e.center.x,e.center.y)
                         }
 
                     }}
@@ -411,9 +416,9 @@ function MapEditor(props) {
                         const hasMatch = Boolean(matchedId);
 
                         if(hasMatch) {
-                            setHoverID(matchedId.id);
+                            setHoverShape(matchedId.id);
                         } else {
-                            setHoverID('sdfsdsf');
+                            setHoverShape('sdfsdsf');
                         }
 
                     }}
@@ -456,6 +461,20 @@ function MapEditor(props) {
             <RightPanel layerOpen={layerOpen} updateLocation={updateLocation} enableMarker={enableMarker} showMarker={showMarker} />
         </CreateLocationMapStyle>
     );
+}
+
+function click(x,y){
+    var ev = document.createEvent("MouseEvent");
+    var el = document.elementFromPoint(x,y);
+    ev.initMouseEvent(
+        "click",
+        true /* bubble */, true /* cancelable */,
+        window, null,
+        x, y, 0, 0, /* coordinates */
+        false, false, false, false, /* modifier keys */
+        0 /*left*/, null
+    );
+    el.dispatchEvent(ev);
 }
 
 export default MapEditor;

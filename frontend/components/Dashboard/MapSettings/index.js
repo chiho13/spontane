@@ -124,8 +124,6 @@ function MapSettings(props) {
         setForm({title: mapConfig.title, mapStyle: mapConfig.mapStyle, markerColor: mapConfig.markerColor});
     }, [mapConfig]);
 
-    console.log(form.markerColor);
-
     const notify = () => toast.success("Map Settings updated!", {
         position: toast.POSITION.BOTTOM_CENTER,
         closeButton: false,
