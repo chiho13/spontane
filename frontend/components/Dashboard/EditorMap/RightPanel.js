@@ -108,7 +108,7 @@ function RightPanel(props) {
     }, [editShape]);
 
 
-    const { layerOpen, updateLocation, enableMarker, showMarker } = props;
+    const { layerOpen, updateLocation, updateShape, enableMarker, showMarker } = props;
     return <LayerStyle
         className={layerOpen && 'expandIn'}>
         <Tabs id={props.id}>
@@ -122,7 +122,7 @@ function RightPanel(props) {
                 </SecondaryRightPanel>}
             </div>
             <div label="Shapes" icon="layers">
-                <ShapeListView page={shapePageNum} />
+                <ShapeListView page={shapePageNum} updateShape={updateShape}/>
                 {singleFeature && <SecondaryRightPanel className={'expandIn'}>
                     {editShp ? <UpdateShape /> : <AddShape />}
                 </SecondaryRightPanel>}

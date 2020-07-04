@@ -133,7 +133,7 @@ function UpdateShape() {
 
         clonedFeature.properties.details = form.details;
 
-        setSingleFeature(clonedFeature);
+        setSingleFeature(clonedFeature);    
 
     }, [addShape, fillColor, strokeColor, fillOpacityDec, lineDash, lineThickness, selectedShape, form]);
 
@@ -141,9 +141,9 @@ function UpdateShape() {
     useEffect(() => {
         if(singleFeature) {
             const stringifySingleFeature = JSON.stringify(singleFeature);
-            setLocalFeature(stringifySingleFeature);
+            setLocalFeature(stringifySingleFeature); 
         }
-    }, [singleFeature])
+    }, [singleFeature, editShape])
 
     const notify = () => toast.info("Shape Updated!", {
         position: toast.POSITION.BOTTOM_CENTER,
@@ -191,7 +191,7 @@ function UpdateShape() {
                         onChange={handleChange} />
                 </div>
                 <ShapeContainer>
-                    {shapeUpdateFeature.hasOwnProperty("geojson") && shapeUpdateFeature.geojson.geometry.type !== "LineString" &&  <ShapeProperties>
+                    {shapeUpdateFeature.hasOwnProperty("geojson") && JSON.parse(shapeUpdateFeature.geojson).geometry.type !== "LineString" &&  <ShapeProperties>
                         <h4>
                             Shape
                     </h4>

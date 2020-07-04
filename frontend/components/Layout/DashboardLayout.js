@@ -81,8 +81,6 @@ const DashboardLayout = props => {
         }
     }, [loading, user]);
 
-    console.log(auth);
-
     useEffect(() => {
         setPageLoad(true);
     }, []);

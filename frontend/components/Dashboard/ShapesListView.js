@@ -23,15 +23,8 @@ const ShapesListViewStyle = styled.ol`
 const ShapeListViewItem = (props) => {
     const {shape} = props;
     const geojson = JSON.parse(shape.geojson);
-    const {setHoverShape} = useContext(ShapeEditorContext);
     return (
-        <LocationItemStyles onMouseEnter={() => {
-            setHoverShape(shape.id);
-        }}
-        onMouseLeave={() => {
-            setHoverShape('');
-        }}
-        >
+        <LocationItemStyles >
             <div className="location_content">
                 <h3>{geojson.properties.details}</h3>
             </div>
@@ -44,8 +37,9 @@ const ShapeListViewItem = (props) => {
 
 const ShapesListView = (props) => {
     const {loading, projectData: filteredProject} = useContext(UserContext);
-
-    const {page} = props;
+    const {setHoverShape} = useContext(ShapeEditorContext);
+    
+    const {page, updateShape} = props;
 
     const MemoiseShapes = useMemo(() => {
         if(loading) return;
@@ -63,7 +57,17 @@ const ShapesListView = (props) => {
         <ShapesListViewStyle>
             { MemoiseShapes.map((_shape) => {
 
-                return <li key={_shape.id}>
+                return <li key={_shape.id}
+                onClick={() => {
+                    updateShape(_shape);
+                }}
+                onMouseEnter={() => {
+                    setHoverShape(_shape.id);
+                }}
+                onMouseLeave={() => {
+                    setHoverShape('');
+                }}
+                >
                     <ShapeListViewItem shape={_shape} />
                 </li>
             })

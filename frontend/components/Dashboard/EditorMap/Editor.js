@@ -217,11 +217,13 @@ function MapEditor(props) {
 
     function updateShape(shape) {
 
-        const shapeStyle = shape.geojson.properties.style;
+        console.log(shape);
+        const geojson = JSON.parse(shape.geojson)
+        const shapeStyle = geojson.properties.style;
         setEditShape(true);
-        console.log(shapeStyle);
+
         setShapeForm({
-            details: shape.geojson.properties.details,
+            details: geojson.properties.details,
             fillColor: shapeStyle.fill,
             strokeColor: shapeStyle.stroke,
             fillOpacity: shapeStyle.fillOpacity,
@@ -229,11 +231,17 @@ function MapEditor(props) {
             strokeWidth: shapeStyle.strokeWidth
         });
 
+        console.log(shapeStyle);
+
         setShapeUpdateFeature(shape);
-        editorRef.current.addFeatures(shape.geojson);
+        editorRef.current.addFeatures(geojson);
 
         setAddShape(true);
-        setSingleFeature(shape.geojson);
+
+        setTimeout(() => {
+            setSingleFeature(geojson);
+        }, 0);
+        console.log(geojson);
     }
 
     function updateLocation(location) {
@@ -297,22 +305,20 @@ function MapEditor(props) {
             const obj = {};
             obj["id"] = _shape.id;
             obj["layerId"] = shapeIdLine;
-            obj["geojson"] = geojson;
+            obj["geojson"] = _shape.geojson;
             layerIds.push(obj);
 
-            console.log(hoverShape);
             const hovering = (hoverShape == _shape.id) && !editShape;
             let fillColor = geojson.properties.style.fill;
             let fillOpac = geojson.properties.style.fillOpacity;
             let lineColor = geojson.properties.style.stroke;
             let lineWidth = geojson.properties.style.strokeWidth;
-            // if(isLineString) {
+
                 if(hovering) {
                     lineColor = "#7AC943";
                     lineWidth = 4;
                     fillColor = "#7AC943"
                 }
-            // }
 
             if(hovering) {
                 if(fillOpac > 0.7) {
@@ -359,18 +365,18 @@ function MapEditor(props) {
 
         const _singleFeature = feature.data.length && feature.data[0];
 
-        if (!_singleFeature) return;
+        // if (!_singleFeature) return;
         
-        _singleFeature.properties.style = {
-            stroke: shapeForm.strokeColor,
-            fill: shapeForm.fillColor,
-            strokeWidth: 2,
-            fillOpacity: shapeForm.fillOpacity,
-            strokeDasharray: shapeForm.strokeDasharray,
-            strokeWidth: shapeForm.strokeWidth
-        }
+        // _singleFeature.properties.style = {
+        //     stroke: shapeForm.strokeColor,
+        //     fill: shapeForm.fillColor,
+        //     strokeWidth: 2,
+        //     fillOpacity: shapeForm.fillOpacity,
+        //     strokeDasharray: shapeForm.strokeDasharray,
+        //     strokeWidth: shapeForm.strokeWidth
+        // }
 
-        _singleFeature.properties.details = shapeForm.details;
+        // _singleFeature.properties.details = shapeForm.details;
 
         setSingleFeature(_singleFeature);
     }
@@ -458,7 +464,7 @@ function MapEditor(props) {
                     <Toolbar dropMarker={dropMarker} enableMarker={enableMarker} layerOpen={layerOpen} showLayerPanel={showLayerPanel} />
                 </ToolbarContainer>
             </div>
-            <RightPanel layerOpen={layerOpen} updateLocation={updateLocation} enableMarker={enableMarker} showMarker={showMarker} />
+            <RightPanel layerOpen={layerOpen} updateLocation={updateLocation} updateShape={updateShape} enableMarker={enableMarker} showMarker={showMarker} />
         </CreateLocationMapStyle>
     );
 }
