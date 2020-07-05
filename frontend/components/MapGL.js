@@ -22,7 +22,7 @@ const SINGLE_PROJECT_QUERY = gql`
 const Maps = React.forwardRef((props, ref) => {
     const {loading, projectData, } = useContext(UserContext);
     const { viewport, setViewport, onViewportChange, mapConfig, setMapConfig } = useContext(ViewPortContext);
-    const { form, setForm} = useContext(LocationEditorContext);
+    // const { form, setForm} = useContext(LocationEditorContext);
     const router = useRouter();
     const projectID = router.query.id;
 
@@ -64,10 +64,10 @@ const Maps = React.forwardRef((props, ref) => {
                 loadedMap: true
             });
 
-            setForm({
-                ...form,
-                pinColor: projectData.markerColor
-            });
+            // setForm({
+            //     ...form,
+            //     pinColor: projectData.markerColor
+            // });
 
         }
 

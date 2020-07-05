@@ -90,7 +90,7 @@ fieldset {
     padding-top: 16px;
     width: 100%;
     background-color: #f1f1f1;
-    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 -5px 6px rgba(0, 0, 0, 0.1);
 
     button[type="submit"] {
         margin-top: 8px;

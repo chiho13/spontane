@@ -38,7 +38,7 @@ const ToolbarContainer = styled.div`
 function MapEditor(props) {
     const [selectedMode, setSelectedMode] = useState(null);
     const [selectedFeatureIndex, setSelectedFeatureIndexes] = useState(null);
-    const { viewport, setViewport, mapConfig } = useContext(ViewPortContext);
+    const { viewport, setViewport, mapConfig, flyViewPort } = useContext(ViewPortContext);
 
     const { loading, projectData: filteredProject } = useContext(UserContext);
     const { form, setForm, initialForm, dropMarker, setDropMarker, setEditLocation, editLocation, setSingleLocation, singleLocation, setSuggestions, hoverLocation } = useContext(LocationEditorContext);
@@ -266,6 +266,7 @@ function MapEditor(props) {
 
         setTimeout(() => {
             setShowMarker(true);
+            flyViewPort(location, 12, false);
         }, 0);
     }
 

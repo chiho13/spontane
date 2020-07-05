@@ -1,9 +1,11 @@
 import DashboardLayout from '../../../../../components/Layout/DashboardLayout';
-import LocationViewSwitcher from  '../../../../../components/Dashboard/LocationViewSwitcher';
-import MapView from  '../../../../../components/LocationsMapView';
+import LocationViewSwitcher from '../../../../../components/Dashboard/LocationViewSwitcher';
+import MapView from '../../../../../components/LocationsMapView';
 import Title from '../../../../../components/Dashboard/MainContentTitle';
 import Head from 'next/head';
 import styled from 'styled-components';
+import { LocationEditorProvider } from '../../../../../components/providers/LocationEditorProvider';
+import { ShapeEditorProvider } from '../../../../../components/providers/ShapeEditorProvider';
 
 const MapViewStyle = styled.div`
 
@@ -29,9 +31,13 @@ const Locations = props => (
     <Title title="My Locations" />
     <LocationViewSwitcher />
     <MapViewStyle>
-        <MapView locationID={props.query.locationID} minZoom={props.query.minZoom} pathname="map" editButton={true}/>
+      <LocationEditorProvider>
+        <ShapeEditorProvider>
+          <MapView locationID={props.query.locationID} minZoom={props.query.minZoom} pathname="map" editButton={true} />
+        </ShapeEditorProvider>
+      </LocationEditorProvider >
     </MapViewStyle>
-  
+
   </DashboardLayout>
 );
 

@@ -35,8 +35,8 @@ display: flex;
   left: 30px;
   top: 0;
   transform: translate(-51px,-40px);
-  border: 2px solid #dd0000;
-  border-radius: 4px;
+  border: 3px solid #dd0000;
+  border-radius: 8px;
   display: ${props => props.selected ? 'block' : 'none'};
 }
 

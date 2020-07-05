@@ -127,13 +127,6 @@ function AllLocations(props) {
 
         setIsOpened(false);
         setParamProps(null);
-        
-        // flyViewPort({
-        //     geoLocation: {
-        //       latitude: 1.34,
-        //     longitude: 103,
-        //     } 
-        // }, mapConfig.minZoom, false);
 
         setTimeout(() => {
             setLocationDetail(null)
@@ -141,7 +134,6 @@ function AllLocations(props) {
         }, 200);
     }
 
-    console.log(viewport);
     function _toggleLocationDetail(location) {
         let locationDetailBool = locationDetail || singleLocation;
         if (locationDetailBool) {
@@ -171,9 +163,9 @@ function AllLocations(props) {
     }
 
     function _openLocationPath(location) {
-        const href = `/admin/project/locations/map/[id]`;
+        const href = `/admin/project/map/preview/[id]`;
             
-        const newPath = `/admin/project/locations/map/${router.query.id}` + `?locationID=${location.id}` + `&minZoom=${mapConfig.minZoom}`;
+        const newPath = `/admin/project/map/preview/${router.query.id}` + `?locationID=${location.id}` + `&minZoom=${mapConfig.minZoom}`;
         
         router.push(href, newPath, {shallow: true});
     }
@@ -185,7 +177,10 @@ function AllLocations(props) {
                 longitude={location.geoLocation.longitude}
                 latitude={location.geoLocation.latitude}>
                 
-                    <CityPin onClick={() => _toggleLocationDetail(location)}/>
+                    <CityPin onClick={() => _toggleLocationDetail(location)}
+                    pinColor={location.markerType.pinColor}
+                           markerType={location.markerType.type}
+                    />
             </Marker>
         ))
     }
