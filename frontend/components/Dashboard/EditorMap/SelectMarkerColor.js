@@ -57,7 +57,7 @@ function SelectMarkerColor() {
     const {mapConfig} = useContext(ViewPortContext);
     const {form, setForm, dropMarker, editLocation} = useContext(LocationEditorContext)
     const [pinColor,
-        setPinColor] = useState(form.pinColor);
+        setPinColor] = useState(mapConfig.markerColor);
 
     useEffect(() => {
         setForm({

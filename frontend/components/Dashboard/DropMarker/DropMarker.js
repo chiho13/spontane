@@ -16,7 +16,7 @@ function DropMarker(props) {
 
     const [state, setState] = useState({
         markerType: form.markerType,
-        pinColor: mapConfig.markerColor
+        pinColor: form.pinColor
     });
 
 

@@ -92,7 +92,7 @@ export const IconButtonStyle = styled(IconButton)`
         position: relative;
         background-color: ${props => props.theme.white};
         border: 1px solid ${props => props.theme.grey};
-        color: #aaaaaa;
+        color: ${props => props.theme.black};
         padding: 8px;
         height: 50px;
         border-radius: 10px;
@@ -144,7 +144,7 @@ export const IconButtonStyle = styled(IconButton)`
 
         &.add-button {
             svg {
-                fill: ${props => props.selected ? props.theme.brandColor : props.theme.black};
+                fill: ${props => props.selected ? props.theme.brandColor : "#676767"};
             }
         }
     }
@@ -157,7 +157,7 @@ const ShapeIconStyle = styled(IconButtonStyle)`
 
         &.add-shape {
             svg {
-                fill: ${props => props.selected ? props.theme.brandColor : props.theme.black};
+                fill: ${props => props.selected ? props.theme.brandColor : "#676767"};
             }
         }
    }

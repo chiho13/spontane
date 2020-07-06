@@ -184,7 +184,10 @@ function MapEditor(props) {
         setDropMarker(false);
         setShowMarker(false);
 
-        setForm(initialForm);
+        setForm({
+            ...initialForm,
+            pinColor: mapConfig.markerColor
+        });
 
         setSingleLocation({
             id: 'dsfsdf',
