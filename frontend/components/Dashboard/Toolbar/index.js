@@ -127,7 +127,10 @@ export const IconButtonStyle = styled(IconButton)`
             font-size: 12px;
             background: #f1f1f1;
             border: 1px solid #aaaaaa;
-            left: 49px;
+           
+            ${props => props.layerOpen ? 'left: 49px;' : 'right: 49px;'
+            }
+
             padding: 4px 8px;
             white-space:nowrap;
             min-width: 50px;
@@ -211,7 +214,7 @@ function SelectShape(props) {
                     setSelectedShape(null);
                     setSingleFeature(null);
                 }}>Cancel</button>
-            <ShapeIconStyle onClick={() => enableShape(el)} className="add-shape" selected={selected}>
+            <ShapeIconStyle onClick={() => enableShape(el)} className="add-shape" selected={selected} layerOpen={props.layerOpen}>
                 <DynamicIcon />
                 <span className="tooltip"> {el.tooltip}</span>
             </ShapeIconStyle>
@@ -230,7 +233,7 @@ function Toolbar(props) {
                 }}>Cancel</button>
                 <IconButtonStyle onClick={() => {
                     enableMarker(true);
-                }} className="add-button" selected={layerOpen && dropMarker}>
+                }} className="add-button" selected={layerOpen && dropMarker} layerOpen={layerOpen}>
                     <AddLocationIcon />
                     <span className="tooltip"> Add a location marker</span>
                 </IconButtonStyle>
@@ -238,7 +241,7 @@ function Toolbar(props) {
         </AddMarkerContainer>
 
         <AddShapesContainer>
-            <SelectShape />
+            <SelectShape layerOpen={layerOpen}/>
         </AddShapesContainer>
     </>
 }

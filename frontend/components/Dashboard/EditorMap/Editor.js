@@ -396,6 +396,7 @@ function MapEditor(props) {
                         addMarker(e);
                     }}
                     onClick={(e) => {
+                        if(dropMarker || addShape) return;
                         const hasFeature = e.features.length;
 
                         if(!hasFeature) return;
@@ -414,6 +415,7 @@ function MapEditor(props) {
                     }}
 
                     onHover={(e) => {
+                        if(dropMarker || addShape) return;
                         if(!mapConfig.loadedMap) return;
                         const hasFeatureProp = e.hasOwnProperty("features");
                         if(!hasFeatureProp) return;
@@ -471,20 +473,6 @@ function MapEditor(props) {
             <RightPanel layerOpen={layerOpen} updateLocation={updateLocation} updateShape={updateShape} enableMarker={enableMarker} showMarker={showMarker} />
         </CreateLocationMapStyle>
     );
-}
-
-function click(x,y){
-    var ev = document.createEvent("MouseEvent");
-    var el = document.elementFromPoint(x,y);
-    ev.initMouseEvent(
-        "click",
-        true /* bubble */, true /* cancelable */,
-        window, null,
-        x, y, 0, 0, /* coordinates */
-        false, false, false, false, /* modifier keys */
-        0 /*left*/, null
-    );
-    el.dispatchEvent(ev);
 }
 
 export default MapEditor;
