@@ -939,7 +939,8 @@ type Mutation {
   createShape(data: ShapeCreateInput!): Shape!
   deleteLocation(id: ID!): Location
   deleteGeoLocation(id: ID!): GeoLocation
-  deleteShape(where: ShapeWhereUniqueInput!): Shape
+  deleteMarker(id: ID!): Marker
+  deleteShape(id: ID!): Shape
   signup(email: String!, password: String!, name: String!, confirmPassword: String!): User!
   login(email: String!, password: String!): User!
   createUser(data: UserCreateInput!): User!
@@ -1321,6 +1322,7 @@ type Query {
   projects(where: ProjectWhereInput, orderBy: ProjectOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Project]!
   locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, first: Int): [Location]!
   location(where: LocationWhereUniqueInput!): Location
+  shape(where: ShapeWhereUniqueInput! ): Shape
   locationsConnection(where: LocationWhereInput): LocationConnection!
   projectsConnection(where: ProjectWhereInput, orderBy: ProjectOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProjectConnection!
   me: User

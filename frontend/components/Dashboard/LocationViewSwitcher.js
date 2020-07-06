@@ -20,16 +20,9 @@ const SwitcherStyle = styled.div`
     }
 `;
 
-const LocationViewSwitcher = (props) => {
-    const router = useRouter();
+const SearchContainer = (props) => {
         return (
             <SwitcherStyle>
-                {/* <Tabs id={props.id}>
-                    <div label="list" projectId={router.query.id} icon="view_list">
-                    </div>
-                    <div label="map" projectId={router.query.id} icon="map">
-                    </div>
-                </Tabs> */}
                 <div className="search_container">
                     <Search />
                 </div>
@@ -37,4 +30,4 @@ const LocationViewSwitcher = (props) => {
         );
 };
 
-export default LocationViewSwitcher;
+export default SearchContainer;

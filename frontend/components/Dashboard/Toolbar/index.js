@@ -92,7 +92,7 @@ export const IconButtonStyle = styled(IconButton)`
         position: relative;
         background-color: ${props => props.theme.white};
         border: 1px solid ${props => props.theme.grey};
-        color: ${props => props.theme.black};
+        color: #aaaaaa;
         padding: 8px;
         height: 50px;
         border-radius: 10px;

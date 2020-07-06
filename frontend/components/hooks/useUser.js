@@ -24,6 +24,7 @@ const CURRENT_USER_QUERY = gql `
                     longitude
                 }
                 markerType {
+                    id
                     type
                     pinColor
                 }
@@ -32,6 +33,7 @@ const CURRENT_USER_QUERY = gql `
                 shapes {
                     id
                     geojson
+                    user
                 }
             }
         }

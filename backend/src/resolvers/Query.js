@@ -3,6 +3,7 @@ const { forwardTo } = require('prisma-binding');
 const Query = {
     locations: forwardTo('db'),
     location: forwardTo('db'),
+    shape: forwardTo('db'),
     locationsConnection: forwardTo('db'),
     projects: forwardTo('db'),
     project: forwardTo('db'),

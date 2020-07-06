@@ -13,6 +13,10 @@ import {useRouter} from 'next/router'
 import {ViewPortContext} from './providers/MapProvider';
 import { easeCubic } from 'd3-ease';
 import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css';
+
+import Title from '../components/Dashboard/MainContentTitle';
+import Search from '../components/Dashboard/Searchbar/Searchbar';
+
 let Geocoder;
 
 if (typeof window !== 'undefined') { 
@@ -53,7 +57,7 @@ const IconButtonStyle = styled(IconButton)`
 
 function AllLocations(props) {
     const router = useRouter();
-    const {user: data} = useContext(UserContext);
+    const {user: data, loading: projectLoading} = useContext(UserContext);
     const {viewport, flyViewPort, onViewportChange, mapConfig} = useContext(ViewPortContext);
 
     console.log(mapConfig.minZoom);
@@ -196,8 +200,12 @@ function AllLocations(props) {
             editButton={props.editButton}/>)
     }
 
-    return (
+    return (<>
+          <Title title={data && filteredProject.title} />
         <div className="map-container">
+            <div className="search_container">
+                <Search />
+            </div>
             <MapGL ref={mapRef}
                 >
                 {RenderCityMarker()}
@@ -211,6 +219,7 @@ function AllLocations(props) {
             </MapGL>
             {RenderLocationDetail()}
         </div>
+        </>
     )
 }
 

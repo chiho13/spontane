@@ -26,6 +26,12 @@ const ProjectStyle = styled.div`
     h4 {
         font-family: ${props => props.theme.fontFamily};
     }
+
+    .main-title {
+        padding-left: 32px;
+        margin-top: 32px;
+    }
+
 `;
 
 const AddProject = styled(Button)`

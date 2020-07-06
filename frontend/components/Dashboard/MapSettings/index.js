@@ -131,10 +131,6 @@ function MapSettings(props) {
     });
 
     const saveSettings = async () => {
-        setMapConfig({
-            ...mapConfig,
-            loadedMap: false
-        });
        const res =  await updateProject();
 
        if(res) {

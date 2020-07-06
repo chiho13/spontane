@@ -16,7 +16,7 @@ const AutoComplete = () => {
     const [locations, setLocations] = useState([]);
     const [loading, setLoading] = useState(false);
     const {user: data} = useContext(UserContext);
-    const {flyViewPort} = useContext(ViewPortContext);
+    const {flyViewPort, mapConfig} = useContext(ViewPortContext);
     const [projectID, setProjectID] = useLocalStorage('projectID', router.query.id);
   
   const onChange = debounce(async (e, client) => {
@@ -42,13 +42,13 @@ const AutoComplete = () => {
 
   function routeToLocation(location) {
     
-    Router.push({
-      pathname: `/admin/project/locations/map/${projectID}`,
-      query: {
-        locationID: location.id
-      },
-    });
+    const href = `/admin/project/map/preview/[id]`;
+            
+    const newPath = `/admin/project/map/preview/${router.query.id}` + `?locationID=${location.id}` + `&minZoom=${mapConfig.minZoom}`;
+    
+    router.push(href, newPath, {shallow: true});
 
+    flyViewPort(location, 12, false);
   };
 
 

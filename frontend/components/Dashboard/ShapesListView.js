@@ -8,6 +8,17 @@ import DeleteButton from '../IconButtons/DeleteButton';
 import { ShapeEditorContext } from '../providers/ShapeEditorProvider';
 import Skeleton from './Skeleton';
 
+import { useMutation } from '../hooks/useMutation';
+import gql from 'graphql-tag';
+
+const DELETE_SHAPE_MUTATION = gql`
+mutation DELETE_SHAPE_MUTATION($id: ID!) {
+    deleteShape(id: $id) {
+        id
+    }
+}
+`;
+
 
 const ShapesListViewStyle = styled.ol`
     display: block;
@@ -23,13 +34,30 @@ const ShapesListViewStyle = styled.ol`
 const ShapeListViewItem = (props) => {
     const {shape} = props;
     const geojson = JSON.parse(shape.geojson);
+    const {refetch} = useContext(UserContext);
+
+    const [deleteShape] = useMutation(DELETE_SHAPE_MUTATION, {
+        variables: {
+            id: shape.id
+        }
+    });
+
+    async function deleteStuff(e) {
+        e.stopPropagation();
+        if (confirm('Are you sure you want to delete this shape?')) {
+            const res = await deleteShape();
+            if (res) {
+                refetch();
+            }
+        }
+    }
     return (
         <LocationItemStyles >
             <div className="location_content">
                 <h3>{geojson.properties.details}</h3>
             </div>
             <div className="buttonList">
-                {/* <DeleteButton locationID={shap.id} showButton={true}/> */}
+                <DeleteButton showButton={true} deleteStuff={deleteStuff}/>
             </div>
         </LocationItemStyles>
     )
