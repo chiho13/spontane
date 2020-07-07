@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
-import LocationItemStyles from './styles/LocationItemStyles';
-import Cross from './Icons/Cross';
+import LocationItemStyles from '../styles/LocationItemStyles';
+import Cross from '../Icons/Cross';
 import {DraggableCore} from 'react-draggable';
 import Router from 'next/router';
-import EditMore from './EditMore';
+import EditMore from '../EditMore';
 
 const snappedPositions = {
     closed: 0,
@@ -109,7 +109,6 @@ export default class Location extends Component {
                 }}>
                     <div className="dragNib"></div>
                     <div className="topCorner_container">
-                        {editButton && <EditMore location={location} pathname={pathname}/>}
                             <a className="closeLocation_icon" onClick={closeLocation}><Cross/></a>
                     </div>
 

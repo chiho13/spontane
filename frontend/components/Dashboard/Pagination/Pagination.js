@@ -34,23 +34,6 @@ function Pagination(props) {
     const {user: data, loading, projectData} = useContext(UserContext)
 
     const {page, setPageNum} = props;
-    // const {data, loading, called} = useQuery(PAGINATION_QUERY, {
-    //     variables: {
-    //         userId: user && user.id
-    //     }
-    // });
-
-    // const filteredProject = data && data.projects.find(el => {
-    //     return el.id === router.query.id
-    //   });
-
-    
-    //   useEffect(() => {
-    //     const urlParams = new URLSearchParams(window.location.search);
-    //     const myParam = urlParams.get('page') || 1;
-    //     setPageNum(Number(myParam));
-    //   }, [router.query.page]);
-
 
     if (loading) {
         return <Lazyloader></Lazyloader>
@@ -62,9 +45,9 @@ function Pagination(props) {
     function pageChange(num) {
         
         setPageNum(num);
-        const href = `/admin/project/map/editor/[id]`;
+        const href = `/mymaps/editor/[id]`;
             
-        const newPath = `/admin/project/map/editor/${router.query.id}` + `?page=${num}`;
+        const newPath = `/mymaps/editor/${router.query.id}` + `?page=${num}`;
         
         Router.push(href, newPath, {shallow: true});
 

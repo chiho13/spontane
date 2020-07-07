@@ -1,21 +1,21 @@
 import React, {useState, useEffect, useContext, useRef} from 'react';
 import {Marker, FlyToInterpolator} from 'react-map-gl';
 import gql from 'graphql-tag';
-import CityPin from './Icons/BaseMarker';
+import CityPin from '../Icons/BaseMarker';
 import Location from './LocationMapViewItem';
 import styled from 'styled-components';
 import IconButton from '@material-ui/core/IconButton';
 import MaterialIcon from '@material/react-material-icon';
-import MapGL, {TOKEN} from './MapGL';
-import {UserContext} from './Layout/DashboardLayout';
+import MapGL, {TOKEN} from '../MapGL';
+import {UserContext} from '../Layout/DashboardLayout';
 import {useQuery} from 'react-apollo-hooks';
 import {useRouter} from 'next/router'
-import {ViewPortContext} from './providers/MapProvider';
+import {ViewPortContext} from '../providers/MapProvider';
 import { easeCubic } from 'd3-ease';
 import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css';
 
-import Title from '../components/Dashboard/MainContentTitle';
-import Search from '../components/Dashboard/Searchbar/Searchbar';
+import Title from '../Dashboard/MainContentTitle';
+import Search from '../Dashboard/Searchbar/Searchbar';
 
 let Geocoder;
 
@@ -46,8 +46,8 @@ const IconButtonStyle = styled(IconButton)`
         color: ${props => props.theme.black};
         padding:8px;
         position: absolute;
-        bottom: 8px;
-        right: 8px; 
+        bottom: 16px;
+        right: 16px; 
 
         &:hover {
             background-color: ${props => props.theme.lightgrey};
@@ -91,21 +91,6 @@ function AllLocations(props) {
       });
 
       
-    
-      useEffect(() => {
-        if(loading) {
-            return
-        }
-
-        const {location} = singleLocationData
-
-        if(locationID) {
-         setLocationDetail(location);
-        setIsOpened(true)
-        flyViewPort(location, parseFloat(props.minZoom) + 2);
-        }
-
-      }, [singleLocationData]);
 
 
     function reCenter() {
@@ -122,20 +107,15 @@ function AllLocations(props) {
     }
 
     function closeLocationDetail() {
-
-        const href = `/admin/project/map/preview/[id]`;
-            
-        const newPath = `/admin/project/map/preview/${router.query.id}`;
-        
-        router.push(href, newPath, {shallow: true});
-
         setIsOpened(false);
         setParamProps(null);
 
         setTimeout(() => {
             setLocationDetail(null)
             setSingleLocation(null);
-        }, 200);
+
+        }, 200)
+
     }
 
     function _toggleLocationDetail(location) {
@@ -148,30 +128,18 @@ function AllLocations(props) {
             closeLocationDetail()
             setTimeout(() => {
                 setLocationDetail(location);
-                setIsOpened(true)
-                flyViewPort(location, mapConfig.minZoom);
+                setIsOpened(true);
+                flyViewPort(location, 12);
             }, 300)
 
-            _openLocationPath(location);
         }
 
         if(!locationDetailBool) {
             setLocationDetail(location);
             setIsOpened(true)
-            flyViewPort(location, mapConfig.minZoom + 2);
+            flyViewPort(location, 12);
 
-            console.log(location);
-
-            _openLocationPath(location);
         }
-    }
-
-    function _openLocationPath(location) {
-        const href = `/admin/project/map/preview/[id]`;
-            
-        const newPath = `/admin/project/map/preview/${router.query.id}` + `?locationID=${location.id}` + `&minZoom=${mapConfig.minZoom}`;
-        
-        router.push(href, newPath, {shallow: true});
     }
 
     function RenderCityMarker() {
@@ -201,9 +169,11 @@ function AllLocations(props) {
     }
 
     return (<>
-          <Title title={data && filteredProject.title} />
+         
         <div className="map-container">
+            
             <div className="search_container">
+            <Title title={data && filteredProject.title} titleColor={mapConfig.markerColor}/>
                 <Search />
             </div>
             <MapGL ref={mapRef}
@@ -217,8 +187,8 @@ function AllLocations(props) {
           position="top-right"
         />
             </MapGL>
-            {RenderLocationDetail()}
         </div>
+         {RenderLocationDetail()}
         </>
     )
 }

@@ -180,7 +180,7 @@ function NewProject(props) {
         notify();
         setProjectID(res.data.createProject.id);
         Router.push({
-            pathname: `/admin/project/map/editor/${res.data.createProject.id}`,
+            pathname: `/mymaps/editor/${res.data.createProject.id}`,
         });
     }
 

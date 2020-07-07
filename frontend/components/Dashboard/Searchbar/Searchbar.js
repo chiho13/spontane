@@ -42,11 +42,11 @@ const AutoComplete = () => {
 
   function routeToLocation(location) {
     
-    const href = `/admin/project/map/preview/[id]`;
+    // const href = `/mymaps/preview/[id]`;
             
-    const newPath = `/admin/project/map/preview/${router.query.id}` + `?locationID=${location.id}` + `&minZoom=${mapConfig.minZoom}`;
+    // const newPath = `/mymaps/preview/${router.query.id}` + `?locationID=${location.id}` + `&minZoom=${mapConfig.minZoom}`;
     
-    router.push(href, newPath, {shallow: true});
+    // router.push(href, newPath, {shallow: true});
 
     flyViewPort(location, 12, false);
   };

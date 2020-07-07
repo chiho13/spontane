@@ -1,5 +1,5 @@
-import MapEditor from '../../../../../components/Dashboard/EditorMap/Editor';
-import DashboardLayout from '../../../../../components/Layout/DashboardLayout';
+import MapEditor from '../../../components/Dashboard/EditorMap/Editor';
+import DashboardLayout from '../../../components/Layout/DashboardLayout';
 import Head from 'next/head';
 
 const addLocation = (props) => {

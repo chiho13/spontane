@@ -25,8 +25,6 @@ margin-top: -76px;
     max-width: 1180px;
     margin: 0 auto;
     height: 100%;
-    padding-left: 20px;
-    padding-right: 20px;
 }
 
 .intro-message {

@@ -22,14 +22,14 @@ function SideBarItems() {
     {
         title: "Map Editor",
         icon: "map",
-        link: `/admin/project/map/editor/[id]`,
-        as: `/admin/project/map/editor/${projectID}`
+        link: `/mymaps/editor/[id]`,
+        as: `/mymaps/editor/${projectID}`
     },
     {
         title: "Preview",
         icon: "remove_red_eye",
-        link: `/admin/project/map/preview/[id]`,
-        as: `/admin/project/map/preview/${projectID}`
+        link: `/mymaps/preview/[id]`,
+        as: `/mymaps/preview/${projectID}`
     }];
 
     return (
@@ -40,7 +40,7 @@ function SideBarItems() {
             <SideBarItem item={{
                 title: "Back to Projects",
                 icon: "folder_open",
-                link: "/admin"
+                link: "/mymaps"
             }} />
 
                 {
@@ -52,7 +52,7 @@ function SideBarItems() {
                   {/* <SideBarItem item={      {
             title: "Project Settings",
             icon: "settings",
-            link: "/admin/project_settings"
+            link: "/mymaps/project_settings"
         }} /> */}
           </ProjectSidebar>
         </SideBarItemsStyle>

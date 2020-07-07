@@ -103,7 +103,7 @@ const Project = () => {
         setProjectID(projectId);
 
         Router.push({
-            pathname: `/admin/project/map/editor/${projectId}`,
+            pathname: `/mymaps/editor/${projectId}`,
         });
     }
 

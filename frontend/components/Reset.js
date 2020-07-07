@@ -98,7 +98,7 @@ function Reset(props) {
 
     useEffect(() => {
         if (me) {
-            Router.push({pathname: '/admin'})
+            Router.push({pathname: '/mymaps'})
         }
     });
 
