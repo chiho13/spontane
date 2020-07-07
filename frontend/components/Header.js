@@ -1,35 +1,29 @@
 import Link from 'next/link';
 import styled from 'styled-components';
 import Nav from './Nav';
+import Logo from './Logo';
 
-const Logo = styled.h1 `
-    font-size: 2rem;
-    margin-left: 1.5rem;
-    position: relative;
-    z-index: 2;
-    transform: skew(-7deg);
-
-    a {
-        padding: 0.25rem 0.75rem;
-        background: ${props => props.theme.black};
-        color: white;
-        text-transform: uppercase;
-        text-decoration: none;
-    }
-
-    @media (max-width: 1000px) {
-        margin: 0;
-        text-align: center;
-    }
-`;
-
-const StyledHeader = styled.header `
+const StyledHeader = styled.header`
     position: sticky;
     top: 0;
     left: 0;
     width: 100%;
     z-index: 1;
+    background-color: ${props => props.theme.brandColor};
+    padding-top: 8px;
+    padding-bottom: 8px;
+    .nav_container {
+        display: flex;
+        justify-content: space-between;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
 
+    .logo_container {
+        display:flex;
+        align-items: center;
+    }
+    
     .bar {
         background: linear-gradient(to bottom, rgba(12,12,12,0.4) 0%,rgba(255,255,255,0) 100%); 
         display: grid;
@@ -47,20 +41,26 @@ const StyledHeader = styled.header `
         grid-template-columns: 1fr auto;
         border-bottom: 1px solid ${props => props.theme.lightgrey}
     }
+
+    .headerLogo {
+        width: 140px;
+    }
 `;
 
-const Header = () => (
-    <StyledHeader>
-        <div className="bar">
-            <Logo>
-                <Link href="/">
-                    <a>spontane</a>
-                </Link>
-            </Logo>
-            <Nav/>
+const Header = () => {
+    const invertBrand = ({ white }) => ({ brandColor: white });
+    return <StyledHeader>
+        <div className="nav_container">
+
+            <Link href="/">
+                <a className="logo_container">
+                    <Logo theme={invertBrand} />
+                </a>
+            </Link>
+
+        <Nav />
         </div>
-       
     </StyledHeader>
-);
+};
 
 export default Header;

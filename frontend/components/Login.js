@@ -105,7 +105,7 @@ function Login(props) {
 
     const [enableButton, setEnableButton] = useState(true);
 
-    const {title, refetch} = props;
+    const {title, refetch, redirect} = props;
 
     const [login, {
             loading, error
@@ -124,7 +124,7 @@ function Login(props) {
         if(success) {
             refetch();
         }
-    }, [success]);
+    }, [success, redirect]);
 
     useEffect(() => {
         if(form.email.length && form.password.length) {
@@ -193,5 +193,5 @@ export default Login;
 
 Login.defaultProps = {
     title: "Log in to your account",
-    continue: true
+    redirect: false
 };
