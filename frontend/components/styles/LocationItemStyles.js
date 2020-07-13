@@ -55,6 +55,7 @@ const Item = styled.div`
     margin-top: 16px;
     margin-bottom: 16px;
     font-family: ${props => props.theme.boldFont};
+    padding: 0;
   }
   p {
     line-height: 2;

@@ -407,9 +407,7 @@ function MapEditor(props) {
 
                         if(hasMatch) {
                             switchMode(EditingMode);
-                            console.log(editorRef.current);
                             updateShape(matchedId);
-                            click(e.center.x,e.center.y)
                         }
 
                     }}

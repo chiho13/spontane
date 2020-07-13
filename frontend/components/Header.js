@@ -12,6 +12,8 @@ const StyledHeader = styled.header`
     background-color: ${props => props.theme.brandColor};
     padding-top: 8px;
     padding-bottom: 8px;
+    padding-left: 16px;
+    padding-right: 16px;
     .nav_container {
         display: flex;
         justify-content: space-between;

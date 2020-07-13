@@ -92,7 +92,6 @@ function Signup() {
 
     useEffect(() => {
         if (!error && me) {
-            setShowLoading(true)
             Router.push({pathname: '/mymaps'});
         }
     });

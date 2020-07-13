@@ -113,7 +113,7 @@ export default class Location extends Component {
                     </div>
 
                     <div className="location_content">
-                        <h3>{location.city}, {location.country}</h3>
+                        <h3>{location.city}</h3>
                         <p>
                             {location.description}
                         </p>

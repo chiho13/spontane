@@ -21,10 +21,7 @@ const NavStyles = styled.ul`
     cursor: pointer;
     font-family: ${props => props.theme.fontFamily};
     color: ${props => props.theme.white};
-    @media (max-width: 700px) {
-      font-size: 10px;
-      padding: 0 10px;
-    }
+
   
     &:after {
       height: 2px;
@@ -50,18 +47,6 @@ const NavStyles = styled.ul`
     }
   }
   justify-content: flex-end;
-  @media (max-width: 700px) {
-    border-top: 1px solid ${props => props.theme.lightgrey};
-    width: 100%;
-    justify-content: center;
-    font-size: 1.5rem;
-  }
-
-  a:first-child {
-    @media (max-width: 700px) {
-      display: none
-    }
-  }
 `;
 
 export default NavStyles;

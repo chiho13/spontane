@@ -11,7 +11,7 @@ const Nav = () => {
  } = useUser();
   return <NavStyles>
   
-    <Link href="/admin">
+    <Link href="/mymaps">
 <a>{  user ? 'My Maps' : 'Login'}</a>
     </Link>
   </NavStyles>

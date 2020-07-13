@@ -27,11 +27,11 @@ const LandingPage = () => {
                     <div className="container">
                         <div className="intro-message">
                             <h1>
-                                Travel planning made <span>safer</span>
-                                <br /> and <span>easier</span>
+                                Create interactive
+                                <br /> maps
                             </h1>
                             <ThemeProvider theme={heroTheme}>
-                                <JoinButton>
+                                <JoinButton href="/signup">
                                     Start
                                 </JoinButton>
                             </ThemeProvider>
