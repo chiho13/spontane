@@ -33,6 +33,7 @@ margin-top: -76px;
     padding-top: 32px;
     padding-bottom: 32px;
     padding-left: 32px;
+    z-index: 1;
 
     h1 {
         font-size: 40px;
@@ -49,15 +50,16 @@ margin-top: -76px;
 
 .heroSVG {
     fill: ${props => props.theme.brandColor};
-    opacity: 0.7;
+    opacity: 0.5;
     margin-right: 32px;
     width: 330px;
     position: absolute;
     right: -130px;
     @media (min-width: 1200px) {
          width: 320px;
-    position: relative;
-    right: initial;
+        position: relative;
+        right: initial;
+        opacity: 0.7;
     }
 }
 

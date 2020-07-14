@@ -1,5 +1,5 @@
-import React, {useState, useEffect, useContext, useRef} from 'react';
-import {Marker, FlyToInterpolator} from 'react-map-gl';
+import React, {useState, useEffect, useContext, useRef, useMemo} from 'react';
+import {Marker, FlyToInterpolator, Source, Layer} from 'react-map-gl';
 import gql from 'graphql-tag';
 import CityPin from '../Icons/BaseMarker';
 import Location from './LocationMapViewItem';
@@ -45,9 +45,8 @@ const IconButtonStyle = styled(IconButton)`
         border: 1px solid ${props => props.theme.grey};
         color: ${props => props.theme.black};
         padding:8px;
-        position: absolute;
-        bottom: 16px;
-        right: 16px; 
+        margin-left: 16px;
+        width: 50px;
 
         &:hover {
             background-color: ${props => props.theme.lightgrey};
@@ -55,19 +54,25 @@ const IconButtonStyle = styled(IconButton)`
     }
 `;
 
+
+const ShapeHoverInfo = styled.div`
+    position: fixed;
+    background: #ffffff;
+    padding: 16px;;
+    color: #333333;
+    opacity: 0.9;
+    border-radius: 10px;
+    font-family: ${props => props.theme.fontFamily}
+`;
+
 function AllLocations(props) {
     const router = useRouter();
     const {user: data, loading: projectLoading} = useContext(UserContext);
     const {viewport, flyViewPort, onViewportChange, mapConfig} = useContext(ViewPortContext);
 
-    console.log(mapConfig.minZoom);
-
-    // const {viewport, setViewport, onViewportChange} = useViewPort({
-    //     latitude: 55,
-    //     longitude: 2,
-    //     zoom: 2
-    // });
     const mapRef = useRef();
+
+       let layerIds = [];
 
     const [locationDetail,
         setLocationDetail] = useState(null);
@@ -79,6 +84,9 @@ function AllLocations(props) {
     const [isOpened,
         setIsOpened] = useState(null);
     
+     const [hoverShape, setHoverShape] = useState('');
+
+    const [hoverGeoJsonData, setHoverGeoJsonData] = useState(null);
 
      const {data: singleLocationData, loading, refetch} = useQuery(SINGLE_LOCATION_QUERY, {
             variables: {
@@ -157,6 +165,75 @@ function AllLocations(props) {
         ))
     }
 
+    function RenderGeoJSONHover() {
+            return hoverGeoJsonData && <ShapeHoverInfo style={
+                {
+                    left: hoverGeoJsonData.x,
+                    top: hoverGeoJsonData.y - 40
+                }
+            }>
+                            {hoverGeoJsonData.title}
+            </ShapeHoverInfo>
+    }
+
+    function RenderGeoJsonShapes() {
+        return mapConfig.loadedMap && filteredProject.shapes.map(_shape => {
+            const geojson = JSON.parse(_shape.geojson);
+            const isLineString = geojson.geometry.type == "LineString";
+
+            const dashArray = geojson.properties.style.strokeDasharray;
+            const splitDashArray = geojson.properties.style.strokeDasharray.split(" ").map(x => (+x / 5));
+            let hasDashArray = dashArray == "none" ? [1] : splitDashArray; 
+
+            const shapeIdLine = !isLineString ? `${_shape.id}2` : _shape.id;
+            const obj = {};
+            obj["id"] = _shape.id;
+            obj["layerId"] = shapeIdLine;
+            obj["geojson"] = _shape.geojson;
+            layerIds.push(obj);
+
+            const hovering = (hoverShape == _shape.id);
+            let fillColor = geojson.properties.style.fill;
+            let fillOpac = geojson.properties.style.fillOpacity;
+            let lineColor = geojson.properties.style.stroke;
+            let lineWidth = geojson.properties.style.strokeWidth;
+
+
+            if(hovering) {
+                if(fillOpac > 0.7) {
+                    fillOpac = fillOpac - 0.2;
+                } else {
+                    fillOpac = fillOpac + 0.2;
+                }
+            }
+            
+            return <React.Fragment key={_shape.id}>
+                <Source id={_shape.id} type="geojson" data={geojson}>
+                    <Layer
+                        id={_shape.id}
+                        type='line'
+                        source={_shape.id}
+                        paint={{
+                            'line-color': lineColor,
+                            'line-width': lineWidth,
+                            'line-dasharray': hasDashArray
+                        }}
+                    />
+                   {!isLineString ? <Layer
+                        id={`${_shape.id}2`}
+                        type='fill'
+                        source={_shape.id}
+                        paint={{
+                            'fill-color': fillColor,
+                            'fill-opacity': fillOpac
+                        }}
+                    /> : <div></div>} 
+                </Source>
+            </React.Fragment>
+        })
+    }
+
+
     function RenderLocationDetail() {
         let locationDetailBool = locationDetail || singleLocation;
 
@@ -174,12 +251,48 @@ function AllLocations(props) {
             
             <div className="search_container">
             <Title title={data && filteredProject.title} titleColor={mapConfig.markerColor}/>
-                <Search />
+                <div className="flex-search">
+                    <Search /> 
+                    <IconButtonStyle onClick={reCenter}><MaterialIcon icon="home"/></IconButtonStyle>
+                </div>
             </div>
             <MapGL ref={mapRef}
+
+                  onHover={(e) => {
+                        if(!mapConfig.loadedMap) return;
+                        const hasFeatureProp = e.hasOwnProperty("features");
+                        if(!hasFeatureProp) return;
+                        const hasFeature = Boolean(e.features);
+                        if(!hasFeature) return;
+                        
+                        if(!e.features.length) return;
+                        const feature = e.features[0].layer.id;
+                        const matchedId = layerIds.find(x => x.layerId == feature);
+                        const hasMatch = Boolean(matchedId);
+
+                        if(hasMatch) {
+
+                            const matchedGeoJson = JSON.parse(matchedId.geojson);
+                            const propertyDetail = matchedGeoJson.properties.details;
+                            setHoverShape(matchedId.id);
+                            setHoverGeoJsonData({
+                                x: e.offsetCenter.x,
+                                y: e.offsetCenter.y,
+                                title: propertyDetail
+                            });
+
+                        } else {
+                            setHoverShape('sdfsdsf');
+                               setHoverGeoJsonData(null);
+                        }
+
+                        console.log(e.offsetCenter);
+
+                    }}
                 >
                 {RenderCityMarker()}
-                <IconButtonStyle onClick={reCenter}><MaterialIcon icon="home"/></IconButtonStyle>
+                 {RenderGeoJsonShapes()}
+                 
                 <Geocoder
           mapRef={mapRef}
           onViewportChange={onViewportChange}
@@ -189,6 +302,7 @@ function AllLocations(props) {
             </MapGL>
         </div>
          {RenderLocationDetail()}
+         {RenderGeoJSONHover()}
         </>
     )
 }

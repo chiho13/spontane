@@ -358,12 +358,6 @@ function MapEditor(props) {
         })
     }
 
-    useEffect(() => {
-        filteredProject && filteredProject.shapes.map(_shape => {
-            const geojson = JSON.parse(_shape.geojson);
-            console.log(geojson);
-        })
-    }, [filteredProject])
 
     function updateFeature(feature) {
 

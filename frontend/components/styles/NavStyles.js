@@ -9,7 +9,7 @@ const NavStyles = styled.ul`
 
   a,
   button {
-    padding: 1rem 3rem;
+    padding: 1rem 1rem;
     display: flex;
     align-items: center;
     position: relative;
@@ -22,10 +22,13 @@ const NavStyles = styled.ul`
     font-family: ${props => props.theme.fontFamily};
     color: ${props => props.theme.white};
 
-  
+    @media (min-width: 1200px) {
+          padding: 1rem 3rem;
+    }
+
     &:after {
       height: 2px;
-      background: black;
+      background: ${props => props.theme.white};
       content: '';
       width: 0;
       position: absolute;
@@ -39,11 +42,12 @@ const NavStyles = styled.ul`
     &:focus {
       outline: none;
       &:after {
-        width: calc(100% - 60px);
+        width: calc(100% - 80px);
       }
     @media (max-width: 700px) {
         width: calc(100% - 10px);
     }
+
     }
   }
   justify-content: flex-end;

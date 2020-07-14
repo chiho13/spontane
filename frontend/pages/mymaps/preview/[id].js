@@ -17,8 +17,13 @@ const MapViewStyle = styled.div`
   position: absolute;
   top: 32px;
   margin-left: 32px;
-  width: 250px;
+  width: 300px;
   z-index: 10;
+  flex-grow: 1;
+}
+
+.flex-search {
+  display: flex;
 }
 
 
