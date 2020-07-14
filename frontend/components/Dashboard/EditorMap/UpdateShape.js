@@ -178,7 +178,7 @@ function UpdateShape() {
             {(updateShape, { loading, error }) => (<LocationFormStyle onSubmit={e => onSubmit(e, updateShape)}>
                 <div className="wrapper">
                     <label htmlFor="details">
-                        Title
+                        Label
                     </label>
                     <input className="form-input"
                         type="text"

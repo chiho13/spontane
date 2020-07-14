@@ -187,7 +187,7 @@ function AddShape() {
             {(createShape, { loading, error }) => (<LocationFormStyle onSubmit={e => onSubmit(e, createShape)}>
                 <div className="wrapper">
                     <label htmlFor="details">
-                        Title
+                        Label
                     </label>
                     <input className="form-input"
                         type="text"
