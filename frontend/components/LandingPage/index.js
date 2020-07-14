@@ -3,7 +3,15 @@ import LandingPageStyles from './LandingPageStyles';
 import HeroSVG from './herosvg';
 import Button from '../UIKIT/iButton';
 import styled, {ThemeProvider} from 'styled-components';
+import useUser from '../hooks/useUser';
 
+
+// const Nav = () => {
+//   const {
+//     data: {
+//       me: user
+//     }
+//  } = useUser();
 
 const JoinButton = styled(Button)`
 
@@ -21,6 +29,12 @@ const JoinButton = styled(Button)`
 const heroTheme = () => ({white: "#ff9999", hoverColor: '#ff6666', boldFont:  'nunito-bold, sans-serif'});
 
 const LandingPage = () => {
+
+      const {
+    data: {
+      me: user
+    }
+ } = useUser();
         return (
             <LandingPageStyles>
                 <div className="introHero">
@@ -31,9 +45,11 @@ const LandingPage = () => {
                                 <br /> maps
                             </h1>
                             <ThemeProvider theme={heroTheme}>
-                                <JoinButton href="/signup">
+                                {user ? <JoinButton href="/mymaps">
+                                    Go to My Maps
+                                </JoinButton> : <JoinButton href="/signup">
                                     Start
-                                </JoinButton>
+                                </JoinButton>}
                             </ThemeProvider>
                         </div>
                         <HeroSVG />
