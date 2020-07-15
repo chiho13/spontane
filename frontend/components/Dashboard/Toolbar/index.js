@@ -19,7 +19,6 @@ const IconButtonContainer = styled.div`
     position: relative;
     display: flex;
     align-items: center;
-    margin-bottom: 16px;
     justify-content: flex-end;
 
     .cancel-button.cancel-button {
@@ -56,15 +55,13 @@ const IconButtonContainer = styled.div`
 `;
 
 const AddMarkerContainer = styled.div`
-    margin-right: 12px;
-    margin-top: 64px;
+    margin-right: 32px;
 `;
 
 
 const AddShapesContainer = styled.div`
-    display: block;
-    margin-right: 12px;
-    margin-top: 32px;
+    display: flex;
+    margin-right: 128px;
 `;
 
 const IconShape = styled(IconButtonContainer)`
@@ -73,7 +70,7 @@ const IconShape = styled(IconButtonContainer)`
     &:first-child {
         button {
             border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
+            border-bottom-left-radius: 10px;
             border-bottom: 0;
         }
     }
@@ -81,8 +78,8 @@ const IconShape = styled(IconButtonContainer)`
     &:last-child {
         button {
             border-top: 0;
-            border-bottom-left-radius: 10px;
             border-bottom-right-radius: 10px;
+            border-top-right-radius: 10px;
         }
     }
 `;
@@ -125,12 +122,10 @@ export const IconButtonStyle = styled(IconButton)`
             visibility: hidden;
             opacity: 0;
             font-size: 12px;
-            background: #f1f1f1;
+            background: rgba(255, 255, 255, 0.85);
             border: 1px solid #aaaaaa;
-           
-            ${props => props.layerOpen ? 'left: 49px;' : 'right: 49px;'
-            }
-
+            top: 60px;
+            border-radius: 4px;
             padding: 4px 8px;
             white-space:nowrap;
             min-width: 50px;
@@ -147,7 +142,7 @@ export const IconButtonStyle = styled(IconButton)`
 
         &.add-button {
             svg {
-                fill: ${props => props.selected ? props.theme.brandColor : "#676767"};
+                fill: ${props => props.selected ? props.theme.brandColor : "#555555"};
             }
         }
     }
@@ -160,7 +155,7 @@ const ShapeIconStyle = styled(IconButtonStyle)`
 
         &.add-shape {
             svg {
-                fill: ${props => props.selected ? props.theme.brandColor : "#676767"};
+                fill: ${props => props.selected ? props.theme.brandColor : "#555555"};
             }
         }
    }

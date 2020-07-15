@@ -29,7 +29,7 @@ import { featureStyle, editHandleStyle } from '../../helpers/shapeStyle';
 import { Editor, EditingMode } from 'react-map-gl-draw';
 
 const ToolbarContainer = styled.div`
-    display: block;
+    display: flex;
     position: absolute;
     top: 40px;
     right: 0; 
@@ -453,13 +453,13 @@ function MapEditor(props) {
                 </MapGL>
 
                 <ToolbarContainer>
-                    <IconButtonStyle onClick={() => {
+                    <Toolbar dropMarker={dropMarker} enableMarker={enableMarker} layerOpen={layerOpen} showLayerPanel={showLayerPanel} />
+                      <IconButtonStyle onClick={() => {
                         showLayerPanel();
                     }} className="layer-button" selected={layerOpen}>
                         {!layerOpen && <MaterialIcon icon="chevron_left" />}
                         {layerOpen && <MaterialIcon icon="chevron_right" />}
                     </IconButtonStyle>
-                    <Toolbar dropMarker={dropMarker} enableMarker={enableMarker} layerOpen={layerOpen} showLayerPanel={showLayerPanel} />
                 </ToolbarContainer>
             </div>
             <RightPanel layerOpen={layerOpen} updateLocation={updateLocation} updateShape={updateShape} enableMarker={enableMarker} showMarker={showMarker} />

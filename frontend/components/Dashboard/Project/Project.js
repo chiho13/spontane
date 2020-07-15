@@ -116,11 +116,10 @@ const Project = () => {
         <Title title="My Maps" />
         <div className="flex-container">
 
-
             <AddProject onClick={handleClickOpen}>
                 <div className="add_new_wrapper">
                     <MaterialIcon icon="add_circle_outline" />
-                    <p>New Project</p>
+                    <p>New Map</p>
                 </div>
             </AddProject>
             {projectData && projectData.projects.map((project, i) => {

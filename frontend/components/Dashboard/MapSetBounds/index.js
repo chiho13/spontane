@@ -218,7 +218,7 @@ function handleClose(event) {
     </ThemeProvider>
 
     <ThemeProvider theme={invertBrand}>
-            <Button type="button" disabled={!props.isActive} onClick={submitForm}>Create Project</Button>
+            <Button type="button" disabled={!props.isActive} onClick={submitForm}>Create Map</Button>
     </ThemeProvider>
     </div>
     <p className="step3_text">If unselected, boundary defaults to world map</p>

@@ -166,7 +166,7 @@ function NewProject(props) {
         setForm({...form, mapBounds: feature, mapStyle: mapConfig.mapStyle, markerColor: mapConfig.markerColor});
     }, [mapConfig, feature]);
 
-    const notify = () => toast.success("New Project created!", {
+    const notify = () => toast.success("New Map created!", {
         position: toast.POSITION.BOTTOM_CENTER,
         closeButton: false,
         className: css({ fontFamily: "nunito, sans-serif" })
@@ -220,12 +220,12 @@ function NewProject(props) {
 
 function StepOne(props) {
     return <div>
-         <DialogTitle id="simple-dialog-title">New Project</DialogTitle>
+         <DialogTitle id="simple-dialog-title">New Map</DialogTitle>
     <fieldset>
     <div className="fieldset_wrapper">
         <div className="wrapper">
             <label htmlFor="title">
-                Project Name
+                Map Title
             </label>
             <input
                  className="form-input"
