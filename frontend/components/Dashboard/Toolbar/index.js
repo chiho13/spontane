@@ -71,13 +71,11 @@ const IconShape = styled(IconButtonContainer)`
         button {
             border-top-left-radius: 10px;
             border-bottom-left-radius: 10px;
-            border-bottom: 0;
         }
     }
 
     &:last-child {
         button {
-            border-top: 0;
             border-bottom-right-radius: 10px;
             border-top-right-radius: 10px;
         }
