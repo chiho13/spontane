@@ -17,6 +17,7 @@ import gql from 'graphql-tag';
 import { UserContext } from '../../Layout/DashboardLayout';
 import { useRouter } from 'next/router';
 import { css } from 'glamor';
+import geojsonArea from '@mapbox/geojson-area';
 
 toast.configure();
 
@@ -122,7 +123,8 @@ function UpdateShape() {
 
     useEffect(() => {
         const clonedFeature = { ...singleFeature };
-
+        
+        const area = geojsonArea.geometry(singleFeature.geometry);
         clonedFeature.properties.style = {
             stroke: strokeColor,
             fill: fillColor,
@@ -132,6 +134,7 @@ function UpdateShape() {
         }
 
         clonedFeature.properties.details = form.details;
+        clonedFeature.properties.area = area;
 
         setSingleFeature(clonedFeature);    
 
@@ -177,6 +180,21 @@ function UpdateShape() {
         <Mutation mutation={UPDATE_SHAPE_MUTATION}>
             {(updateShape, { loading, error }) => (<LocationFormStyle onSubmit={e => onSubmit(e, updateShape)}>
                 <div className="wrapper">
+                
+                { singleFeature.geometry.type !== "LineString" && <div>
+
+                <label htmlFor="area">
+                        Area
+                    </label>
+                <input
+                        className="form-input"
+                        type="text"
+                        id="area"
+                        name="area"
+                        readOnly
+                        value={singleFeature && (!isNaN(singleFeature.properties.area) ? `${(parseFloat(singleFeature.properties.area) / 1000000).toFixed(2)} Sq Km` : '')}
+                    />
+                </div>} 
                     <label htmlFor="details">
                         Label
                     </label>

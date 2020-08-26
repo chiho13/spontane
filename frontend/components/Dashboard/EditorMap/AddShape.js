@@ -192,6 +192,8 @@ function AddShape() {
         <Mutation mutation={CREATE_SHAPE_MUTATION}>
             {(createShape, { loading, error }) => (<LocationFormStyle onSubmit={e => onSubmit(e, createShape)}>
                 <div className="wrapper">
+                { singleFeature.geometry.type !== "LineString" && <div>
+
                 <label htmlFor="area">
                         Area
                     </label>
@@ -203,6 +205,7 @@ function AddShape() {
                         readOnly
                         value={singleFeature && (!isNaN(singleFeature.properties.area) ? `${(parseFloat(singleFeature.properties.area) / 1000000).toFixed(2)} Sq Km` : '')}
                     />
+                </div>}
                     <label htmlFor="details">
                         Label
                     </label>

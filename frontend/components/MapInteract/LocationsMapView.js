@@ -62,7 +62,14 @@ const ShapeHoverInfo = styled.div`
     color: #333333;
     opacity: 0.9;
     border-radius: 10px;
-    font-family: ${props => props.theme.fontFamily}
+    min-width: 200px;
+    font-family: ${props => props.theme.boldFont};
+    font-size: 18px;
+
+    p {
+        font-family: ${props => props.theme.fontFamily};
+        font-size: 16px;
+    }
 `;
 
 function AllLocations(props) {
@@ -173,6 +180,8 @@ function AllLocations(props) {
                 }
             }>
                             {hoverGeoJsonData.title}
+
+                     { hoverGeoJsonData.area !== 0 && <p>Land Area: {(parseFloat(hoverGeoJsonData.area) / 1000000).toFixed(2)} Sq Km</p>}
             </ShapeHoverInfo>
     }
 
@@ -274,11 +283,15 @@ function AllLocations(props) {
 
                             const matchedGeoJson = JSON.parse(matchedId.geojson);
                             const propertyDetail = matchedGeoJson.properties.details;
+                            const landArea = matchedGeoJson.properties.area;
+                            const isLine = matchedGeoJson.geometry.type !== "LineString";
+
                             setHoverShape(matchedId.id);
                             setHoverGeoJsonData({
                                 x: e.offsetCenter.x,
                                 y: e.offsetCenter.y,
-                                title: propertyDetail
+                                title: propertyDetail,
+                                area: isLine ? landArea : 0
                             });
 
                         } else {
@@ -286,7 +299,6 @@ function AllLocations(props) {
                                setHoverGeoJsonData(null);
                         }
 
-                        console.log(e.offsetCenter);
 
                     }}
                 >
